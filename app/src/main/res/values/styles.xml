@@ -6,13 +6,6 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="colorControlNormal">@color/iron</item>
-        <item name="colorControlActivated">@color/white</item>
-        <item name="colorControlHighlight">@color/white</item>
-        <item name="android:textColorHint">@color/iron</item>
-
-        <item name="colorButtonNormal">@color/colorPrimaryDarker</item>
-        <item name="android:colorButtonNormal">@color/colorPrimaryDarker</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -20,8 +13,137 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+
+    <style name="NavDrawerTextStyle" parent="Base.TextAppearance.AppCompat">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textSize">@dimen/text_dimen_18</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="MyRaidoButton" parent="Widget.AppCompat.CompoundButton.RadioButton">
+        <item name="colorAccent">@color/apollo</item>
+        <item name="android:textColorPrimaryDisableOnly">#f44336</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat</item>
+    </style>
+
+    <style name="EditTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxStrokeColor">@color/white</item>
+        <item name="boxStrokeWidth">0.1dp</item>
+        <item name="boxBackgroundColor">@android:color/transparent</item>
+        <item name="errorTextAppearance">@style/ErrorText</item>
+        <item name="colorAccent">@color/white</item>
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorHint">@color/black</item>
+        <item name="android:colorControlHighlight">@color/white</item>
+    </style>
+
+    <style name="doctMasterEditTextStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxStrokeColor">@color/colorPrimaryDark</item>
+        <item name="boxStrokeWidth">0.1dp</item>
+        <item name="boxBackgroundColor">@android:color/transparent</item>
+        <item name="errorTextAppearance">@style/ErrorText</item>
+        <item name="colorAccent">@color/colorPrimaryDark</item>
+        <item name="colorControlNormal">@color/colorPrimaryDark</item>
+        <item name="colorControlActivated">@color/colorPrimaryDark</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textColorHint">@color/colorPrimaryDark</item>
+        <item name="android:colorControlHighlight">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="SpinnerEditTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxStrokeColor">@color/white</item>
+        <item name="boxStrokeWidth">0.1dp</item>
+        <item name="boxBackgroundColor">@android:color/transparent</item>
+        <item name="errorTextAppearance">@style/ErrorText</item>
+        <item name="colorAccent">@color/white</item>
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:colorControlHighlight">@color/white</item>
+    </style>
+
+    <style name="customSpinnerEditTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxStrokeColor">@color/white</item>
+        <item name="boxStrokeWidth">0.1dp</item>
+        <item name="boxBackgroundColor">@android:color/transparent</item>
+        <item name="errorTextAppearance">@style/ErrorText</item>
+        <item name="colorAccent">@color/white</item>
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:colorControlHighlight">@color/white</item>
+    </style>
+
+    <style name="EditTextInputLayoutStyleDialog" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxStrokeColor">@color/colorPrimaryDark</item>
+        <item name="boxStrokeWidth">0.1dp</item>
+        <item name="boxBackgroundColor">@android:color/transparent</item>
+        <item name="errorTextAppearance">@style/ErrorText</item>
+        <item name="colorAccent">@color/colorPrimaryDark</item>
+        <item name="colorControlNormal">@color/colorPrimaryDark</item>
+        <item name="colorControlActivated">@color/colorPrimaryDark</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textColorHint">@color/colorPrimaryDark</item>
+        <item name="android:colorControlHighlight">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="EditTextLightInputLayoutStyleDialog" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxStrokeColor">@color/grey</item>
+        <item name="boxStrokeWidth">0.1dp</item>
+        <item name="boxBackgroundColor">@android:color/transparent</item>
+        <item name="errorTextAppearance">@style/ErrorText</item>
+        <item name="colorAccent">@color/grey</item>
+        <item name="colorControlNormal">@color/grey</item>
+        <item name="colorControlActivated">@color/grey</item>
+        <item name="android:textColor">@color/grey</item>
+        <item name="android:textColorHint">@color/grey</item>
+        <item name="android:colorControlHighlight">@color/grey</item>
+    </style>
+
+    <style name="ErrorText" parent="TextAppearance.Design.Error">
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">@color/red</item>
+    </style>
+
+    <!-- Base application theme. -->
+    <style name="AppThemeNotif" parent="Theme.AppCompat.Light">
+        <item name="colorPrimary">@color/apollo</item>
+        <item name="colorPrimaryDark">@color/apollo</item>
+        <item name="colorAccent">@color/apollo</item>
+        <item name="android:statusBarColor">@color/apollo</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="NewEditTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/white</item>
+        <item name="boxStrokeWidth">0.2dp</item>
+        <item name="boxBackgroundColor">@android:color/transparent</item>
+        <item name="errorTextAppearance">@style/ErrorText</item>
+        <item name="colorAccent">@color/white</item>
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <!--        <item name="android:theme">@style/TextInputEditText.OutlinedBox.CustomFont</item>-->
+    </style>
+
+    <style name="TextInputEditText.OutlinedBox.CustomFont" parent="Widget.MaterialComponents.TextInputEditText.OutlinedBox">
+        <item name="android:fontFamily">@font/roboto_regular</item>
+    </style>
+
+    <style name="EditTextStyleWhite" parent="android:style/Widget.EditText">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="NavigationDrawerStyle">
+        <item name="android:textSize">@dimen/text_dimen_14</item>
+        <item name="android:fontFamily">@font/roboto_bold</item>
+    </style>
 </resources>

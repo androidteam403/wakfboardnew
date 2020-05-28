@@ -2,21 +2,34 @@ package com.thresholdsoft.praanadhara.di.module;
 
 import android.content.Context;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.thresholdsoft.praanadhara.di.ActivityContext;
 import com.thresholdsoft.praanadhara.di.PerActivity;
-import com.thresholdsoft.praanadhara.ui.login.LoginMvpPresenter;
-import com.thresholdsoft.praanadhara.ui.login.LoginMvpView;
-import com.thresholdsoft.praanadhara.ui.login.LoginPresenter;
-import com.thresholdsoft.praanadhara.ui.main.MainMvpPresenter;
-import com.thresholdsoft.praanadhara.ui.main.MainMvpView;
-import com.thresholdsoft.praanadhara.ui.main.MainPresenter;
-import com.thresholdsoft.praanadhara.ui.main.RssAdapter;
+import com.thresholdsoft.praanadhara.ui.mainactivity.MainActivityMvpPresenter;
+import com.thresholdsoft.praanadhara.ui.mainactivity.MainActivityMvpView;
+import com.thresholdsoft.praanadhara.ui.mainactivity.MainActivityPresenter;
+import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.dasboardfrag.DashboardMvpPresenter;
+import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.dasboardfrag.DashboardMvpView;
+import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.dasboardfrag.DashboardPresenter;
+import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.newenrollmentfrag.NewEnrollmentFragMvpPresenter;
+import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.newenrollmentfrag.NewEnrollmentFragMvpView;
+import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.newenrollmentfrag.NewEnrollmentFragPresenter;
+import com.thresholdsoft.praanadhara.ui.selectingformactivity.SelectingFormMvpPresenter;
+import com.thresholdsoft.praanadhara.ui.selectingformactivity.SelectingFormMvpView;
+import com.thresholdsoft.praanadhara.ui.selectingformactivity.SelectingFormPresenter;
+import com.thresholdsoft.praanadhara.ui.splash.SplashMvpPresenter;
+import com.thresholdsoft.praanadhara.ui.splash.SplashMvpView;
+import com.thresholdsoft.praanadhara.ui.splash.SplashPresenter;
+import com.thresholdsoft.praanadhara.ui.surveylistactivity.SurveyListMvpPresenter;
+import com.thresholdsoft.praanadhara.ui.surveylistactivity.SurveyListMvpView;
+import com.thresholdsoft.praanadhara.ui.surveylistactivity.SurveyListPresenter;
+import com.thresholdsoft.praanadhara.ui.userlogin.UserLoginMvpPresenter;
+import com.thresholdsoft.praanadhara.ui.userlogin.UserLoginMvpView;
+import com.thresholdsoft.praanadhara.ui.userlogin.UserLoginPresenter;
 import com.thresholdsoft.praanadhara.utils.rx.AppSchedulerProvider;
 import com.thresholdsoft.praanadhara.utils.rx.SchedulerProvider;
 
-import java.util.ArrayList;
-
-import androidx.appcompat.app.AppCompatActivity;
 import dagger.Module;
 import dagger.Provides;
 import io.reactivex.disposables.CompositeDisposable;
@@ -56,23 +69,45 @@ public class ActivityModule {
         return new AppSchedulerProvider();
     }
 
-
     @Provides
     @PerActivity
-    LoginMvpPresenter<LoginMvpView> provideLoginPresenter(LoginPresenter<LoginMvpView> presenter) {
+    SplashMvpPresenter<SplashMvpView> provideSplashPresenter(SplashPresenter<SplashMvpView> presenter) {
         return presenter;
     }
 
-
     @Provides
     @PerActivity
-    MainMvpPresenter<MainMvpView> provideMainPresenter(MainPresenter<MainMvpView> presenter) {
+    UserLoginMvpPresenter<UserLoginMvpView> provideLoginPresenter(UserLoginPresenter<UserLoginMvpView> presenter) {
         return presenter;
     }
 
+    @Provides
+    @PerActivity
+    SelectingFormMvpPresenter<SelectingFormMvpView> provideFormPresenter(SelectingFormPresenter<SelectingFormMvpView> presenter) {
+        return presenter;
+    }
 
     @Provides
-    RssAdapter provideRssAdapter() {
-        return new RssAdapter(new ArrayList<>());
+    @PerActivity
+    MainActivityMvpPresenter<MainActivityMvpView> mainActivityPresenter(MainActivityPresenter<MainActivityMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    DashboardMvpPresenter<DashboardMvpView> dashboardFragmentPresenter(DashboardPresenter<DashboardMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    NewEnrollmentFragMvpPresenter<NewEnrollmentFragMvpView> newEnrollmentFragmentPresenter(NewEnrollmentFragPresenter<NewEnrollmentFragMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    SurveyListMvpPresenter<SurveyListMvpView> surveyListPresenter(SurveyListPresenter<SurveyListMvpView> presenter) {
+        return presenter;
     }
 }

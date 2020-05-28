@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SampleCode</string>
+    <string name="app_name">Praanadhaara</string>
     <string name="action_settings">Settings</string>
     <string name="some_error">Something went wrong</string>
     <string name="title_activity_login">Sign in</string>
@@ -19,4 +19,39 @@
     <string name="empty_screen">We do not have anything\nhere right now. Please Retry</string>
     <string name="btn_retry">Retry</string>
     <string name="title_home">Home</string>
+
+
+    <string name="label_email">Email \n%1$s</string>
+    <string name="label_num">MobileNumber \n%1$s</string>
+    <string name="label_praanadhaara">PRAANADHAARA</string>
+    <string name="label_select_one_of_the_below">Select one of the below</string>
+    <string name="label_enrollment">ENROLLMENT</string>
+    <string name="label_survey">SURVEY</string>
+    <string name="logout">LOGOUT</string>
+    <string name="label_survey_list">Survey List</string>
+    <string name="label_new">New</string>
+    <string name="label__55">55</string>
+    <string name="label_enrollment_form">Enrollment Form</string>
+    <string name="label_enter_your_phone_number">Enter Your Phone Number</string>
+    <string name="label_91_8500352572">+91 8500352572</string>
+    <string name="label_login">LOGIN</string>
+    <string name="label_otp_sent_to_ypur_phone_number">OTP sent to ypur phone number</string>
+    <string name="label_otp_verification">OTP VERIFICATION</string>
+    <string name="label_your_phone_number">Your Phone Number</string>
+    <string name="label_91_8500354342">+91 8500354342</string>
+    <string name="label_enter_your_otp_below">enter your OTP below</string>
+    <string name="label_1">1</string>
+    <string name="label_verify">VERIFY</string>
+    <string name="label_resend_in_00_25">Resend in 00:25</string>
+    <string name="label_resend_otp">RESEND OTP</string>
+    <string name="label_mobile_number">Mobile Number</string>
+    <string name="label_hello">Hello</string>
+    <string name="label_krishna_kishore">Krishna Kishore</string>
+    <string name="label_in_progress">In-Progress</string>
+    <string name="label_135">135</string>
+    <string name="label_in_survey">In-Survey</string>
+    <string name="label_28">28</string>
+    <string name="label_completed">Completed</string>
+    <string name="labe_55">55</string>
+
 </resources>
