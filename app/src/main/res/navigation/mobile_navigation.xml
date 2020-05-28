@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home"
+    tools:ignore="UnusedNavigation">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.thresholdsoft.praanadhara.ui.mainactivity.fragments.dasboardfrag.DashboardFragment"
+        android:label="Dashboard"
+        tools:layout="@layout/fragment_dashboard" />
+
+    <!--    <fragment-->
+    <!--        android:id="@+id/nav_gallery"-->
+    <!--        android:name="com.thresholdsoft.sample.ui.mainactivity.fragments.doctmasterfrag.DoctMasterFragment"-->
+    <!--        android:label="Doct.Master"-->
+    <!--        tools:layout="@layout/fragment_doctmaster" />-->
+
+    <!--    <fragment-->
+    <!--        android:id="@+id/nav_customerMaster"-->
+    <!--        android:name="com.thresholdsoft.sample.ui.mainactivity.fragments.customermasterfrag.CustomerMasterFrag"-->
+    <!--        android:label="Customer Master"-->
+    <!--        tools:layout="@layout/fragment_customer_master" />-->
+    <!--    <fragment-->
+    <!--        android:id="@+id/nav_billing"-->
+    <!--        android:name="com.thresholdsoft.sample.ui.mainactivity.fragments.billingfrag.BillingFrag"-->
+    <!--        android:label="Billing"-->
+    <!--        tools:layout="@layout/fragment_billing" />-->
+
+    <!--    <fragment-->
+    <!--        android:id="@+id/nav_orders"-->
+    <!--        android:name="com.thresholdsoft.sample.ui.mainactivity.fragments.orderhistoryfrag.OrderHistoryFragment"-->
+    <!--        android:label="Orders"-->
+    <!--        tools:layout="@layout/fragment_order_history" />-->
+
+    <!--    <fragment-->
+    <!--        android:id="@+id/nav_manualBilling"-->
+    <!--        android:name="com.thresholdsoft.sample.ui.mainactivity.fragments.manualbillingfrag.ManualBillingFrag"-->
+    <!--        android:label="Manual Billing"-->
+    <!--        tools:layout="@layout/fragment_manual_billing" />-->
+
+    <!--    <fragment-->
+    <!--        android:id="@+id/nav_enterKiosk"-->
+    <!--        android:name="com.thresholdsoft.sample.ui.mainactivity.fragments.enterkioskfrag.EnterKioskFrag"-->
+    <!--        android:label="Enter Kiosk"-->
+    <!--        tools:layout="@layout/fragment_enter_kiosk" />-->
+</navigation>
