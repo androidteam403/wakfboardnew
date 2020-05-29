@@ -2,6 +2,7 @@ package com.thresholdsoft.praanadhara.ui.surveylistactivity.adapter;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -41,7 +42,12 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
     public void onBindViewHolder(SurveyAdapter.ViewHolder holder, int position) {
         final SurveyModel surveyModel = surveyModelArrayList.get(position);
         holder.adapterSurveyListBinding.setSurvey(surveyModel);
-
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.onItemClick(surveyModel);
+            }
+        });
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

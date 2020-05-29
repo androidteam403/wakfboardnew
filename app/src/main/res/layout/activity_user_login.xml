@@ -27,7 +27,7 @@
                 android:layout_width="@dimen/sixty_five_dp"
                 android:layout_height="@dimen/sixty_five_dp"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/flower"
+                android:src="@drawable/tree"
                 android:contentDescription="@string/app_name" />
 
             <TextView
@@ -191,13 +191,13 @@
 
                             <ImageView
                                 android:id="@+id/cross"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="@dimen/twenty_five_dp"
+                                android:layout_height="@dimen/twenty_five_dp"
                                 android:layout_alignParentEnd="true"
                                 android:layout_centerVertical="true"
                                 android:contentDescription="@string/app_name"
                                 android:onClick="@{()->presenter.onCrossClick()}"
-                                android:src="@drawable/cross_green" />
+                                android:src="@drawable/cross" />
                         </RelativeLayout>
 
                     </LinearLayout>

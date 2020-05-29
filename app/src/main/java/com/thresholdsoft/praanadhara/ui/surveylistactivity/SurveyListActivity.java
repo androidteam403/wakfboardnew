@@ -1,5 +1,6 @@
 package com.thresholdsoft.praanadhara.ui.surveylistactivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -12,6 +13,7 @@ import com.thresholdsoft.praanadhara.databinding.ActivitySurveyListBinding;
 import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
 import com.thresholdsoft.praanadhara.ui.surveylistactivity.adapter.SurveyAdapter;
 import com.thresholdsoft.praanadhara.ui.surveylistactivity.model.SurveyModel;
+import com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusActivity;
 
 import java.util.ArrayList;
 
@@ -67,5 +69,13 @@ public class SurveyListActivity extends BaseActivity implements SurveyListMvpVie
         surveyAdapter.notifyDataSetChanged();
 
 
+    }
+
+    @Override
+    public void onItemClick(SurveyModel surveyModel) {
+        Intent intent = new Intent(this, SurveyStatusActivity.class);
+        intent.putExtra("surveyData", surveyModel);
+        startActivity(intent);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 }

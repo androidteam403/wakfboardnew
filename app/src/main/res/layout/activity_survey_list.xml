@@ -27,17 +27,17 @@
                 tools:ignore="RtlSymmetry">
 
                 <ImageView
-                    android:layout_width="@dimen/forty_dp"
+                    android:layout_width="@dimen/thirty_dp"
                     android:layout_height="@dimen/forty_dp"
                     android:contentDescription="@string/app_name"
-                    android:src="@drawable/lines" />
+                    android:src="@drawable/menuhdpi" />
 
                 <ImageView
                     android:layout_width="@dimen/forty_five_dp"
                     android:layout_height="@dimen/forty_dp"
                     android:contentDescription="@string/app_name"
-                    android:paddingStart="@dimen/five_dp"
-                    android:src="@drawable/flower" />
+                    android:layout_marginStart="@dimen/ten_dp"
+                    android:src="@drawable/tree" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -64,11 +64,10 @@
                 </LinearLayout>
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/twenty_five_dp"
+                    android:layout_height="@dimen/twenty_five_dp"
                     android:layout_marginEnd="@dimen/twenty_five_dp"
                     android:contentDescription="@string/app_name"
-                    android:rotation="280"
                     android:src="@drawable/search_white" />
 
             </LinearLayout>
