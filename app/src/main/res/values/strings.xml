@@ -54,4 +54,7 @@
     <string name="label_completed">Completed</string>
     <string name="labe_55">55</string>
 
+    <string name="no_google_playservice_available">No Google Playservice found. Please install it.</string>
+    <string name="permission_denied_explanation">You have not granted location permission. So the service cannot be started.</string>
+    <string name="settings">settings</string>
 </resources>

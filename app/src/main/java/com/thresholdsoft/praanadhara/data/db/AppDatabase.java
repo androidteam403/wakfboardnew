@@ -2,8 +2,8 @@ package com.thresholdsoft.praanadhara.data.db;
 
 import android.content.Context;
 
-import com.thresholdsoft.praanadhara.data.db.dao.UserDao;
-import com.thresholdsoft.praanadhara.data.db.model.User;
+import com.thresholdsoft.praanadhara.data.db.dao.SurveyDao;
+import com.thresholdsoft.praanadhara.data.db.model.Survey;
 
 import androidx.room.Database;
 import androidx.room.Room;
@@ -14,9 +14,9 @@ import androidx.room.RoomDatabase;
  * Created on : March 30, 2020
  * Author     : JAGADEESH
  */
-@Database(entities = {User.class}, version = 1, exportSchema = false)
+@Database(entities = {Survey.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
-    private static final String DATABASE_NAME = "wave-database";
+    private static final String DATABASE_NAME = "praanadhaara-database";
     private static AppDatabase mInstance;
 
     public synchronized static AppDatabase getDatabaseInstance(Context context) {
@@ -33,6 +33,6 @@ public abstract class AppDatabase extends RoomDatabase {
         mInstance = null;
     }
 
-    public abstract UserDao userDao();
+    public abstract SurveyDao userDao();
 
 }

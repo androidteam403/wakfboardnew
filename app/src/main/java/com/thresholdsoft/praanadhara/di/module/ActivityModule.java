@@ -24,6 +24,9 @@ import com.thresholdsoft.praanadhara.ui.splash.SplashPresenter;
 import com.thresholdsoft.praanadhara.ui.surveylistactivity.SurveyListMvpPresenter;
 import com.thresholdsoft.praanadhara.ui.surveylistactivity.SurveyListMvpView;
 import com.thresholdsoft.praanadhara.ui.surveylistactivity.SurveyListPresenter;
+import com.thresholdsoft.praanadhara.ui.surveytrack.SurveyTrackMvpPresenter;
+import com.thresholdsoft.praanadhara.ui.surveytrack.SurveyTrackMvpView;
+import com.thresholdsoft.praanadhara.ui.surveytrack.SurveyTrackPresenter;
 import com.thresholdsoft.praanadhara.ui.userlogin.UserLoginMvpPresenter;
 import com.thresholdsoft.praanadhara.ui.userlogin.UserLoginMvpView;
 import com.thresholdsoft.praanadhara.ui.userlogin.UserLoginPresenter;
@@ -108,6 +111,12 @@ public class ActivityModule {
     @Provides
     @PerActivity
     SurveyListMvpPresenter<SurveyListMvpView> surveyListPresenter(SurveyListPresenter<SurveyListMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    SurveyTrackMvpPresenter<SurveyTrackMvpView> surveyTrackPresenter(SurveyTrackPresenter<SurveyTrackMvpView> presenter) {
         return presenter;
     }
 }
