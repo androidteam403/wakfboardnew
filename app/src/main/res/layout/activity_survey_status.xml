@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/container_wrapper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/one_hundred_seventy_dp"
+                android:background="@color/colorPrimaryDark"
+                android:orientation="vertical"
+                tools:ignore="UselessParent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/twenty_dp"
+                    android:paddingTop="@dimen/twenty_dp"
+                    android:paddingBottom="@dimen/thirty_dp"
+                    tools:ignore="RtlSymmetry">
+
+                    <ImageView
+                        android:layout_width="@dimen/thirty_dp"
+                        android:layout_height="@dimen/forty_dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/menuhdpi" />
+
+                    <ImageView
+                        android:layout_width="@dimen/forty_five_dp"
+                        android:layout_height="@dimen/fifty_dp"
+                        android:layout_marginStart="@dimen/ten_dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/tree" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:paddingStart="@dimen/five_dp"
+                        android:text="@string/label_praanadhaara"
+                        android:textColor="@color/yellow"
+                        android:textSize="@dimen/text_dimen_18"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:layout_width="@dimen/twenty_five_dp"
+                        android:layout_height="@dimen/twenty_five_dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="@dimen/twenty_five_dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/search_white" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerSurveyStatus"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/ninety_five_dp" />
+        </RelativeLayout>
+    </ScrollView>
+</layout>

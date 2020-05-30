@@ -53,6 +53,11 @@
     <string name="label_28">28</string>
     <string name="label_completed">Completed</string>
     <string name="labe_55">55</string>
+    <string name="carry_out_your_entire_project_from_start_to_finish_and_report_to_stakeholders_using_one_solution_without_worrying_about_piles_of_paperwork">Carry out your entire project from start to finish and report to stakeholders using one solution,without worrying about piles of paperwork</string>
+    <string name="label_points">Points</string>
+    <string name="label_lines">Lines</string>
+    <string name="label_polygons">Polygons</string>
+    <string name="label_start_survey">START SURVEY</string>
 
     <string name="no_google_playservice_available">No Google Playservice found. Please install it.</string>
     <string name="permission_denied_explanation">You have not granted location permission. So the service cannot be started.</string>

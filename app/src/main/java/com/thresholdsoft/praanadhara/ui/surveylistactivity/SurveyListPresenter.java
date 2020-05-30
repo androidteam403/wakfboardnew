@@ -2,6 +2,7 @@ package com.thresholdsoft.praanadhara.ui.surveylistactivity;
 
 import com.thresholdsoft.praanadhara.data.DataManager;
 import com.thresholdsoft.praanadhara.ui.base.BasePresenter;
+import com.thresholdsoft.praanadhara.ui.surveylistactivity.model.SurveyModel;
 import com.thresholdsoft.praanadhara.utils.rx.SchedulerProvider;
 
 import javax.inject.Inject;
@@ -14,5 +15,10 @@ public class SurveyListPresenter<V extends SurveyListMvpView> extends BasePresen
     @Inject
     public SurveyListPresenter(DataManager manager, SchedulerProvider schedulerProvider, CompositeDisposable compositeDisposable) {
         super(manager, schedulerProvider, compositeDisposable);
+    }
+
+    @Override
+    public void onItemClick(SurveyModel surveyModel) {
+        getMvpView().onItemClick(surveyModel);
     }
 }
