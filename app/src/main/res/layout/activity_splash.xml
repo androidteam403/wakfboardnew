@@ -9,12 +9,12 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/agri_logo">
+        android:background="@drawable/splash_logo_background">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/one_hundred_dp"
+            android:layout_marginTop="@dimen/one_hundred_forty_dp"
             android:gravity="center_horizontal"
             android:orientation="vertical"
             tools:ignore="UselessParent">
@@ -24,7 +24,7 @@
                 android:layout_height="@dimen/sixty_five_dp"
                 android:layout_gravity="center_horizontal"
                 android:contentDescription="@string/app_name"
-                android:src="@drawable/flower" />
+                android:src="@drawable/tree" />
 
             <TextView
                 android:layout_width="wrap_content"

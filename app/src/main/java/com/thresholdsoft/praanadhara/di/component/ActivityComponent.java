@@ -9,6 +9,7 @@ import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.newenrollmentfrag
 import com.thresholdsoft.praanadhara.ui.selectingformactivity.SelectingFormActivity;
 import com.thresholdsoft.praanadhara.ui.splash.SplashActivity;
 import com.thresholdsoft.praanadhara.ui.surveylistactivity.SurveyListActivity;
+import com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusActivity;
 import com.thresholdsoft.praanadhara.ui.userlogin.UserLoginActivity;
 
 import dagger.Component;
@@ -34,4 +35,6 @@ public interface ActivityComponent {
     void inject(NewEnrollmentFrag newEnrollmentFrag);
 
     void inject(SurveyListActivity surveyListActivity);
+
+    void inject(SurveyStatusActivity surveyStatusActivity);
 }

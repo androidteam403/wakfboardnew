@@ -10,6 +10,7 @@ public class SurveyModel implements Serializable {
     public String date;
     public String status;
     public String statusResult;
+    private boolean isChecked;
 
     public SurveyModel(String farmerName, String farmerAddress, String farmerNumber, String farmerEmail,
                        String date, String status, String statusResult) {
@@ -20,6 +21,14 @@ public class SurveyModel implements Serializable {
         this.date = date;
         this.status = status;
         this.statusResult = statusResult;
+    }
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
     }
 
     public String getStatusResult() {
