@@ -20,7 +20,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.databinding.AdapterSurveyStatusBinding;
 import com.thresholdsoft.praanadhara.ui.surveylistactivity.model.SurveyModel;
-import com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusMvpPresenter;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusMvpView;
 
 import java.util.ArrayList;
@@ -31,6 +30,7 @@ public class SurveyStatusAdapter extends RecyclerView.Adapter<SurveyStatusAdapte
     private SurveyStatusMvpView mPresenter;
     private Activity activity;
     private GoogleMap map;
+
     public SurveyStatusAdapter(Activity activity, ArrayList<SurveyModel> surveyModelArrayList,
                                SurveyStatusMvpView mPresenter) {
         this.activity = activity;
@@ -51,7 +51,7 @@ public class SurveyStatusAdapter extends RecyclerView.Adapter<SurveyStatusAdapte
         final SurveyModel surveyModel = surveyModelArrayList.get(position);
         holder.adapterSurveyStatusBinding.setSurvey(surveyModel);
         holder.adapterSurveyStatusBinding.setCallback(mPresenter);
-        SupportMapFragment mapFragment = (SupportMapFragment) ((FragmentActivity)activity).getSupportFragmentManager().findFragmentById(R.id.map);
+        SupportMapFragment mapFragment = (SupportMapFragment) ((FragmentActivity) activity).getSupportFragmentManager().findFragmentById(R.id.map);
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
         }
@@ -114,6 +114,5 @@ public class SurveyStatusAdapter extends RecyclerView.Adapter<SurveyStatusAdapte
     public int getItemCount() {
         return surveyModelArrayList.size();
     }
-
 
 }

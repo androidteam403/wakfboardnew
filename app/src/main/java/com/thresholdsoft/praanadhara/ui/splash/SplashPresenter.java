@@ -15,5 +15,4 @@ public class SplashPresenter<V extends SplashMvpView> extends BasePresenter<V>
     public SplashPresenter(DataManager manager, SchedulerProvider schedulerProvider, CompositeDisposable compositeDisposable) {
         super(manager, schedulerProvider, compositeDisposable);
     }
-
 }

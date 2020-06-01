@@ -2,6 +2,8 @@ package com.thresholdsoft.praanadhara.ui.surveystatusactivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
@@ -46,11 +48,20 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
         activitySurveyStatusBinding.recyclerSurveyStatus.setLayoutManager(mLayoutManager1);
         activitySurveyStatusBinding.recyclerSurveyStatus.setAdapter(surveyStatusAdapter);
         surveyStatusAdapter.notifyDataSetChanged();
+        View includedLayout = findViewById(R.id.backArrow);
+        ImageView insideTheIncludedLayout = (ImageView) includedLayout.findViewById(R.id.imageButton);
+        insideTheIncludedLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                overridePendingTransition(R.anim.left_right, R.anim.right_left);
+            }
+        });
     }
 
     @Override
     public void startSurvey(SurveyModel surveyModel) {
-        startActivity(SurveyTrackingActivity.getIntent(this,surveyModel));
+        startActivity(SurveyTrackingActivity.getIntent(this, surveyModel));
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 }
