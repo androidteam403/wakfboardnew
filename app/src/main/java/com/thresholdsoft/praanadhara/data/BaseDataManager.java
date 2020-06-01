@@ -12,6 +12,7 @@ import com.thresholdsoft.praanadhara.data.network.pojo.WrapperResponse;
 import com.thresholdsoft.praanadhara.data.prefs.PreferencesHelper;
 import com.thresholdsoft.praanadhara.data.utils.LoggedInMode;
 import com.thresholdsoft.praanadhara.di.ApplicationContext;
+import com.thresholdsoft.praanadhara.ui.userlogin.model.LoginResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -110,6 +111,57 @@ public class BaseDataManager implements DataManager {
     public Single<WrapperResponse<List<FeedItem>>> getFeedList() {
         return mApiHelper.getFeedList();
     }
+
+    @Override
+    public void loginRequest(String req) {
+        mPreferencesHelper.loginRequest(req);
+    }
+
+    @Override
+    public String loginRequest() {
+        return mPreferencesHelper.loginRequest();
+    }
+
+    @Override
+    public void loginResponse(String response) {
+        mPreferencesHelper.loginResponse(response);
+    }
+
+    @Override
+    public LoginResponse loginResponse() {
+        return mPreferencesHelper.loginResponse();
+    }
+
+    @Override
+    public void storeUserLogin(boolean value) {
+        mPreferencesHelper.storeUserLogin(value);
+    }
+
+    @Override
+    public boolean isUserLogin() {
+        return mPreferencesHelper.isUserLogin();
+    }
+
+    @Override
+    public void storeUserNum(String key) {
+        mPreferencesHelper.storeUserNum(key);
+    }
+
+    @Override
+    public String storeUserNum() {
+        return mPreferencesHelper.storeUserNum();
+    }
+
+    @Override
+    public void storeUserKey(String num) {
+        mPreferencesHelper.storeUserKey(num);
+    }
+
+    @Override
+    public String storeUserKey() {
+        return mPreferencesHelper.storeUserKey();
+    }
+
 
     @Override
     public int getUserLoggedInMode() {

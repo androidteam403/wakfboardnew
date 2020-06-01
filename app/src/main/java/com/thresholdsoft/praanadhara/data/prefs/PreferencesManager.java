@@ -3,10 +3,12 @@ package com.thresholdsoft.praanadhara.data.prefs;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.gson.Gson;
 import com.thresholdsoft.praanadhara.data.utils.LoggedInMode;
 import com.thresholdsoft.praanadhara.di.ApplicationContext;
 import com.thresholdsoft.praanadhara.di.PreferenceInfo;
 import com.thresholdsoft.praanadhara.root.AppConstant;
+import com.thresholdsoft.praanadhara.ui.userlogin.model.LoginResponse;
 
 import javax.inject.Inject;
 
@@ -21,6 +23,11 @@ public class PreferencesManager implements PreferencesHelper {
     private static final String PREF_KEY_FIRST_TIME = "PREF_KEY_FIRST_TIME";
     private static final String PREF_KEY_USER_PROFILE_PIC_URL = "PREF_KEY_USER_PROFILE_PIC_URL";
     private static final String PREF_KEY_COACH_MARK = "PREF_KEY_COACH_MARK";
+    private static final String PREF_KEY_USER_LOGIN = "PREF_KEY_USER_LOGIN";
+    private static final String PREF_KEY_USER_REQ = "PREF_KEY_USER_REQ";
+    private static final String PREF_KEY_USER_RES = "PREF_KEY_USER_RES";
+    private static final String PREF_KEY_USER_NUMBER = "PREF_KEY_USER_NUMBER";
+    private static final String PREF_KEY_USER_KEY = "PREF_KEY_USER_KEY";
 
     private final SharedPreferences mPrefs;
     private Context mAppContext;
@@ -61,6 +68,59 @@ public class PreferencesManager implements PreferencesHelper {
     public void setUserProfilePicUrl(String profilePicUrl) {
         mPrefs.edit().putString(PREF_KEY_USER_PROFILE_PIC_URL, profilePicUrl).apply();
     }
+
+    @Override
+    public void loginRequest(String req) {
+        mPrefs.edit().putString(PREF_KEY_USER_REQ, req).apply();
+    }
+
+    @Override
+    public String loginRequest() {
+        return mPrefs.getString(PREF_KEY_USER_REQ, null);
+    }
+
+    @Override
+    public void loginResponse(String response) {
+        mPrefs.edit().putString(PREF_KEY_USER_RES, response).apply();
+    }
+
+    @Override
+    public LoginResponse loginResponse() {
+        Gson gson = new Gson();
+        LoginResponse loginResponse = gson.fromJson(mPrefs.getString(PREF_KEY_USER_RES, null), LoginResponse.class);
+        return loginResponse;
+    }
+
+    @Override
+    public void storeUserLogin(boolean value) {
+        mPrefs.edit().putBoolean(PREF_KEY_USER_LOGIN, value).apply();
+    }
+
+    @Override
+    public boolean isUserLogin() {
+        return mPrefs.getBoolean(PREF_KEY_USER_LOGIN, false);
+    }
+
+    @Override
+    public void storeUserNum(String key) {
+        mPrefs.edit().putString(PREF_KEY_USER_NUMBER, key).apply();
+    }
+
+    @Override
+    public String storeUserNum() {
+        return mPrefs.getString(PREF_KEY_USER_NUMBER, null);
+    }
+
+    @Override
+    public void storeUserKey(String num) {
+        mPrefs.edit().putString(PREF_KEY_USER_KEY, num).apply();
+    }
+
+    @Override
+    public String storeUserKey() {
+        return mPrefs.getString(PREF_KEY_USER_KEY, null);
+    }
+
 
     @Override
     public int getUserLoggedInMode() {

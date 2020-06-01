@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -27,8 +27,8 @@
                 android:layout_width="@dimen/sixty_five_dp"
                 android:layout_height="@dimen/sixty_five_dp"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/tree"
-                android:contentDescription="@string/app_name" />
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/tree" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -78,6 +78,7 @@
                     android:id="@+id/phoneNo"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/forty_five_dp"
+                    android:autofillHints=""
                     android:background="@drawable/edittext_effect"
                     android:drawableStart="@drawable/ic_phone"
                     android:drawablePadding="@dimen/ten_dp"
@@ -89,8 +90,7 @@
                     android:paddingStart="@dimen/fifteen_dp"
                     android:textColor="@color/black"
                     android:textCursorDrawable="@drawable/cursor_color"
-                    tools:ignore="RtlSymmetry,TextFields"
-                    android:autofillHints="" />
+                    tools:ignore="RtlSymmetry,TextFields" />
 
                 <TextView
                     android:layout_width="@dimen/one_hundred_ten_dp"
@@ -225,9 +225,11 @@
                         android:orientation="horizontal">
 
                         <EditText
-                            android:layout_width="@dimen/fifty_dp"
-                            android:layout_height="@dimen/forty_five_dp"
+                            android:id="@+id/otp1"
+                            android:layout_width="@dimen/thirty_five_dp"
+                            android:layout_height="@dimen/thirty_dp"
                             android:layout_margin="@dimen/three_dp"
+                            android:autofillHints=""
                             android:background="@drawable/edittext_effect"
                             android:fontFamily="@font/roboto_bold"
                             android:gravity="center"
@@ -237,13 +239,14 @@
                             android:maxLength="1"
                             android:singleLine="true"
                             android:textColor="@color/black"
-                            android:textCursorDrawable="@drawable/cursor_color"
-                            android:autofillHints="" />
+                            android:textCursorDrawable="@drawable/cursor_color" />
 
                         <EditText
-                            android:layout_width="@dimen/fifty_dp"
-                            android:layout_height="@dimen/forty_five_dp"
+                            android:id="@+id/otp2"
+                            android:layout_width="@dimen/thirty_five_dp"
+                            android:layout_height="@dimen/thirty_dp"
                             android:layout_margin="@dimen/three_dp"
+                            android:autofillHints=""
                             android:background="@drawable/edittext_effect"
                             android:fontFamily="@font/roboto_bold"
                             android:gravity="center"
@@ -253,13 +256,14 @@
                             android:maxLength="1"
                             android:singleLine="true"
                             android:textColor="@color/black"
-                            android:textCursorDrawable="@drawable/cursor_color"
-                            android:autofillHints="" />
+                            android:textCursorDrawable="@drawable/cursor_color" />
 
                         <EditText
-                            android:layout_width="@dimen/fifty_dp"
-                            android:layout_height="@dimen/forty_five_dp"
+                            android:id="@+id/otp3"
+                            android:layout_width="@dimen/thirty_five_dp"
+                            android:layout_height="@dimen/thirty_dp"
                             android:layout_margin="@dimen/three_dp"
+                            android:autofillHints=""
                             android:background="@drawable/edittext_effect"
                             android:fontFamily="@font/roboto_bold"
                             android:gravity="center"
@@ -269,13 +273,48 @@
                             android:maxLength="1"
                             android:singleLine="true"
                             android:textColor="@color/black"
-                            android:textCursorDrawable="@drawable/cursor_color"
-                            android:autofillHints="" />
+                            android:textCursorDrawable="@drawable/cursor_color" />
 
                         <EditText
-                            android:layout_width="@dimen/fifty_dp"
-                            android:layout_height="@dimen/forty_five_dp"
+                            android:id="@+id/otp4"
+                            android:layout_width="@dimen/thirty_five_dp"
+                            android:layout_height="@dimen/thirty_dp"
                             android:layout_margin="@dimen/three_dp"
+                            android:autofillHints=""
+                            android:background="@drawable/edittext_effect"
+                            android:fontFamily="@font/roboto_bold"
+                            android:gravity="center"
+                            android:hint="@string/label_1"
+                            android:imeOptions="actionNext"
+                            android:inputType="number"
+                            android:maxLength="1"
+                            android:singleLine="true"
+                            android:textColor="@color/black"
+                            android:textCursorDrawable="@drawable/cursor_color" />
+
+                        <EditText
+                            android:id="@+id/otp5"
+                            android:layout_width="@dimen/thirty_five_dp"
+                            android:layout_height="@dimen/thirty_dp"
+                            android:layout_margin="@dimen/three_dp"
+                            android:autofillHints=""
+                            android:background="@drawable/edittext_effect"
+                            android:fontFamily="@font/roboto_bold"
+                            android:gravity="center"
+                            android:hint="@string/label_1"
+                            android:imeOptions="actionNext"
+                            android:inputType="number"
+                            android:maxLength="1"
+                            android:singleLine="true"
+                            android:textColor="@color/black"
+                            android:textCursorDrawable="@drawable/cursor_color" />
+
+                        <EditText
+                            android:id="@+id/otp6"
+                            android:layout_width="@dimen/thirty_five_dp"
+                            android:layout_height="@dimen/thirty_dp"
+                            android:layout_margin="@dimen/three_dp"
+                            android:autofillHints=""
                             android:background="@drawable/edittext_effect"
                             android:fontFamily="@font/roboto_bold"
                             android:gravity="center"
@@ -285,8 +324,7 @@
                             android:maxLength="1"
                             android:singleLine="true"
                             android:textColor="@color/black"
-                            android:textCursorDrawable="@drawable/cursor_color"
-                            android:autofillHints="" />
+                            android:textCursorDrawable="@drawable/cursor_color" />
                     </LinearLayout>
 
                     <TextView
@@ -316,6 +354,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/ten_dp"
                         android:fontFamily="@font/roboto_bold"
+                        android:onClick="@{()->presenter.reseneOtpClick()}"
                         android:text="@string/label_resend_otp"
                         android:textColor="@color/yellow"
                         android:textSize="@dimen/text_dimen_18" />

@@ -4,4 +4,6 @@ import com.thresholdsoft.praanadhara.ui.base.MvpView;
 
 public interface SplashMvpView extends MvpView {
 
+
 }
+
