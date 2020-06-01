@@ -24,7 +24,7 @@
                 tools:ignore="UselessParent">
 
                 <include layout="@layout/custom_actionbar"
-                    android:id="@+id/backArrow"/>
+                    android:id="@+id/backArrow" />
 
             </LinearLayout>
 

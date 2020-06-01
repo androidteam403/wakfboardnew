@@ -66,7 +66,6 @@ public class UserLoginActivity extends BaseActivity implements UserLoginMvpView 
                 }
             }
         });
-
         activityLoginBinding.otp2.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -83,7 +82,7 @@ public class UserLoginActivity extends BaseActivity implements UserLoginMvpView 
                 if (activityLoginBinding.otp2.length() == 1) {
                     activityLoginBinding.otp3.requestFocus();
                 }
-                if (activityLoginBinding.otp2.length() == 0) {
+                if (activityLoginBinding.otp2.length()==0){
                     activityLoginBinding.otp1.requestFocus();
                 }
 
@@ -105,7 +104,7 @@ public class UserLoginActivity extends BaseActivity implements UserLoginMvpView 
                 if (activityLoginBinding.otp3.length() == 1) {
                     activityLoginBinding.otp4.requestFocus();
                 }
-                if (activityLoginBinding.otp3.length() == 0) {
+                if (activityLoginBinding.otp3.length()==0){
                     activityLoginBinding.otp2.requestFocus();
                 }
             }
@@ -127,7 +126,7 @@ public class UserLoginActivity extends BaseActivity implements UserLoginMvpView 
                 if (activityLoginBinding.otp4.length() == 1) {
                     activityLoginBinding.otp5.requestFocus();
                 }
-                if (activityLoginBinding.otp4.length() == 0) {
+                if (activityLoginBinding.otp4.length()==0){
                     activityLoginBinding.otp3.requestFocus();
                 }
             }
@@ -148,7 +147,7 @@ public class UserLoginActivity extends BaseActivity implements UserLoginMvpView 
                 if (activityLoginBinding.otp5.length() == 1) {
                     activityLoginBinding.otp6.requestFocus();
                 }
-                if (activityLoginBinding.otp5.length() == 0) {
+                if (activityLoginBinding.otp5.length()==0) {
                     activityLoginBinding.otp4.requestFocus();
                 }
             }
@@ -170,7 +169,7 @@ public class UserLoginActivity extends BaseActivity implements UserLoginMvpView 
                     InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
                     imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
                 }
-                if (activityLoginBinding.otp6.length() == 0) {
+                if (activityLoginBinding.otp6.length()==0){
                     activityLoginBinding.otp5.requestFocus();
                 }
             }

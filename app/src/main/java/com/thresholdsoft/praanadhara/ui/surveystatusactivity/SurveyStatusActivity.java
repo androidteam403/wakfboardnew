@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.databinding.ActivitySurveyStatusBinding;
+import com.thresholdsoft.praanadhara.databinding.CustomActionbarBinding;
 import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
 import com.thresholdsoft.praanadhara.ui.surveylistactivity.model.SurveyModel;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.adapter.SurveyStatusAdapter;
@@ -28,6 +29,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     private SurveyStatusAdapter surveyStatusAdapter;
     private SurveyModel surveyModel;
     private ArrayList<SurveyModel> surveyModelArrayList = new ArrayList<>();
+    CustomActionbarBinding customActionbarBinding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
