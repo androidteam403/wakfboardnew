@@ -2,8 +2,9 @@ package com.thresholdsoft.praanadhara.data.network.pojo;
 
 import com.google.gson.annotations.SerializedName;
 
-@SuppressWarnings("unused")
-public class LoginRequest {
+import java.io.Serializable;
+
+public class LoginRequest implements Serializable {
 
     @SerializedName("password")
     private String mPassword;

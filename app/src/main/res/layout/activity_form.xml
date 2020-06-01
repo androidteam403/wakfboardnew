@@ -54,7 +54,6 @@
                 android:background="@drawable/button_rounded_pink"
                 android:fontFamily="@font/roboto_regular"
                 android:gravity="center"
-                android:onClick="@{()-> presenter.onEnrollmentClick()}"
                 android:text="@string/label_enrollment"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_dimen_18" />
