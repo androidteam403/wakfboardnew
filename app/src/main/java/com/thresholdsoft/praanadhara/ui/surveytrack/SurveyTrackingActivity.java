@@ -60,6 +60,8 @@ import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.databinding.ActivitySurveyTrackingBinding;
 import com.thresholdsoft.praanadhara.services.LocationMonitoringService;
 import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
+import com.thresholdsoft.praanadhara.ui.dialog.SurveyPointDialog;
+import com.thresholdsoft.praanadhara.ui.surveylistactivity.model.SurveyModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -101,6 +103,13 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
     private List<LatLng> polygonPoints = new ArrayList<>();
     boolean zoomable = true;
     boolean didInitialZoom;
+    private Location currentLocation;
+    private SurveyModel surveyModel;
+    public static Intent getIntent(Context context, SurveyModel surveyModel){
+        Intent intent = new Intent(context,SurveyTrackingActivity.class);
+        intent.putExtra("surveyData", surveyModel);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,8 +117,7 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
         surveyTrackingBinding = DataBindingUtil.setContentView(this, R.layout.activity_survey_tracking);
         getActivityComponent().inject(this);
         mpresenter.onAttach(SurveyTrackingActivity.this);
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
         }
@@ -119,6 +127,8 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
 
     @Override
     protected void setUp() {
+        surveyTrackingBinding.setView(this);
+        surveyModel = (SurveyModel) getIntent().getSerializableExtra("surveyData");
         LocalBroadcastManager.getInstance(this).registerReceiver(
                 new BroadcastReceiver() {
                     @Override
@@ -130,7 +140,7 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
                             surveyTrackingBinding.progressBar.setVisibility(View.GONE);
                             drawUserPositionMarker(location);
                             zoomMapTo(location);
-
+                            currentLocation = location;
                             Toast.makeText(getApplicationContext(), "NEW LOCATION RECEIVED", Toast.LENGTH_LONG).show();
                             surveyTrackingBinding.accuracyTextView.setText("Accuracy\n" + location.getAccuracy());
                             surveyTrackingBinding.distanceTextView.setText("Distance\n " + mpresenter.getTravelledDistance(locationList));
@@ -622,12 +632,12 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
 
     @Override
     public String getSurveyId() {
-        return "1";
+        return "asdfg";
     }
 
     @Override
     public int getSurveyType() {
-        return 2;
+        return surveyModel.getSurveyType();
     }
 
     @Override
@@ -644,11 +654,39 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
     @Override
     public void onClickStopBtn() {
         isStartLogging = false;
+        finish();
     }
 
     @Override
     public void onClickPointBtn() {
+        SurveyPointDialog dialogView = new SurveyPointDialog(this);
+        dialogView.setTitle("Point Details");
+        dialogView.setPositiveLabel("Ok");
+        dialogView.setPositiveListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogView.dismiss();
+                if(currentLocation != null) {
+                    addPoint(currentLocation);
+                }
+            }
+        });
+        dialogView.setNegativeLabel("Cancel");
+        dialogView.setNegativeListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogView.dismiss();
+            }
+        });
+        dialogView.show();
+    }
 
+    private void addPoint(Location currentLocation){
+        LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+        mMap.addMarker(new MarkerOptions()
+                .position(latLng)
+                .flat(true)
+                .anchor(0.5f, 0.5f));
     }
 }
 

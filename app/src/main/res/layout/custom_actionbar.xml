@@ -12,8 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:background="@android:color/transparent"
-        android:paddingTop="@dimen/dimen_ten"
-        android:paddingBottom="@dimen/dimen_ten"
+        android:paddingTop="@dimen/fifteen_dp"
+        android:paddingBottom="@dimen/fifteen_dp"
         android:src="@drawable/ic_back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,11 +23,11 @@
         android:id="@+id/imageView2"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageButton"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/agri" />
+        app:srcCompat="@drawable/tree"
+        android:padding="@dimen/five_dp"/>
 
     <TextView
         android:id="@+id/textView"

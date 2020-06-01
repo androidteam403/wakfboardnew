@@ -37,6 +37,6 @@ public class SurveyTrackPresenter<V extends SurveyTrackMvpView> extends BasePres
             distance = locations.get(0).distanceTo(locations.get((locations.size() - 1))) / 1000;   // in km
             //  distance = locations.get(0).distanceTo(locations.get((locations.size()-1)))/1609.344;   // in miles
         }
-        return distance + " KM";
+        return String.format("%.2f",distance)+ " KM";
     }
 }

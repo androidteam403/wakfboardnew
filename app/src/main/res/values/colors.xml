@@ -163,4 +163,7 @@
     <color name="adapterColor">#bbdadd</color>
     <color name="apollobackground">#0b2e44</color>
     <color name="lightgrey">#f2f2f2</color>
+
+    <color name="req_qty_bg">#f2f2f2</color>
+    <color name="req_qty_border">#b3b3b3</color>
 </resources>
