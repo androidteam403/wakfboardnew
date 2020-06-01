@@ -11,6 +11,7 @@ public class SurveyModel implements Serializable {
     public String status;
     public String statusResult;
     private boolean isChecked;
+    private int surveyType;
 
     public SurveyModel(String farmerName, String farmerAddress, String farmerNumber, String farmerEmail,
                        String date, String status, String statusResult) {
@@ -85,5 +86,13 @@ public class SurveyModel implements Serializable {
 
     public void setFarmerEmail(String farmerEmail) {
         this.farmerEmail = farmerEmail;
+    }
+
+    public int getSurveyType() {
+        return surveyType;
+    }
+
+    public void setSurveyType(int surveyType) {
+        this.surveyType = surveyType;
     }
 }

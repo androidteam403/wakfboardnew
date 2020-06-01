@@ -7,6 +7,9 @@
             name="survey"
             type="com.thresholdsoft.praanadhara.ui.surveylistactivity.model.SurveyModel" />
 
+        <variable
+            name="callback"
+            type="com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusMvpView" />
     </data>
 
     <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -173,12 +176,11 @@
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_dimen_12" />
 
-                        <com.google.android.gms.maps.MapView
+                        <androidx.fragment.app.FragmentContainerView
                             android:id="@+id/map"
+                            android:name="com.google.android.gms.maps.SupportMapFragment"
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/three_hundred_dp"
-                            android:alpha="0.4"
-                            android:background="@color/blue" />
+                            android:layout_height="@dimen/three_hundred_dp"/>
 
                     </LinearLayout>
 
@@ -198,7 +200,8 @@
                     android:layout_width="@dimen/zero_dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:gravity="center">
 
                     <ImageView
                         android:contentDescription="@string/app_name"
@@ -211,7 +214,6 @@
                         android:id="@+id/pointsRadio"
                         android:layout_width="wrap_content"
                         android:layout_height="21dp"
-                        android:layout_marginStart="@dimen/ten_dp"
                         android:checked="true"
                         android:layout_marginTop="@dimen/five_dp"
                         android:fontFamily="@font/roboto_regular"
@@ -229,7 +231,8 @@
                     android:layout_width="@dimen/zero_dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:gravity="center">
 
                     <ImageView
                         android:contentDescription="@string/app_name"
@@ -243,7 +246,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="21dp"
                         android:checked="true"
-                        android:layout_marginStart="@dimen/ten_dp"
                         android:layout_marginTop="@dimen/five_dp"
                         android:fontFamily="@font/roboto_regular"
                         android:text="@string/label_lines"
@@ -259,7 +261,8 @@
                     android:layout_width="@dimen/zero_dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:gravity="center">
 
                     <ImageView
                         android:contentDescription="@string/app_name"
@@ -272,7 +275,6 @@
                         android:id="@+id/polygonRadio"
                         android:layout_width="wrap_content"
                         android:layout_height="21dp"
-                        android:layout_marginStart="@dimen/ten_dp"
                         android:checked="true"
                         android:layout_marginTop="@dimen/five_dp"
                         android:fontFamily="@font/roboto_regular"
@@ -292,7 +294,8 @@
                 android:gravity="center"
                 android:layout_marginBottom="@dimen/thirty_five_dp"
                 android:text="@string/label_start_survey"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:onClick="@{()-> callback.startSurvey(survey)}"/>
         </LinearLayout>
     </RelativeLayout>
 </layout>

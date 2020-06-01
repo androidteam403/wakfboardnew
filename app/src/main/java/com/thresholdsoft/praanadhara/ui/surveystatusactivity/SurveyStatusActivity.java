@@ -13,6 +13,7 @@ import com.thresholdsoft.praanadhara.databinding.ActivitySurveyStatusBinding;
 import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
 import com.thresholdsoft.praanadhara.ui.surveylistactivity.model.SurveyModel;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.adapter.SurveyStatusAdapter;
+import com.thresholdsoft.praanadhara.ui.surveytrack.SurveyTrackingActivity;
 
 import java.util.ArrayList;
 
@@ -40,11 +41,16 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
         Intent intent = getIntent();
         surveyModel = (SurveyModel) intent.getSerializableExtra("surveyData");
         surveyModelArrayList.add(surveyModel);
-        surveyStatusAdapter = new SurveyStatusAdapter(this, surveyModelArrayList, mpresenter);
+        surveyStatusAdapter = new SurveyStatusAdapter(this, surveyModelArrayList, this);
         RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(this);
         activitySurveyStatusBinding.recyclerSurveyStatus.setLayoutManager(mLayoutManager1);
         activitySurveyStatusBinding.recyclerSurveyStatus.setAdapter(surveyStatusAdapter);
         surveyStatusAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void startSurvey(SurveyModel surveyModel) {
+        startActivity(SurveyTrackingActivity.getIntent(this,surveyModel));
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+    }
 }

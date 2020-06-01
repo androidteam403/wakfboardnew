@@ -59,4 +59,7 @@
     <string name="label_polygons">Polygons</string>
     <string name="label_start_survey">START SURVEY</string>
 
+    <string name="no_google_playservice_available">No Google Playservice found. Please install it.</string>
+    <string name="permission_denied_explanation">You have not granted location permission. So the service cannot be started.</string>
+    <string name="settings">settings</string>
 </resources>

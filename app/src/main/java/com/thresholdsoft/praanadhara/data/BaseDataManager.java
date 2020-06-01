@@ -3,7 +3,7 @@ package com.thresholdsoft.praanadhara.data;
 import android.content.Context;
 
 import com.thresholdsoft.praanadhara.data.db.AppDatabase;
-import com.thresholdsoft.praanadhara.data.db.model.User;
+import com.thresholdsoft.praanadhara.data.db.model.Survey;
 import com.thresholdsoft.praanadhara.data.network.RestApiHelper;
 import com.thresholdsoft.praanadhara.data.network.pojo.FeedItem;
 import com.thresholdsoft.praanadhara.data.network.pojo.LoginRequest;
@@ -13,6 +13,7 @@ import com.thresholdsoft.praanadhara.data.prefs.PreferencesHelper;
 import com.thresholdsoft.praanadhara.data.utils.LoggedInMode;
 import com.thresholdsoft.praanadhara.di.ApplicationContext;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -60,45 +61,45 @@ public class BaseDataManager implements DataManager {
     }
 
     @Override
-    public List<User> getAll() {
+    public List<Survey> getAll() {
         return mDatabase.userDao().getAll();
     }
 
     @Override
-    public void insertUser(User mUser) {
-        mDatabase.userDao().insertUser(mUser);
+    public void insertUser(Survey mSurvey) {
+        mDatabase.userDao().insertUser(mSurvey);
     }
 
     @Override
-    public void insertAllUser(User... mUsersList) {
-        mDatabase.userDao().insertAllUser(mUsersList);
+    public void insertAllSurvey(ArrayList<Survey> surveys) {
+        mDatabase.userDao().insertAllSurvey(surveys);
     }
 
     @Override
-    public void deleteUser(User mUser) {
-        mDatabase.userDao().deleteUser(mUser);
+    public void deleteUser(Survey mSurvey) {
+        mDatabase.userDao().deleteUser(mSurvey);
     }
 
     @Override
-    public void updateUser(User mUser) {
+    public void updateUser(Survey mSurvey) {
 
     }
 
 
     @Override
-    public User getUserById(int uId) {
+    public Survey getUserById(int uId) {
         return mDatabase.userDao().getUserById(uId);
     }
 
     @Override
-    public List<User> loadAllByIds(int[] userIds) {
+    public List<Survey> loadAllByIds(int[] userIds) {
         return mDatabase.userDao().loadAllByIds(userIds);
     }
 
-    @Override
-    public User findByName(String first, String last) {
-        return mDatabase.userDao().findByName(first, last);
-    }
+//    @Override
+//    public Survey findByName(String first, String last) {
+//        return mDatabase.userDao().findByName(first, last);
+//    }
 
     @Override
     public Single<WrapperResponse<UserProfile>> doLoginApiCall(LoginRequest request) {
