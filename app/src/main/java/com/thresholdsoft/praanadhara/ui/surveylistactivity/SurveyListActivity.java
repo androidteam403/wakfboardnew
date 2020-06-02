@@ -12,7 +12,7 @@ import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.databinding.ActivitySurveyListBinding;
 import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
 import com.thresholdsoft.praanadhara.ui.surveylistactivity.adapter.SurveyAdapter;
-import com.thresholdsoft.praanadhara.ui.surveylistactivity.model.SurveyModel;
+import com.thresholdsoft.praanadhara.ui.surveylistactivity.model.FarmersResponse;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusActivity;
 
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ public class SurveyListActivity extends BaseActivity implements SurveyListMvpVie
     SurveyListMvpPresenter<SurveyListMvpView> mpresenter;
     private ActivitySurveyListBinding activitySurveyListBinding;
     private SurveyAdapter surveyAdapter;
-    private ArrayList<SurveyModel> surveyModelArrayList = new ArrayList<>();
+    private ArrayList<FarmersResponse.Data.ListData.Rows> surveyModelArrayList = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,45 +37,31 @@ public class SurveyListActivity extends BaseActivity implements SurveyListMvpVie
 
     @Override
     protected void setUp() {
+        mpresenter.farmersListApiCall();
         surveyAdapter = new SurveyAdapter(this, surveyModelArrayList, mpresenter);
         RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(this);
         activitySurveyListBinding.recyclerSurveyList.setLayoutManager(mLayoutManager1);
         activitySurveyListBinding.recyclerSurveyList.setAdapter(surveyAdapter);
-        surveyDetails();
-    }
-
-    private void surveyDetails() {
-        SurveyModel surveyModel = new SurveyModel("Narayana Swamy.P", "Sannakunta Village,VuyyuruMandal,Chitoor District", "6755656545",
-                "narayana@gmail.com", "01-10-2020", "New", "TAKE SURVEY");
-        surveyModelArrayList.add(surveyModel);
-        surveyModel = new SurveyModel("Veera Swamy.P", "Sannakunta Village,VuyyuruMandal,Chitoor District", "6755656545",
-                "narayana@gmail.com", "01-10-2020", "In Progress", "CONTINUE");
-        surveyModelArrayList.add(surveyModel);
-        surveyModel = new SurveyModel("Narayana Swamy.P", "Sannakunta Village,VuyyuruMandal,Chitoor District", "6755656545",
-                "narayana@gmail.com", "01-10-2020", "Completed", "DONE");
-        surveyModelArrayList.add(surveyModel);
-        surveyModel = new SurveyModel("Govinda Swamy.P", "Sannakunta Village,VuyyuruMandal,Chitoor District", "6755656545",
-                "narayana@gmail.com", "01-10-2020", "New", "TAKE SURVEY");
-        surveyModelArrayList.add(surveyModel);
-        surveyModel = new SurveyModel("Siva Swamy.P", "Sannakunta Village,VuyyuruMandal,Chitoor District", "6755656545",
-                "narayana@gmail.com", "01-10-2020", "In Progress", "CONTINUE");
-        surveyModelArrayList.add(surveyModel);
-        surveyModel = new SurveyModel("Mani Swamy.P", "Sannakunta Village,VuyyuruMandal,Chitoor District", "6755656545",
-                "narayana@gmail.com", "01-10-2020", "Completed", "DONE");
-        surveyModelArrayList.add(surveyModel);
-        surveyModel = new SurveyModel("Narayana Swamy.P", "Sannakunta Village,VuyyuruMandal,Chitoor District", "6755656545",
-                "narayana@gmail.com", "01-10-2020", "New", "TAKE SURVEY");
-        surveyModelArrayList.add(surveyModel);
-        surveyAdapter.notifyDataSetChanged();
-
-
     }
 
     @Override
-    public void onItemClick(SurveyModel surveyModel) {
+    public void onItemClick(FarmersResponse.Data.ListData.Rows surveyModel) {
         Intent intent = new Intent(this, SurveyStatusActivity.class);
         intent.putExtra("surveyData", surveyModel);
         startActivity(intent);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+    }
+
+    @Override
+    public void onFarmersRes(FarmersResponse farmersResponse) {
+        surveyModelArrayList.clear();
+        surveyModelArrayList.addAll(farmersResponse.getData().getListData().getRows());
+        surveyAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void arrayListClear() {
+        surveyModelArrayList.clear();
+        surveyAdapter.notifyDataSetChanged();
     }
 }

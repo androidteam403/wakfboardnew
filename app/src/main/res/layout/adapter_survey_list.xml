@@ -6,7 +6,7 @@
 
         <variable
             name="survey"
-            type="com.thresholdsoft.praanadhara.ui.surveylistactivity.model.SurveyModel" />
+            type="com.thresholdsoft.praanadhara.ui.surveylistactivity.model.FarmersResponse.Data.ListData.Rows" />
 
     </data>
 
@@ -55,7 +55,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="0.9"
                             android:fontFamily="@font/roboto_bold"
-                            android:text="@{survey.farmerName}"
+                            android:text="@{survey.name}"
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_dimen_13" />
 
@@ -76,7 +76,7 @@
                         android:ellipsize="end"
                         android:fontFamily="@font/roboto_bold"
                         android:maxLines="1"
-                        android:text="@{survey.farmerAddress}"
+                        android:text="@{survey.nri_address}"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_dimen_12" />
 
@@ -104,7 +104,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@{survey.farmerNumber}"
+                                android:text="@{String.valueOf(survey.mobile)}"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/text_dimen_12" />
                         </LinearLayout>
@@ -128,7 +128,7 @@
                                 android:layout_height="wrap_content"
                                 android:ellipsize="end"
                                 android:maxLines="1"
-                                android:text="@{survey.farmerEmail}"
+                                android:text="@{survey.email}"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/text_dimen_12" />
                         </LinearLayout>
@@ -166,14 +166,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_regular"
-                        android:text="@{survey.status}"
+                        android:text="New"
                         android:textColor="@color/blue" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_regular"
-                        android:text="@{survey.date}"/>
+                        android:text="02-06-2020"/>
 
                 </LinearLayout>
 
@@ -184,7 +184,7 @@
                     android:background="@drawable/button_light_blue_rounde"
                     android:fontFamily="@font/roboto_regular"
                     android:gravity="center"
-                    android:text="@{survey.statusResult}"
+                    android:text="TAKE SURVEY"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_dimen_11" />
 

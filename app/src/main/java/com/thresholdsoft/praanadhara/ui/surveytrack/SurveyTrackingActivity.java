@@ -61,6 +61,7 @@ import com.thresholdsoft.praanadhara.databinding.ActivitySurveyTrackingBinding;
 import com.thresholdsoft.praanadhara.services.LocationMonitoringService;
 import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
 import com.thresholdsoft.praanadhara.ui.dialog.SurveyPointDialog;
+import com.thresholdsoft.praanadhara.ui.surveylistactivity.model.FarmersResponse;
 import com.thresholdsoft.praanadhara.ui.surveylistactivity.model.SurveyModel;
 
 import java.util.ArrayList;
@@ -104,8 +105,8 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
     boolean zoomable = true;
     boolean didInitialZoom;
     private Location currentLocation;
-    private SurveyModel surveyModel;
-    public static Intent getIntent(Context context, SurveyModel surveyModel){
+    private FarmersResponse.Data.ListData.Rows surveyModel;
+    public static Intent getIntent(Context context, FarmersResponse.Data.ListData.Rows surveyModel){
         Intent intent = new Intent(context,SurveyTrackingActivity.class);
         intent.putExtra("surveyData", surveyModel);
         return intent;
@@ -128,7 +129,7 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
     @Override
     protected void setUp() {
         surveyTrackingBinding.setView(this);
-        surveyModel = (SurveyModel) getIntent().getSerializableExtra("surveyData");
+        surveyModel = (FarmersResponse.Data.ListData.Rows) getIntent().getSerializableExtra("surveyData");
         LocalBroadcastManager.getInstance(this).registerReceiver(
                 new BroadcastReceiver() {
                     @Override
