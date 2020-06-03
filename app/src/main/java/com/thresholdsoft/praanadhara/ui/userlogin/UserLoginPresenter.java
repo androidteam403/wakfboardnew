@@ -72,14 +72,10 @@ public class UserLoginPresenter<V extends UserLoginMvpView> extends BasePresente
                         getDataManager().loginRequest(requestString);
                         getDataManager().loginResponse(responseString);
                         getDataManager().storeUserNum(request.data);
-//                        getDataManager().storeUserLogin(true);
                         getDataManager().storeUserKey(response.body().data.key);
-//                        getMvpView().showMessage("Login Successfull");
                         getMvpView().onSucessfullLogin();
-//                        getMvpView().navigateToSurveyListActivity();
                         getMvpView().hideKeyboard();
                     } else {
-//                        getMvpView().showMessage("Please Enter Correct Details");
                         getMvpView().showMessage("" + response.body().getSuccess());
                     }
                 }
@@ -114,13 +110,7 @@ public class UserLoginPresenter<V extends UserLoginMvpView> extends BasePresente
                     getMvpView().hideLoading();
                     Log.e("TAG", response.code() + "");
                     if (response.body() != null && response.body().getSuccess()) {
-                        Gson gson = new Gson();
-                        String requestString = gson.toJson(request);
-//                        String responseString = gson.toJson(response.body());
-//                        getDataManager().loginRequest(requestString);
-//                        getDataManager().loginResponse(responseString);
                         getDataManager().storeUserLogin(true);
-//                        getMvpView().showMessage("Login Successfull");
                         getMvpView().onSucessfullLogin();
                         getMvpView().navigateToSurveyListActivity();
                         getMvpView().hideKeyboard();

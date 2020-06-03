@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -224,107 +225,20 @@
                         android:gravity="center_horizontal"
                         android:orientation="horizontal">
 
-                        <EditText
-                            android:id="@+id/otp1"
-                            android:layout_width="@dimen/thirty_five_dp"
-                            android:layout_height="@dimen/thirty_dp"
-                            android:layout_margin="@dimen/three_dp"
-                            android:autofillHints=""
-                            android:background="@drawable/edittext_effect"
-                            android:fontFamily="@font/roboto_bold"
-                            android:gravity="center"
-                            android:hint="@string/label_1"
-                            android:imeOptions="actionNext"
+                        <com.mukesh.OtpView
+                            android:id="@+id/otp_view"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:inputType="number"
-                            android:maxLength="1"
-                            android:singleLine="true"
-                            android:textColor="@color/black"
-                            android:textCursorDrawable="@drawable/cursor_color" />
+                            android:itemBackground="@drawable/bg_otp_item"
+                            android:textColor="@android:color/black"
+                            app:hideLineWhenFilled="true"
+                            app:itemCount="6"
+                            app:itemSpacing="6dp"
+                            app:lineColor="@drawable/otp_item_state"
+                            app:state_filled="true"
+                            app:viewType="line" />
 
-                        <EditText
-                            android:id="@+id/otp2"
-                            android:layout_width="@dimen/thirty_five_dp"
-                            android:layout_height="@dimen/thirty_dp"
-                            android:layout_margin="@dimen/three_dp"
-                            android:autofillHints=""
-                            android:background="@drawable/edittext_effect"
-                            android:fontFamily="@font/roboto_bold"
-                            android:gravity="center"
-                            android:hint="@string/label_1"
-                            android:imeOptions="actionNext"
-                            android:inputType="number"
-                            android:maxLength="1"
-                            android:singleLine="true"
-                            android:textColor="@color/black"
-                            android:textCursorDrawable="@drawable/cursor_color" />
-
-                        <EditText
-                            android:id="@+id/otp3"
-                            android:layout_width="@dimen/thirty_five_dp"
-                            android:layout_height="@dimen/thirty_dp"
-                            android:layout_margin="@dimen/three_dp"
-                            android:autofillHints=""
-                            android:background="@drawable/edittext_effect"
-                            android:fontFamily="@font/roboto_bold"
-                            android:gravity="center"
-                            android:hint="@string/label_1"
-                            android:imeOptions="actionNext"
-                            android:inputType="number"
-                            android:maxLength="1"
-                            android:singleLine="true"
-                            android:textColor="@color/black"
-                            android:textCursorDrawable="@drawable/cursor_color" />
-
-                        <EditText
-                            android:id="@+id/otp4"
-                            android:layout_width="@dimen/thirty_five_dp"
-                            android:layout_height="@dimen/thirty_dp"
-                            android:layout_margin="@dimen/three_dp"
-                            android:autofillHints=""
-                            android:background="@drawable/edittext_effect"
-                            android:fontFamily="@font/roboto_bold"
-                            android:gravity="center"
-                            android:hint="@string/label_1"
-                            android:imeOptions="actionNext"
-                            android:inputType="number"
-                            android:maxLength="1"
-                            android:singleLine="true"
-                            android:textColor="@color/black"
-                            android:textCursorDrawable="@drawable/cursor_color" />
-
-                        <EditText
-                            android:id="@+id/otp5"
-                            android:layout_width="@dimen/thirty_five_dp"
-                            android:layout_height="@dimen/thirty_dp"
-                            android:layout_margin="@dimen/three_dp"
-                            android:autofillHints=""
-                            android:background="@drawable/edittext_effect"
-                            android:fontFamily="@font/roboto_bold"
-                            android:gravity="center"
-                            android:hint="@string/label_1"
-                            android:imeOptions="actionNext"
-                            android:inputType="number"
-                            android:maxLength="1"
-                            android:singleLine="true"
-                            android:textColor="@color/black"
-                            android:textCursorDrawable="@drawable/cursor_color" />
-
-                        <EditText
-                            android:id="@+id/otp6"
-                            android:layout_width="@dimen/thirty_five_dp"
-                            android:layout_height="@dimen/thirty_dp"
-                            android:layout_margin="@dimen/three_dp"
-                            android:autofillHints=""
-                            android:background="@drawable/edittext_effect"
-                            android:fontFamily="@font/roboto_bold"
-                            android:gravity="center"
-                            android:hint="@string/label_1"
-                            android:imeOptions="actionDone"
-                            android:inputType="number"
-                            android:maxLength="1"
-                            android:singleLine="true"
-                            android:textColor="@color/black"
-                            android:textCursorDrawable="@drawable/cursor_color" />
                     </LinearLayout>
 
                     <TextView
@@ -340,24 +254,45 @@
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_dimen_17" />
 
+                    <LinearLayout
+                        android:id="@+id/timeLay"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/forty_dp"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_regular"
+                            android:text="@string/label_resend_in_00_25"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_dimen_11" />
+
+                        <TextView
+                            android:id="@+id/resendtime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_regular"
+                            android:paddingStart="@dimen/five_dp"
+                            android:text="00:25"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_dimen_11" />
+
+                    </LinearLayout>
+
                     <TextView
+                        android:id="@+id/resendotp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/forty_dp"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="@string/label_resend_in_00_25"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/text_dimen_11" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/ten_dp"
                         android:fontFamily="@font/roboto_bold"
                         android:onClick="@{()->presenter.reseneOtpClick()}"
                         android:text="@string/label_resend_otp"
                         android:textColor="@color/yellow"
-                        android:textSize="@dimen/text_dimen_18" />
+                        android:textSize="@dimen/text_dimen_18"
+                        android:visibility="gone" />
                 </LinearLayout>
 
             </LinearLayout>

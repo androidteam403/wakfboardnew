@@ -14,7 +14,7 @@ import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.databinding.ActivitySurveyStatusBinding;
 import com.thresholdsoft.praanadhara.databinding.CustomActionbarBinding;
 import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
-import com.thresholdsoft.praanadhara.ui.surveylistactivity.model.SurveyModel;
+import com.thresholdsoft.praanadhara.ui.surveylistactivity.model.FarmersResponse;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.adapter.SurveyStatusAdapter;
 import com.thresholdsoft.praanadhara.ui.surveytrack.SurveyTrackingActivity;
 
@@ -27,8 +27,8 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     SurveyStatusMvpPresenter<SurveyStatusMvpView> mpresenter;
     private ActivitySurveyStatusBinding activitySurveyStatusBinding;
     private SurveyStatusAdapter surveyStatusAdapter;
-    private SurveyModel surveyModel;
-    private ArrayList<SurveyModel> surveyModelArrayList = new ArrayList<>();
+    private FarmersResponse.Data.ListData.Rows surveyModel;
+    private ArrayList<FarmersResponse.Data.ListData.Rows> surveyModelArrayList = new ArrayList<>();
     CustomActionbarBinding customActionbarBinding;
 
     @Override
@@ -43,7 +43,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     @Override
     protected void setUp() {
         Intent intent = getIntent();
-        surveyModel = (SurveyModel) intent.getSerializableExtra("surveyData");
+        surveyModel = (FarmersResponse.Data.ListData.Rows) intent.getSerializableExtra("surveyData");
         surveyModelArrayList.add(surveyModel);
         surveyStatusAdapter = new SurveyStatusAdapter(this, surveyModelArrayList, this);
         RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(this);
@@ -62,7 +62,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     }
 
     @Override
-    public void startSurvey(SurveyModel surveyModel) {
+    public void startSurvey(FarmersResponse.Data.ListData.Rows surveyModel) {
         startActivity(SurveyTrackingActivity.getIntent(this, surveyModel));
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }

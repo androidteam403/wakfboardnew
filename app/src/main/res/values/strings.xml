@@ -42,7 +42,7 @@
     <string name="label_enter_your_otp_below">enter your OTP below</string>
     <string name="label_1">1</string>
     <string name="label_verify">VERIFY</string>
-    <string name="label_resend_in_00_25">Resend in 00:25</string>
+    <string name="label_resend_in_00_25">Resend in </string>
     <string name="label_resend_otp">RESEND OTP</string>
     <string name="label_mobile_number">Mobile Number</string>
     <string name="label_hello">Hello</string>

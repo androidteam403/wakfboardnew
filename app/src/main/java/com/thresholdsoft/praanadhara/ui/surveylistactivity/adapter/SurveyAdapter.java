@@ -13,17 +13,18 @@ import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.databinding.AdapterSurveyListBinding;
 import com.thresholdsoft.praanadhara.ui.surveylistactivity.SurveyListMvpPresenter;
 import com.thresholdsoft.praanadhara.ui.surveylistactivity.SurveyListMvpView;
+import com.thresholdsoft.praanadhara.ui.surveylistactivity.model.FarmersResponse;
 import com.thresholdsoft.praanadhara.ui.surveylistactivity.model.SurveyModel;
 
 import java.util.ArrayList;
 
 public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder> {
 
-    private ArrayList<SurveyModel> surveyModelArrayList;
+    private ArrayList<FarmersResponse.Data.ListData.Rows> surveyModelArrayList;
     private SurveyListMvpPresenter<SurveyListMvpView> mPresenter;
     private Activity activity;
 
-    public SurveyAdapter(Activity activity, ArrayList<SurveyModel> surveyModelArrayList,
+    public SurveyAdapter(Activity activity, ArrayList<FarmersResponse.Data.ListData.Rows> surveyModelArrayList,
                          SurveyListMvpPresenter<SurveyListMvpView> mPresenter) {
         this.activity = activity;
         this.surveyModelArrayList = surveyModelArrayList;
@@ -40,12 +41,12 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(SurveyAdapter.ViewHolder holder, int position) {
-        final SurveyModel surveyModel = surveyModelArrayList.get(position);
-        holder.adapterSurveyListBinding.setSurvey(surveyModel);
+        final FarmersResponse.Data.ListData.Rows farmerModel = surveyModelArrayList.get(position);
+        holder.adapterSurveyListBinding.setSurvey(farmerModel);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPresenter.onItemClick(surveyModel);
+                mPresenter.onItemClick(farmerModel);
             }
         });
     }

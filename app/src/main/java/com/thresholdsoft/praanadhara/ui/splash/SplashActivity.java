@@ -12,6 +12,8 @@ import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.databinding.ActivitySplashBinding;
 import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
 import com.thresholdsoft.praanadhara.ui.selectingformactivity.SelectingFormActivity;
+import com.thresholdsoft.praanadhara.ui.surveylistactivity.SurveyListActivity;
+import com.thresholdsoft.praanadhara.ui.userlogin.UserLoginActivity;
 
 import javax.inject.Inject;
 
@@ -33,17 +35,26 @@ public class SplashActivity extends BaseActivity implements SplashMvpView {
     @Override
     protected void setUp() {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
         activitySplashBinding = DataBindingUtil.setContentView(this, R.layout.activity_splash);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                final Intent mainIntent = new Intent(SplashActivity.this, SelectingFormActivity.class);
-                SplashActivity.this.startActivity(mainIntent);
-                SplashActivity.this.finish();
-                overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+                mPresenter.checkUserLogin();
             }
         }, 2000);
     }
 
+    @Override
+    public void navigateToUserLgin() {
+        Intent intent = new Intent(this, SelectingFormActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+    }
+
+    @Override
+    public void navigateToSurveyListActivity() {
+        Intent intent = new Intent(this, SurveyListActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+    }
 }
