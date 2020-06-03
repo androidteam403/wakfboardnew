@@ -15,6 +15,7 @@ android {
         vectorDrawables.useSupportLibrary = true
         buildConfigField("String", "BASE_URL", "\"https://fc-test.zeroco.de/zc-v3.1-user-svc/2.0/praanadhara/\"")
         buildConfigField("String", "API_KEY", "\"REPLACE YOUR API_KEY\"")
+        buildConfigField("String", "IMAGE_URL","\"https://fc-test.zeroco.de/zc-v3.1-fs-svc/2.0/praanadhara/get/\"")
     }
     buildTypes {
         release {

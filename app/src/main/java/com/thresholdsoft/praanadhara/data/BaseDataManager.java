@@ -12,6 +12,7 @@ import com.thresholdsoft.praanadhara.data.network.pojo.SurveySaveReq;
 import com.thresholdsoft.praanadhara.data.network.pojo.SurveyStartReq;
 import com.thresholdsoft.praanadhara.data.network.pojo.SurveyStartRes;
 import com.thresholdsoft.praanadhara.data.network.pojo.UserProfile;
+import com.thresholdsoft.praanadhara.data.network.pojo.PicEntity;
 import com.thresholdsoft.praanadhara.data.network.pojo.WrapperResponse;
 import com.thresholdsoft.praanadhara.data.prefs.PreferencesHelper;
 import com.thresholdsoft.praanadhara.data.utils.LoggedInMode;

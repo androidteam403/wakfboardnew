@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
+import com.thresholdsoft.praanadhara.data.network.pojo.PicEntity;
 import com.thresholdsoft.praanadhara.data.utils.LoggedInMode;
 import com.thresholdsoft.praanadhara.di.ApplicationContext;
 import com.thresholdsoft.praanadhara.di.PreferenceInfo;
@@ -30,6 +31,7 @@ public class PreferencesManager implements PreferencesHelper {
     private static final String PREF_KEY_USER_KEY = "PREF_KEY_USER_KEY";
     private static final String PREF_KEY_SURVEY_CLICK = "PREF_KEY_SURVEY_CLICK";
     private static final String PREF_KEY_USER_VERIFICATION = "PREF_KEY_USER_VERIFICATION";
+    private static  final String PREF_KEY_PIC_ENTITY="PREF_KEY_PIC_ENTITY";
 
 
     private final SharedPreferences mPrefs;

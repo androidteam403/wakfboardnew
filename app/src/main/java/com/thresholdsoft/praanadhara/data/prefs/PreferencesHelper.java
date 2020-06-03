@@ -1,5 +1,6 @@
 package com.thresholdsoft.praanadhara.data.prefs;
 
+import com.thresholdsoft.praanadhara.data.network.pojo.PicEntity;
 import com.thresholdsoft.praanadhara.data.utils.LoggedInMode;
 import com.thresholdsoft.praanadhara.ui.userlogin.model.LoginResponse;
 
