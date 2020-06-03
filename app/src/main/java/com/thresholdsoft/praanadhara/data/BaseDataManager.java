@@ -113,6 +113,16 @@ public class BaseDataManager implements DataManager {
     }
 
     @Override
+    public void storeSurveyClick(boolean value) {
+        mPreferencesHelper.storeSurveyClick(value);
+    }
+
+    @Override
+    public boolean isSurveyClick() {
+        return mPreferencesHelper.isSurveyClick();
+    }
+
+    @Override
     public void loginRequest(String req) {
         mPreferencesHelper.loginRequest(req);
     }

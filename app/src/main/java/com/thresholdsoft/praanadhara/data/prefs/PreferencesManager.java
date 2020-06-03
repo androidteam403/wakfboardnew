@@ -28,6 +28,9 @@ public class PreferencesManager implements PreferencesHelper {
     private static final String PREF_KEY_USER_RES = "PREF_KEY_USER_RES";
     private static final String PREF_KEY_USER_NUMBER = "PREF_KEY_USER_NUMBER";
     private static final String PREF_KEY_USER_KEY = "PREF_KEY_USER_KEY";
+    private static final String PREF_KEY_SURVEY_CLICK = "PREF_KEY_SURVEY_CLICK";
+    private static final String PREF_KEY_USER_VERIFICATION = "PREF_KEY_USER_VERIFICATION";
+
 
     private final SharedPreferences mPrefs;
     private Context mAppContext;
@@ -67,6 +70,16 @@ public class PreferencesManager implements PreferencesHelper {
     @Override
     public void setUserProfilePicUrl(String profilePicUrl) {
         mPrefs.edit().putString(PREF_KEY_USER_PROFILE_PIC_URL, profilePicUrl).apply();
+    }
+
+    @Override
+    public void storeSurveyClick(boolean value) {
+        mPrefs.edit().putBoolean(PREF_KEY_SURVEY_CLICK, value).apply();
+    }
+
+    @Override
+    public boolean isSurveyClick() {
+        return mPrefs.getBoolean(PREF_KEY_SURVEY_CLICK, false);
     }
 
     @Override

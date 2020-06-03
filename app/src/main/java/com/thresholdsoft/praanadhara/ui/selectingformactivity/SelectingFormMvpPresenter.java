@@ -8,8 +8,6 @@ public interface SelectingFormMvpPresenter<V extends SelectingFormMvpView> exten
 
     void onSurveyClick();
 
-    void onLoginApiCall();
 
-    void checkUserLogin();
 
 }

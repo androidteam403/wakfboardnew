@@ -20,8 +20,6 @@ public interface ApiInterface {
     @POST("https://fc-test.zeroco.de/zc-v3.1-user-svc/2.0/praanadhara/login")
     Call<OtpVerifyRes> doPostListOtpRes(@Body OtpVerifyReq otpVerifyReq);
 
-
-
     @POST("https://fc-test.zeroco.de/zc-v3.1-user-svc/2.0/praanadhara/api/farmer/list/demographic-list")
     Call<FarmersResponse> doPostListFarmersResponse(@Header("Authorization") String anupama, @Body FarmersRequest farmersRequest);
 }

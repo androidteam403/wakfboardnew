@@ -4,6 +4,9 @@ import com.thresholdsoft.praanadhara.data.utils.LoggedInMode;
 import com.thresholdsoft.praanadhara.ui.userlogin.model.LoginResponse;
 
 public interface PreferencesHelper {
+    void storeSurveyClick(boolean value);
+
+    boolean isSurveyClick();
 
     void loginRequest(String req);
 
