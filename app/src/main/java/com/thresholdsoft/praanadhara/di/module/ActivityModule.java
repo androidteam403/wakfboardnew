@@ -24,6 +24,7 @@ import com.thresholdsoft.praanadhara.ui.splash.SplashPresenter;
 import com.thresholdsoft.praanadhara.ui.surveylistactivity.SurveyListMvpPresenter;
 import com.thresholdsoft.praanadhara.ui.surveylistactivity.SurveyListMvpView;
 import com.thresholdsoft.praanadhara.ui.surveylistactivity.SurveyListPresenter;
+import com.thresholdsoft.praanadhara.ui.surveylistactivity.adapter.SurveyAdapter;
 import com.thresholdsoft.praanadhara.ui.surveytrack.SurveyTrackMvpPresenter;
 import com.thresholdsoft.praanadhara.ui.surveytrack.SurveyTrackMvpView;
 import com.thresholdsoft.praanadhara.ui.surveytrack.SurveyTrackPresenter;
@@ -35,6 +36,8 @@ import com.thresholdsoft.praanadhara.ui.userlogin.UserLoginMvpView;
 import com.thresholdsoft.praanadhara.ui.userlogin.UserLoginPresenter;
 import com.thresholdsoft.praanadhara.utils.rx.AppSchedulerProvider;
 import com.thresholdsoft.praanadhara.utils.rx.SchedulerProvider;
+
+import java.util.ArrayList;
 
 import dagger.Module;
 import dagger.Provides;
@@ -127,5 +130,10 @@ public class ActivityModule {
     @PerActivity
     SurveyStatusMvpPresenter<SurveyStatusMvpView> surveyStatusPresenter(SurveyStatusPresenter<SurveyStatusMvpView> presenter) {
         return presenter;
+    }
+
+    @Provides
+    SurveyAdapter provideBlogAdapter() {
+        return new SurveyAdapter(new ArrayList<>());
     }
 }

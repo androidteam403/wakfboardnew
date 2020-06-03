@@ -9,22 +9,10 @@ import com.google.gson.annotations.SerializedName;
 public class WrapperResponse<T> {
     @SerializedName("data")
     private T mData;
-    @SerializedName("error")
-    private Boolean mError;
+    @SerializedName("success")
+    private Boolean mSuccess;
     @SerializedName("message")
     private String mMessage;
-    @SerializedName("status")
-    private String mStatus;
-    @SerializedName("authToken")
-    private String mAuthToken;
-
-    public String getAuthToken() {
-        return mAuthToken;
-    }
-
-    public void setAuthToken(String mAuthToken) {
-        this.mAuthToken = mAuthToken;
-    }
 
     public T getData() {
         return mData;
@@ -34,12 +22,12 @@ public class WrapperResponse<T> {
         mData = data;
     }
 
-    public Boolean getError() {
-        return mError;
+    public Boolean getSuccess() {
+        return mSuccess;
     }
 
-    public void setError(Boolean error) {
-        mError = error;
+    public void setSuccess(Boolean mSuccess) {
+        this.mSuccess = mSuccess;
     }
 
     public String getMessage() {
@@ -50,11 +38,4 @@ public class WrapperResponse<T> {
         mMessage = message;
     }
 
-    public String getStatus() {
-        return mStatus;
-    }
-
-    public void setStatus(String status) {
-        mStatus = status;
-    }
 }

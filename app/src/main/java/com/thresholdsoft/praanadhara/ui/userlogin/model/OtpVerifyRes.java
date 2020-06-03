@@ -65,6 +65,16 @@ public class OtpVerifyRes {
     }
 
     public class Data {
+        @SerializedName("token")
+        private String token;
+
+        public String getToken() {
+            return token;
+        }
+
+        public void setToken(String token) {
+            this.token = token;
+        }
         @SerializedName("zcDebugLogs")
         public String zcDebugLogs;
 

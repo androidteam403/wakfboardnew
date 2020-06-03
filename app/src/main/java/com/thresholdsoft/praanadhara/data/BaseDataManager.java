@@ -5,6 +5,7 @@ import android.content.Context;
 import com.thresholdsoft.praanadhara.data.db.AppDatabase;
 import com.thresholdsoft.praanadhara.data.db.model.Survey;
 import com.thresholdsoft.praanadhara.data.network.RestApiHelper;
+import com.thresholdsoft.praanadhara.data.network.pojo.FarmerSurveyList;
 import com.thresholdsoft.praanadhara.data.network.pojo.FeedItem;
 import com.thresholdsoft.praanadhara.data.network.pojo.LoginRequest;
 import com.thresholdsoft.praanadhara.data.network.pojo.UserProfile;
@@ -103,8 +104,8 @@ public class BaseDataManager implements DataManager {
 //    }
 
     @Override
-    public Single<WrapperResponse<UserProfile>> doLoginApiCall(LoginRequest request) {
-        return mApiHelper.doLoginApiCall(request);
+    public Single<FarmerSurveyList> doFarmerListApiCall(Object request) {
+        return mApiHelper.doFarmerListApiCall(request);
     }
 
     @Override
@@ -230,7 +231,7 @@ public class BaseDataManager implements DataManager {
 
     @Override
     public void setAccessToken(String accessToken) {
-        mPreferencesHelper.getAccessToken();
+        mPreferencesHelper.setAccessToken(accessToken);
     }
 
     @Override

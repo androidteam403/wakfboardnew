@@ -57,6 +57,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.maps.android.SphericalUtil;
 import com.thresholdsoft.praanadhara.BuildConfig;
 import com.thresholdsoft.praanadhara.R;
+import com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity;
 import com.thresholdsoft.praanadhara.databinding.ActivitySurveyTrackingBinding;
 import com.thresholdsoft.praanadhara.services.LocationMonitoringService;
 import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
@@ -105,8 +106,8 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
     boolean zoomable = true;
     boolean didInitialZoom;
     private Location currentLocation;
-    private FarmersResponse.Data.ListData.Rows surveyModel;
-    public static Intent getIntent(Context context, FarmersResponse.Data.ListData.Rows surveyModel){
+    private RowsEntity surveyModel;
+    public static Intent getIntent(Context context, RowsEntity surveyModel){
         Intent intent = new Intent(context,SurveyTrackingActivity.class);
         intent.putExtra("surveyData", surveyModel);
         return intent;
@@ -129,7 +130,7 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
     @Override
     protected void setUp() {
         surveyTrackingBinding.setView(this);
-        surveyModel = (FarmersResponse.Data.ListData.Rows) getIntent().getSerializableExtra("surveyData");
+        surveyModel = (RowsEntity) getIntent().getSerializableExtra("surveyData");
         LocalBroadcastManager.getInstance(this).registerReceiver(
                 new BroadcastReceiver() {
                     @Override
