@@ -10,6 +10,7 @@ import com.thresholdsoft.praanadhara.data.db.AppDatabase;
 import com.thresholdsoft.praanadhara.data.network.NetworkService;
 import com.thresholdsoft.praanadhara.data.network.RestApiHelper;
 import com.thresholdsoft.praanadhara.data.network.RestApiManager;
+import com.thresholdsoft.praanadhara.data.network.TokenInterceptor;
 import com.thresholdsoft.praanadhara.data.prefs.PreferencesHelper;
 import com.thresholdsoft.praanadhara.data.prefs.PreferencesManager;
 import com.thresholdsoft.praanadhara.di.ApiInfo;
@@ -106,7 +107,7 @@ public class ApplicationModule {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
 
-        return new OkHttpClient.Builder().addInterceptor(interceptor).addInterceptor(chain -> {
+        return new OkHttpClient.Builder().addInterceptor(interceptor).addInterceptor(new TokenInterceptor(mApplication)).addInterceptor(chain -> {
             Request request = chain.request();
             return chain.proceed(request);
         }).build();

@@ -1,5 +1,6 @@
 package com.thresholdsoft.praanadhara.data.network;
 
+import com.thresholdsoft.praanadhara.data.network.pojo.FarmerSurveyList;
 import com.thresholdsoft.praanadhara.data.network.pojo.FeedItem;
 import com.thresholdsoft.praanadhara.data.network.pojo.LoginRequest;
 import com.thresholdsoft.praanadhara.data.network.pojo.UserProfile;
@@ -23,8 +24,8 @@ public class RestApiManager implements RestApiHelper {
     }
 
     @Override
-    public Single<WrapperResponse<UserProfile>> doLoginApiCall(LoginRequest request) {
-        return mService.doLoginApiCall(request);
+    public Single<FarmerSurveyList> doFarmerListApiCall(Object request) {
+        return mService.doFarmerListApiCall(request);
     }
 
     @Override

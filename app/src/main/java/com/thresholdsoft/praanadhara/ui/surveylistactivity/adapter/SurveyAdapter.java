@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.thresholdsoft.praanadhara.R;
+import com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity;
 import com.thresholdsoft.praanadhara.databinding.AdapterSurveyListBinding;
 import com.thresholdsoft.praanadhara.ui.surveylistactivity.SurveyListMvpPresenter;
 import com.thresholdsoft.praanadhara.ui.surveylistactivity.SurveyListMvpView;
@@ -17,14 +18,19 @@ import com.thresholdsoft.praanadhara.ui.surveylistactivity.model.FarmersResponse
 import com.thresholdsoft.praanadhara.ui.surveylistactivity.model.SurveyModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder> {
 
-    private ArrayList<FarmersResponse.Data.ListData.Rows> surveyModelArrayList;
+    private ArrayList<RowsEntity> surveyModelArrayList;
     private SurveyListMvpPresenter<SurveyListMvpView> mPresenter;
     private Activity activity;
 
-    public SurveyAdapter(Activity activity, ArrayList<FarmersResponse.Data.ListData.Rows> surveyModelArrayList,
+    public SurveyAdapter(ArrayList<RowsEntity> rowsEntities) {
+        this.surveyModelArrayList = rowsEntities;
+    }
+
+    public SurveyAdapter(Activity activity, ArrayList<RowsEntity> surveyModelArrayList,
                          SurveyListMvpPresenter<SurveyListMvpView> mPresenter) {
         this.activity = activity;
         this.surveyModelArrayList = surveyModelArrayList;
@@ -41,7 +47,7 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(SurveyAdapter.ViewHolder holder, int position) {
-        final FarmersResponse.Data.ListData.Rows farmerModel = surveyModelArrayList.get(position);
+        final RowsEntity farmerModel = surveyModelArrayList.get(position);
         holder.adapterSurveyListBinding.setSurvey(farmerModel);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,4 +71,12 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
         return surveyModelArrayList.size();
     }
 
+    public void addItems(List<RowsEntity> blogList) {
+        surveyModelArrayList.addAll(blogList);
+        notifyDataSetChanged();
+    }
+
+    public void clearItems() {
+        surveyModelArrayList.clear();
+    }
 }

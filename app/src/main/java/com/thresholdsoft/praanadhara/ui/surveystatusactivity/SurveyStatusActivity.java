@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.thresholdsoft.praanadhara.R;
+import com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity;
 import com.thresholdsoft.praanadhara.databinding.ActivitySurveyStatusBinding;
 import com.thresholdsoft.praanadhara.databinding.CustomActionbarBinding;
 import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
@@ -27,8 +28,8 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     SurveyStatusMvpPresenter<SurveyStatusMvpView> mpresenter;
     private ActivitySurveyStatusBinding activitySurveyStatusBinding;
     private SurveyStatusAdapter surveyStatusAdapter;
-    private FarmersResponse.Data.ListData.Rows surveyModel;
-    private ArrayList<FarmersResponse.Data.ListData.Rows> surveyModelArrayList = new ArrayList<>();
+    private RowsEntity surveyModel;
+    private ArrayList<RowsEntity> surveyModelArrayList = new ArrayList<>();
     CustomActionbarBinding customActionbarBinding;
 
     @Override
@@ -43,7 +44,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     @Override
     protected void setUp() {
         Intent intent = getIntent();
-        surveyModel = (FarmersResponse.Data.ListData.Rows) intent.getSerializableExtra("surveyData");
+        surveyModel = (RowsEntity) intent.getSerializableExtra("surveyData");
         surveyModelArrayList.add(surveyModel);
         surveyStatusAdapter = new SurveyStatusAdapter(this, surveyModelArrayList, this);
         RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(this);
@@ -62,7 +63,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     }
 
     @Override
-    public void startSurvey(FarmersResponse.Data.ListData.Rows surveyModel) {
+    public void startSurvey(RowsEntity surveyModel) {
         startActivity(SurveyTrackingActivity.getIntent(this, surveyModel));
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }

@@ -1,12 +1,15 @@
 package com.thresholdsoft.praanadhara.ui.surveylistactivity;
 
+import com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity;
 import com.thresholdsoft.praanadhara.ui.base.MvpView;
 import com.thresholdsoft.praanadhara.ui.surveylistactivity.model.FarmersResponse;
 import com.thresholdsoft.praanadhara.ui.surveylistactivity.model.SurveyModel;
 
-public interface SurveyListMvpView extends MvpView {
-    void onItemClick(FarmersResponse.Data.ListData.Rows surveyModel);
+import java.util.List;
 
-    void onFarmersRes(FarmersResponse farmersResponse);
+public interface SurveyListMvpView extends MvpView {
+    void onItemClick(RowsEntity farmerModel);
+
+    void onFarmersRes(List<RowsEntity> rowsEntity);
     void arrayListClear();
 }

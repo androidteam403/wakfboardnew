@@ -1,5 +1,6 @@
 package com.thresholdsoft.praanadhara.data.network;
 
+import com.thresholdsoft.praanadhara.data.network.pojo.FarmerSurveyList;
 import com.thresholdsoft.praanadhara.data.network.pojo.FeedItem;
 import com.thresholdsoft.praanadhara.data.network.pojo.LoginRequest;
 import com.thresholdsoft.praanadhara.data.network.pojo.UserProfile;
@@ -11,7 +12,7 @@ import io.reactivex.Single;
 
 public interface RestApiHelper {
 
-    Single<WrapperResponse<UserProfile>> doLoginApiCall(LoginRequest request);
+    Single<FarmerSurveyList> doFarmerListApiCall(Object request);
 
     Single<WrapperResponse<List<FeedItem>>> getFeedList();
 }

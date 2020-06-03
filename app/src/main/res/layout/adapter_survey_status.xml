@@ -5,7 +5,7 @@
     <data>
         <variable
             name="survey"
-            type="com.thresholdsoft.praanadhara.ui.surveylistactivity.model.FarmersResponse.Data.ListData.Rows" />
+            type="com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity" />
 
         <variable
             name="callback"
@@ -90,7 +90,7 @@
                                 android:ellipsize="end"
                                 android:fontFamily="@font/roboto_bold"
                                 android:maxLines="1"
-                                android:text="@{survey.nri_address}"
+                                android:text="@{survey.farmerLand.pincode.village.name}"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/text_dimen_12" />
 

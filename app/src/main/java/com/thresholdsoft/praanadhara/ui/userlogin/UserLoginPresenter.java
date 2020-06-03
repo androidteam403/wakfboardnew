@@ -120,6 +120,7 @@ public class UserLoginPresenter<V extends UserLoginMvpView> extends BasePresente
 //                        getDataManager().loginRequest(requestString);
 //                        getDataManager().loginResponse(responseString);
                         getDataManager().storeUserLogin(true);
+                        getDataManager().setAccessToken(response.body().getData().getToken());
 //                        getMvpView().showMessage("Login Successfull");
                         getMvpView().onSucessfullLogin();
                         getMvpView().navigateToSurveyListActivity();

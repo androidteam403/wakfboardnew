@@ -23,10 +23,10 @@ public class WrapperResponseConverter<T>
     @Override
     public T convert(ResponseBody value) throws IOException {
         WrapperResponse<T> response = converter.convert(value);
-        if (!response.getError()) {
+        if (response.getSuccess()) {
             return response.getData();
         }
         // RxJava will call onError with this exception
-        throw new WrapperError(response.getStatus());
+        throw new WrapperError(response.getMessage());
     }
 }

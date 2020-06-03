@@ -18,6 +18,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.thresholdsoft.praanadhara.R;
+import com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity;
 import com.thresholdsoft.praanadhara.databinding.AdapterSurveyStatusBinding;
 import com.thresholdsoft.praanadhara.ui.surveylistactivity.model.FarmersResponse;
 import com.thresholdsoft.praanadhara.ui.surveylistactivity.model.SurveyModel;
@@ -27,12 +28,12 @@ import java.util.ArrayList;
 
 public class SurveyStatusAdapter extends RecyclerView.Adapter<SurveyStatusAdapter.ViewHolder> implements OnMapReadyCallback {
 
-    private ArrayList<FarmersResponse.Data.ListData.Rows> surveyModelArrayList;
+    private ArrayList<RowsEntity> surveyModelArrayList;
     private SurveyStatusMvpView mPresenter;
     private Activity activity;
     private GoogleMap map;
 
-    public SurveyStatusAdapter(Activity activity, ArrayList<FarmersResponse.Data.ListData.Rows> surveyModelArrayList,
+    public SurveyStatusAdapter(Activity activity, ArrayList<RowsEntity> surveyModelArrayList,
                                SurveyStatusMvpView mPresenter) {
         this.activity = activity;
         this.surveyModelArrayList = surveyModelArrayList;
@@ -49,7 +50,7 @@ public class SurveyStatusAdapter extends RecyclerView.Adapter<SurveyStatusAdapte
 
     @Override
     public void onBindViewHolder(SurveyStatusAdapter.ViewHolder holder, int position) {
-        final FarmersResponse.Data.ListData.Rows surveyModel = surveyModelArrayList.get(position);
+        final RowsEntity surveyModel = surveyModelArrayList.get(position);
         holder.adapterSurveyStatusBinding.setSurvey(surveyModel);
         holder.adapterSurveyStatusBinding.setCallback(mPresenter);
         SupportMapFragment mapFragment = (SupportMapFragment) ((FragmentActivity) activity).getSupportFragmentManager().findFragmentById(R.id.map);

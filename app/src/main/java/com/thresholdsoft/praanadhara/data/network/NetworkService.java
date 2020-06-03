@@ -1,5 +1,6 @@
 package com.thresholdsoft.praanadhara.data.network;
 
+import com.thresholdsoft.praanadhara.data.network.pojo.FarmerSurveyList;
 import com.thresholdsoft.praanadhara.data.network.pojo.FeedItem;
 import com.thresholdsoft.praanadhara.data.network.pojo.LoginRequest;
 import com.thresholdsoft.praanadhara.data.network.pojo.UserProfile;
@@ -24,6 +25,6 @@ public interface NetworkService {
     Single<WrapperResponse<List<FeedItem>>> getFeedList();
 
 
-    @POST("login")
-    Single<WrapperResponse<UserProfile>> doLoginApiCall(@Body LoginRequest mRequest);
+    @POST("api/farmer/list/farmer-survey-list")
+    Single<FarmerSurveyList> doFarmerListApiCall(@Body Object o);
 }
