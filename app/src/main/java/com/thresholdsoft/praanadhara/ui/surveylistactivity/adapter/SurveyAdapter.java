@@ -9,13 +9,13 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.thresholdsoft.praanadhara.BuildConfig;
 import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity;
 import com.thresholdsoft.praanadhara.databinding.AdapterSurveyListBinding;
 import com.thresholdsoft.praanadhara.ui.surveylistactivity.SurveyListMvpPresenter;
 import com.thresholdsoft.praanadhara.ui.surveylistactivity.SurveyListMvpView;
-import com.thresholdsoft.praanadhara.ui.surveylistactivity.model.FarmersResponse;
-import com.thresholdsoft.praanadhara.ui.surveylistactivity.model.SurveyModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +49,17 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
     public void onBindViewHolder(SurveyAdapter.ViewHolder holder, int position) {
         final RowsEntity farmerModel = surveyModelArrayList.get(position);
         holder.adapterSurveyListBinding.setSurvey(farmerModel);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        if (farmerModel.getPic().size() > 0) {
+            Glide.with(activity).load(BuildConfig.IMAGE_URL + farmerModel.getPic().get(0).getPath()).
+                    placeholder(R.drawable.farmer).into(holder.adapterSurveyListBinding.image);
+        }
+        holder.adapterSurveyListBinding.takeSurvey.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.onItemClick(farmerModel);
+            }
+        });
+        holder.adapterSurveyListBinding.edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mPresenter.onItemClick(farmerModel);
