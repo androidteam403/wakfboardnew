@@ -8,8 +8,5 @@ public interface SelectingFormMvpView extends MvpView {
 
     void onSurveyClick();
 
-    void navigateToUserLgin();
-
-    void navigateToSurveyListActivity();
 
 }

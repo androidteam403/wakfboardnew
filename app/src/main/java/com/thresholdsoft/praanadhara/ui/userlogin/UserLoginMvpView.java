@@ -18,4 +18,6 @@ public interface UserLoginMvpView extends MvpView {
     void reseneOtpClick();
 
     void navigateToSurveyListActivity();
+
+    void backCountTimer();
 }
