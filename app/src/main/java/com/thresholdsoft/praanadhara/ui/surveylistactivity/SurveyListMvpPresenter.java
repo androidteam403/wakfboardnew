@@ -8,5 +8,4 @@ import com.thresholdsoft.praanadhara.ui.surveylistactivity.model.SurveyModel;
 public interface SurveyListMvpPresenter<V extends SurveyListMvpView> extends MvpPresenter<V> {
     void onItemClick(RowsEntity farmerModel);
     void farmersListApiCall();
-
 }
