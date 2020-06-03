@@ -92,4 +92,24 @@ public class RowsEntity implements Serializable {
     public void setSurveyType(int surveyType) {
         this.surveyType = surveyType;
     }
+
+    private String startSurveyUid;
+
+    public String getStartSurveyUid() {
+        return startSurveyUid;
+    }
+
+    public void setStartSurveyUid(String startSurveyUid) {
+        this.startSurveyUid = startSurveyUid;
+    }
+
+    private MapTypeEntity mapTypeEntity;
+
+    public MapTypeEntity getMapTypeEntity() {
+        return mapTypeEntity;
+    }
+
+    public void setMapTypeEntity(MapTypeEntity mapTypeEntity) {
+        this.mapTypeEntity = mapTypeEntity;
+    }
 }

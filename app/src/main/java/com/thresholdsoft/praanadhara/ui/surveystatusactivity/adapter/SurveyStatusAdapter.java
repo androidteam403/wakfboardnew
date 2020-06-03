@@ -20,8 +20,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity;
 import com.thresholdsoft.praanadhara.databinding.AdapterSurveyStatusBinding;
-import com.thresholdsoft.praanadhara.ui.surveylistactivity.model.FarmersResponse;
-import com.thresholdsoft.praanadhara.ui.surveylistactivity.model.SurveyModel;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusMvpView;
 
 import java.util.ArrayList;
@@ -98,9 +96,9 @@ public class SurveyStatusAdapter extends RecyclerView.Adapter<SurveyStatusAdapte
         //GpsTracker is helper class to get the details for current location latitude and longitude.
         LatLng location = new LatLng(17.2942063, 78.5675261);
         map = googleMap;
-        map.addMarker(new MarkerOptions().position(location).title("Marker position"));
+        map.addMarker(new MarkerOptions().position(location));
         map.moveCamera(CameraUpdateFactory.newLatLng(location));
-        map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

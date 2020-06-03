@@ -105,7 +105,7 @@ public class ApplicationModule {
     @Provides
     public OkHttpClient provideClient() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         return new OkHttpClient.Builder().addInterceptor(interceptor).addInterceptor(new TokenInterceptor(mApplication)).addInterceptor(chain -> {
             Request request = chain.request();

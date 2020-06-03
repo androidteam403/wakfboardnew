@@ -4,6 +4,8 @@ import android.location.Location;
 
 import com.thresholdsoft.praanadhara.data.DataManager;
 import com.thresholdsoft.praanadhara.data.db.model.Survey;
+import com.thresholdsoft.praanadhara.data.network.pojo.SurveySaveReq;
+import com.thresholdsoft.praanadhara.data.network.pojo.SurveyStartReq;
 import com.thresholdsoft.praanadhara.ui.base.BasePresenter;
 import com.thresholdsoft.praanadhara.ui.surveylistactivity.SurveyListMvpPresenter;
 import com.thresholdsoft.praanadhara.ui.surveylistactivity.SurveyListMvpView;
@@ -38,5 +40,39 @@ public class SurveyTrackPresenter<V extends SurveyTrackMvpView> extends BasePres
             //  distance = locations.get(0).distanceTo(locations.get((locations.size()-1)))/1609.344;   // in miles
         }
         return String.format("%.2f",distance)+ " KM";
+    }
+
+    @Override
+    public void saveSurvey(SurveySaveReq surveySaveReq) {
+        getCompositeDisposable().add(getDataManager()
+                .saveSurvey(surveySaveReq)
+                .subscribeOn(getSchedulerProvider().io())
+                .observeOn(getSchedulerProvider().ui())
+                .subscribe(blogResponse -> {
+                    if (blogResponse != null && blogResponse.getData() != null && blogResponse.getSuccess()) {
+                        submitSurvey(surveySaveReq.getSurvey());
+                    }
+                    getMvpView().hideLoading();
+                }, throwable -> {
+                    getMvpView().hideLoading();
+                    handleApiError(throwable);
+                }));
+    }
+
+    @Override
+    public void submitSurvey(SurveySaveReq.SurveyEntity landLocationEntity) {
+        getCompositeDisposable().add(getDataManager()
+                .submitSurvey(landLocationEntity)
+                .subscribeOn(getSchedulerProvider().io())
+                .observeOn(getSchedulerProvider().ui())
+                .subscribe(blogResponse -> {
+                    if (blogResponse != null && blogResponse.getData() != null && blogResponse.getSuccess()) {
+                        getMvpView().surveySubmitSuccess();
+                    }
+                    getMvpView().hideLoading();
+                }, throwable -> {
+                    getMvpView().hideLoading();
+                    handleApiError(throwable);
+                }));
     }
 }

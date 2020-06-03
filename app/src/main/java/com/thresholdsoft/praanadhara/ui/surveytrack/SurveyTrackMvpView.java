@@ -13,4 +13,6 @@ public interface SurveyTrackMvpView extends MvpView {
     void onClickStopBtn();
 
     void onClickPointBtn();
+
+    void surveySubmitSuccess();
 }

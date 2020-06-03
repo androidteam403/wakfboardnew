@@ -64,7 +64,13 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
 
     @Override
     public void startSurvey(RowsEntity surveyModel) {
-        startActivity(SurveyTrackingActivity.getIntent(this, surveyModel));
+        mpresenter.startSurvey(surveyModel);
+
+    }
+
+    @Override
+    public void startSurveySuccess(RowsEntity rowsEntity) {
+        startActivity(SurveyTrackingActivity.getIntent(this, rowsEntity));
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 }
