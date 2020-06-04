@@ -1,6 +1,8 @@
 package com.thresholdsoft.praanadhara.ui.surveystatusactivity.adapter;
 
 import android.app.Activity;
+import android.graphics.Color;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,13 +21,25 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.thresholdsoft.praanadhara.BuildConfig;
 import com.thresholdsoft.praanadhara.R;
+import com.thresholdsoft.praanadhara.data.network.pojo.MapTypeEntity;
 import com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity;
 import com.thresholdsoft.praanadhara.databinding.AdapterSurveyStatusBinding;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusMvpView;
+import com.thresholdsoft.praanadhara.ui.surveytrack.model.SurveyModel;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 
 public class SurveyStatusAdapter extends RecyclerView.Adapter<SurveyStatusAdapter.ViewHolder> implements OnMapReadyCallback {
 
@@ -33,7 +47,7 @@ public class SurveyStatusAdapter extends RecyclerView.Adapter<SurveyStatusAdapte
     private SurveyStatusMvpView mPresenter;
     private Activity activity;
     private GoogleMap map;
-    private Marker marker;
+    private RowsEntity surveyModel;
 
     public SurveyStatusAdapter(Activity activity, ArrayList<RowsEntity> surveyModelArrayList,
                                SurveyStatusMvpView mPresenter) {
@@ -52,7 +66,7 @@ public class SurveyStatusAdapter extends RecyclerView.Adapter<SurveyStatusAdapte
 
     @Override
     public void onBindViewHolder(SurveyStatusAdapter.ViewHolder holder, int position) {
-        final RowsEntity surveyModel = surveyModelArrayList.get(position);
+        surveyModel = surveyModelArrayList.get(position);
         holder.adapterSurveyStatusBinding.setSurvey(surveyModel);
         holder.adapterSurveyStatusBinding.setCallback(mPresenter);
         if (surveyModel.getPic().size() > 0) {
@@ -76,6 +90,10 @@ public class SurveyStatusAdapter extends RecyclerView.Adapter<SurveyStatusAdapte
                 holder.adapterSurveyStatusBinding.polygonRadio.setChecked(false);
                 holder.adapterSurveyStatusBinding.pointsRadio.setChecked(false);
                 surveyModel.setSurveyType(1);
+                MapTypeEntity mapTypeEntity = new MapTypeEntity();
+                mapTypeEntity.setUid("3131041D77AB7EF652D5A4C357B988BB");
+                mapTypeEntity.setName("Line");
+                surveyModel.setMapTypeEntity(mapTypeEntity);
             }
         });
         holder.adapterSurveyStatusBinding.pointsRadio.setOnClickListener(new View.OnClickListener() {
@@ -85,6 +103,10 @@ public class SurveyStatusAdapter extends RecyclerView.Adapter<SurveyStatusAdapte
                 holder.adapterSurveyStatusBinding.linesRadio.setChecked(false);
                 holder.adapterSurveyStatusBinding.polygonRadio.setChecked(false);
                 surveyModel.setSurveyType(0);
+                MapTypeEntity mapTypeEntity = new MapTypeEntity();
+                mapTypeEntity.setUid("63471DD49DCCC9FC18B11014EB119E6E");
+                mapTypeEntity.setName("Point");
+                surveyModel.setMapTypeEntity(mapTypeEntity);
             }
         });
         holder.adapterSurveyStatusBinding.polygonRadio.setOnClickListener(new View.OnClickListener() {
@@ -94,22 +116,41 @@ public class SurveyStatusAdapter extends RecyclerView.Adapter<SurveyStatusAdapte
                 holder.adapterSurveyStatusBinding.linesRadio.setChecked(false);
                 holder.adapterSurveyStatusBinding.pointsRadio.setChecked(false);
                 surveyModel.setSurveyType(2);
+                MapTypeEntity mapTypeEntity = new MapTypeEntity();
+                mapTypeEntity.setUid("555CB32FDE8B6C3CAB1D7E69A9FE1ED0");
+                mapTypeEntity.setName("Polygon");
+                surveyModel.setMapTypeEntity(mapTypeEntity);
             }
         });
-
     }
-
+    private Polyline runningPathPolyline;
+    private int polylineWidth = 10;
+    List<LatLng> polygonPoints = new ArrayList<>();
     @Override
     public void onMapReady(GoogleMap googleMap) {
         MapsInitializer.initialize(activity);
         //LatLng class is google provided class to get latiude and longitude of location.
         //GpsTracker is helper class to get the details for current location latitude and longitude.
-        LatLng location = new LatLng(17.2942063, 78.5675261);
         map = googleMap;
-        map.addMarker(new MarkerOptions().position(location).title("Marker position"));
-        map.moveCamera(CameraUpdateFactory.newLatLng(location));
-        map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        if(surveyModel != null && !TextUtils.isEmpty(surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().getLatlongs())){
+            Gson gson = new Gson();
+            Type listType = new TypeToken<List<SurveyModel>>(){}.getType();
+            List<SurveyModel> posts = gson.fromJson(surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().getLatlongs(), listType);
+            for(SurveyModel model : posts){
+                LatLng location = new LatLng(model.getLatitude(), model.getLongitude());
+                polygonPoints.add(location);
+            }
+            runningPathPolyline = map.addPolyline(new PolylineOptions()
+                    .addAll(polygonPoints).width(polylineWidth).color(Color.parseColor("#801B60FE")).geodesic(true));
+            runningPathPolyline.setPattern(null);
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(polygonPoints.get(0), 21.5f));
+        }else{
+            LatLng location = new LatLng(surveyModel.getCurrentLatitude(), surveyModel.getCurrentLongitude());
+            map.addMarker(new MarkerOptions().position(location));
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(location,21.5f));
+        }
 
+        map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

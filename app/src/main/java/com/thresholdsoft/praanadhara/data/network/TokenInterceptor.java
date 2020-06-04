@@ -2,6 +2,7 @@ package com.thresholdsoft.praanadhara.data.network;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.thresholdsoft.praanadhara.root.AppConstant;
 
@@ -38,7 +39,7 @@ public class TokenInterceptor implements Interceptor {
                 .header(AUTHORIZATION, "bearer " + authToken)
                 .method(original.method(), original.body());
         request = requestBuilder.build();
-
+        Log.e("Token", "bearer " + authToken);
         return chain.proceed(request);
     }
 }

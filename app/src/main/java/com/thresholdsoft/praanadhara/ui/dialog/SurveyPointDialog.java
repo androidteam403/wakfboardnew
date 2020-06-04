@@ -68,4 +68,11 @@ public class SurveyPointDialog {
         editQuantityDialogBinding.dialogButtonNO.setText(negative);
     }
 
+    public String getPointName(){
+        return editQuantityDialogBinding.editNameEditText.getText().toString();
+    }
+
+    public String getPointDescription(){
+        return editQuantityDialogBinding.editDescriptionEditText.getText().toString();
+    }
 }

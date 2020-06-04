@@ -31,7 +31,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     private RowsEntity surveyModel;
     private ArrayList<RowsEntity> surveyModelArrayList = new ArrayList<>();
     CustomActionbarBinding customActionbarBinding;
-
+    public static final int REQUEST_CODE = 2;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +64,27 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
 
     @Override
     public void startSurvey(RowsEntity surveyModel) {
-        startActivity(SurveyTrackingActivity.getIntent(this, surveyModel));
+        mpresenter.startSurvey(surveyModel);
+
+    }
+
+    @Override
+    public void startSurveySuccess(RowsEntity rowsEntity) {
+        startActivityForResult(SurveyTrackingActivity.getIntent(this, rowsEntity),REQUEST_CODE);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE  && resultCode  == RESULT_OK) {
+            boolean requiredValue = data.getBooleanExtra("surveySubmit",false);
+            if(requiredValue){
+                Intent intent = getIntent();
+                intent.putExtra("surveySubmit", requiredValue);
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        }
     }
 }

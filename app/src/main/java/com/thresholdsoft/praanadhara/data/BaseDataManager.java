@@ -7,6 +7,11 @@ import com.thresholdsoft.praanadhara.data.db.model.Survey;
 import com.thresholdsoft.praanadhara.data.network.RestApiHelper;
 import com.thresholdsoft.praanadhara.data.network.pojo.FarmerSurveyList;
 import com.thresholdsoft.praanadhara.data.network.pojo.FeedItem;
+import com.thresholdsoft.praanadhara.data.network.pojo.LoginRequest;
+import com.thresholdsoft.praanadhara.data.network.pojo.SurveySaveReq;
+import com.thresholdsoft.praanadhara.data.network.pojo.SurveyStartReq;
+import com.thresholdsoft.praanadhara.data.network.pojo.SurveyStartRes;
+import com.thresholdsoft.praanadhara.data.network.pojo.UserProfile;
 import com.thresholdsoft.praanadhara.data.network.pojo.PicEntity;
 import com.thresholdsoft.praanadhara.data.network.pojo.WrapperResponse;
 import com.thresholdsoft.praanadhara.data.prefs.PreferencesHelper;
@@ -105,6 +110,21 @@ public class BaseDataManager implements DataManager {
     @Override
     public Single<FarmerSurveyList> doFarmerListApiCall(Object request) {
         return mApiHelper.doFarmerListApiCall(request);
+    }
+
+    @Override
+    public Single<WrapperResponse<SurveyStartRes>> startSurvey(SurveyStartReq surveyStartReq) {
+        return mApiHelper.startSurvey(surveyStartReq);
+    }
+
+    @Override
+    public Single<WrapperResponse<SurveyStartRes>> saveSurvey(SurveySaveReq surveySaveReq) {
+        return mApiHelper.saveSurvey(surveySaveReq);
+    }
+
+    @Override
+    public Single<WrapperResponse<SurveyStartRes>> submitSurvey(SurveySaveReq.SurveyEntity locationEntity) {
+        return mApiHelper.submitSurvey(locationEntity);
     }
 
     @Override

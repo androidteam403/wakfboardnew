@@ -9,6 +9,9 @@
             type="com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity" />
 
         <variable
+            name="presenterCallback"
+            type="com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusPresenter" />
+        <variable
             name="callback"
             type="com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusMvpView" />
     </data>
