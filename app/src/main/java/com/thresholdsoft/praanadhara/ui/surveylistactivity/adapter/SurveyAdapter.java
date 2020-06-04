@@ -51,7 +51,7 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
         holder.adapterSurveyListBinding.setSurvey(farmerModel);
         if (farmerModel.getPic().size() > 0) {
             Glide.with(activity).load(BuildConfig.IMAGE_URL + farmerModel.getPic().get(0).getPath()).
-                    placeholder(R.drawable.farmer).into(holder.adapterSurveyListBinding.image);
+                    placeholder(R.drawable.placeholder).into(holder.adapterSurveyListBinding.image);
         }
         holder.adapterSurveyListBinding.takeSurvey.setOnClickListener(new View.OnClickListener() {
             @Override

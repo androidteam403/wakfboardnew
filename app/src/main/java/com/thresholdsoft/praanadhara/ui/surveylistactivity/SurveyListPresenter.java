@@ -27,6 +27,7 @@ public class SurveyListPresenter<V extends SurveyListMvpView> extends BasePresen
 
     @Override
     public void farmersListApiCall() {
+
         getCompositeDisposable().add(getDataManager()
                 .doFarmerListApiCall(new JsonObject())
                 .subscribeOn(getSchedulerProvider().io())

@@ -19,6 +19,7 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -68,11 +69,12 @@ public class SurveyStatusAdapter extends RecyclerView.Adapter<SurveyStatusAdapte
         surveyModel = surveyModelArrayList.get(position);
         holder.adapterSurveyStatusBinding.setSurvey(surveyModel);
         holder.adapterSurveyStatusBinding.setCallback(mPresenter);
-        if(surveyModel.getPic().size() > 0) {
+        if (surveyModel.getPic().size() > 0) {
             Glide.with(activity).load(BuildConfig.IMAGE_URL + surveyModel.getPic().get(0).getPath()).placeholder(R.drawable.
-                    farmer).into(holder.adapterSurveyStatusBinding.image);
+                    placeholder).into(holder.adapterSurveyStatusBinding.image);
         }
-        SupportMapFragment mapFragment = (SupportMapFragment) ((FragmentActivity) activity).getSupportFragmentManager().findFragmentById(R.id.map);
+        SupportMapFragment mapFragment = (SupportMapFragment) ((FragmentActivity) activity).
+                getSupportFragmentManager().findFragmentById(R.id.map);
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
         }
