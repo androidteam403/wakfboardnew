@@ -4,6 +4,7 @@
 
     <data>
 
+        <import type="android.view.View"/>
         <variable
             name="survey"
             type="com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity" />
@@ -179,7 +180,8 @@
                             android:layout_marginBottom="@dimen/twenty_five_dp"
                             android:text="@string/carry_out_your_entire_project_from_start_to_finish_and_report_to_stakeholders_using_one_solution_without_worrying_about_piles_of_paperwork"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/text_dimen_12" />
+                            android:textSize="@dimen/text_dimen_12"
+                            android:visibility="gone"/>
 
                         <androidx.fragment.app.FragmentContainerView
                             android:id="@+id/map"
@@ -200,7 +202,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/twenty_dp"
                 android:orientation="horizontal"
-                android:weightSum="3">
+                android:weightSum="3"
+                android:visibility="@{survey.farmerLand.surveyLandLocation.submitted.uid == null ? View.VISIBLE : View.GONE}">
 
                 <LinearLayout
                     android:layout_width="@dimen/zero_dp"
@@ -301,7 +304,8 @@
                 android:gravity="center"
                 android:onClick="@{()-> callback.startSurvey(survey)}"
                 android:text="@string/label_start_survey"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:visibility="@{survey.farmerLand.surveyLandLocation.submitted.uid == null ? View.VISIBLE : View.GONE}"/>
         </LinearLayout>
     </RelativeLayout>
 </layout>
