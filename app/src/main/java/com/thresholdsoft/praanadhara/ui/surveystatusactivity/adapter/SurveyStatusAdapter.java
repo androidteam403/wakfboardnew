@@ -18,9 +18,15 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.Dash;
+import com.google.android.gms.maps.model.Dot;
+import com.google.android.gms.maps.model.Gap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PatternItem;
+import com.google.android.gms.maps.model.Polygon;
+import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.gson.Gson;
@@ -39,6 +45,7 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class SurveyStatusAdapter extends RecyclerView.Adapter<SurveyStatusAdapter.ViewHolder> implements OnMapReadyCallback {
@@ -48,6 +55,13 @@ public class SurveyStatusAdapter extends RecyclerView.Adapter<SurveyStatusAdapte
     private Activity activity;
     private GoogleMap map;
     private RowsEntity surveyModel;
+
+    private static final int PATTERN_DASH_LENGTH_PX = 20;
+    private static final int PATTERN_GAP_LENGTH_PX = 20;
+    private static final PatternItem DOT = new Dot();
+    private static final PatternItem DASH = new Dash(PATTERN_DASH_LENGTH_PX);
+    private static final PatternItem GAP = new Gap(PATTERN_GAP_LENGTH_PX);
+    private static final List<PatternItem> PATTERN_POLYLINE_DOTTED = Arrays.asList(GAP, DOT);
 
     public SurveyStatusAdapter(Activity activity, ArrayList<RowsEntity> surveyModelArrayList,
                                SurveyStatusMvpView mPresenter) {
@@ -124,6 +138,7 @@ public class SurveyStatusAdapter extends RecyclerView.Adapter<SurveyStatusAdapte
         });
     }
     private Polyline runningPathPolyline;
+    private Polygon runningPathPolygon;
     private int polylineWidth = 10;
     List<LatLng> polygonPoints = new ArrayList<>();
     @Override
@@ -139,11 +154,32 @@ public class SurveyStatusAdapter extends RecyclerView.Adapter<SurveyStatusAdapte
             for(SurveyModel model : posts){
                 LatLng location = new LatLng(model.getLatitude(), model.getLongitude());
                 polygonPoints.add(location);
+                if(model.isPoint()){
+                    map.addMarker(new MarkerOptions().title(model.getName())
+                            .position(location)
+                            .flat(true)
+                            .anchor(0.5f, 0.5f));
+                }
             }
-            runningPathPolyline = map.addPolyline(new PolylineOptions()
-                    .addAll(polygonPoints).width(polylineWidth).color(Color.parseColor("#801B60FE")).geodesic(true));
-            runningPathPolyline.setPattern(null);
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(polygonPoints.get(0), 21.5f));
+            if(surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().getMapType().getName().equalsIgnoreCase("Point")){
+                runningPathPolyline = map.addPolyline(new PolylineOptions()
+                        .clickable(true)
+                        .addAll(polygonPoints).width(polylineWidth).color(Color.parseColor("#801B60FE")).geodesic(true));
+                runningPathPolyline.setPattern(PATTERN_POLYLINE_DOTTED);
+            }else if(surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().getMapType().getName().equalsIgnoreCase("Line")){
+                runningPathPolyline = map.addPolyline(new PolylineOptions()
+                        .addAll(polygonPoints).width(polylineWidth).color(Color.parseColor("#801B60FE")).geodesic(true));
+                runningPathPolyline.setPattern(null);
+            }else if(surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().getMapType().getName().equalsIgnoreCase("Polygon")){
+                runningPathPolygon = map.addPolygon(new PolygonOptions()
+                        .addAll(polygonPoints));
+                runningPathPolygon.setStrokeColor(Color.BLUE);
+                runningPathPolygon.setFillColor(Color.argb(20, 0, 255, 0));
+            }
+
+            if(polygonPoints.size() > 0) {
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(polygonPoints.get(0), 21.5f));
+            }
         }else{
             LatLng location = new LatLng(surveyModel.getCurrentLatitude(), surveyModel.getCurrentLongitude());
             map.addMarker(new MarkerOptions().position(location));
