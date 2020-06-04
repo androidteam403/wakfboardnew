@@ -17,13 +17,12 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.thresholdsoft.praanadhara.BuildConfig;
 import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity;
 import com.thresholdsoft.praanadhara.databinding.AdapterSurveyStatusBinding;
-import com.thresholdsoft.praanadhara.ui.surveylistactivity.model.FarmersResponse;
-import com.thresholdsoft.praanadhara.ui.surveylistactivity.model.SurveyModel;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusMvpView;
 
 import java.util.ArrayList;
@@ -34,6 +33,7 @@ public class SurveyStatusAdapter extends RecyclerView.Adapter<SurveyStatusAdapte
     private SurveyStatusMvpView mPresenter;
     private Activity activity;
     private GoogleMap map;
+    private Marker marker;
 
     public SurveyStatusAdapter(Activity activity, ArrayList<RowsEntity> surveyModelArrayList,
                                SurveyStatusMvpView mPresenter) {
@@ -55,11 +55,12 @@ public class SurveyStatusAdapter extends RecyclerView.Adapter<SurveyStatusAdapte
         final RowsEntity surveyModel = surveyModelArrayList.get(position);
         holder.adapterSurveyStatusBinding.setSurvey(surveyModel);
         holder.adapterSurveyStatusBinding.setCallback(mPresenter);
-        if(surveyModel.getPic().size() > 0) {
+        if (surveyModel.getPic().size() > 0) {
             Glide.with(activity).load(BuildConfig.IMAGE_URL + surveyModel.getPic().get(0).getPath()).placeholder(R.drawable.
-                    farmer).into(holder.adapterSurveyStatusBinding.image);
+                    placeholder).into(holder.adapterSurveyStatusBinding.image);
         }
-        SupportMapFragment mapFragment = (SupportMapFragment) ((FragmentActivity) activity).getSupportFragmentManager().findFragmentById(R.id.map);
+        SupportMapFragment mapFragment = (SupportMapFragment) ((FragmentActivity) activity).
+                getSupportFragmentManager().findFragmentById(R.id.map);
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
         }
@@ -95,6 +96,7 @@ public class SurveyStatusAdapter extends RecyclerView.Adapter<SurveyStatusAdapte
                 surveyModel.setSurveyType(2);
             }
         });
+
     }
 
     @Override
@@ -107,6 +109,7 @@ public class SurveyStatusAdapter extends RecyclerView.Adapter<SurveyStatusAdapte
         map.addMarker(new MarkerOptions().position(location).title("Marker position"));
         map.moveCamera(CameraUpdateFactory.newLatLng(location));
         map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
