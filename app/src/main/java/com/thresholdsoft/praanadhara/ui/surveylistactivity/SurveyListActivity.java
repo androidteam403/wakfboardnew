@@ -37,12 +37,9 @@ import com.thresholdsoft.praanadhara.BuildConfig;
 import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity;
 import com.thresholdsoft.praanadhara.databinding.ActivitySurveyListBinding;
-import com.thresholdsoft.praanadhara.services.LocationMonitoringService;
 import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
 import com.thresholdsoft.praanadhara.ui.surveylistactivity.adapter.SurveyAdapter;
-import com.thresholdsoft.praanadhara.ui.surveylistactivity.model.FarmersResponse;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusActivity;
-import com.thresholdsoft.praanadhara.ui.surveytrack.SurveyTrackingActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +64,7 @@ public class SurveyListActivity extends BaseActivity implements SurveyListMvpVie
     private final static int REQUEST_CHECK_SETTINGS_GPS = 0x1;
     private double latitude;
     private double longitude;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,7 +91,7 @@ public class SurveyListActivity extends BaseActivity implements SurveyListMvpVie
         farmerModel.setCurrentLongitude(longitude);
         Intent intent = new Intent(this, SurveyStatusActivity.class);
         intent.putExtra("surveyData", farmerModel);
-        startActivityForResult(intent,REQUEST_CODE);
+        startActivityForResult(intent, REQUEST_CODE);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
@@ -102,6 +100,13 @@ public class SurveyListActivity extends BaseActivity implements SurveyListMvpVie
         surveyModelArrayList.clear();
         surveyModelArrayList.addAll(rowsEntity);
         surveyAdapter.notifyDataSetChanged();
+//        if (surveyModelArrayList.size() > 0) {
+//            if (surveyModelArrayList.get(0).getFarmerLand().getSurveyLandLocation().getSubmitted().getUid() != null) {
+//                if (surveyModelArrayList.get(0).getFarmerLand().getSurveyLandLocation().getSubmitted().getUid().equalsIgnoreCase("yes")) {
+//                    activitySurveyListBinding.itemGreenCount.setText(String.valueOf(surveyModelArrayList.size()));
+//                }
+//            }
+//        }
     }
 
     @Override
@@ -112,13 +117,13 @@ public class SurveyListActivity extends BaseActivity implements SurveyListMvpVie
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-            super.onActivityResult(requestCode, resultCode, data);
-            if (requestCode == REQUEST_CODE  && resultCode  == RESULT_OK) {
-                boolean requiredValue = data.getBooleanExtra("surveySubmit",false);
-                if(requiredValue){
-                    mpresenter.farmersListApiCall();
-                }
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
+            boolean requiredValue = data.getBooleanExtra("surveySubmit", false);
+            if (requiredValue) {
+                mpresenter.farmersListApiCall();
             }
+        }
     }
 
     @Override
@@ -256,7 +261,8 @@ public class SurveyListActivity extends BaseActivity implements SurveyListMvpVie
     /**
      * Shows a {@link Snackbar}.
      *
-     * @param listener         The listener associated with the Snackbar action.*/
+     * @param listener The listener associated with the Snackbar action.
+     */
     private void showSnackbar(View.OnClickListener listener) {
         Snackbar.make(
                 findViewById(android.R.id.content),

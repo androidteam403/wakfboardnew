@@ -53,8 +53,8 @@
 
                         <ImageView
                             android:id="@+id/image"
-                            android:layout_width="@dimen/fifty_five_dp"
-                            android:layout_height="@dimen/seventy_five_dp"
+                            android:layout_width="@dimen/one_hundred_dp"
+                            android:layout_height="match_parent"
                             android:contentDescription="@string/app_name"
                             android:src="@drawable/placeholder" />
 
