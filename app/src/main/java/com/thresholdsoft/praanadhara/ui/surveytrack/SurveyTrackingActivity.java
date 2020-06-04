@@ -17,7 +17,6 @@ import android.os.SystemClock;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -55,17 +54,15 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
-import com.google.maps.android.SphericalUtil;
 import com.thresholdsoft.praanadhara.BuildConfig;
 import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity;
 import com.thresholdsoft.praanadhara.data.network.pojo.SurveySaveReq;
-import com.thresholdsoft.praanadhara.data.network.pojo.SurveyStartReq;
+import com.thresholdsoft.praanadhara.data.network.pojo.SurveyStartRes;
 import com.thresholdsoft.praanadhara.databinding.ActivitySurveyTrackingBinding;
 import com.thresholdsoft.praanadhara.services.LocationMonitoringService;
 import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
 import com.thresholdsoft.praanadhara.ui.dialog.SurveyPointDialog;
-import com.thresholdsoft.praanadhara.ui.surveylistactivity.model.FarmersResponse;
 import com.thresholdsoft.praanadhara.ui.surveytrack.model.SurveyModel;
 
 import java.util.ArrayList;
@@ -661,14 +658,8 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
     @Override
     public void onClickStopBtn() {
         isStartLogging = false;
-        SurveySaveReq surveySaveReq = new SurveySaveReq();
-        surveySaveReq.setDescription("");
-        Gson gson = new Gson();
-        String json = gson.toJson(surveyModelArrayList);
-        surveySaveReq.setLatlongs(json);
-        surveySaveReq.setMapType(surveyModel.getMapTypeEntity());
-        surveySaveReq.setSurvey(new SurveySaveReq.SurveyEntity(surveyModel.getStartSurveyUid()));
-        mpresenter.saveSurvey(surveySaveReq);
+        mpresenter.submitSurvey(new SurveySaveReq.SurveyEntity(surveyModel.getStartSurveyUid()));
+
         //finish();
     }
 
@@ -697,7 +688,23 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
     }
 
     @Override
-    public void surveySubmitSuccess() {
+    public void surveySubmitSuccess(SurveyStartRes data) {
+        SurveySaveReq surveySaveReq = new SurveySaveReq();
+        surveySaveReq.setDescription("");
+        Gson gson = new Gson();
+        String json = gson.toJson(surveyModelArrayList);
+        surveySaveReq.setLatlongs(json);
+        surveySaveReq.setMapType(surveyModel.getMapTypeEntity());
+        surveySaveReq.setSurvey(new SurveySaveReq.SurveyEntity(data.getUid()));
+        mpresenter.saveSurvey(surveySaveReq);
+        //finish();
+    }
+
+    @Override
+    public void surveySaveSuccess() {
+        Intent intent = getIntent();
+        intent.putExtra("surveySubmit", true);
+        setResult(RESULT_OK, intent);
         finish();
     }
 

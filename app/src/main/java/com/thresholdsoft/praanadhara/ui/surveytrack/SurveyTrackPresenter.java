@@ -50,7 +50,7 @@ public class SurveyTrackPresenter<V extends SurveyTrackMvpView> extends BasePres
                 .observeOn(getSchedulerProvider().ui())
                 .subscribe(blogResponse -> {
                     if (blogResponse != null && blogResponse.getData() != null && blogResponse.getSuccess()) {
-                        submitSurvey(surveySaveReq.getSurvey());
+                        getMvpView().surveySaveSuccess();
                     }
                     getMvpView().hideLoading();
                 }, throwable -> {
@@ -67,7 +67,7 @@ public class SurveyTrackPresenter<V extends SurveyTrackMvpView> extends BasePres
                 .observeOn(getSchedulerProvider().ui())
                 .subscribe(blogResponse -> {
                     if (blogResponse != null && blogResponse.getData() != null && blogResponse.getSuccess()) {
-                        getMvpView().surveySubmitSuccess();
+                        getMvpView().surveySubmitSuccess(blogResponse.getData());
                     }
                     getMvpView().hideLoading();
                 }, throwable -> {
