@@ -22,7 +22,6 @@ import com.google.android.gms.maps.model.Dash;
 import com.google.android.gms.maps.model.Dot;
 import com.google.android.gms.maps.model.Gap;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PatternItem;
 import com.google.android.gms.maps.model.Polygon;
@@ -38,10 +37,6 @@ import com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity;
 import com.thresholdsoft.praanadhara.databinding.AdapterSurveyStatusBinding;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusMvpView;
 import com.thresholdsoft.praanadhara.ui.surveytrack.model.SurveyModel;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -137,53 +132,58 @@ public class SurveyStatusAdapter extends RecyclerView.Adapter<SurveyStatusAdapte
             }
         });
     }
+
     private Polyline runningPathPolyline;
     private Polygon runningPathPolygon;
     private int polylineWidth = 10;
     List<LatLng> polygonPoints = new ArrayList<>();
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         MapsInitializer.initialize(activity);
         //LatLng class is google provided class to get latiude and longitude of location.
         //GpsTracker is helper class to get the details for current location latitude and longitude.
         map = googleMap;
-        if(surveyModel != null && !TextUtils.isEmpty(surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().getLatlongs())){
+        if (surveyModel != null && !TextUtils.isEmpty(surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().getLatlongs())) {
             Gson gson = new Gson();
-            Type listType = new TypeToken<List<SurveyModel>>(){}.getType();
+            Type listType = new TypeToken<List<SurveyModel>>() {
+            }.getType();
             List<SurveyModel> posts = gson.fromJson(surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().getLatlongs(), listType);
-            for(SurveyModel model : posts){
+            for (SurveyModel model : posts) {
                 LatLng location = new LatLng(model.getLatitude(), model.getLongitude());
                 polygonPoints.add(location);
-                if(model.isPoint()){
+                if (model.isPoint()) {
                     map.addMarker(new MarkerOptions().title(model.getName())
                             .position(location)
                             .flat(true)
                             .anchor(0.5f, 0.5f));
                 }
             }
-            if(surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().getMapType().getName().equalsIgnoreCase("Point")){
-                runningPathPolyline = map.addPolyline(new PolylineOptions()
-                        .clickable(true)
-                        .addAll(polygonPoints).width(polylineWidth).color(Color.parseColor("#801B60FE")).geodesic(true));
-                runningPathPolyline.setPattern(PATTERN_POLYLINE_DOTTED);
-            }else if(surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().getMapType().getName().equalsIgnoreCase("Line")){
-                runningPathPolyline = map.addPolyline(new PolylineOptions()
-                        .addAll(polygonPoints).width(polylineWidth).color(Color.parseColor("#801B60FE")).geodesic(true));
-                runningPathPolyline.setPattern(null);
-            }else if(surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().getMapType().getName().equalsIgnoreCase("Polygon")){
-                runningPathPolygon = map.addPolygon(new PolygonOptions()
-                        .addAll(polygonPoints));
-                runningPathPolygon.setStrokeColor(Color.BLUE);
-                runningPathPolygon.setFillColor(Color.argb(20, 0, 255, 0));
-            }
+            if (surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().getMapType().getName() != null) {
+                if (surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().getMapType().getName().equalsIgnoreCase("Point")) {
+                    runningPathPolyline = map.addPolyline(new PolylineOptions()
+                            .clickable(true)
+                            .addAll(polygonPoints).width(polylineWidth).color(Color.parseColor("#801B60FE")).geodesic(true));
+                    runningPathPolyline.setPattern(PATTERN_POLYLINE_DOTTED);
 
-            if(polygonPoints.size() > 0) {
+                } else if (surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().getMapType().getName().equalsIgnoreCase("Line")) {
+                    runningPathPolyline = map.addPolyline(new PolylineOptions()
+                            .addAll(polygonPoints).width(polylineWidth).color(Color.parseColor("#801B60FE")).geodesic(true));
+                    runningPathPolyline.setPattern(null);
+                } else if (surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().getMapType().getName().equalsIgnoreCase("Polygon")) {
+                    runningPathPolygon = map.addPolygon(new PolygonOptions()
+                            .addAll(polygonPoints));
+                    runningPathPolygon.setStrokeColor(Color.BLUE);
+                    runningPathPolygon.setFillColor(Color.argb(20, 0, 255, 0));
+                }
+            }
+            if (polygonPoints.size() > 0) {
                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(polygonPoints.get(0), 21.5f));
             }
-        }else{
+        } else {
             LatLng location = new LatLng(surveyModel.getCurrentLatitude(), surveyModel.getCurrentLongitude());
             map.addMarker(new MarkerOptions().position(location));
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(location,21.5f));
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 21.5f));
         }
 
         map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
