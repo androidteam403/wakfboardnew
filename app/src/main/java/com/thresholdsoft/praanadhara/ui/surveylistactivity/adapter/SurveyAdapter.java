@@ -5,12 +5,11 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.thresholdsoft.praanadhara.BuildConfig;
 import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity;
 import com.thresholdsoft.praanadhara.databinding.AdapterSurveyListBinding;
@@ -28,7 +27,6 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
     private ArrayList<RowsEntity> surveyModelArrayList;
     private SurveyListMvpPresenter<SurveyListMvpView> mPresenter;
     private Activity activity;
-
 
 
     public SurveyAdapter(Activity activity, ArrayList<RowsEntity> surveyModelArrayList,
@@ -52,11 +50,10 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
         holder.adapterSurveyListBinding.setSurvey(farmerModel);
 
         if (farmerModel.getFarmerLand().getSurveyLandLocation().getSubmitted().getUid() != null) {
-            if (farmerModel.getFarmerLand().getSurveyLandLocation().getSubmitted().getUid().equalsIgnoreCase("null")) {
+            if (farmerModel.getFarmerLand().getSurveyLandLocation().getSubmitted().getUid() == null) {
                 holder.adapterSurveyListBinding.status.setText("New");
                 holder.adapterSurveyListBinding.takeSurveyText.setText("TAKE SURVEY");
-            }
-            if (farmerModel.getFarmerLand().getSurveyLandLocation().getSubmitted().getUid().equalsIgnoreCase("yes")) {
+            } else if (farmerModel.getFarmerLand().getSurveyLandLocation().getSubmitted().getUid().equalsIgnoreCase("yes")) {
                 holder.adapterSurveyListBinding.status.setText("Completed");
                 holder.adapterSurveyListBinding.takeSurveyText.setText("DONE");
                 holder.adapterSurveyListBinding.status.setTextColor(Color.parseColor("#0dbd00"));
@@ -80,8 +77,7 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
                 holder.adapterSurveyListBinding.date.setText(date);
                 holder.adapterSurveyListBinding.surveyDate.setVisibility(View.VISIBLE);
                 holder.adapterSurveyListBinding.surveyDate.setText(suveyDate);
-            }
-            if (farmerModel.getFarmerLand().getSurveyLandLocation().getSubmitted().getUid().equalsIgnoreCase("no")) {
+            } else if (farmerModel.getFarmerLand().getSurveyLandLocation().getSubmitted().getUid().equalsIgnoreCase("no")) {
                 holder.adapterSurveyListBinding.status.setText("In Progress");
                 holder.adapterSurveyListBinding.takeSurveyText.setText("CONTINUE");
                 holder.adapterSurveyListBinding.status.setTextColor(Color.parseColor("#f79f37"));

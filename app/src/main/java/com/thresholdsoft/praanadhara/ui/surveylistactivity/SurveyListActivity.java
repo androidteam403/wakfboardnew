@@ -84,7 +84,6 @@ public class SurveyListActivity extends BaseActivity implements SurveyListMvpVie
         RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(this);
         activitySurveyListBinding.recyclerSurveyList.setLayoutManager(mLayoutManager1);
         activitySurveyListBinding.recyclerSurveyList.setAdapter(surveyAdapter);
-
         mpresenter.farmersListApiCall();
     }
 
@@ -103,22 +102,15 @@ public class SurveyListActivity extends BaseActivity implements SurveyListMvpVie
         surveyModelArrayList.clear();
         surveyModelArrayList.addAll(rowsEntity);
         surveyAdapter.notifyDataSetChanged();
-        for(RowsEntity entity : rowsEntity){
-            if(entity.getFarmerLand().getSurveyLandLocation().getSubmitted().getUid()== null){
-                activitySurveyListBinding.getSurvey().setNewCount(activitySurveyListBinding.getSurvey().getNewCount()+1);
-            }else if(entity.getFarmerLand().getSurveyLandLocation().getSubmitted().getUid().equalsIgnoreCase("Yes")){
-                activitySurveyListBinding.getSurvey().setCompletedCount(activitySurveyListBinding.getSurvey().getCompletedCount()+1);
-            }else if(entity.getFarmerLand().getSurveyLandLocation().getSubmitted().getUid().equalsIgnoreCase("No")){
-                activitySurveyListBinding.getSurvey().setInProgressCount(activitySurveyListBinding.getSurvey().getInProgressCount()+1);
+        for (RowsEntity entity : rowsEntity) {
+            if (entity.getFarmerLand().getSurveyLandLocation().getSubmitted().getUid() == null) {
+                activitySurveyListBinding.getSurvey().setNewCount(activitySurveyListBinding.getSurvey().getNewCount() + 1);
+            } else if (entity.getFarmerLand().getSurveyLandLocation().getSubmitted().getUid().equalsIgnoreCase("Yes")) {
+                activitySurveyListBinding.getSurvey().setCompletedCount(activitySurveyListBinding.getSurvey().getCompletedCount() + 1);
+            } else if (entity.getFarmerLand().getSurveyLandLocation().getSubmitted().getUid().equalsIgnoreCase("No")) {
+                activitySurveyListBinding.getSurvey().setInProgressCount(activitySurveyListBinding.getSurvey().getInProgressCount() + 1);
             }
         }
-//        if (surveyModelArrayList.size() > 0) {
-//            if (surveyModelArrayList.get(0).getFarmerLand().getSurveyLandLocation().getSubmitted().getUid() != null) {
-//                if (surveyModelArrayList.get(0).getFarmerLand().getSurveyLandLocation().getSubmitted().getUid().equalsIgnoreCase("yes")) {
-//                    activitySurveyListBinding.itemGreenCount.setText(String.valueOf(surveyModelArrayList.size()));
-//                }
-//            }
-//        }
     }
 
     @Override
