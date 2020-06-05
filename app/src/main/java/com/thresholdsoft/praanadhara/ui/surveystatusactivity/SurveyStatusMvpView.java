@@ -8,4 +8,10 @@ public interface SurveyStatusMvpView extends MvpView {
     void startSurvey(RowsEntity surveyModel);
 
     void startSurveySuccess(RowsEntity rowsEntity);
+
+    void onpolygonRadioClick();
+
+    void onLinesRadioClick();
+
+    void onPointsRadioClick();
 }

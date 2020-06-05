@@ -35,14 +35,14 @@ public class SelectingFormActivity extends BaseActivity implements SelectingForm
 
     @Override
     public void onEnrollmentClick() {
-        Intent intent = new Intent(this, UserLoginActivity.class);
+        Intent intent = new Intent(this, SurveyListActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
     @Override
     public void onSurveyClick() {
-        Intent intent = new Intent(this, UserLoginActivity.class);
+        Intent intent = new Intent(this, SurveyListActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }

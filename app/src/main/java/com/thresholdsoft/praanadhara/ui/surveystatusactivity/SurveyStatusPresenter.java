@@ -1,6 +1,5 @@
 package com.thresholdsoft.praanadhara.ui.surveystatusactivity;
 
-import com.google.gson.JsonObject;
 import com.thresholdsoft.praanadhara.data.DataManager;
 import com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity;
 import com.thresholdsoft.praanadhara.data.network.pojo.SurveyStartReq;
@@ -38,5 +37,20 @@ public class SurveyStatusPresenter<V extends SurveyStatusMvpView> extends BasePr
                 }));
 
 
+    }
+
+    @Override
+    public void onpolygonRadioClick() {
+        getMvpView().onpolygonRadioClick();
+    }
+
+    @Override
+    public void onLinesRadioClick() {
+        getMvpView().onLinesRadioClick();
+    }
+
+    @Override
+    public void onPointsRadioClick() {
+        getMvpView().onPointsRadioClick();
     }
 }
