@@ -76,7 +76,7 @@ public class UserLoginPresenter<V extends UserLoginMvpView> extends BasePresente
                         getMvpView().onSucessfullLogin();
                         getMvpView().hideKeyboard();
                     } else {
-                        getMvpView().showMessage("" + response.body().getSuccess());
+                        getMvpView().showMessage("" + response.body().getMessage());
                     }
                 }
 
@@ -116,7 +116,7 @@ public class UserLoginPresenter<V extends UserLoginMvpView> extends BasePresente
                         getMvpView().navigateToSurveyListActivity();
                         getMvpView().hideKeyboard();
                     } else {
-                        getMvpView().showMessage("" + response.body().getSuccess());
+                        getMvpView().showMessage("" + response.body().getMessage());
                     }
                 }
 

@@ -57,4 +57,9 @@ public class SplashActivity extends BaseActivity implements SplashMvpView {
         startActivity(intent);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
+
+    @Override
+    public void anotherizedToken() {
+
+    }
 }

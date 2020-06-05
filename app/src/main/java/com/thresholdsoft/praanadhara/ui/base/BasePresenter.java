@@ -72,7 +72,8 @@ public class BasePresenter<V extends MvpView> implements MvpPresenter<V> {
         if (error instanceof HttpException) {
             switch (((HttpException) error).code()) {
                 case HttpsURLConnection.HTTP_UNAUTHORIZED:
-                    mMvpView.onError("Unauthorised UserProfile ");
+                    mMvpView.onError(((HttpException)error).getMessage());
+                    mMvpView.anotherizedToken();
                     break;
                 case HttpsURLConnection.HTTP_FORBIDDEN:
                     mMvpView.onError("Forbidden");

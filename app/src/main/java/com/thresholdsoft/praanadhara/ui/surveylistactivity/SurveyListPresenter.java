@@ -10,6 +10,7 @@ import com.thresholdsoft.praanadhara.utils.rx.SchedulerProvider;
 import javax.inject.Inject;
 
 import io.reactivex.disposables.CompositeDisposable;
+import retrofit2.HttpException;
 
 public class SurveyListPresenter<V extends SurveyListMvpView> extends BasePresenter<V>
         implements SurveyListMvpPresenter<V> {
@@ -41,5 +42,10 @@ public class SurveyListPresenter<V extends SurveyListMvpView> extends BasePresen
                     getMvpView().hideLoading();
                     handleApiError(throwable);
                 }));
+    }
+
+    @Override
+    public void anotherizedTokenClearDate() {
+        getDataManager().setUserLoggedOut();
     }
 }

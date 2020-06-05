@@ -39,4 +39,9 @@ public class DashboardFragment extends BaseFragment implements DashboardMvpView 
     protected void setUp(View view) {
 
     }
+
+    @Override
+    public void anotherizedToken() {
+
+    }
 }
