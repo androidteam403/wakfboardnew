@@ -28,5 +28,7 @@ public interface MvpView {
 
     void hideKeyboard();
 
+    void anotherizedToken();
+
 }
 

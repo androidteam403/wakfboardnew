@@ -147,4 +147,9 @@ public class UserLoginActivity extends BaseActivity implements UserLoginMvpView,
         InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
     }
+
+    @Override
+    public void anotherizedToken() {
+
+    }
 }

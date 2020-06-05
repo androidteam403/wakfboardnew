@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="survey"
+            type="com.thresholdsoft.praanadhara.ui.surveylistactivity.model.SurveyCountModel" />
     </data>
 
     <RelativeLayout
@@ -108,7 +110,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/two_dp"
                             android:fontFamily="@font/roboto_bold"
-                            android:text="@string/label__55"
+                            android:text="@{String.valueOf(survey.newCount)}"
                             android:textColor="@color/blue"
                             android:textSize="@dimen/text_dimen_22" />
 
@@ -140,7 +142,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/two_dp"
                             android:fontFamily="@font/roboto_bold"
-                            android:text="@string/label_135"
+                            android:text="@{String.valueOf(survey.inProgressCount)}"
                             android:textColor="@color/pharmacy_circle_color"
                             android:textSize="@dimen/text_dimen_22" />
 
@@ -172,7 +174,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/two_dp"
                             android:fontFamily="@font/roboto_bold"
-                            android:text="@string/label_28"
+                            android:text="@{String.valueOf(survey.completedCount)}"
                             android:textColor="@color/transaction_id_color"
                             android:textSize="@dimen/text_dimen_22" />
 
@@ -182,8 +184,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerSurveyList"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    tools:listitem="@layout/adapter_survey_list" />
+                    android:layout_height="match_parent"/>
 
             </LinearLayout>
         </LinearLayout>

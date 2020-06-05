@@ -91,6 +91,11 @@ public class SurveyStatusAdapter extends RecyclerView.Adapter<SurveyStatusAdapte
         if (holder.adapterSurveyStatusBinding.pointsRadio.isChecked()) {
             holder.adapterSurveyStatusBinding.linesRadio.setChecked(false);
             holder.adapterSurveyStatusBinding.polygonRadio.setChecked(false);
+            surveyModel.setSurveyType(0);
+            MapTypeEntity mapTypeEntity = new MapTypeEntity();
+            mapTypeEntity.setUid("63471DD49DCCC9FC18B11014EB119E6E");
+            mapTypeEntity.setName("Point");
+            surveyModel.setMapTypeEntity(mapTypeEntity);
         }
         holder.adapterSurveyStatusBinding.linesRadio.setOnClickListener(new View.OnClickListener() {
             @Override

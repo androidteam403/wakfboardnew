@@ -46,4 +46,9 @@ public class SelectingFormActivity extends BaseActivity implements SelectingForm
         startActivity(intent);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
+
+    @Override
+    public void anotherizedToken() {
+
+    }
 }

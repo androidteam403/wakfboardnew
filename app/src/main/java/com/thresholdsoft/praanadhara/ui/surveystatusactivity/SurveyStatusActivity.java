@@ -18,6 +18,7 @@ import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
 import com.thresholdsoft.praanadhara.ui.surveylistactivity.model.FarmersResponse;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.adapter.SurveyStatusAdapter;
 import com.thresholdsoft.praanadhara.ui.surveytrack.SurveyTrackingActivity;
+import com.thresholdsoft.praanadhara.ui.userlogin.UserLoginActivity;
 
 import java.util.ArrayList;
 
@@ -86,5 +87,12 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
                 finish();
             }
         }
+    }
+
+    @Override
+    public void anotherizedToken() {
+        Intent intent = new Intent(this, UserLoginActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 }
