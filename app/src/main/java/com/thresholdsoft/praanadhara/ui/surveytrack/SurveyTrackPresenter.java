@@ -44,6 +44,7 @@ public class SurveyTrackPresenter<V extends SurveyTrackMvpView> extends BasePres
 
     @Override
     public void saveSurvey(SurveySaveReq surveySaveReq) {
+        getMvpView().showLoading();
         getCompositeDisposable().add(getDataManager()
                 .saveSurvey(surveySaveReq)
                 .subscribeOn(getSchedulerProvider().io())
@@ -61,6 +62,7 @@ public class SurveyTrackPresenter<V extends SurveyTrackMvpView> extends BasePres
 
     @Override
     public void submitSurvey(SurveySaveReq.SurveyEntity landLocationEntity) {
+        getMvpView().showLoading();
         getCompositeDisposable().add(getDataManager()
                 .submitSurvey(landLocationEntity)
                 .subscribeOn(getSchedulerProvider().io())

@@ -21,6 +21,7 @@ public class SurveyStatusPresenter<V extends SurveyStatusMvpView> extends BasePr
 
     @Override
     public void startSurvey(RowsEntity rowsEntity) {
+        getMvpView().showLoading();
         getCompositeDisposable().add(getDataManager()
                 .startSurvey(new SurveyStartReq(new SurveyStartReq.LandLocationEntity(rowsEntity.getFarmerLand().getUid())))
                 .subscribeOn(getSchedulerProvider().io())
