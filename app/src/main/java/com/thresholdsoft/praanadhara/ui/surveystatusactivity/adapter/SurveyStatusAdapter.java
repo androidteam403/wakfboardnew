@@ -50,6 +50,7 @@ public class SurveyStatusAdapter extends RecyclerView.Adapter<SurveyStatusAdapte
     private Activity activity;
     private GoogleMap map;
     private RowsEntity surveyModel;
+    private AdapterSurveyStatusBinding adapterSurveyStatusBinding;
 
     private static final int PATTERN_DASH_LENGTH_PX = 20;
     private static final int PATTERN_GAP_LENGTH_PX = 20;
@@ -141,6 +142,11 @@ public class SurveyStatusAdapter extends RecyclerView.Adapter<SurveyStatusAdapte
     @Override
     public void onMapReady(GoogleMap googleMap) {
         MapsInitializer.initialize(activity);
+
+        adapterSurveyStatusBinding.map.setClickable(true);
+        adapterSurveyStatusBinding.map.setFocusable(true);
+        adapterSurveyStatusBinding.map.setDuplicateParentStateEnabled(false);
+
         //LatLng class is google provided class to get latiude and longitude of location.
         //GpsTracker is helper class to get the details for current location latitude and longitude.
         map = googleMap;

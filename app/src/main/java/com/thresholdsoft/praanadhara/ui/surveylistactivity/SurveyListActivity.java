@@ -100,6 +100,7 @@ public class SurveyListActivity extends BaseActivity implements SurveyListMvpVie
         surveyModelArrayList.clear();
         surveyModelArrayList.addAll(rowsEntity);
         surveyAdapter.notifyDataSetChanged();
+//        activitySurveyListBinding.itemOrangeCount.setText(String.valueOf(surveyModelArrayList.size()));
 //        if (surveyModelArrayList.size() > 0) {
 //            if (surveyModelArrayList.get(0).getFarmerLand().getSurveyLandLocation().getSubmitted().getUid() != null) {
 //                if (surveyModelArrayList.get(0).getFarmerLand().getSurveyLandLocation().getSubmitted().getUid().equalsIgnoreCase("yes")) {

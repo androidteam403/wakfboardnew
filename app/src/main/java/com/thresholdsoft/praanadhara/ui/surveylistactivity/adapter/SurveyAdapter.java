@@ -103,7 +103,7 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                spf = new SimpleDateFormat("dd MMM yyyy");
+                spf = new SimpleDateFormat("dd MMM ,yyyy");
                 date = spf.format(newDate);
                 holder.adapterSurveyListBinding.date.setVisibility(View.VISIBLE);
                 holder.adapterSurveyListBinding.date.setText(date);
