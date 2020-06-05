@@ -1,12 +1,10 @@
 package com.thresholdsoft.praanadhara.ui.surveylistactivity.adapter;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,9 +29,7 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
     private SurveyListMvpPresenter<SurveyListMvpView> mPresenter;
     private Activity activity;
 
-    public SurveyAdapter(ArrayList<RowsEntity> rowsEntities) {
-        this.surveyModelArrayList = rowsEntities;
-    }
+
 
     public SurveyAdapter(Activity activity, ArrayList<RowsEntity> surveyModelArrayList,
                          SurveyListMvpPresenter<SurveyListMvpView> mPresenter) {
@@ -50,15 +46,11 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
         return new SurveyAdapter.ViewHolder(adapterSurveyListBinding);
     }
 
-    @SuppressLint({"SetTextI18n", "ResourceAsColor"})
     @Override
-    public void onBindViewHolder(SurveyAdapter.ViewHolder holder, int position) {
-        final RowsEntity farmerModel = surveyModelArrayList.get(position);
+    public void onBindViewHolder(@NonNull final SurveyAdapter.ViewHolder holder, int position) {
+        RowsEntity farmerModel = surveyModelArrayList.get(position);
         holder.adapterSurveyListBinding.setSurvey(farmerModel);
-        if (farmerModel.getPic().size() > 0) {
-            Glide.with(activity).load(BuildConfig.IMAGE_URL + farmerModel.getPic().get(0).getPath()).
-                    placeholder(R.drawable.placeholder).into(holder.adapterSurveyListBinding.image);
-        }
+
         if (farmerModel.getFarmerLand().getSurveyLandLocation().getSubmitted().getUid() != null) {
             if (farmerModel.getFarmerLand().getSurveyLandLocation().getSubmitted().getUid().equalsIgnoreCase("null")) {
                 holder.adapterSurveyListBinding.status.setText("New");
@@ -109,6 +101,7 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
                 holder.adapterSurveyListBinding.date.setText(date);
             }
         }
+
         holder.adapterSurveyListBinding.takeSurvey.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -135,6 +128,11 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
     @Override
     public int getItemCount() {
         return surveyModelArrayList.size();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
     }
 
     public void addItems(List<RowsEntity> blogList) {

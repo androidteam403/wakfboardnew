@@ -19,6 +19,7 @@ import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.databinding.ActivityMainBinding;
 import com.thresholdsoft.praanadhara.databinding.NavHeaderMainBinding;
 import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
+import com.thresholdsoft.praanadhara.ui.userlogin.UserLoginActivity;
 
 import javax.inject.Inject;
 
@@ -118,5 +119,12 @@ public class MainActiivty extends BaseActivity implements MainActivityMvpView {
         for (Fragment fragment : getSupportFragmentManager().getFragments()) {
             fragment.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    @Override
+    public void anotherizedToken() {
+        Intent intent = new Intent(this, UserLoginActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 }

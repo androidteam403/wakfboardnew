@@ -23,8 +23,8 @@ public class SelectingFormPresenter<V extends SelectingFormMvpView> extends Base
 
     @Override
     public void onSurveyClick() {
-        getMvpView().onSurveyClick();
         getDataManager().storeSurveyClick(true);
+        getMvpView().onSurveyClick();
     }
 
 }

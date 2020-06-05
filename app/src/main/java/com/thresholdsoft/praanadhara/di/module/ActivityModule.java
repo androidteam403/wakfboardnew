@@ -132,8 +132,4 @@ public class ActivityModule {
         return presenter;
     }
 
-    @Provides
-    SurveyAdapter provideBlogAdapter() {
-        return new SurveyAdapter(new ArrayList<>());
-    }
 }

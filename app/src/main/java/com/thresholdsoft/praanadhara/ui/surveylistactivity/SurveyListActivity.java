@@ -39,7 +39,9 @@ import com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity;
 import com.thresholdsoft.praanadhara.databinding.ActivitySurveyListBinding;
 import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
 import com.thresholdsoft.praanadhara.ui.surveylistactivity.adapter.SurveyAdapter;
+import com.thresholdsoft.praanadhara.ui.surveylistactivity.model.SurveyCountModel;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusActivity;
+import com.thresholdsoft.praanadhara.ui.userlogin.UserLoginActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +54,7 @@ public class SurveyListActivity extends BaseActivity implements SurveyListMvpVie
     SurveyListMvpPresenter<SurveyListMvpView> mpresenter;
     private ActivitySurveyListBinding activitySurveyListBinding;
     private ArrayList<RowsEntity> surveyModelArrayList = new ArrayList<>();
-    @Inject
+
     SurveyAdapter surveyAdapter;
     public static final int REQUEST_CODE = 1;
     private static final String TAG = SurveyListActivity.class.getSimpleName();
@@ -76,6 +78,7 @@ public class SurveyListActivity extends BaseActivity implements SurveyListMvpVie
 
     @Override
     protected void setUp() {
+        activitySurveyListBinding.setSurvey(new SurveyCountModel());
         setUpGClient();
         surveyAdapter = new SurveyAdapter(this, surveyModelArrayList, mpresenter);
         RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(this);
@@ -100,6 +103,15 @@ public class SurveyListActivity extends BaseActivity implements SurveyListMvpVie
         surveyModelArrayList.clear();
         surveyModelArrayList.addAll(rowsEntity);
         surveyAdapter.notifyDataSetChanged();
+        for(RowsEntity entity : rowsEntity){
+            if(entity.getFarmerLand().getSurveyLandLocation().getSubmitted().getUid()== null){
+                activitySurveyListBinding.getSurvey().setNewCount(activitySurveyListBinding.getSurvey().getNewCount()+1);
+            }else if(entity.getFarmerLand().getSurveyLandLocation().getSubmitted().getUid().equalsIgnoreCase("Yes")){
+                activitySurveyListBinding.getSurvey().setCompletedCount(activitySurveyListBinding.getSurvey().getCompletedCount()+1);
+            }else if(entity.getFarmerLand().getSurveyLandLocation().getSubmitted().getUid().equalsIgnoreCase("No")){
+                activitySurveyListBinding.getSurvey().setInProgressCount(activitySurveyListBinding.getSurvey().getInProgressCount()+1);
+            }
+        }
 //        if (surveyModelArrayList.size() > 0) {
 //            if (surveyModelArrayList.get(0).getFarmerLand().getSurveyLandLocation().getSubmitted().getUid() != null) {
 //                if (surveyModelArrayList.get(0).getFarmerLand().getSurveyLandLocation().getSubmitted().getUid().equalsIgnoreCase("yes")) {
@@ -358,5 +370,13 @@ public class SurveyListActivity extends BaseActivity implements SurveyListMvpVie
     public void onLocationChanged(Location location) {
         latitude = location.getLatitude();
         longitude = location.getLongitude();
+    }
+
+    @Override
+    public void anotherizedToken() {
+        mpresenter.anotherizedTokenClearDate();
+        Intent intent = new Intent(this, UserLoginActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 }

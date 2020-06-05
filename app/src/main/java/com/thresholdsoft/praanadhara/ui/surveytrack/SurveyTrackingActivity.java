@@ -64,6 +64,7 @@ import com.thresholdsoft.praanadhara.services.LocationMonitoringService;
 import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
 import com.thresholdsoft.praanadhara.ui.dialog.SurveyPointDialog;
 import com.thresholdsoft.praanadhara.ui.surveytrack.model.SurveyModel;
+import com.thresholdsoft.praanadhara.ui.userlogin.UserLoginActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -715,6 +716,13 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
                 .flat(true)
                 .anchor(0.5f, 0.5f));
         surveyModelArrayList.add(new SurveyModel(currentLocation.getLatitude(),currentLocation.getLongitude(),currentLocation.getAccuracy(),true,pointName,pointDescription));
+    }
+
+    @Override
+    public void anotherizedToken() {
+        Intent intent = new Intent(this, UserLoginActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 }
 

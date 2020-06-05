@@ -33,4 +33,9 @@ public class NewEnrollmentFrag extends BaseFragment implements NewEnrollmentFrag
     protected void setUp(View view) {
 
     }
+
+    @Override
+    public void anotherizedToken() {
+
+    }
 }

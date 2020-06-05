@@ -23,7 +23,7 @@ public class FarmerLandEntity implements Serializable {
     private String kathaNo;
     @Expose
     @SerializedName("extent")
-    private int extent;
+    private double extent;
     @Expose
     @SerializedName("uid")
     private String uid;
@@ -48,7 +48,7 @@ public class FarmerLandEntity implements Serializable {
         return kathaNo;
     }
 
-    public int getExtent() {
+    public double getExtent() {
         return extent;
     }
 
