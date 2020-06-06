@@ -11,12 +11,15 @@ import androidx.databinding.DataBindingUtil;
 
 import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.databinding.SurveyPointDialogBinding;
+import com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.SurveyDetailsModel;
+import com.thresholdsoft.praanadhara.ui.surveytrack.SurveyTrackMvpView;
 
 
 public class SurveyPointDialog {
 
     private Dialog dialog;
     private SurveyPointDialogBinding editQuantityDialogBinding;
+    private SurveyTrackMvpView surveyTrackMvpView;
 
     private boolean negativeExist = false;
 
@@ -27,13 +30,25 @@ public class SurveyPointDialog {
         if (dialog.getWindow() != null)
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-
+//        editQuantityDialogBinding.dialogButtonOK.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                SurveyDetailsModel surveyDetailsModel = new SurveyDetailsModel();
+//                surveyDetailsModel.setSurveyName(editQuantityDialogBinding.editNameEditText.getText().toString());
+//                surveyTrackMvpView.onPassSurveyTrackEnteredDetails(surveyDetailsModel);
+//
+//            }
+//        });
     }
 
+    public void setEditTextDialogDetails(SurveyTrackMvpView surveyTrackMvpView) {
+        this.surveyTrackMvpView = surveyTrackMvpView;
+    }
 
     public void setPositiveListener(View.OnClickListener okListener) {
         editQuantityDialogBinding.dialogButtonOK.setOnClickListener(okListener);
     }
+
 
     public void setNegativeListener(View.OnClickListener okListener) {
         editQuantityDialogBinding.dialogButtonNO.setOnClickListener(okListener);
@@ -68,11 +83,11 @@ public class SurveyPointDialog {
         editQuantityDialogBinding.dialogButtonNO.setText(negative);
     }
 
-    public String getPointName(){
+    public String getPointName() {
         return editQuantityDialogBinding.editNameEditText.getText().toString();
     }
 
-    public String getPointDescription(){
+    public String getPointDescription() {
         return editQuantityDialogBinding.editDescriptionEditText.getText().toString();
     }
 }

@@ -10,6 +10,8 @@ import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -35,6 +37,9 @@ import com.thresholdsoft.praanadhara.data.network.pojo.SurveyStartRes;
 import com.thresholdsoft.praanadhara.databinding.ActivitySurveyStatusBinding;
 import com.thresholdsoft.praanadhara.databinding.CustomActionbarBinding;
 import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
+import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.adapter.SurveyAdapter;
+import com.thresholdsoft.praanadhara.ui.surveystatusactivity.adapter.SurveyDetailsAdapter;
+import com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.SurveyDetailsModel;
 import com.thresholdsoft.praanadhara.ui.surveytrack.SurveyTrackingActivity;
 import com.thresholdsoft.praanadhara.ui.surveytrack.model.SurveyModel;
 import com.thresholdsoft.praanadhara.ui.userlogin.UserLoginActivity;
@@ -66,6 +71,9 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     private static final PatternItem DASH = new Dash(PATTERN_DASH_LENGTH_PX);
     private static final PatternItem GAP = new Gap(PATTERN_GAP_LENGTH_PX);
     private static final List<PatternItem> PATTERN_POLYLINE_DOTTED = Arrays.asList(GAP, DOT);
+    SurveyDetailsAdapter surveyDetailsAdapter;
+    SurveyModel survey;
+    ArrayList<SurveyModel> surveyModelsList=new ArrayList<>();
 
     private Polyline runningPathPolyline;
     private Polygon runningPathPolygon;
@@ -87,9 +95,14 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
         surveyModel = (RowsEntity) intent.getSerializableExtra("surveyData");
         surveyModelArrayList.add(surveyModel);
 
+        surveyDetailsAdapter= new SurveyDetailsAdapter(this, surveyModelsList, mpresenter);
+        RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(this);
+        activitySurveyStatusBinding.surveDetailsRecyclerview.setLayoutManager(mLayoutManager1);
+        activitySurveyStatusBinding.surveDetailsRecyclerview.setAdapter(surveyDetailsAdapter);
+
         activitySurveyStatusBinding.setPresenterCallback(mpresenter);
         activitySurveyStatusBinding.setSurvey(surveyModel);
-      //  activitySurveyStatusBinding.setCallback(this);
+        //  activitySurveyStatusBinding.setCallback(this);
 
         if (surveyModel.getPic().size() > 0) {
             Glide.with(getApplicationContext()).load(BuildConfig.IMAGE_URL + surveyModel.getPic().get(0).getPath()).placeholder(R.drawable.
@@ -230,13 +243,15 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
-            boolean requiredValue = data.getBooleanExtra("surveySubmit", false);
-            if (requiredValue) {
-                Intent intent = getIntent();
-                intent.putExtra("surveySubmit", requiredValue);
-                setResult(RESULT_OK, intent);
-                finish();
-            }
+            surveyModelsList.addAll((ArrayList<SurveyModel>) data.getSerializableExtra("surveySubmit"));
+            surveyDetailsAdapter.notifyDataSetChanged();
+//            boolean requiredValue = data.getBooleanExtra("surveySubmit", false);
+//            if (requiredValue) {
+//                Intent intent = getIntent();
+//                intent.putExtra("surveySubmit", requiredValue);
+//                setResult(RESULT_OK, intent);
+//                finish();
+//            }
         }
     }
 

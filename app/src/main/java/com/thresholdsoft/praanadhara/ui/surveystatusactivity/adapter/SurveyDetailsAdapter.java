@@ -16,7 +16,10 @@ import com.thresholdsoft.praanadhara.databinding.AdapterSurveyListBinding;
 import com.thresholdsoft.praanadhara.databinding.ViewSurveyDetailsBinding;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.SurveyListMvpPresenter;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.SurveyListMvpView;
+import com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusMvpPresenter;
+import com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusMvpView;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.SurveyDetailsModel;
+import com.thresholdsoft.praanadhara.ui.surveytrack.model.SurveyModel;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,13 +29,13 @@ import java.util.List;
 
 public class SurveyDetailsAdapter extends RecyclerView.Adapter<SurveyDetailsAdapter.ViewHolder> {
 
-    private ArrayList<SurveyDetailsModel> surveyModelArrayList;
-    private SurveyListMvpPresenter<SurveyListMvpView> mPresenter;
+    private ArrayList<SurveyModel> surveyModelArrayList;
+    private SurveyStatusMvpPresenter<SurveyStatusMvpView> mPresenter;
     private Activity activity;
 
 
-    public SurveyDetailsAdapter(Activity activity, ArrayList<SurveyDetailsModel> surveyModelArrayList,
-                                SurveyListMvpPresenter<SurveyListMvpView> mPresenter) {
+    public SurveyDetailsAdapter(Activity activity, ArrayList<SurveyModel> surveyModelArrayList,
+                                SurveyStatusMvpPresenter<SurveyStatusMvpView> mPresenter) {
         this.activity = activity;
         this.surveyModelArrayList = surveyModelArrayList;
         this.mPresenter = mPresenter;
@@ -48,7 +51,7 @@ public class SurveyDetailsAdapter extends RecyclerView.Adapter<SurveyDetailsAdap
 
     @Override
     public void onBindViewHolder(@NonNull final SurveyDetailsAdapter.ViewHolder holder, int position) {
-        SurveyDetailsModel farmerModel = surveyModelArrayList.get(position);
+        SurveyModel farmerModel = surveyModelArrayList.get(position);
         holder.adapterSurveyListBinding.setData(farmerModel);
 
 
@@ -74,7 +77,7 @@ public class SurveyDetailsAdapter extends RecyclerView.Adapter<SurveyDetailsAdap
         return position;
     }
 
-    public void addItems(List<SurveyDetailsModel> blogList) {
+    public void addItems(List<SurveyModel> blogList) {
         surveyModelArrayList.addAll(blogList);
         notifyDataSetChanged();
     }

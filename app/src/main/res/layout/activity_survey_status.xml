@@ -340,6 +340,7 @@
                     android:gravity="center"
                     android:visibility="@{survey.farmerLand.surveyLandLocation.uid != null ? View.VISIBLE : View.GONE}">
                 <TextView
+                    android:id="@+id/addbutton"
                     android:layout_width="@dimen/one_hundred_forty_dp"
                     android:layout_height="@dimen/thirty_five_dp"
                     android:background="@drawable/button_rounded_blue"

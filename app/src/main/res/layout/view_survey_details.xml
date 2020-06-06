@@ -3,7 +3,7 @@
         <data>
             <variable
                 name="data"
-                type="com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.SurveyDetailsModel" />
+                type="com.thresholdsoft.praanadhara.ui.surveytrack.model.SurveyModel" />
         </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -18,13 +18,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:text="@{data.surveyName}" />
+            android:text="@{data.name}" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@{data.surveyType}"
+            android:text="@{data.displayMapType}"
             android:textColor="@color/black" />
 
         <LinearLayout
