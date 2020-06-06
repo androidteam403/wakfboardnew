@@ -52,8 +52,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:elevation="@dimen/ten_dp"
-                    app:cardCornerRadius="@dimen/twenty_dp"
-                    app:cardElevation="@dimen/ten_dp">
+                    app:cardCornerRadius="@dimen/twenty_dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -215,10 +214,47 @@
 
                 </androidx.cardview.widget.CardView>
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="@dimen/ten_dp"
+                    android:visibility="@{survey.surveyModelArrayList.size() > 0 ? View.VISIBLE : View.GONE}">
+
+
+                    <CheckBox
+                        android:id="@+id/checkBox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:text="Name" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:text="Type"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:text="Action"
+                        android:textColor="@color/black"
+                        android:layout_marginEnd="@dimen/ten_dp">
+
+                    </TextView>
+                </RelativeLayout>
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/surve_details_recyclerview"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -248,8 +284,8 @@
                             android:layout_height="21dp"
                             android:layout_marginTop="@dimen/five_dp"
                             android:checked="true"
-                            android:onClick="@{()-> presenterCallback.onPointsRadioClick()}"
                             android:fontFamily="@font/roboto_regular"
+                            android:onClick="@{()-> presenterCallback.onPointsRadioClick()}"
                             android:text="@string/label_points"
                             android:textColor="@color/black" />
 
@@ -280,8 +316,8 @@
                             android:layout_height="21dp"
                             android:layout_marginTop="@dimen/five_dp"
                             android:checked="true"
-                            android:onClick="@{()-> presenterCallback.onLinesRadioClick()}"
                             android:fontFamily="@font/roboto_regular"
+                            android:onClick="@{()-> presenterCallback.onLinesRadioClick()}"
                             android:text="@string/label_lines"
                             android:textColor="@color/black" />
                     </LinearLayout>
@@ -310,9 +346,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="21dp"
                             android:layout_marginTop="@dimen/five_dp"
-                            android:onClick="@{()-> presenterCallback.onpolygonRadioClick()}"
                             android:checked="true"
                             android:fontFamily="@font/roboto_regular"
+                            android:onClick="@{()-> presenterCallback.onpolygonRadioClick()}"
                             android:text="@string/label_polygons"
                             android:textColor="@color/black" />
                     </LinearLayout>
@@ -335,33 +371,35 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:layout_marginTop="@dimen/thirty_dp"
                     android:gravity="center"
+                    android:orientation="horizontal"
                     android:visibility="@{survey.farmerLand.surveyLandLocation.uid != null ? View.VISIBLE : View.GONE}">
-                <TextView
-                    android:id="@+id/addbutton"
-                    android:layout_width="@dimen/one_hundred_forty_dp"
-                    android:layout_height="@dimen/thirty_five_dp"
-                    android:background="@drawable/button_rounded_blue"
-                    android:backgroundTint="@color/complaint_btn_color"
-                    android:layout_marginEnd="@dimen/twenty_dp"
-                    android:fontFamily="@font/roboto_bold"
-                    android:gravity="center"
-                    android:onClick="@{()-> presenterCallback.addSurvey(survey)}"
-                    android:text="Add"
-                    android:textColor="@color/white" />
-                <TextView
-                    android:layout_width="@dimen/one_hundred_forty_dp"
-                    android:layout_height="@dimen/thirty_five_dp"
-                    android:background="@drawable/button_rounded_blue"
-                    android:layout_marginStart="@dimen/twenty_dp"
-                    android:backgroundTint="@color/complaint_btn_color"
-                    android:fontFamily="@font/roboto_bold"
-                    android:gravity="center"
-                    android:onClick="@{()-> presenterCallback.submitSurvey(survey)}"
-                    android:text="Submit Survey"
-                    android:textColor="@color/white" />
+
+                    <TextView
+                        android:id="@+id/addbutton"
+                        android:layout_width="@dimen/one_hundred_forty_dp"
+                        android:layout_height="@dimen/thirty_five_dp"
+                        android:layout_marginEnd="@dimen/twenty_dp"
+                        android:background="@drawable/button_rounded_blue"
+                        android:backgroundTint="@color/complaint_btn_color"
+                        android:fontFamily="@font/roboto_bold"
+                        android:gravity="center"
+                        android:onClick="@{()-> presenterCallback.addSurvey(survey)}"
+                        android:text="Add"
+                        android:textColor="@color/white" />
+
+                    <TextView
+                        android:layout_width="@dimen/one_hundred_forty_dp"
+                        android:layout_height="@dimen/thirty_five_dp"
+                        android:layout_marginStart="@dimen/twenty_dp"
+                        android:background="@drawable/button_rounded_blue"
+                        android:backgroundTint="@color/complaint_btn_color"
+                        android:fontFamily="@font/roboto_bold"
+                        android:gravity="center"
+                        android:onClick="@{()-> presenterCallback.submitSurvey(survey)}"
+                        android:text="Submit Survey"
+                        android:textColor="@color/white" />
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>

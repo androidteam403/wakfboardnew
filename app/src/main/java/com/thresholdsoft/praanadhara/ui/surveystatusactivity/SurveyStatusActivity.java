@@ -73,7 +73,6 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     private static final List<PatternItem> PATTERN_POLYLINE_DOTTED = Arrays.asList(GAP, DOT);
     SurveyDetailsAdapter surveyDetailsAdapter;
     SurveyModel survey;
-    ArrayList<SurveyModel> surveyModelsList=new ArrayList<>();
 
     private Polyline runningPathPolyline;
     private Polygon runningPathPolygon;
@@ -95,7 +94,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
         surveyModel = (RowsEntity) intent.getSerializableExtra("surveyData");
         surveyModelArrayList.add(surveyModel);
 
-        surveyDetailsAdapter= new SurveyDetailsAdapter(this, surveyModelsList, mpresenter);
+        surveyDetailsAdapter= new SurveyDetailsAdapter(this, surveyModel.getSurveyModelArrayList(), mpresenter);
         RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(this);
         activitySurveyStatusBinding.surveDetailsRecyclerview.setLayoutManager(mLayoutManager1);
         activitySurveyStatusBinding.surveDetailsRecyclerview.setAdapter(surveyDetailsAdapter);
@@ -243,15 +242,8 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
-            surveyModelsList.addAll((ArrayList<SurveyModel>) data.getSerializableExtra("surveySubmit"));
+            surveyModel.setSurveyModelArrayList((ArrayList<SurveyModel>) data.getSerializableExtra("surveySubmit"));
             surveyDetailsAdapter.notifyDataSetChanged();
-//            boolean requiredValue = data.getBooleanExtra("surveySubmit", false);
-//            if (requiredValue) {
-//                Intent intent = getIntent();
-//                intent.putExtra("surveySubmit", requiredValue);
-//                setResult(RESULT_OK, intent);
-//                finish();
-//            }
         }
     }
 
