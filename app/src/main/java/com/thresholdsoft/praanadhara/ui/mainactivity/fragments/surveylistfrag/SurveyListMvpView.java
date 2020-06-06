@@ -1,6 +1,5 @@
-package com.thresholdsoft.praanadhara.ui.surveylistactivity;
+package com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag;
 
-import com.thresholdsoft.praanadhara.data.network.pojo.PicEntity;
 import com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity;
 import com.thresholdsoft.praanadhara.ui.base.MvpView;
 

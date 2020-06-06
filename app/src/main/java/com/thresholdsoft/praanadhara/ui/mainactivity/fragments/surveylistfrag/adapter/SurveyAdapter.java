@@ -1,4 +1,4 @@
-package com.thresholdsoft.praanadhara.ui.surveylistactivity.adapter;
+package com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.adapter;
 
 import android.app.Activity;
 import android.graphics.Color;
@@ -13,8 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity;
 import com.thresholdsoft.praanadhara.databinding.AdapterSurveyListBinding;
-import com.thresholdsoft.praanadhara.ui.surveylistactivity.SurveyListMvpPresenter;
-import com.thresholdsoft.praanadhara.ui.surveylistactivity.SurveyListMvpView;
+import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.SurveyListMvpPresenter;
+import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.SurveyListMvpView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

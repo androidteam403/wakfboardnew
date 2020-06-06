@@ -1,7 +1,7 @@
 package com.thresholdsoft.praanadhara.ui;
 
-import com.thresholdsoft.praanadhara.ui.surveylistactivity.model.FarmersRequest;
-import com.thresholdsoft.praanadhara.ui.surveylistactivity.model.FarmersResponse;
+import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.FarmersRequest;
+import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.FarmersResponse;
 import com.thresholdsoft.praanadhara.ui.userlogin.model.LoginRequest;
 import com.thresholdsoft.praanadhara.ui.userlogin.model.LoginResponse;
 import com.thresholdsoft.praanadhara.ui.userlogin.model.OtpVerifyReq;

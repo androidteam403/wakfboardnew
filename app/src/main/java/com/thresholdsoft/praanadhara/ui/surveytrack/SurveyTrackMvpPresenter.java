@@ -3,9 +3,7 @@ package com.thresholdsoft.praanadhara.ui.surveytrack;
 import android.location.Location;
 
 import com.thresholdsoft.praanadhara.data.network.pojo.SurveySaveReq;
-import com.thresholdsoft.praanadhara.data.network.pojo.SurveyStartReq;
 import com.thresholdsoft.praanadhara.ui.base.MvpPresenter;
-import com.thresholdsoft.praanadhara.ui.surveylistactivity.SurveyListMvpView;
 
 import java.util.ArrayList;
 

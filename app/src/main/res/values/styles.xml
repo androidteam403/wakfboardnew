@@ -144,7 +144,7 @@
     </style>
 
     <style name="NavigationDrawerStyle">
-        <item name="android:textSize">@dimen/text_dimen_14</item>
-        <item name="android:fontFamily">@font/roboto_bold</item>
+        <item name="android:textSize">@dimen/text_dimen_16</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
     </style>
 </resources>

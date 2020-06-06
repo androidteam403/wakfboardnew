@@ -8,8 +8,16 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.thresholdsoft.praanadhara.ui.mainactivity.fragments.dasboardfrag.DashboardFragment"
-        android:label="Dashboard"
+        android:name="com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.SurveyListFrag"
+        android:label="Survey"
+        tools:layout="@layout/activity_survey_list" />
+    <fragment
+        android:id="@+id/nav_enrollment"
+        android:name="com.thresholdsoft.praanadhara.ui.mainactivity.fragments.newenrollmentfrag.NewEnrollmentFrag"
+        tools:layout="@layout/fragment_enrollment" />
+    <fragment
+        android:id="@+id/nav_profile"
+        android:name="com.thresholdsoft.praanadhara.ui.mainactivity.fragments.userprofile.UserProfileFragment"
         tools:layout="@layout/fragment_dashboard" />
 
     <!--    <fragment-->
