@@ -31,6 +31,7 @@ import com.thresholdsoft.praanadhara.BuildConfig;
 import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.data.network.pojo.MapTypeEntity;
 import com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity;
+import com.thresholdsoft.praanadhara.data.network.pojo.SurveyStartRes;
 import com.thresholdsoft.praanadhara.databinding.ActivitySurveyStatusBinding;
 import com.thresholdsoft.praanadhara.databinding.CustomActionbarBinding;
 import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
@@ -54,6 +55,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     private ArrayList<RowsEntity> surveyModelArrayList = new ArrayList<>();
     CustomActionbarBinding customActionbarBinding;
 
+    private SurveyStatusMvpView presenter;
 
     private GoogleMap map;
 
@@ -87,6 +89,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
 
         activitySurveyStatusBinding.setPresenterCallback(mpresenter);
         activitySurveyStatusBinding.setSurvey(surveyModel);
+      //  activitySurveyStatusBinding.setCallback(this);
 
         if (surveyModel.getPic().size() > 0) {
             Glide.with(getApplicationContext()).load(BuildConfig.IMAGE_URL + surveyModel.getPic().get(0).getPath()).placeholder(R.drawable.
@@ -97,8 +100,8 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
             activitySurveyStatusBinding.polygonRadio.setChecked(false);
             surveyModel.setSurveyType(0);
             MapTypeEntity mapTypeEntity = new MapTypeEntity();
-            mapTypeEntity.setUid("63471DD49DCCC9FC18B11014EB119E6E");
-            mapTypeEntity.setName("Point");
+            mapTypeEntity.setUid("point");
+            mapTypeEntity.setName("point");
             surveyModel.setMapTypeEntity(mapTypeEntity);
         }
 
@@ -167,9 +170,8 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     }
 
     @Override
-    public void startSurveySuccess(RowsEntity rowsEntity) {
-        startActivityForResult(SurveyTrackingActivity.getIntent(this, rowsEntity), REQUEST_CODE);
-        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+    public void startSurveySuccess(RowsEntity rowsEntity, SurveyStartRes data) {
+        surveyModel.getFarmerLand().getSurveyLandLocation().setUid(data.getUid());
     }
 
     @Override
@@ -179,8 +181,8 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
         activitySurveyStatusBinding.pointsRadio.setChecked(false);
         surveyModel.setSurveyType(2);
         MapTypeEntity mapTypeEntity = new MapTypeEntity();
-        mapTypeEntity.setUid("555CB32FDE8B6C3CAB1D7E69A9FE1ED0");
-        mapTypeEntity.setName("Polygon");
+        mapTypeEntity.setUid("polygon");
+        mapTypeEntity.setName("polygon");
         surveyModel.setMapTypeEntity(mapTypeEntity);
     }
 
@@ -191,8 +193,8 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
         activitySurveyStatusBinding.pointsRadio.setChecked(false);
         surveyModel.setSurveyType(1);
         MapTypeEntity mapTypeEntity = new MapTypeEntity();
-        mapTypeEntity.setUid("3131041D77AB7EF652D5A4C357B988BB");
-        mapTypeEntity.setName("Line");
+        mapTypeEntity.setUid("line");
+        mapTypeEntity.setName("line");
         surveyModel.setMapTypeEntity(mapTypeEntity);
     }
 
@@ -203,9 +205,25 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
         activitySurveyStatusBinding.polygonRadio.setChecked(false);
         surveyModel.setSurveyType(0);
         MapTypeEntity mapTypeEntity = new MapTypeEntity();
-        mapTypeEntity.setUid("63471DD49DCCC9FC18B11014EB119E6E");
-        mapTypeEntity.setName("Point");
+        mapTypeEntity.setUid("point");
+        mapTypeEntity.setName("point");
         surveyModel.setMapTypeEntity(mapTypeEntity);
+    }
+
+    @Override
+    public void addSurvey(RowsEntity rowsEntity) {
+        startActivityForResult(SurveyTrackingActivity.getIntent(this, rowsEntity), REQUEST_CODE);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+    }
+
+    @Override
+    public void submitSurvey(RowsEntity rowsEntity) {
+        mpresenter.submitSurvey(rowsEntity);
+    }
+
+    @Override
+    public void surveySubmitSuccess(SurveyStartRes data) {
+
     }
 
     @Override
