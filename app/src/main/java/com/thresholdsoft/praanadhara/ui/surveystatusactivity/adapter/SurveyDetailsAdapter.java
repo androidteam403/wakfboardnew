@@ -14,8 +14,8 @@ import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity;
 import com.thresholdsoft.praanadhara.databinding.AdapterSurveyListBinding;
 import com.thresholdsoft.praanadhara.databinding.ViewSurveyDetailsBinding;
-import com.thresholdsoft.praanadhara.ui.surveylistactivity.SurveyListMvpPresenter;
-import com.thresholdsoft.praanadhara.ui.surveylistactivity.SurveyListMvpView;
+import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.SurveyListMvpPresenter;
+import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.SurveyListMvpView;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.SurveyDetailsModel;
 
 import java.text.ParseException;

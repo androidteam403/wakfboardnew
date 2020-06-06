@@ -89,7 +89,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
 
         activitySurveyStatusBinding.setPresenterCallback(mpresenter);
         activitySurveyStatusBinding.setSurvey(surveyModel);
-        activitySurveyStatusBinding.setCallback(this);
+      //  activitySurveyStatusBinding.setCallback(this);
 
         if (surveyModel.getPic().size() > 0) {
             Glide.with(getApplicationContext()).load(BuildConfig.IMAGE_URL + surveyModel.getPic().get(0).getPath()).placeholder(R.drawable.

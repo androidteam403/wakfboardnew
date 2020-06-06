@@ -44,7 +44,7 @@ public class SurveyStatusPresenter<V extends SurveyStatusMvpView> extends BasePr
 
     @Override
     public void addSurvey(RowsEntity rowsEntity) {
-
+        getMvpView().addSurvey(rowsEntity);
     }
 
     @Override

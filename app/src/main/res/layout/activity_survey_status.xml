@@ -347,7 +347,7 @@
                     android:layout_marginEnd="@dimen/twenty_dp"
                     android:fontFamily="@font/roboto_bold"
                     android:gravity="center"
-                    android:onClick="@{()-> callback.addSurvey(survey)}"
+                    android:onClick="@{()-> presenterCallback.addSurvey(survey)}"
                     android:text="Add"
                     android:textColor="@color/white" />
                 <TextView
@@ -358,7 +358,7 @@
                     android:backgroundTint="@color/complaint_btn_color"
                     android:fontFamily="@font/roboto_bold"
                     android:gravity="center"
-                    android:onClick="@{()-> callback.submitSurvey(survey)}"
+                    android:onClick="@{()-> presenterCallback.submitSurvey(survey)}"
                     android:text="Submit Survey"
                     android:textColor="@color/white" />
                 </LinearLayout>
