@@ -1,4 +1,4 @@
-package com.thresholdsoft.praanadhara.ui.surveylistactivity;
+package com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag;
 
 import com.google.gson.JsonObject;
 import com.thresholdsoft.praanadhara.data.DataManager;
@@ -10,7 +10,6 @@ import com.thresholdsoft.praanadhara.utils.rx.SchedulerProvider;
 import javax.inject.Inject;
 
 import io.reactivex.disposables.CompositeDisposable;
-import retrofit2.HttpException;
 
 public class SurveyListPresenter<V extends SurveyListMvpView> extends BasePresenter<V>
         implements SurveyListMvpPresenter<V> {

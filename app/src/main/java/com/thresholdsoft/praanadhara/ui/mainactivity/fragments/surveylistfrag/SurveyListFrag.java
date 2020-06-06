@@ -1,4 +1,4 @@
-package com.thresholdsoft.praanadhara.ui.surveylistactivity;
+package com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag;
 
 import android.Manifest;
 import android.content.Intent;
@@ -9,7 +9,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,6 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
+import androidx.databinding.library.baseAdapters.BuildConfig;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -33,22 +36,22 @@ import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.material.snackbar.Snackbar;
-import com.thresholdsoft.praanadhara.BuildConfig;
 import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity;
 import com.thresholdsoft.praanadhara.databinding.ActivitySurveyListBinding;
-import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
-import com.thresholdsoft.praanadhara.ui.surveylistactivity.adapter.SurveyAdapter;
-import com.thresholdsoft.praanadhara.ui.surveylistactivity.model.SurveyCountModel;
+import com.thresholdsoft.praanadhara.ui.base.BaseFragment;
+import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.adapter.SurveyAdapter;
+import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.SurveyCountModel;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusActivity;
 import com.thresholdsoft.praanadhara.ui.userlogin.UserLoginActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 
-public class SurveyListActivity extends BaseActivity implements SurveyListMvpView, GoogleApiClient.ConnectionCallbacks,
+public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LocationListener {
     @Inject
     SurveyListMvpPresenter<SurveyListMvpView> mpresenter;
@@ -57,7 +60,7 @@ public class SurveyListActivity extends BaseActivity implements SurveyListMvpVie
 
     SurveyAdapter surveyAdapter;
     public static final int REQUEST_CODE = 1;
-    private static final String TAG = SurveyListActivity.class.getSimpleName();
+    private static final String TAG = SurveyListFrag.class.getSimpleName();
     private GoogleApiClient mGoogleApiClient;
     /**
      * Code used in requesting runtime permissions.
@@ -67,21 +70,27 @@ public class SurveyListActivity extends BaseActivity implements SurveyListMvpVie
     private double latitude;
     private double longitude;
 
+    @Nullable
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        activitySurveyListBinding = DataBindingUtil.setContentView(this, R.layout.activity_survey_list);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        activitySurveyListBinding = DataBindingUtil.inflate(inflater, R.layout.activity_survey_list, container, false);
         getActivityComponent().inject(this);
-        mpresenter.onAttach(SurveyListActivity.this);
-        setUp();
+        mpresenter.onAttach(SurveyListFrag.this);
+        return activitySurveyListBinding.getRoot();
     }
 
     @Override
-    protected void setUp() {
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setUp(view);
+    }
+
+    @Override
+    protected void setUp(View view) {
         activitySurveyListBinding.setSurvey(new SurveyCountModel());
-        setUpGClient();
-        surveyAdapter = new SurveyAdapter(this, surveyModelArrayList, mpresenter);
-        RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(this);
+//        setUpGClient();
+        surveyAdapter = new SurveyAdapter(getActivity(), surveyModelArrayList, mpresenter);
+        RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(getContext());
         activitySurveyListBinding.recyclerSurveyList.setLayoutManager(mLayoutManager1);
         activitySurveyListBinding.recyclerSurveyList.setAdapter(surveyAdapter);
         mpresenter.farmersListApiCall();
@@ -91,10 +100,10 @@ public class SurveyListActivity extends BaseActivity implements SurveyListMvpVie
     public void onItemClick(RowsEntity farmerModel) {
         farmerModel.setCurrentLatitude(latitude);
         farmerModel.setCurrentLongitude(longitude);
-        Intent intent = new Intent(this, SurveyStatusActivity.class);
+        Intent intent = new Intent(getContext(), SurveyStatusActivity.class);
         intent.putExtra("surveyData", farmerModel);
         startActivityForResult(intent, REQUEST_CODE);
-        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+        getActivity().overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
     @Override
@@ -120,9 +129,9 @@ public class SurveyListActivity extends BaseActivity implements SurveyListMvpVie
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
+        if (requestCode == REQUEST_CODE && resultCode == getActivity().RESULT_OK) {
             boolean requiredValue = data.getBooleanExtra("surveySubmit", false);
             if (requiredValue) {
                 mpresenter.farmersListApiCall();
@@ -131,7 +140,7 @@ public class SurveyListActivity extends BaseActivity implements SurveyListMvpVie
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         startStep1();
     }
@@ -146,7 +155,7 @@ public class SurveyListActivity extends BaseActivity implements SurveyListMvpVie
                 requestPermissions();
             }
         } else {
-            Toast.makeText(getApplicationContext(), R.string.no_google_playservice_available, Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), R.string.no_google_playservice_available, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -155,10 +164,10 @@ public class SurveyListActivity extends BaseActivity implements SurveyListMvpVie
      */
     public boolean isGooglePlayServicesAvailable() {
         GoogleApiAvailability googleApiAvailability = GoogleApiAvailability.getInstance();
-        int status = googleApiAvailability.isGooglePlayServicesAvailable(this);
+        int status = googleApiAvailability.isGooglePlayServicesAvailable(getContext());
         if (status != ConnectionResult.SUCCESS) {
             if (googleApiAvailability.isUserResolvableError(status)) {
-                googleApiAvailability.getErrorDialog(this, status, 2404).show();
+                googleApiAvailability.getErrorDialog(getActivity(), status, 2404).show();
             }
             return false;
         }
@@ -170,10 +179,10 @@ public class SurveyListActivity extends BaseActivity implements SurveyListMvpVie
      */
 
     private boolean checkPermissions() {
-        int permissionState1 = ActivityCompat.checkSelfPermission(this,
+        int permissionState1 = ActivityCompat.checkSelfPermission(getContext(),
                 android.Manifest.permission.ACCESS_FINE_LOCATION);
 
-        int permissionState2 = ActivityCompat.checkSelfPermission(this,
+        int permissionState2 = ActivityCompat.checkSelfPermission(getContext(),
                 Manifest.permission.ACCESS_COARSE_LOCATION);
 
         return permissionState1 == PackageManager.PERMISSION_GRANTED && permissionState2 == PackageManager.PERMISSION_GRANTED;
@@ -187,11 +196,11 @@ public class SurveyListActivity extends BaseActivity implements SurveyListMvpVie
     private void requestPermissions() {
 
         boolean shouldProvideRationale =
-                ActivityCompat.shouldShowRequestPermissionRationale(this,
+                ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
                         android.Manifest.permission.ACCESS_FINE_LOCATION);
 
         boolean shouldProvideRationale2 =
-                ActivityCompat.shouldShowRequestPermissionRationale(this,
+                ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
                         Manifest.permission.ACCESS_COARSE_LOCATION);
 
 
@@ -199,7 +208,7 @@ public class SurveyListActivity extends BaseActivity implements SurveyListMvpVie
         // request previously, but didn't check the "Don't ask again" checkbox.
         if (shouldProvideRationale || shouldProvideRationale2) {
             Log.i(TAG, "Displaying permission rationale to provide additional context.");
-            ActivityCompat.requestPermissions(SurveyListActivity.this,
+            ActivityCompat.requestPermissions(getActivity(),
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
                     REQUEST_PERMISSIONS_REQUEST_CODE);
         } else {
@@ -207,7 +216,7 @@ public class SurveyListActivity extends BaseActivity implements SurveyListMvpVie
             // Request permission. It's possible this can be auto answered if device policy
             // sets the permission in a given state or the img_user denied the permission
             // previously and checked "Never ask again".
-            ActivityCompat.requestPermissions(SurveyListActivity.this,
+            ActivityCompat.requestPermissions(getActivity(),
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
                     REQUEST_PERMISSIONS_REQUEST_CODE);
         }
@@ -269,7 +278,7 @@ public class SurveyListActivity extends BaseActivity implements SurveyListMvpVie
      */
     private void showSnackbar(View.OnClickListener listener) {
         Snackbar.make(
-                findViewById(android.R.id.content),
+                getView().getRootView().findViewById(android.R.id.content),
                 getString(R.string.permission_denied_explanation),
                 Snackbar.LENGTH_INDEFINITE)
                 .setAction(getString(R.string.settings), listener).show();
@@ -279,7 +288,7 @@ public class SurveyListActivity extends BaseActivity implements SurveyListMvpVie
     private void getMyLocation() {
         if (mGoogleApiClient != null) {
             if (mGoogleApiClient.isConnected()) {
-                int permissionLocation = ContextCompat.checkSelfPermission(SurveyListActivity.this,
+                int permissionLocation = ContextCompat.checkSelfPermission(getContext(),
                         Manifest.permission.ACCESS_FINE_LOCATION);
                 if (permissionLocation == PackageManager.PERMISSION_GRANTED) {
                     LocationRequest locationRequest = new LocationRequest();
@@ -312,7 +321,7 @@ public class SurveyListActivity extends BaseActivity implements SurveyListMvpVie
                                         // Show the dialog by calling startResolutionForResult(),
                                         // and check the result in onActivityResult().
                                         // Ask to turn on GPS automatically
-                                        status.startResolutionForResult(SurveyListActivity.this,
+                                        status.startResolutionForResult(getActivity(),
                                                 REQUEST_CHECK_SETTINGS_GPS);
                                     } catch (IntentSender.SendIntentException e) {
                                         // Ignore the error.
@@ -334,8 +343,8 @@ public class SurveyListActivity extends BaseActivity implements SurveyListMvpVie
     }
 
     private synchronized void setUpGClient() {
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this, 1, this)
+        mGoogleApiClient = new GoogleApiClient.Builder(Objects.requireNonNull(getActivity()))
+                .enableAutoManage(getActivity(), 1, this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
@@ -367,8 +376,8 @@ public class SurveyListActivity extends BaseActivity implements SurveyListMvpVie
     @Override
     public void anotherizedToken() {
         mpresenter.anotherizedTokenClearDate();
-        Intent intent = new Intent(this, UserLoginActivity.class);
+        Intent intent = new Intent(getContext(), UserLoginActivity.class);
         startActivity(intent);
-        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+        getActivity().overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 }

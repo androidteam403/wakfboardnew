@@ -17,7 +17,6 @@ import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.databinding.ActivityUserLoginBinding;
 import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
 import com.thresholdsoft.praanadhara.ui.selectingformactivity.SelectingFormActivity;
-import com.thresholdsoft.praanadhara.ui.surveylistactivity.SurveyListActivity;
 
 import javax.inject.Inject;
 

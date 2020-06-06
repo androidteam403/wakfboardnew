@@ -11,7 +11,7 @@ import com.thresholdsoft.praanadhara.BuildConfig;
 import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.data.network.pojo.PicEntity;
 import com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity;
-import com.thresholdsoft.praanadhara.ui.surveylistactivity.adapter.SurveyAdapter;
+import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.adapter.SurveyAdapter;
 
 import java.util.List;
 

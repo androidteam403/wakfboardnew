@@ -5,10 +5,7 @@ import android.location.Location;
 import com.thresholdsoft.praanadhara.data.DataManager;
 import com.thresholdsoft.praanadhara.data.db.model.Survey;
 import com.thresholdsoft.praanadhara.data.network.pojo.SurveySaveReq;
-import com.thresholdsoft.praanadhara.data.network.pojo.SurveyStartReq;
 import com.thresholdsoft.praanadhara.ui.base.BasePresenter;
-import com.thresholdsoft.praanadhara.ui.surveylistactivity.SurveyListMvpPresenter;
-import com.thresholdsoft.praanadhara.ui.surveylistactivity.SurveyListMvpView;
 import com.thresholdsoft.praanadhara.utils.rx.SchedulerProvider;
 
 import java.util.ArrayList;

@@ -8,25 +8,17 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/two_hundred_dp"
         android:background="@color/colorPrimaryDark">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/ten_dp"
+            android:layout_centerVertical="true"
             android:orientation="vertical"
             android:paddingTop="@dimen/activity_vertical_margin"
             android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:contentDescription="@string/app_name"
-                android:paddingEnd="@dimen/five_dp"
-                android:src="@drawable/cross_green"
-                tools:ignore="RtlSymmetry" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -69,98 +61,13 @@
                 </LinearLayout>
 
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/twenty_dp"
-                android:background="@color/thickGreem"
-                android:orientation="horizontal"
-                android:paddingTop="@dimen/ten_dp"
-                android:paddingBottom="@dimen/ten_dp"
-                android:weightSum="3"
-                android:baselineAligned="false">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="@string/label_in_progress"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/text_dimen_12" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/two_dp"
-                        android:fontFamily="@font/roboto_bold"
-                        android:text="@string/label_135"
-                        android:textColor="@color/red"
-                        android:textSize="@dimen/text_dimen_22" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="@string/label_in_survey"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/text_dimen_12" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/two_dp"
-                        android:fontFamily="@font/roboto_bold"
-                        android:text="@string/label_28"
-                        android:textColor="@color/blue"
-                        android:textSize="@dimen/text_dimen_22" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="@string/label_completed"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/text_dimen_12" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/two_dp"
-                        android:fontFamily="@font/roboto_bold"
-                        android:text="@string/labe_55"
-                        android:textColor="@color/transaction_id_color"
-                        android:textSize="@dimen/text_dimen_22" />
-
-                </LinearLayout>
-            </LinearLayout>
-
         </LinearLayout>
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/one_dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/white" />
     </RelativeLayout>
+
+
 </layout>

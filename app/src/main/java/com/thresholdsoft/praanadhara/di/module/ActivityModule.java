@@ -9,35 +9,35 @@ import com.thresholdsoft.praanadhara.di.PerActivity;
 import com.thresholdsoft.praanadhara.ui.mainactivity.MainActivityMvpPresenter;
 import com.thresholdsoft.praanadhara.ui.mainactivity.MainActivityMvpView;
 import com.thresholdsoft.praanadhara.ui.mainactivity.MainActivityPresenter;
-import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.dasboardfrag.DashboardMvpPresenter;
-import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.dasboardfrag.DashboardMvpView;
-import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.dasboardfrag.DashboardPresenter;
+import com.thresholdsoft.praanadhara.ui.mainactivity.dialog.LogoutMvpPresenter;
+import com.thresholdsoft.praanadhara.ui.mainactivity.dialog.LogoutMvpView;
+import com.thresholdsoft.praanadhara.ui.mainactivity.dialog.LogoutPresenter;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.newenrollmentfrag.NewEnrollmentFragMvpPresenter;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.newenrollmentfrag.NewEnrollmentFragMvpView;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.newenrollmentfrag.NewEnrollmentFragPresenter;
+import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.SurveyListMvpPresenter;
+import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.SurveyListMvpView;
+import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.SurveyListPresenter;
+import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.userprofile.UserProfileMvpPresenter;
+import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.userprofile.UserProfileMvpView;
+import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.userprofile.UserProfilePresenter;
 import com.thresholdsoft.praanadhara.ui.selectingformactivity.SelectingFormMvpPresenter;
 import com.thresholdsoft.praanadhara.ui.selectingformactivity.SelectingFormMvpView;
 import com.thresholdsoft.praanadhara.ui.selectingformactivity.SelectingFormPresenter;
 import com.thresholdsoft.praanadhara.ui.splash.SplashMvpPresenter;
 import com.thresholdsoft.praanadhara.ui.splash.SplashMvpView;
 import com.thresholdsoft.praanadhara.ui.splash.SplashPresenter;
-import com.thresholdsoft.praanadhara.ui.surveylistactivity.SurveyListMvpPresenter;
-import com.thresholdsoft.praanadhara.ui.surveylistactivity.SurveyListMvpView;
-import com.thresholdsoft.praanadhara.ui.surveylistactivity.SurveyListPresenter;
-import com.thresholdsoft.praanadhara.ui.surveylistactivity.adapter.SurveyAdapter;
-import com.thresholdsoft.praanadhara.ui.surveytrack.SurveyTrackMvpPresenter;
-import com.thresholdsoft.praanadhara.ui.surveytrack.SurveyTrackMvpView;
-import com.thresholdsoft.praanadhara.ui.surveytrack.SurveyTrackPresenter;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusMvpPresenter;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusMvpView;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusPresenter;
+import com.thresholdsoft.praanadhara.ui.surveytrack.SurveyTrackMvpPresenter;
+import com.thresholdsoft.praanadhara.ui.surveytrack.SurveyTrackMvpView;
+import com.thresholdsoft.praanadhara.ui.surveytrack.SurveyTrackPresenter;
 import com.thresholdsoft.praanadhara.ui.userlogin.UserLoginMvpPresenter;
 import com.thresholdsoft.praanadhara.ui.userlogin.UserLoginMvpView;
 import com.thresholdsoft.praanadhara.ui.userlogin.UserLoginPresenter;
 import com.thresholdsoft.praanadhara.utils.rx.AppSchedulerProvider;
 import com.thresholdsoft.praanadhara.utils.rx.SchedulerProvider;
-
-import java.util.ArrayList;
 
 import dagger.Module;
 import dagger.Provides;
@@ -104,7 +104,7 @@ public class ActivityModule {
 
     @Provides
     @PerActivity
-    DashboardMvpPresenter<DashboardMvpView> dashboardFragmentPresenter(DashboardPresenter<DashboardMvpView> presenter) {
+    UserProfileMvpPresenter<UserProfileMvpView> dashboardFragmentPresenter(UserProfilePresenter<UserProfileMvpView> presenter) {
         return presenter;
     }
 
@@ -129,6 +129,12 @@ public class ActivityModule {
     @Provides
     @PerActivity
     SurveyStatusMvpPresenter<SurveyStatusMvpView> surveyStatusPresenter(SurveyStatusPresenter<SurveyStatusMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    LogoutMvpPresenter<LogoutMvpView> logoutMvpViewLogoutMvpPresenter(LogoutPresenter<LogoutMvpView> presenter) {
         return presenter;
     }
 
