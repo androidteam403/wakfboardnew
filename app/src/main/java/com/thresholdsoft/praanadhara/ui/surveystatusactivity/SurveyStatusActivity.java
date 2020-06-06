@@ -228,6 +228,4 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
         startActivity(intent);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
-
-
 }
