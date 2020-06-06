@@ -223,9 +223,10 @@
 
 
                     <CheckBox
-                        android:id="@+id/checkBox"
+                        android:id="@+id/checkBoxHeader"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:checked="false"
                         android:layout_alignParentStart="true"
                         android:text="Name" />
 

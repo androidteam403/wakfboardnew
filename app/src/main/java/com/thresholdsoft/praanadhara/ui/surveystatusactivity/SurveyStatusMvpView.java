@@ -21,4 +21,6 @@ public interface SurveyStatusMvpView extends MvpView {
     void submitSurvey(RowsEntity rowsEntity);
 
     void surveySubmitSuccess(SurveyStartRes data);
+
+    void onListItemClicked(int position);
 }
