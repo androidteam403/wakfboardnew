@@ -20,4 +20,8 @@ public interface SurveyTrackMvpView extends MvpView {
     void surveySaveSuccess();
 
     void onPassSurveyTrackEnteredDetails(SurveyDetailsModel surveyDetailsModel);
+
+    void onClickStartPolygon();
+
+    void savePolyGone();
 }
