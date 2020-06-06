@@ -5,11 +5,17 @@ import com.thresholdsoft.praanadhara.ui.base.MvpPresenter;
 
 public interface SurveyStatusMvpPresenter<V extends SurveyStatusMvpView> extends MvpPresenter<V> {
 
-    void startSurvey(RowsEntity surveyModel);
+
 
     void onpolygonRadioClick();
 
     void onLinesRadioClick();
 
     void onPointsRadioClick();
+
+    void startSurvey(RowsEntity rowsEntity);
+
+    void addSurvey(RowsEntity rowsEntity);
+
+    void submitSurvey(RowsEntity rowsEntity);
 }
