@@ -54,7 +54,6 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     private ArrayList<RowsEntity> surveyModelArrayList = new ArrayList<>();
     CustomActionbarBinding customActionbarBinding;
 
-    private SurveyStatusMvpView presenter;
 
     private GoogleMap map;
 
@@ -88,7 +87,6 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
 
         activitySurveyStatusBinding.setPresenterCallback(mpresenter);
         activitySurveyStatusBinding.setSurvey(surveyModel);
-        activitySurveyStatusBinding.setCallback(presenter);
 
         if (surveyModel.getPic().size() > 0) {
             Glide.with(getApplicationContext()).load(BuildConfig.IMAGE_URL + surveyModel.getPic().get(0).getPath()).placeholder(R.drawable.

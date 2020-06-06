@@ -12,7 +12,6 @@ import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.databinding.ActivitySplashBinding;
 import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
 import com.thresholdsoft.praanadhara.ui.selectingformactivity.SelectingFormActivity;
-import com.thresholdsoft.praanadhara.ui.surveylistactivity.SurveyListActivity;
 import com.thresholdsoft.praanadhara.ui.userlogin.UserLoginActivity;
 
 import javax.inject.Inject;

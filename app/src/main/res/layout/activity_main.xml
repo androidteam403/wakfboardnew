@@ -45,8 +45,9 @@
                     tools:ignore="UselessParent">
 
                     <TextView
-                        android:layout_width="@dimen/one_hundred_forty_dp"
-                        android:layout_height="@dimen/forty_five_dp"
+                        android:id="@+id/logout"
+                        android:layout_width="@dimen/one_hundred_seventy_dp"
+                        android:layout_height="@dimen/fifty_dp"
                         android:background="@drawable/button_login_effect"
                         android:fontFamily="@font/roboto_bold"
                         android:gravity="center"

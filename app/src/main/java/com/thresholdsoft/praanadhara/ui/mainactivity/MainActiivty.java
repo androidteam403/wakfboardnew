@@ -2,10 +2,14 @@ package com.thresholdsoft.praanadhara.ui.mainactivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -19,6 +23,7 @@ import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.databinding.ActivityMainBinding;
 import com.thresholdsoft.praanadhara.databinding.NavHeaderMainBinding;
 import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
+import com.thresholdsoft.praanadhara.ui.mainactivity.dialog.LogoutDialog;
 import com.thresholdsoft.praanadhara.ui.userlogin.UserLoginActivity;
 
 import javax.inject.Inject;
@@ -34,23 +39,28 @@ public class MainActiivty extends BaseActivity implements MainActivityMvpView {
     NavigationView navigationView;
     Toolbar mTopToolbar;
     TextView count;
+    DrawerLayout drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_customerMaster,
-                R.id.nav_billing, R.id.nav_orders)
+                R.id.nav_home, R.id.nav_profile, R.id.nav_enrollment)
                 .setDrawerLayout(drawer)
                 .build();
+
+        ImageView imageView = findViewById(R.id.menulines);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawer.openDrawer(Gravity.LEFT);
+            }
+        });
+
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
         getActivityComponent().inject(this);
         mPresenter.onAttach(MainActiivty.this);
@@ -59,52 +69,17 @@ public class MainActiivty extends BaseActivity implements MainActivityMvpView {
 
     @Override
     protected void setUp() {
-//        View header = navigationView.getHeaderView(0);
-//        TextView nav_header = (TextView) header.findViewById(R.id.storeIdnav);
-//        TextView uName1 = (TextView) header.findViewById(R.id.userName1);
-//        TextView uName2 = (TextView) header.findViewById(R.id.userName2);
-//        nav_header.setText(mPresenter.getStoreId());
-//        uName1.setText(mPresenter.getPharmaUser());
-//        uName2.setText(mPresenter.getPharmaUser());
-//        activityMainBinding.logout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                mPresenter.clearSharedPref();
-//                Intent intent = new Intent(MainActiivty.this, PharmaLoginActivity.class);
-//                startActivity(intent);
-//                overridePendingTransition(R.anim.left_right, R.anim.right_left);
-//            }
-//        });
+        activityMainBinding.logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawer.closeDrawer(GravityCompat.END);
+                LogoutDialog dialog = new LogoutDialog();
+                dialog.show(getSupportFragmentManager(), "logoutdialog");
+
+            }
+        });
 
     }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        MenuInflater menuInflater = getMenuInflater();
-//        menuInflater.inflate(R.menu.menu_main, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//
-//        switch (item.getItemId()) {
-//            case R.id.nav_orders:
-//                Toast.makeText(this, "You clicked about", Toast.LENGTH_SHORT).show();
-//              //  showBottomSheetDialogFragment();
-//                break;
-//
-//
-//        }
-//        return true;
-//    }
-
-//    public void showBottomSheetDialogFragment() {
-//        BottomSheetFragment bottomSheetFragment = new BottomSheetFragment();
-//        bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
-//        bottomSheetFragment.setDateDialogMvpView(this);
-//
-//    }
 
     @Override
     public boolean onSupportNavigateUp() {

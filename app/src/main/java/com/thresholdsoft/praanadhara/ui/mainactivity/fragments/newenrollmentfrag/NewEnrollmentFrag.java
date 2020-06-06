@@ -23,10 +23,17 @@ public class NewEnrollmentFrag extends BaseFragment implements NewEnrollmentFrag
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        fragmentEnrollmentBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_dashboard, container, false);
+        fragmentEnrollmentBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_enrollment, container, false);
         getActivityComponent().inject(this);
         mpresenter.onAttach(NewEnrollmentFrag.this);
+        setHasOptionsMenu(true);
         return fragmentEnrollmentBinding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setUp(view);
     }
 
     @Override

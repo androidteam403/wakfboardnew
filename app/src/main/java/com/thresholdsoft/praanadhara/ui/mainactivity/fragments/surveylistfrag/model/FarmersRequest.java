@@ -1,4 +1,4 @@
-package com.thresholdsoft.praanadhara.ui.surveylistactivity.model;
+package com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model;
 
 import com.google.gson.annotations.SerializedName;
 

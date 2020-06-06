@@ -9,8 +9,7 @@ import androidx.databinding.DataBindingUtil;
 import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.databinding.ActivityFormBinding;
 import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
-import com.thresholdsoft.praanadhara.ui.surveylistactivity.SurveyListActivity;
-import com.thresholdsoft.praanadhara.ui.userlogin.UserLoginActivity;
+import com.thresholdsoft.praanadhara.ui.mainactivity.MainActiivty;
 
 import javax.inject.Inject;
 
@@ -35,14 +34,14 @@ public class SelectingFormActivity extends BaseActivity implements SelectingForm
 
     @Override
     public void onEnrollmentClick() {
-        Intent intent = new Intent(this, SurveyListActivity.class);
+        Intent intent = new Intent(this, MainActiivty.class);
         startActivity(intent);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
     @Override
     public void onSurveyClick() {
-        Intent intent = new Intent(this, SurveyListActivity.class);
+        Intent intent = new Intent(this, MainActiivty.class);
         startActivity(intent);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }

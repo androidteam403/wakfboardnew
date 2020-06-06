@@ -15,9 +15,6 @@
             name="presenterCallback"
             type="com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusMvpPresenter" />
 
-        <variable
-            name="callback"
-            type="com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusMvpView" />
     </data>
 
     <ScrollView
@@ -32,7 +29,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/one_hundred_seventy_dp"
-                android:background="@color/cart_item_color"
+                android:background="@color/colorPrimaryDark"
                 android:orientation="vertical"
                 tools:ignore="UselessParent">
 
@@ -326,7 +323,7 @@
                     android:backgroundTint="@color/complaint_btn_color"
                     android:fontFamily="@font/roboto_bold"
                     android:gravity="center"
-                    android:onClick="@{()-> callback.startSurvey(survey)}"
+                    android:onClick="@{()-> presenterCallback.startSurvey(survey)}"
                     android:text="@string/label_start_survey"
                     android:textColor="@color/white"
                     android:visibility="@{survey.farmerLand.surveyLandLocation.submitted.uid == null ? View.VISIBLE : View.GONE}" />

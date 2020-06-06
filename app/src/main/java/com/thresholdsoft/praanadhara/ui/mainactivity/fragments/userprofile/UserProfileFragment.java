@@ -1,4 +1,4 @@
-package com.thresholdsoft.praanadhara.ui.mainactivity.fragments.dasboardfrag;
+package com.thresholdsoft.praanadhara.ui.mainactivity.fragments.userprofile;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,9 +15,9 @@ import com.thresholdsoft.praanadhara.ui.base.BaseFragment;
 
 import javax.inject.Inject;
 
-public class DashboardFragment extends BaseFragment implements DashboardMvpView {
+public class UserProfileFragment extends BaseFragment implements UserProfileMvpView {
     @Inject
-    DashboardMvpPresenter<DashboardMvpView> mpresenter;
+    UserProfileMvpPresenter<UserProfileMvpView> mpresenter;
     private FragmentDashboardBinding fragmentDashboardBinding;
 
     @Nullable
@@ -25,7 +25,7 @@ public class DashboardFragment extends BaseFragment implements DashboardMvpView 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentDashboardBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_dashboard, container, false);
         getActivityComponent().inject(this);
-        mpresenter.onAttach(DashboardFragment.this);
+        mpresenter.onAttach(UserProfileFragment.this);
         return fragmentDashboardBinding.getRoot();
     }
 

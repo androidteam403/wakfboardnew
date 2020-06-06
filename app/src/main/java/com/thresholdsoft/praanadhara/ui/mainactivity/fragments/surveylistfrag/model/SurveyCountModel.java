@@ -1,4 +1,4 @@
-package com.thresholdsoft.praanadhara.ui.surveylistactivity.model;
+package com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model;
 
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
@@ -20,6 +20,7 @@ public class SurveyCountModel extends BaseObservable {
         this.newCount = newCount;
         notifyPropertyChanged(BR.newCount);
     }
+
     @Bindable
     public int getInProgressCount() {
         return inProgressCount;
@@ -29,6 +30,7 @@ public class SurveyCountModel extends BaseObservable {
         this.inProgressCount = inProgressCount;
         notifyPropertyChanged(BR.inProgressCount);
     }
+
     @Bindable
     public int getCompletedCount() {
         return completedCount;
