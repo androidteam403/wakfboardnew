@@ -246,7 +246,7 @@
                         android:orientation="horizontal"
                         android:text="Action"
                         android:textColor="@color/black"
-                        android:layout_marginEnd="@dimen/ten_dp">
+                        android:layout_marginEnd="@dimen/twenty_dp">
 
                     </TextView>
                 </RelativeLayout>
