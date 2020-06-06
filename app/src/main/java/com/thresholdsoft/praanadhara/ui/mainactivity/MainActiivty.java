@@ -72,7 +72,7 @@ public class MainActiivty extends BaseActivity implements MainActivityMvpView {
         activityMainBinding.logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawer.closeDrawer(GravityCompat.END);
+                drawer.closeDrawer(GravityCompat.START);
                 LogoutDialog dialog = new LogoutDialog();
                 dialog.show(getSupportFragmentManager(), "logoutdialog");
 

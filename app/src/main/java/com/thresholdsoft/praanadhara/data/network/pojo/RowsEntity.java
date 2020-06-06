@@ -1,12 +1,18 @@
 package com.thresholdsoft.praanadhara.data.network.pojo;
 
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.thresholdsoft.praanadhara.BR;
+import com.thresholdsoft.praanadhara.ui.surveytrack.model.SurveyModel;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-public class RowsEntity implements Serializable {
+public class RowsEntity extends BaseObservable implements Serializable {
 
 
     @Expose
@@ -130,5 +136,17 @@ public class RowsEntity implements Serializable {
 
     public void setCurrentLongitude(double currentLongitude) {
         this.currentLongitude = currentLongitude;
+    }
+
+    private ArrayList<SurveyModel> surveyModelArrayList = new ArrayList<>();
+
+    @Bindable
+    public ArrayList<SurveyModel> getSurveyModelArrayList() {
+        return surveyModelArrayList;
+    }
+
+    public void setSurveyModelArrayList(ArrayList<SurveyModel> surveyModelArrayList) {
+        this.surveyModelArrayList.addAll(surveyModelArrayList) ;
+        notifyPropertyChanged(BR.surveyModelArrayList);
     }
 }
