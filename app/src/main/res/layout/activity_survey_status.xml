@@ -218,12 +218,17 @@
 
                 </androidx.cardview.widget.CardView>
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/surve_details_recyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/twenty_dp"
                     android:orientation="horizontal"
-                    android:visibility="@{survey.farmerLand.surveyLandLocation.submitted.uid == null ? View.VISIBLE : View.GONE}"
+                    android:visibility="@{survey.farmerLand.surveyLandLocation.uid != null ? View.VISIBLE : View.GONE}"
                     android:weightSum="3">
 
                     <LinearLayout
@@ -321,7 +326,6 @@
                     android:layout_height="@dimen/thirty_five_dp"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/thirty_five_dp"
-                    android:layout_marginBottom="@dimen/thirty_five_dp"
                     android:background="@drawable/button_rounded_blue"
                     android:backgroundTint="@color/complaint_btn_color"
                     android:fontFamily="@font/roboto_bold"
@@ -329,7 +333,38 @@
                     android:onClick="@{()-> callback.startSurvey(survey)}"
                     android:text="@string/label_start_survey"
                     android:textColor="@color/white"
-                    android:visibility="@{survey.farmerLand.surveyLandLocation.submitted.uid == null ? View.VISIBLE : View.GONE}" />
+                    android:visibility="@{survey.farmerLand.surveyLandLocation.uid == null ? View.VISIBLE : View.GONE}" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="@dimen/thirty_dp"
+                    android:gravity="center"
+                    android:visibility="@{survey.farmerLand.surveyLandLocation.uid != null ? View.VISIBLE : View.GONE}">
+                <TextView
+                    android:layout_width="@dimen/one_hundred_forty_dp"
+                    android:layout_height="@dimen/thirty_five_dp"
+                    android:background="@drawable/button_rounded_blue"
+                    android:backgroundTint="@color/complaint_btn_color"
+                    android:layout_marginEnd="@dimen/twenty_dp"
+                    android:fontFamily="@font/roboto_bold"
+                    android:gravity="center"
+                    android:onClick="@{()-> callback.addSurvey(survey)}"
+                    android:text="Add"
+                    android:textColor="@color/white" />
+                <TextView
+                    android:layout_width="@dimen/one_hundred_forty_dp"
+                    android:layout_height="@dimen/thirty_five_dp"
+                    android:background="@drawable/button_rounded_blue"
+                    android:layout_marginStart="@dimen/twenty_dp"
+                    android:backgroundTint="@color/complaint_btn_color"
+                    android:fontFamily="@font/roboto_bold"
+                    android:gravity="center"
+                    android:onClick="@{()-> callback.submitSurvey(survey)}"
+                    android:text="Submit Survey"
+                    android:textColor="@color/white" />
+                </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
     </ScrollView>

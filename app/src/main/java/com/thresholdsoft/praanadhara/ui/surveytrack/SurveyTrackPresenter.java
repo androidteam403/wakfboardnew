@@ -62,19 +62,6 @@ public class SurveyTrackPresenter<V extends SurveyTrackMvpView> extends BasePres
 
     @Override
     public void submitSurvey(SurveySaveReq.SurveyEntity landLocationEntity) {
-        getMvpView().showLoading();
-        getCompositeDisposable().add(getDataManager()
-                .submitSurvey(landLocationEntity)
-                .subscribeOn(getSchedulerProvider().io())
-                .observeOn(getSchedulerProvider().ui())
-                .subscribe(blogResponse -> {
-                    if (blogResponse != null && blogResponse.getData() != null && blogResponse.getSuccess()) {
-                        getMvpView().surveySubmitSuccess(blogResponse.getData());
-                    }
-                    getMvpView().hideLoading();
-                }, throwable -> {
-                    getMvpView().hideLoading();
-                    handleApiError(throwable);
-                }));
+
     }
 }

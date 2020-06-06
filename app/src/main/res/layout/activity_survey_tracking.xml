@@ -5,6 +5,10 @@
     tools:context="com.threshold.praanadhaara.MainActivity">
 
     <data>
+        <import type="android.view.View"/>
+        <variable
+            name="type"
+            type="Integer" />
         <variable
             name="view"
             type="com.thresholdsoft.praanadhara.ui.surveytrack.SurveyTrackMvpView" />
@@ -61,6 +65,21 @@
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/type_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/twenty_dp"
+                android:background="@null"
+                android:gravity="center"
+                android:includeFontPadding="true"
+                android:text="Type"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="normal" />
+
+
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -72,7 +91,7 @@
             android:layout_marginStart="@dimen/ten_dp"
             android:layout_marginEnd="@dimen/ten_dp"
             android:orientation="horizontal"
-            android:visibility="visible"
+            android:visibility="@{type == 2 ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             android:background="@drawable/bg_rounde"
             android:padding="@dimen/ten_dp">
@@ -121,6 +140,30 @@
                 android:textSize="@dimen/text_dimen_18"
                 android:onClick="@{()-> view.onClickPointBtn()}"/>
         </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            <TextView
+                android:id="@+id/save_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="@dimen/text_dimen_18"
+                android:onClick="@{()-> view.onClickSavePoints()}"
+                android:visibility="@{type == 0 ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:background="@drawable/bg_rounde"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginBottom="@dimen/thirty_dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:paddingTop="@dimen/ten_dp"
+                android:paddingBottom="@dimen/ten_dp"
+                android:paddingStart="@dimen/thirty_dp"
+                android:paddingEnd="@dimen/thirty_dp"/>
+
+
 
         <ProgressBar
             android:id="@+id/progress_bar"
