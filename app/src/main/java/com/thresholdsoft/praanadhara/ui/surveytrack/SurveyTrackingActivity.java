@@ -73,7 +73,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackMvpView, OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, LocationListener {
+        GoogleApiClient.OnConnectionFailedListener, LocationListener, GoogleMap.OnMarkerClickListener {
 
     private static final String TAG = SurveyTrackingActivity.class.getSimpleName();
 
@@ -109,8 +109,11 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
     boolean didInitialZoom;
     private Location currentLocation;
     private RowsEntity surveyModel;
-    public static Intent getIntent(Context context, RowsEntity surveyModel){
-        Intent intent = new Intent(context,SurveyTrackingActivity.class);
+    private LatLng fromPolyLineLatLng = null;
+    private LatLng toPolyLineLatLng = null;
+
+    public static Intent getIntent(Context context, RowsEntity surveyModel) {
+        Intent intent = new Intent(context, SurveyTrackingActivity.class);
         intent.putExtra("surveyData", surveyModel);
         return intent;
     }
@@ -130,6 +133,7 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
     }
 
     private boolean firstTimeZoom = false;
+
     @Override
     protected void setUp() {
         surveyTrackingBinding.setView(this);
@@ -143,7 +147,7 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
                         Location location = intent.getParcelableExtra("location");
                         if (location != null && latitude != null && longitude != null) {
                             surveyTrackingBinding.progressBar.setVisibility(View.GONE);
-                            if(!firstTimeZoom) {
+                            if (!firstTimeZoom) {
                                 firstTimeZoom = true;
                                 zoomMapTo(location);
                             }
@@ -273,7 +277,8 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
     /**
      * Shows a {@link Snackbar}.
      *
-     * @param listener         The listener associated with the Snackbar action.*/
+     * @param listener The listener associated with the Snackbar action.
+     */
     private void showSnackbar(View.OnClickListener listener) {
         Snackbar.make(
                 findViewById(android.R.id.content),
@@ -347,8 +352,14 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng point) {
-                showPointDialog(point);
-                Log.d("DEBUG","Map clicked [" + point.latitude + " / " + point.longitude + "]");
+                if (getSurveyType() == 0) {
+                    showPointDialog(point);
+                } else if (getSurveyType() == 1) {
+                    if (fromPolyLineLatLng == null || toPolyLineLatLng == null)
+                        showPointDialog(point);
+                }
+
+                Log.d("DEBUG", "Map clicked [" + point.latitude + " / " + point.longitude + "]");
                 //Do your stuff with LatLng here
                 //Then pass LatLng to other activity
             }
@@ -379,15 +390,15 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
 //        }
 
         locationList.add(location);
-       // surveyModelArrayList.add(new SurveyModel(location.getLatitude(),location.getLongitude(),location.getAccuracy()));
+        // surveyModelArrayList.add(new SurveyModel(location.getLatitude(),location.getLongitude(),location.getAccuracy()));
         polygonPoints.add(new LatLng(location.getLatitude(), location.getLongitude()));
-        mpresenter.storeSurveyDetails(location,false);
+        mpresenter.storeSurveyDetails(location, false);
 
-        if(getSurveyType() == 0){
-          //  dottedPolyline();
-        }else if(getSurveyType() == 1){
-          //  planePolyline();
-        }else if(getSurveyType() == 2){
+        if (getSurveyType() == 0) {
+            //  dottedPolyline();
+        } else if (getSurveyType() == 1) {
+            //  planePolyline();
+        } else if (getSurveyType() == 2) {
             drawUserPositionMarker(location);
             polygonPolyline();
         }
@@ -458,32 +469,38 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
         }
     }
 
-    private void planePolyline() {
-        if (runningPathPolyline == null) {
-            if (locationList.size() > 1) {
-                Location fromLocation = locationList.get(locationList.size() - 2);
-                Location toLocation = locationList.get(locationList.size() - 1);
-
-                LatLng from = new LatLng(((fromLocation.getLatitude())),
-                        ((fromLocation.getLongitude())));
-
-                LatLng to = new LatLng(((toLocation.getLatitude())),
-                        ((toLocation.getLongitude())));
-                PolylineOptions options = new PolylineOptions();
-                this.runningPathPolyline = mMap.addPolyline(options
-                        .add(from, to)
-                        .width(polylineWidth).color(Color.parseColor("#801B60FE")).geodesic(true));
-            }
-        } else {
-            Location toLocation = locationList.get(locationList.size() - 1);
-            LatLng to = new LatLng(((toLocation.getLatitude())),
-                    ((toLocation.getLongitude())));
-
-            List<LatLng> points = runningPathPolyline.getPoints();
-            points.add(to);
-
-            runningPathPolyline.setPoints(points);
-        }
+    private void planePolyline(LatLng fromPolyLineLatLng, LatLng toPolyLineLatLng) {
+        LatLng from = new LatLng(((fromPolyLineLatLng.latitude)), ((fromPolyLineLatLng.longitude)));
+        LatLng to = new LatLng(((toPolyLineLatLng.latitude)), ((toPolyLineLatLng.longitude)));
+        PolylineOptions options = new PolylineOptions();
+        this.runningPathPolyline = mMap.addPolyline(options
+                .add(from, to)
+                .width(polylineWidth).color(Color.parseColor("#801B60FE")).geodesic(true));
+//        if (runningPathPolyline == null) {
+//            if (locationList.size() > 1) {
+//                Location fromLocation = locationList.get(locationList.size() - 2);
+//                Location toLocation = locationList.get(locationList.size() - 1);
+//
+//                LatLng from = new LatLng(((fromLocation.getLatitude())),
+//                        ((fromLocation.getLongitude())));
+//
+//                LatLng to = new LatLng(((toLocation.getLatitude())),
+//                        ((toLocation.getLongitude())));
+//                PolylineOptions options = new PolylineOptions();
+//                this.runningPathPolyline = mMap.addPolyline(options
+//                        .add(from, to)
+//                        .width(polylineWidth).color(Color.parseColor("#801B60FE")).geodesic(true));
+//            }
+//        } else {
+//            Location toLocation = locationList.get(locationList.size() - 1);
+//            LatLng to = new LatLng(((toLocation.getLatitude())),
+//                    ((toLocation.getLongitude())));
+//
+//            List<LatLng> points = runningPathPolyline.getPoints();
+//            points.add(to);
+//
+//            runningPathPolyline.setPoints(points);
+//        }
     }
 
     private void polygonPolyline() {
@@ -497,8 +514,8 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
             LatLng to = new LatLng(((toLocation.getLatitude())),
                     ((toLocation.getLongitude())));
             PolygonOptions options = new PolygonOptions();
-            if(runningPathPolygon != null)
-               runningPathPolygon.remove();
+            if (runningPathPolygon != null)
+                runningPathPolygon.remove();
 
             this.runningPathPolygon = mMap.addPolygon(options
                     .addAll(polygonPoints));
@@ -660,10 +677,10 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
 
     @Override
     public void onClickPauseResumeBtn() {
-        if(isStartLogging){
+        if (isStartLogging) {
             isStartLogging = false;
             surveyTrackingBinding.pauseResumeBtn.setText("Resume");
-        }else{
+        } else {
             isStartLogging = true;
             surveyTrackingBinding.pauseResumeBtn.setText("Pause");
         }
@@ -693,9 +710,9 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
             @Override
             public void onClick(View view) {
                 dialogView.dismiss();
-                if(currentLocation != null) {
+                if (currentLocation != null) {
                     LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-                    addPoint(latLng,dialogView.getPointName(),dialogView.getPointDescription());
+                    addPoint(latLng, dialogView.getPointName(), dialogView.getPointDescription());
                 }
             }
         });
@@ -726,12 +743,27 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
         finish();
     }
 
-    private void addPoint(LatLng latLng, String pointName, String pointDescription){
+    private void addPoint(LatLng latLng, String pointName, String pointDescription) {
+        if (getSurveyType() == 1) {
+            if (fromPolyLineLatLng == null) {
+                fromPolyLineLatLng = latLng;
+            } else if (toPolyLineLatLng == null) {
+                toPolyLineLatLng = latLng;
+            }
+            drawLine();
+        }
         mMap.addMarker(new MarkerOptions().title(pointName)
                 .position(latLng)
                 .flat(true)
                 .anchor(0.5f, 0.5f));
-        surveyModelArrayList.add(new SurveyModel(latLng.latitude,latLng.longitude,0,true,pointName,pointDescription));
+        surveyModelArrayList.add(new SurveyModel(latLng.latitude, latLng.longitude, 0, true, pointName, pointDescription));
+        mMap.setOnMarkerClickListener(this);
+    }
+
+    private void drawLine() {
+        if (fromPolyLineLatLng != null && toPolyLineLatLng != null) {
+            planePolyline(fromPolyLineLatLng, toPolyLineLatLng);
+        }
     }
 
     @Override
@@ -741,7 +773,7 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
-    private void showPointDialog(LatLng latLng){
+    private void showPointDialog(LatLng latLng) {
         SurveyPointDialog dialogView = new SurveyPointDialog(this);
         dialogView.setTitle("Point Details");
         dialogView.setPositiveLabel("Ok");
@@ -749,7 +781,7 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
             @Override
             public void onClick(View view) {
                 dialogView.dismiss();
-                addPoint(latLng,dialogView.getPointName(),dialogView.getPointDescription());
+                addPoint(latLng, dialogView.getPointName(), dialogView.getPointDescription());
             }
         });
         dialogView.setNegativeLabel("Cancel");
@@ -760,6 +792,38 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
             }
         });
         dialogView.show();
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        if (marker != null) {
+            Log.e("Map", "Marker pos :: " + marker.getPosition());
+            String markerLatLngStr = String.valueOf(marker.getPosition());
+            markerLatLngStr = markerLatLngStr.substring(10);
+            markerLatLngStr = markerLatLngStr.substring(0, markerLatLngStr.length() - 1);
+            String[] markerLatLng = markerLatLngStr.split(",");
+            if (getSurveyType() == 1) {
+                int removedPos = -1;
+                for (int i = 0; i < surveyModelArrayList.size(); i++) {
+                    if (surveyModelArrayList.get(i).getLatitude() == Double.parseDouble(markerLatLng[0]) &&
+                            surveyModelArrayList.get(i).getLongitude() == Double.parseDouble(markerLatLng[1])) {
+                        removedPos = i;
+                        marker.remove();
+                        surveyModelArrayList.remove(i);
+                        break;
+                    }
+                }
+                if (removedPos != -1) {
+                    if (removedPos == 0) {
+                        fromPolyLineLatLng = null;
+                    } else {
+                        toPolyLineLatLng = null;
+                    }
+                    clearPolyline();
+                }
+            }
+        }
+        return false;
     }
 }
 
