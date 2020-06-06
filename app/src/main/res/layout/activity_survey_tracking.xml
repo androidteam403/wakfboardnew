@@ -10,6 +10,15 @@
             name="type"
             type="Integer" />
         <variable
+            name="start"
+            type="Boolean" />
+        <variable
+            name="save"
+            type="Boolean" />
+        <variable
+            name="survey"
+            type="com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity" />
+        <variable
             name="view"
             type="com.thresholdsoft.praanadhara.ui.surveytrack.SurveyTrackMvpView" />
     </data>
@@ -31,7 +40,7 @@
             tools:context=".MapsActivity" />
 
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="?actionBarSize"
@@ -51,7 +60,8 @@
                 android:text="Accuracy"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                android:textStyle="normal" />
+                android:textStyle="normal"
+                android:layout_alignParentStart="true"/>
 
             <TextView
                 android:id="@+id/distance_textView"
@@ -64,7 +74,8 @@
                 android:text="Distance"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                android:textStyle="normal" />
+                android:textStyle="normal"
+                android:layout_centerHorizontal="true"/>
 
             <TextView
                 android:id="@+id/type_textview"
@@ -74,13 +85,15 @@
                 android:background="@null"
                 android:gravity="center"
                 android:includeFontPadding="true"
-                android:text="Type"
+                android:text="@{survey.surveyName}"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                android:textStyle="normal" />
+                android:textStyle="normal"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/twenty_dp"/>
 
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
+        </RelativeLayout>
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/line_options_layout"
@@ -91,7 +104,7 @@
             android:layout_marginStart="@dimen/ten_dp"
             android:layout_marginEnd="@dimen/ten_dp"
             android:orientation="horizontal"
-            android:visibility="@{type == 2 ? View.VISIBLE : View.GONE}"
+            android:visibility="@{type == 2 &amp; start &amp; !save? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             android:background="@drawable/bg_rounde"
             android:padding="@dimen/ten_dp">
@@ -103,7 +116,7 @@
                 android:layout_weight="1"
                 android:text="Pause"
                 android:gravity="center"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textStyle="normal"
                 android:textSize="@dimen/text_dimen_18"
                 android:onClick="@{()-> view.onClickPauseResumeBtn()}"/>
@@ -120,25 +133,11 @@
                 android:layout_weight="1"
                 android:text="Stop"
                 android:gravity="center"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textStyle="normal"
                 android:textSize="@dimen/text_dimen_18"
                 android:onClick="@{()-> view.onClickStopBtn()}" />
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="@color/black"/>
-            <TextView
-                android:id="@+id/point_btn"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Point"
-                android:textColor="@color/black"
-                android:textStyle="normal"
-                android:gravity="center"
-                android:textSize="@dimen/text_dimen_18"
-                android:onClick="@{()-> view.onClickPointBtn()}"/>
+
         </androidx.appcompat.widget.LinearLayoutCompat>
 
 
@@ -148,11 +147,11 @@
                 android:layout_height="wrap_content"
                 android:text="Save"
                 android:gravity="center"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textStyle="bold"
                 android:textSize="@dimen/text_dimen_18"
                 android:onClick="@{()-> view.onClickSavePoints()}"
-                android:visibility="@{type == 0 ? View.VISIBLE : View.GONE}"
+                android:visibility="@{type == 0 || type == 1 ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:background="@drawable/bg_rounde"
                 app:layout_constraintStart_toStartOf="parent"
@@ -163,8 +162,47 @@
                 android:paddingStart="@dimen/thirty_dp"
                 android:paddingEnd="@dimen/thirty_dp"/>
 
+        <TextView
+            android:id="@+id/start_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="@dimen/text_dimen_18"
+            android:onClick="@{()-> view.onClickStartPolygon()}"
+            android:visibility="@{type == 2 &amp; !start &amp; !save ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@drawable/bg_rounde"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginBottom="@dimen/thirty_dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:paddingTop="@dimen/ten_dp"
+            android:paddingBottom="@dimen/ten_dp"
+            android:paddingStart="@dimen/thirty_dp"
+            android:paddingEnd="@dimen/thirty_dp"/>
 
-
+        <TextView
+            android:id="@+id/save_polygone__btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="@dimen/text_dimen_18"
+            android:onClick="@{()-> view.savePolyGone()}"
+            android:visibility="@{type == 2 &amp; save ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@drawable/bg_rounde"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginBottom="@dimen/thirty_dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:paddingTop="@dimen/ten_dp"
+            android:paddingBottom="@dimen/ten_dp"
+            android:paddingStart="@dimen/thirty_dp"
+            android:paddingEnd="@dimen/thirty_dp"/>
         <ProgressBar
             android:id="@+id/progress_bar"
             android:layout_width="wrap_content"

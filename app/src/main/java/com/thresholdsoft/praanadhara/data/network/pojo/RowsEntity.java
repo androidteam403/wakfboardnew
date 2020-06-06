@@ -149,4 +149,17 @@ public class RowsEntity extends BaseObservable implements Serializable {
         this.surveyModelArrayList.addAll(surveyModelArrayList) ;
         notifyPropertyChanged(BR.surveyModelArrayList);
     }
+
+    private String surveyName ;
+
+    public String getSurveyName() {
+        if(getSurveyType() == 0){
+            surveyName = "Type\n"+"Points";
+        }else if(getSurveyType() == 1){
+            surveyName = "Type\n"+"Lines";
+        }else {
+            surveyName = "Type\n"+"Polygone";
+        }
+        return surveyName;
+    }
 }

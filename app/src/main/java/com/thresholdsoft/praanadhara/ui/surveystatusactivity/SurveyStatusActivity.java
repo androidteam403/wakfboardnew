@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.Dash;
 import com.google.android.gms.maps.model.Dot;
 import com.google.android.gms.maps.model.Gap;
@@ -74,10 +75,8 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     SurveyDetailsAdapter surveyDetailsAdapter;
     SurveyModel survey;
 
-    private Polyline runningPathPolyline;
-    private Polygon runningPathPolygon;
     private int polylineWidth = 10;
-    List<LatLng> polygonPoints = new ArrayList<>();
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -85,6 +84,11 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
         activitySurveyStatusBinding = DataBindingUtil.setContentView(this, R.layout.activity_survey_status);
         getActivityComponent().inject(this);
         mpresenter.onAttach(SurveyStatusActivity.this);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.preview_map);
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(this);
+        }
+
         setUp();
     }
 
@@ -131,48 +135,6 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
-        if (surveyModel != null && !TextUtils.isEmpty(surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().getLatlongs())) {
-            Gson gson = new Gson();
-            Type listType = new TypeToken<List<SurveyModel>>() {
-            }.getType();
-            List<SurveyModel> posts = gson.fromJson(surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().getLatlongs(), listType);
-            for (SurveyModel model : posts) {
-                LatLng location = new LatLng(model.getLatitude(), model.getLongitude());
-                polygonPoints.add(location);
-                if (model.isPoint()) {
-                    map.addMarker(new MarkerOptions().title(model.getName())
-                            .position(location)
-                            .flat(true)
-                            .anchor(0.5f, 0.5f));
-                }
-            }
-            if (surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().getMapType().getName() != null) {
-                if (surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().getMapType().getName().equalsIgnoreCase("Point")) {
-                    runningPathPolyline = map.addPolyline(new PolylineOptions()
-                            .clickable(true)
-                            .addAll(polygonPoints).width(polylineWidth).color(Color.parseColor("#801B60FE")).geodesic(true));
-                    runningPathPolyline.setPattern(PATTERN_POLYLINE_DOTTED);
-
-                } else if (surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().getMapType().getName().equalsIgnoreCase("Line")) {
-                    runningPathPolyline = map.addPolyline(new PolylineOptions()
-                            .addAll(polygonPoints).width(polylineWidth).color(Color.parseColor("#801B60FE")).geodesic(true));
-                    runningPathPolyline.setPattern(null);
-                } else if (surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().getMapType().getName().equalsIgnoreCase("Polygon")) {
-                    runningPathPolygon = map.addPolygon(new PolygonOptions()
-                            .addAll(polygonPoints));
-                    runningPathPolygon.setStrokeColor(Color.BLUE);
-                    runningPathPolygon.setFillColor(Color.argb(20, 0, 255, 0));
-                }
-            }
-            if (polygonPoints.size() > 0) {
-                map.moveCamera(CameraUpdateFactory.newLatLngZoom(polygonPoints.get(0), 21.5f));
-            }
-        } else {
-            LatLng location = new LatLng(surveyModel.getCurrentLatitude(), surveyModel.getCurrentLongitude());
-            map.addMarker(new MarkerOptions().position(location));
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 21.5f));
-        }
-
         map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
     }
 
@@ -244,6 +206,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
             surveyModel.setSurveyModelArrayList((ArrayList<SurveyModel>) data.getSerializableExtra("surveySubmit"));
             surveyDetailsAdapter.notifyDataSetChanged();
+            previewDisplay();
         }
     }
 
@@ -252,5 +215,46 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
         Intent intent = new Intent(this, UserLoginActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+    }
+
+    private void previewDisplay(){
+        if (surveyModel != null && surveyModel.getSurveyModelArrayList().size() > 0) {
+            for(SurveyModel surveyModel : surveyModel.getSurveyModelArrayList()) {
+                    if (surveyModel.getSurveyType() == 0) {
+                        Gson gson = new Gson();
+                        SurveyModel.PointDetails pointDetails = gson.fromJson(surveyModel.getPolygoneData(),SurveyModel.PointDetails.class);
+                        LatLng latLng = new LatLng(pointDetails.getLatitude(),pointDetails.getLongitude());
+                        map.addMarker(new MarkerOptions().title(surveyModel.getName())
+                                .position(latLng)
+                                .flat(true)
+                                .anchor(0.5f, 0.5f));
+                        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 21.5f));
+                    } else if (surveyModel.getSurveyType() == 1) {
+                        Gson gson = new Gson();
+                        SurveyModel.PolyLineDetails polyLineDetails = gson.fromJson(surveyModel.getPolygoneData(),SurveyModel.PolyLineDetails.class);
+                        Polyline runningPathPolyline = map.addPolyline(new PolylineOptions()
+                                .add(new LatLng(polyLineDetails.getFromLatitude(),polyLineDetails.getFromLongitude()),new LatLng(polyLineDetails.getToLatitude(),polyLineDetails.getToLongitude())).width(polylineWidth).color(Color.parseColor("#801B60FE")).geodesic(true));
+                        runningPathPolyline.setPattern(null);
+                    } else if (surveyModel.getSurveyType() == 2) {
+                        List<LatLng> polygonPoints = new ArrayList<>();
+                        Gson gson = new Gson();
+                        Type listType = new TypeToken<List<SurveyModel>>() {}.getType();
+                        List<SurveyModel> posts = gson.fromJson(surveyModel.getPolygoneData(), listType);
+                        for (SurveyModel model : posts) {
+                            LatLng location = new LatLng(model.getLatitude(), model.getLongitude());
+                            polygonPoints.add(location);
+                        }
+                        Polygon runningPathPolygon = map.addPolygon(new PolygonOptions()
+                                .addAll(polygonPoints));
+                        runningPathPolygon.setStrokeColor(Color.BLUE);
+                        runningPathPolygon.setFillColor(Color.argb(20, 0, 255, 0));
+                        map.moveCamera(CameraUpdateFactory.newLatLngZoom(polygonPoints.get(0), 21.5f));
+                    }
+            }
+        } else {
+            LatLng location = new LatLng(surveyModel.getCurrentLatitude(), surveyModel.getCurrentLongitude());
+            map.addMarker(new MarkerOptions().position(location));
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 21.5f));
+        }
     }
 }

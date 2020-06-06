@@ -14,12 +14,12 @@ public class SurveyModel implements Serializable {
     private String displayMapType;
 
     public String getDisplayMapType() {
-        if(surveyType == 0){
+        if(getSurveyType() == 0){
             displayMapType = "Points";
-        }else if(surveyType == 1){
-            displayMapType = "Lines";
-        }else if(surveyType == 2){
-            displayMapType = "Plygone";
+        }else if(getSurveyType() == 1){
+            displayMapType = "Line";
+        }else if(getSurveyType() == 2){
+            displayMapType = "Polygon";
         }
         return displayMapType;
     }
@@ -95,5 +95,87 @@ public class SurveyModel implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    private String polygoneData;
+
+    public String getPolygoneData() {
+        return polygoneData;
+    }
+
+    public void setPolygoneData(String polygoneData) {
+        this.polygoneData = polygoneData;
+    }
+
+    public SurveyModel(String name, String description, String polygoneData,int mapType) {
+        this.name = name;
+        this.description = description;
+        this.polygoneData = polygoneData;
+        this.surveyType = mapType;
+    }
+
+    public static class PolyLineDetails {
+        private double fromLatitude;
+        private double fromLongitude;
+        private double toLatitude;
+        private double toLongitude;
+
+        public double getFromLatitude() {
+            return fromLatitude;
+        }
+
+        public void setFromLatitude(double fromLatitude) {
+            this.fromLatitude = fromLatitude;
+        }
+
+        public double getFromLongitude() {
+            return fromLongitude;
+        }
+
+        public void setFromLongitude(double fromLongitude) {
+            this.fromLongitude = fromLongitude;
+        }
+
+        public double getToLatitude() {
+            return toLatitude;
+        }
+
+        public void setToLatitude(double toLatitude) {
+            this.toLatitude = toLatitude;
+        }
+
+        public double getToLongitude() {
+            return toLongitude;
+        }
+
+        public void setToLongitude(double toLongitude) {
+            this.toLongitude = toLongitude;
+        }
+    }
+
+    public static class PointDetails{
+        private double latitude;
+        private double longitude;
+
+        public double getLatitude() {
+            return latitude;
+        }
+
+        public void setLatitude(double latitude) {
+            this.latitude = latitude;
+        }
+
+        public double getLongitude() {
+            return longitude;
+        }
+
+        public void setLongitude(double longitude) {
+            this.longitude = longitude;
+        }
+
+        public PointDetails(double latitude, double longitude) {
+            this.latitude = latitude;
+            this.longitude = longitude;
+        }
     }
 }
