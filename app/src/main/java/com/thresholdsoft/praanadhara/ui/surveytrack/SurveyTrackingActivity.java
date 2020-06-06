@@ -58,11 +58,12 @@ import com.thresholdsoft.praanadhara.BuildConfig;
 import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity;
 import com.thresholdsoft.praanadhara.data.network.pojo.SurveySaveReq;
-import com.thresholdsoft.praanadhara.data.network.pojo.SurveyStartRes;
 import com.thresholdsoft.praanadhara.databinding.ActivitySurveyTrackingBinding;
 import com.thresholdsoft.praanadhara.services.LocationMonitoringService;
 import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
 import com.thresholdsoft.praanadhara.ui.dialog.SurveyPointDialog;
+import com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusActivity;
+import com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.SurveyDetailsModel;
 import com.thresholdsoft.praanadhara.ui.surveytrack.model.SurveyModel;
 import com.thresholdsoft.praanadhara.ui.userlogin.UserLoginActivity;
 
@@ -109,8 +110,9 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
     boolean didInitialZoom;
     private Location currentLocation;
     private RowsEntity surveyModel;
-    public static Intent getIntent(Context context, RowsEntity surveyModel){
-        Intent intent = new Intent(context,SurveyTrackingActivity.class);
+
+    public static Intent getIntent(Context context, RowsEntity surveyModel) {
+        Intent intent = new Intent(context, SurveyTrackingActivity.class);
         intent.putExtra("surveyData", surveyModel);
         return intent;
     }
@@ -130,6 +132,7 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
     }
 
     private boolean firstTimeZoom = false;
+
     @Override
     protected void setUp() {
         surveyTrackingBinding.setView(this);
@@ -143,7 +146,7 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
                         Location location = intent.getParcelableExtra("location");
                         if (location != null && latitude != null && longitude != null) {
                             surveyTrackingBinding.progressBar.setVisibility(View.GONE);
-                            if(!firstTimeZoom) {
+                            if (!firstTimeZoom) {
                                 firstTimeZoom = true;
                                 zoomMapTo(location);
                             }
@@ -273,7 +276,8 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
     /**
      * Shows a {@link Snackbar}.
      *
-     * @param listener         The listener associated with the Snackbar action.*/
+     * @param listener The listener associated with the Snackbar action.
+     */
     private void showSnackbar(View.OnClickListener listener) {
         Snackbar.make(
                 findViewById(android.R.id.content),
@@ -348,7 +352,7 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
             @Override
             public void onMapClick(LatLng point) {
                 showPointDialog(point);
-                Log.d("DEBUG","Map clicked [" + point.latitude + " / " + point.longitude + "]");
+                Log.d("DEBUG", "Map clicked [" + point.latitude + " / " + point.longitude + "]");
                 //Do your stuff with LatLng here
                 //Then pass LatLng to other activity
             }
@@ -379,15 +383,15 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
 //        }
 
         locationList.add(location);
-       // surveyModelArrayList.add(new SurveyModel(location.getLatitude(),location.getLongitude(),location.getAccuracy()));
+        // surveyModelArrayList.add(new SurveyModel(location.getLatitude(),location.getLongitude(),location.getAccuracy()));
         polygonPoints.add(new LatLng(location.getLatitude(), location.getLongitude()));
-        mpresenter.storeSurveyDetails(location,false);
+        mpresenter.storeSurveyDetails(location, false);
 
-        if(getSurveyType() == 0){
-          //  dottedPolyline();
-        }else if(getSurveyType() == 1){
-          //  planePolyline();
-        }else if(getSurveyType() == 2){
+        if (getSurveyType() == 0) {
+            //  dottedPolyline();
+        } else if (getSurveyType() == 1) {
+            //  planePolyline();
+        } else if (getSurveyType() == 2) {
             drawUserPositionMarker(location);
             polygonPolyline();
         }
@@ -497,8 +501,8 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
             LatLng to = new LatLng(((toLocation.getLatitude())),
                     ((toLocation.getLongitude())));
             PolygonOptions options = new PolygonOptions();
-            if(runningPathPolygon != null)
-               runningPathPolygon.remove();
+            if (runningPathPolygon != null)
+                runningPathPolygon.remove();
 
             this.runningPathPolygon = mMap.addPolygon(options
                     .addAll(polygonPoints));
@@ -660,10 +664,10 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
 
     @Override
     public void onClickPauseResumeBtn() {
-        if(isStartLogging){
+        if (isStartLogging) {
             isStartLogging = false;
             surveyTrackingBinding.pauseResumeBtn.setText("Resume");
-        }else{
+        } else {
             isStartLogging = true;
             surveyTrackingBinding.pauseResumeBtn.setText("Pause");
         }
@@ -689,13 +693,15 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
         SurveyPointDialog dialogView = new SurveyPointDialog(this);
         dialogView.setTitle("Point Details");
         dialogView.setPositiveLabel("Ok");
+        dialogView.setEditTextDialogDetails(this);
         dialogView.setPositiveListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dialogView.dismiss();
-                if(currentLocation != null) {
+                if (currentLocation != null) {
                     LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-                    addPoint(latLng,dialogView.getPointName(),dialogView.getPointDescription());
+                    addPoint(latLng, dialogView.getPointName(), dialogView.getPointDescription());
+
                 }
             }
         });
@@ -712,7 +718,7 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
     @Override
     public void onClickSavePoints() {
         Intent intent = getIntent();
-        intent.putExtra("surveySubmit", true);
+        intent.putExtra("surveySubmit",surveyModelArrayList);
         setResult(RESULT_OK, intent);
         finish();
     }
@@ -726,12 +732,25 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
         finish();
     }
 
-    private void addPoint(LatLng latLng, String pointName, String pointDescription){
+    @Override
+    public void onPassSurveyTrackEnteredDetails(SurveyDetailsModel surveyDetailsModel) {
+        surveyTrackingBinding.saveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), SurveyStatusActivity.class);
+                intent.putExtra("dialogedittextdata", surveyModel);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void addPoint(LatLng latLng, String pointName, String pointDescription) {
         mMap.addMarker(new MarkerOptions().title(pointName)
                 .position(latLng)
                 .flat(true)
                 .anchor(0.5f, 0.5f));
-        surveyModelArrayList.add(new SurveyModel(latLng.latitude,latLng.longitude,0,true,pointName,pointDescription));
+        surveyModelArrayList.add(new SurveyModel(latLng.latitude, latLng.longitude, 0, true, pointName, pointDescription,getSurveyType()));
+
     }
 
     @Override
@@ -741,7 +760,7 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
-    private void showPointDialog(LatLng latLng){
+    private void showPointDialog(LatLng latLng) {
         SurveyPointDialog dialogView = new SurveyPointDialog(this);
         dialogView.setTitle("Point Details");
         dialogView.setPositiveLabel("Ok");
@@ -749,7 +768,7 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
             @Override
             public void onClick(View view) {
                 dialogView.dismiss();
-                addPoint(latLng,dialogView.getPointName(),dialogView.getPointDescription());
+                addPoint(latLng, dialogView.getPointName(), dialogView.getPointDescription());
             }
         });
         dialogView.setNegativeLabel("Cancel");
