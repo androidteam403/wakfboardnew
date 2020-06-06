@@ -246,7 +246,7 @@
                         android:orientation="horizontal"
                         android:text="Action"
                         android:textColor="@color/black"
-                        android:layout_marginEnd="@dimen/ten_dp">
+                        android:layout_marginEnd="@dimen/twenty_dp">
 
                     </TextView>
                 </RelativeLayout>
@@ -399,7 +399,8 @@
                         android:gravity="center"
                         android:onClick="@{()-> presenterCallback.submitSurvey(survey)}"
                         android:text="Submit Survey"
-                        android:textColor="@color/white" />
+                        android:textColor="@color/white"
+                        android:visibility="@{survey.surveyModelArrayList.size() > 0 ? View.VISIBLE : View.GONE}"/>
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
