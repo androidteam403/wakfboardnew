@@ -885,7 +885,6 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
             @Override
             public void onClick(View view) {
                 dialogView.dismiss();
-                LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
                 SurveySaveReq surveySaveReq = new SurveySaveReq();
                 surveySaveReq.setSurvey(new SurveySaveReq.SurveyEntity(surveyModel.getStartSurveyUid()));
                 surveySaveReq.setMapType(surveyModel.getMapTypeEntity());
