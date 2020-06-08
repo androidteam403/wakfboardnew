@@ -1,4 +1,4 @@
-package com.thresholdsoft.praanadhara.ui.mainactivity.dialog;
+package com.thresholdsoft.praanadhara.ui.surveystatusactivity.dialog.deletedialog;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 
 import com.thresholdsoft.praanadhara.R;
+import com.thresholdsoft.praanadhara.databinding.DialogDeleteBinding;
 import com.thresholdsoft.praanadhara.databinding.DialogLogotBinding;
 import com.thresholdsoft.praanadhara.ui.base.BaseDialog;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.dialog.editdialog.EditDialogMvpPresenter;
@@ -19,10 +20,10 @@ import com.thresholdsoft.praanadhara.ui.userlogin.UserLoginActivity;
 
 import javax.inject.Inject;
 
-public class LogoutDialog extends BaseDialog implements LogoutMvpView {
+public class DeleteDialog extends BaseDialog implements DeleteMvpView {
     @Inject
-    LogoutMvpPresenter<LogoutMvpView> mpresenter;
-    private DialogLogotBinding dialogLogotBinding;
+    DeleteMvpPresenter<DeleteMvpView> mpresenter;
+    private DialogDeleteBinding dialogDeleteBinding;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,16 +33,16 @@ public class LogoutDialog extends BaseDialog implements LogoutMvpView {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        dialogLogotBinding = DataBindingUtil.inflate(inflater, R.layout.dialog_logot, container, false);
+        dialogDeleteBinding = DataBindingUtil.inflate(inflater, R.layout.dialog_delete, container, false);
         getActivityComponent().inject(this);
-        mpresenter.onAttach(LogoutDialog.this);
+        mpresenter.onAttach(DeleteDialog.this);
         // init ViewModel
-        return dialogLogotBinding.getRoot();
+        return dialogDeleteBinding.getRoot();
     }
 
     @Override
     protected void setUp(View view) {
-        dialogLogotBinding.setCallbacks(mpresenter);
+        dialogDeleteBinding.setCallbacks(mpresenter);
     }
 
     @Override
@@ -61,9 +62,9 @@ public class LogoutDialog extends BaseDialog implements LogoutMvpView {
 
     @Override
     public void onYesClick() {
-        mpresenter.clearSharedPreference();
-        Intent intent = new Intent(getContext(), UserLoginActivity.class);
-        startActivity(intent);
-        getActivity().overridePendingTransition(R.anim.left_right, R.anim.right_left);
+////        mpresenter.clearSharedPreference();
+//        Intent intent = new Intent(getContext(), UserLoginActivity.class);
+//        startActivity(intent);
+//        getActivity().overridePendingTransition(R.anim.left_right, R.anim.right_left);
     }
 }

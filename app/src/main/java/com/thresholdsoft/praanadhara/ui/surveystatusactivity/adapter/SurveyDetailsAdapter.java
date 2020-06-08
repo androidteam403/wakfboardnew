@@ -1,30 +1,26 @@
 package com.thresholdsoft.praanadhara.ui.surveystatusactivity.adapter;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.thresholdsoft.praanadhara.R;
-import com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity;
-import com.thresholdsoft.praanadhara.databinding.AdapterSurveyListBinding;
 import com.thresholdsoft.praanadhara.databinding.ViewSurveyDetailsBinding;
-import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.SurveyListMvpPresenter;
-import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.SurveyListMvpView;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusMvpPresenter;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusMvpView;
-import com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.SurveyDetailsModel;
+import com.thresholdsoft.praanadhara.ui.surveystatusactivity.dialog.deletedialog.DeleteDialog;
+import com.thresholdsoft.praanadhara.ui.surveystatusactivity.dialog.editdialog.EditDialog;
 import com.thresholdsoft.praanadhara.ui.surveytrack.model.SurveyModel;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class SurveyDetailsAdapter extends RecyclerView.Adapter<SurveyDetailsAdapter.ViewHolder> {
@@ -64,6 +60,21 @@ public class SurveyDetailsAdapter extends RecyclerView.Adapter<SurveyDetailsAdap
 
         holder.adapterSurveyListBinding.checkBox.setOnClickListener(view -> {
             statusMvpView.onListItemClicked(position);
+        });
+        holder.adapterSurveyListBinding.edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager manager = ((AppCompatActivity) activity).getSupportFragmentManager();
+                EditDialog dialog = new EditDialog();
+                dialog.show(manager, "editdialog");
+            }
+        });
+        holder.adapterSurveyListBinding.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager manager = ((AppCompatActivity) activity).getSupportFragmentManager();
+                DeleteDialog dialog = new DeleteDialog();
+                dialog.show(manager, "deletedialog");            }
         });
     }
 

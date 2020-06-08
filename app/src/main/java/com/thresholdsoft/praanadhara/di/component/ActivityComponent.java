@@ -11,6 +11,8 @@ import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.userprofile.UserP
 import com.thresholdsoft.praanadhara.ui.selectingformactivity.SelectingFormActivity;
 import com.thresholdsoft.praanadhara.ui.splash.SplashActivity;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusActivity;
+import com.thresholdsoft.praanadhara.ui.surveystatusactivity.dialog.deletedialog.DeleteDialog;
+import com.thresholdsoft.praanadhara.ui.surveystatusactivity.dialog.editdialog.EditDialog;
 import com.thresholdsoft.praanadhara.ui.surveytrack.SurveyTrackingActivity;
 import com.thresholdsoft.praanadhara.ui.userlogin.UserLoginActivity;
 
@@ -43,4 +45,9 @@ public interface ActivityComponent {
     void inject(SurveyStatusActivity surveyStatusActivity);
 
     void inject(LogoutDialog logoutDialog);
+
+    void inject(EditDialog editDialog);
+
+    void inject(DeleteDialog deleteDialog);
+
 }
