@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
@@ -61,7 +62,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     private ArrayList<RowsEntity> surveyModelArrayList = new ArrayList<>();
     CustomActionbarBinding customActionbarBinding;
 
-    private SurveyStatusMvpView presenter;
+    private SurveyStatusMvpView mvpView;
 
     private GoogleMap map;
 
@@ -88,7 +89,6 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
         }
-
         setUp();
     }
 
@@ -98,7 +98,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
         surveyModel = (RowsEntity) intent.getSerializableExtra("surveyData");
         surveyModelArrayList.add(surveyModel);
 
-        surveyDetailsAdapter= new SurveyDetailsAdapter(this, surveyModel.getSurveyModelArrayList(), mpresenter);
+        surveyDetailsAdapter = new SurveyDetailsAdapter(this, surveyModel.getSurveyModelArrayList(), mpresenter, this);
         RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(this);
         activitySurveyStatusBinding.surveDetailsRecyclerview.setLayoutManager(mLayoutManager1);
         activitySurveyStatusBinding.surveDetailsRecyclerview.setAdapter(surveyDetailsAdapter);
@@ -128,6 +128,22 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
             public void onClick(View v) {
                 finish();
                 overridePendingTransition(R.anim.left_right, R.anim.right_left);
+            }
+        });
+
+        activitySurveyStatusBinding.checkBoxHeader.setOnClickListener(view -> {
+            if (activitySurveyStatusBinding.checkBoxHeader.isChecked()) {
+                for (int i = 0; i < surveyModel.getSurveyModelArrayList().size(); i++) {
+                    surveyModel.getSurveyModelArrayList().get(i).setChecked(true);
+                }
+                surveyDetailsAdapter.notifyDataSetChanged();
+                previewDisplay();
+            } else {
+                for (int i = 0; i < surveyModel.getSurveyModelArrayList().size(); i++) {
+                    surveyModel.getSurveyModelArrayList().get(i).setChecked(false);
+                }
+                surveyDetailsAdapter.notifyDataSetChanged();
+                previewDisplay();
             }
         });
     }
@@ -202,6 +218,18 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     }
 
     @Override
+    public void onListItemClicked(int position) {
+        boolean isCheckedStatus = surveyModel.getSurveyModelArrayList().get(position).isChecked();
+        if (!isCheckedStatus) {
+            surveyModel.getSurveyModelArrayList().get(position).setChecked(true);
+        } else {
+            surveyModel.getSurveyModelArrayList().get(position).setChecked(false);
+        }
+        surveyDetailsAdapter.notifyDataSetChanged();
+        previewDisplay();
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
@@ -218,13 +246,15 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
-    private void previewDisplay(){
+    private void previewDisplay() {
+        map.clear();
         if (surveyModel != null && surveyModel.getSurveyModelArrayList().size() > 0) {
-            for(SurveyModel surveyModel : surveyModel.getSurveyModelArrayList()) {
+            for (SurveyModel surveyModel : surveyModel.getSurveyModelArrayList()) {
+                if (surveyModel.isChecked()) {
                     if (surveyModel.getSurveyType() == 0) {
                         Gson gson = new Gson();
-                        SurveyModel.PointDetails pointDetails = gson.fromJson(surveyModel.getPolygoneData(),SurveyModel.PointDetails.class);
-                        LatLng latLng = new LatLng(pointDetails.getLatitude(),pointDetails.getLongitude());
+                        SurveyModel.PointDetails pointDetails = gson.fromJson(surveyModel.getPolygoneData(), SurveyModel.PointDetails.class);
+                        LatLng latLng = new LatLng(pointDetails.getLatitude(), pointDetails.getLongitude());
                         map.addMarker(new MarkerOptions().title(surveyModel.getName())
                                 .position(latLng)
                                 .flat(true)
@@ -232,15 +262,16 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
                         map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17.0f));
                     } else if (surveyModel.getSurveyType() == 1) {
                         Gson gson = new Gson();
-                        SurveyModel.PolyLineDetails polyLineDetails = gson.fromJson(surveyModel.getPolygoneData(),SurveyModel.PolyLineDetails.class);
+                        SurveyModel.PolyLineDetails polyLineDetails = gson.fromJson(surveyModel.getPolygoneData(), SurveyModel.PolyLineDetails.class);
                         Polyline runningPathPolyline = map.addPolyline(new PolylineOptions()
-                                .add(new LatLng(polyLineDetails.getFromLatitude(),polyLineDetails.getFromLongitude()),new LatLng(polyLineDetails.getToLatitude(),polyLineDetails.getToLongitude())).width(polylineWidth).color(Color.parseColor("#801B60FE")).geodesic(true));
+                                .add(new LatLng(polyLineDetails.getFromLatitude(), polyLineDetails.getFromLongitude()), new LatLng(polyLineDetails.getToLatitude(), polyLineDetails.getToLongitude())).width(polylineWidth).color(Color.parseColor("#801B60FE")).geodesic(true));
                         runningPathPolyline.setPattern(null);
                         map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(polyLineDetails.getFromLatitude(),polyLineDetails.getFromLongitude()), 17.0f));
                     } else if (surveyModel.getSurveyType() == 2) {
                         List<LatLng> polygonPoints = new ArrayList<>();
                         Gson gson = new Gson();
-                        Type listType = new TypeToken<List<SurveyModel>>() {}.getType();
+                        Type listType = new TypeToken<List<SurveyModel>>() {
+                        }.getType();
                         List<SurveyModel> posts = gson.fromJson(surveyModel.getPolygoneData(), listType);
                         for (SurveyModel model : posts) {
                             LatLng location = new LatLng(model.getLatitude(), model.getLongitude());
@@ -252,6 +283,9 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
                         runningPathPolygon.setFillColor(Color.argb(20, 0, 255, 0));
                         map.moveCamera(CameraUpdateFactory.newLatLngZoom(polygonPoints.get(0),17.0f));
                     }
+                } else {
+                    activitySurveyStatusBinding.checkBoxHeader.setChecked(false);
+                }
             }
         } else {
             LatLng location = new LatLng(surveyModel.getCurrentLatitude(), surveyModel.getCurrentLongitude());

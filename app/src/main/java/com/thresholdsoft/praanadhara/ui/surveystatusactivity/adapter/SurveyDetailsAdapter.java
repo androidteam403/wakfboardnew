@@ -32,13 +32,15 @@ public class SurveyDetailsAdapter extends RecyclerView.Adapter<SurveyDetailsAdap
     private ArrayList<SurveyModel> surveyModelArrayList;
     private SurveyStatusMvpPresenter<SurveyStatusMvpView> mPresenter;
     private Activity activity;
+    private SurveyStatusMvpView statusMvpView;
 
 
     public SurveyDetailsAdapter(Activity activity, ArrayList<SurveyModel> surveyModelArrayList,
-                                SurveyStatusMvpPresenter<SurveyStatusMvpView> mPresenter) {
+                                SurveyStatusMvpPresenter<SurveyStatusMvpView> mPresenter, SurveyStatusMvpView statusMvpView) {
         this.activity = activity;
         this.surveyModelArrayList = surveyModelArrayList;
         this.mPresenter = mPresenter;
+        this.statusMvpView = statusMvpView;
     }
 
     @NonNull
@@ -54,8 +56,15 @@ public class SurveyDetailsAdapter extends RecyclerView.Adapter<SurveyDetailsAdap
         SurveyModel farmerModel = surveyModelArrayList.get(position);
         holder.adapterSurveyListBinding.setData(farmerModel);
 
+        if (farmerModel.isChecked()) {
+            holder.adapterSurveyListBinding.checkBox.setChecked(true);
+        } else {
+            holder.adapterSurveyListBinding.checkBox.setChecked(false);
+        }
 
-
+        holder.adapterSurveyListBinding.checkBox.setOnClickListener(view -> {
+            statusMvpView.onListItemClicked(position);
+        });
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
