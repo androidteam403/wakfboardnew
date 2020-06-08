@@ -105,9 +105,9 @@ public class SurveyStatusPresenter<V extends SurveyStatusMvpView> extends BasePr
                     .subscribeOn(getSchedulerProvider().io())
                     .observeOn(getSchedulerProvider().ui())
                     .subscribe(blogResponse -> {
-//                        if (blogResponse != null && blogResponse.getData() != null && blogResponse.getSuccess()) {
+                        if (blogResponse != null && blogResponse.getData() != null && blogResponse.getSuccess()) {
                             getMvpView().onDeleteApiSuccess(position);
-//                        }
+                        }
                         getMvpView().hideLoading();
                     }, throwable -> {
                         getMvpView().hideLoading();
