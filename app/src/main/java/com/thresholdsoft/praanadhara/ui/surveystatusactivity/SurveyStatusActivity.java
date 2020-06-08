@@ -152,6 +152,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
         map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+        previewDisplay();
     }
 
     @Override
@@ -258,13 +259,14 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
                                 .position(latLng)
                                 .flat(true)
                                 .anchor(0.5f, 0.5f));
-                        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 21.5f));
+                        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17.0f));
                     } else if (surveyModel.getSurveyType() == 1) {
                         Gson gson = new Gson();
                         SurveyModel.PolyLineDetails polyLineDetails = gson.fromJson(surveyModel.getPolygoneData(), SurveyModel.PolyLineDetails.class);
                         Polyline runningPathPolyline = map.addPolyline(new PolylineOptions()
                                 .add(new LatLng(polyLineDetails.getFromLatitude(), polyLineDetails.getFromLongitude()), new LatLng(polyLineDetails.getToLatitude(), polyLineDetails.getToLongitude())).width(polylineWidth).color(Color.parseColor("#801B60FE")).geodesic(true));
                         runningPathPolyline.setPattern(null);
+                        map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(polyLineDetails.getFromLatitude(),polyLineDetails.getFromLongitude()), 17.0f));
                     } else if (surveyModel.getSurveyType() == 2) {
                         List<LatLng> polygonPoints = new ArrayList<>();
                         Gson gson = new Gson();
@@ -279,7 +281,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
                                 .addAll(polygonPoints));
                         runningPathPolygon.setStrokeColor(Color.BLUE);
                         runningPathPolygon.setFillColor(Color.argb(20, 0, 255, 0));
-                        map.moveCamera(CameraUpdateFactory.newLatLngZoom(polygonPoints.get(0), 21.5f));
+                        map.moveCamera(CameraUpdateFactory.newLatLngZoom(polygonPoints.get(0),17.0f));
                     }
                 } else {
                     activitySurveyStatusBinding.checkBoxHeader.setChecked(false);
@@ -288,7 +290,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
         } else {
             LatLng location = new LatLng(surveyModel.getCurrentLatitude(), surveyModel.getCurrentLongitude());
             map.addMarker(new MarkerOptions().position(location));
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 21.5f));
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 17.0f));
         }
     }
 }

@@ -12,7 +12,7 @@ public class SurveyModel implements Serializable {
     private String description;
     private int surveyType;
     private String displayMapType;
-    private boolean isChecked;
+    private boolean isChecked = true;
 
     public String getDisplayMapType() {
         if(getSurveyType() == 0){
@@ -26,11 +26,10 @@ public class SurveyModel implements Serializable {
     }
 
 
-    public SurveyModel(double latitude, double longitude, double accuracy, boolean isChecked) {
+    public SurveyModel(double latitude, double longitude, double accuracy) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.accuracy = accuracy;
-        this.isChecked = isChecked;
     }
 
     public SurveyModel(double latitude, double longitude, double accuracy, boolean isPoint, String name, String description,int mapType) {
@@ -117,12 +116,11 @@ public class SurveyModel implements Serializable {
         isChecked = checked;
     }
 
-    public SurveyModel(String name, String description, String polygoneData, int mapType, boolean isChecked) {
+    public SurveyModel(String name, String description, String polygoneData, int mapType) {
         this.name = name;
         this.description = description;
         this.polygoneData = polygoneData;
         this.surveyType = mapType;
-        this.isChecked = isChecked;
     }
 
     public static class PolyLineDetails {
