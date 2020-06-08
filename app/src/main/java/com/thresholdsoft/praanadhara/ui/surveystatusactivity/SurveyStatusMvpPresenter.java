@@ -20,4 +20,6 @@ public interface SurveyStatusMvpPresenter<V extends SurveyStatusMvpView> extends
     void submitSurvey(RowsEntity rowsEntity);
 
     void deleteApiCall(SurveyDetailsEntity farmerModel,int position);
+
+    void editApiCal(SurveyDetailsEntity surveyDetailsEntity , int position);
 }

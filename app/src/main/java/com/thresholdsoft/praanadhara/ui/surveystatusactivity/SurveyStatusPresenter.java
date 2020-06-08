@@ -117,5 +117,35 @@ public class SurveyStatusPresenter<V extends SurveyStatusMvpView> extends BasePr
         }
     }
 
+    @Override
+    public void editApiCal(SurveyDetailsEntity surveyDetailsEntity, int position) {
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+            getMvpView().hideKeyboard();
+            SurveySaveReq surveySaveReq = new SurveySaveReq();
+            surveySaveReq.setUid(surveyDetailsEntity.getUid());
+            surveySaveReq.setDescription(surveyDetailsEntity.getDescription());
+            surveySaveReq.setLatlongs(surveyDetailsEntity.getLatlongs());
+            surveySaveReq.setMapType(surveyDetailsEntity.getMapType());
+            surveySaveReq.setSurvey(new SurveySaveReq.SurveyEntity(getMvpView().getSurvey().getFarmerLand().getSurveyLandLocation().getUid()));
+            getCompositeDisposable().add(getDataManager()
+                    .saveSurvey(surveySaveReq)
+                    .subscribeOn(getSchedulerProvider().io())
+                    .observeOn(getSchedulerProvider().ui())
+                    .subscribe(blogResponse -> {
+                        if (blogResponse != null && blogResponse.getData() != null && blogResponse.getSuccess()) {
+                            getMvpView().onSuccessEditSurvey(surveyDetailsEntity.getDescription(),position);
+                        }
+                        getMvpView().hideLoading();
+                    }, throwable -> {
+                        getMvpView().hideLoading();
+                        handleApiError(throwable);
+                    }));
+
+        } else {
+            getMvpView().showMessage("Please Connect to Proper internet");
+        }
+    }
+
 
 }

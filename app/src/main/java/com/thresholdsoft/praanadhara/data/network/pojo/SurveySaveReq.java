@@ -7,6 +7,9 @@ public class SurveySaveReq {
 
 
     @Expose
+    @SerializedName("uid")
+    private String uid;
+    @Expose
     @SerializedName("survey")
     private SurveyEntity survey;
     @Expose
@@ -37,6 +40,10 @@ public class SurveySaveReq {
 
     public SurveyEntity getSurvey() {
         return survey;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public static class SurveyEntity {

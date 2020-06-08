@@ -58,7 +58,7 @@ public class SurveyLandLocationEntity  extends BaseObservable implements Seriali
     }
 
     public void setSurveyDetails(ArrayList<SurveyDetailsEntity> surveyDetails) {
-        this.surveyDetails = surveyDetails;
+        this.surveyDetails.addAll(surveyDetails);
         notifyPropertyChanged(BR.surveyDetails);
     }
 

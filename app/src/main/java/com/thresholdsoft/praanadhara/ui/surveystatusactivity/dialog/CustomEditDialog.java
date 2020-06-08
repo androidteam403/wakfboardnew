@@ -106,7 +106,6 @@ public class CustomEditDialog {
     }
 
     public String getPointDescription() {
-//        return editQuantityDialogBinding.editDescriptionEditText.getText().toString();
-        return null;
+        return editQuantityDialogBinding.editNameEditText.getText().toString();
     }
 }

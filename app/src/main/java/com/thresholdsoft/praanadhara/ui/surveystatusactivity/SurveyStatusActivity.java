@@ -272,10 +272,20 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     }
 
     @Override
+    public RowsEntity getSurvey() {
+        return surveyModel;
+    }
+
+    @Override
+    public void onSuccessEditSurvey(String description, int postion) {
+        surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().get(postion).setDescription(description);
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
-            surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().addAll((ArrayList<SurveyDetailsEntity>) data.getSerializableExtra("surveySubmit"));
+            surveyModel.getFarmerLand().getSurveyLandLocation().setSurveyDetails((ArrayList<SurveyDetailsEntity>) data.getSerializableExtra("surveySubmit"));
             surveyDetailsAdapter.notifyDataSetChanged();
             previewDisplay();
         }
