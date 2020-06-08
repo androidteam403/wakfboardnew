@@ -1,11 +1,15 @@
 package com.thresholdsoft.praanadhara.data.network.pojo;
 
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.thresholdsoft.praanadhara.BR;
 
 import java.io.Serializable;
 
-public class SurveyDetailsEntity implements Serializable {
+public class SurveyDetailsEntity extends BaseObservable implements Serializable {
     @Expose
     @SerializedName("map_type")
     private MapTypeEntity mapType;
@@ -27,6 +31,7 @@ public class SurveyDetailsEntity implements Serializable {
         return latlongs;
     }
 
+    @Bindable
     public String getDescription() {
         return description;
     }
@@ -66,6 +71,7 @@ public class SurveyDetailsEntity implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+        notifyPropertyChanged(BR.description);
     }
 
     public void setUid(String uid) {

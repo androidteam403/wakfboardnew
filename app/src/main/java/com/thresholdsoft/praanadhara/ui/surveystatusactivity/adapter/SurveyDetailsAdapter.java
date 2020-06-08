@@ -67,14 +67,15 @@ public class SurveyDetailsAdapter extends RecyclerView.Adapter<SurveyDetailsAdap
 //                dialog.show(manager, "editdialog");
                 CustomEditDialog customEditDialog = new CustomEditDialog(activity);
                 customEditDialog.setEditTextData(farmerModel.getDescription());
-                Log.e("tag", farmerModel.getName());
-                customEditDialog.setTitle("Edit Details");
+                customEditDialog.setTitle("Edit ");
                 customEditDialog.setPositiveUpdateLabel("Update");
                 customEditDialog.setPositiveUpdateListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        holder.adapterSurveyListBinding.checkBox.setText(customEditDialog.getPointName());
+                       // holder.adapterSurveyListBinding.checkBox.setText(customEditDialog.getPointDescription());
+                        farmerModel.setDescription(customEditDialog.getPointDescription());
                         customEditDialog.dismiss();
+                        mPresenter.editApiCal(farmerModel,position);
                     }
                 });
                 customEditDialog.setNegativeUpdateLabel("Back");
@@ -92,7 +93,7 @@ public class SurveyDetailsAdapter extends RecyclerView.Adapter<SurveyDetailsAdap
             public void onClick(View v) {
 
                 DeleteDialog deleteDialog = new DeleteDialog(activity);
-                deleteDialog.setTitle("Delete Details");
+                deleteDialog.setTitle("Are You Sure!");
                 deleteDialog.setPositiveLabel("Ok");
                 deleteDialog.setPositiveListener(new View.OnClickListener() {
                     @Override

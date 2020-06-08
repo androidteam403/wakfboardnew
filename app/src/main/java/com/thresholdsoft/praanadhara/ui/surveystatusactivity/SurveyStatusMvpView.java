@@ -35,5 +35,9 @@ public interface SurveyStatusMvpView extends MvpView {
 
     ArrayList<RowsEntity> getUidDetails();
 
+    RowsEntity getSurvey();
+
+    void onSuccessEditSurvey(String description,int postion);
+
 
 }

@@ -24,43 +24,43 @@
             android:layout_marginEnd="@dimen/fifty_dp"
             android:ellipsize="end"
             android:singleLine="true"
-            android:text="@{data.name}" />
+            android:text="@{data.description}" />
 
         <TextView
             android:id="@+id/type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@{data.mapType.name}"
+            android:textColor="@color/black"
             android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="@{data.displayMapType}"
-            android:textColor="@color/black" />
+            android:layout_centerVertical="true"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true">
 
             <TextView
                 android:id="@+id/edit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/five_dp"
-                android:layout_marginEnd="@dimen/five_dp"
                 android:text="Edit"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:layout_marginEnd="@dimen/five_dp"
+                android:layout_marginStart="@dimen/five_dp"/>
 
             <TextView
                 android:id="@+id/delete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/five_dp"
-                android:layout_marginEnd="@dimen/five_dp"
                 android:gravity="end"
                 android:text="Delete"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:layout_marginStart="@dimen/five_dp"
+                android:layout_marginEnd="@dimen/five_dp"/>
         </LinearLayout>
     </RelativeLayout>
 </layout>

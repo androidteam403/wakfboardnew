@@ -3,4 +3,6 @@ package com.thresholdsoft.praanadhara.ui.mainactivity.fragments.newenrollmentfra
 import com.thresholdsoft.praanadhara.ui.base.MvpPresenter;
 
 public interface NewEnrollmentFragMvpPresenter <V extends NewEnrollmentFragMvpView> extends MvpPresenter<V> {
+
+    String getAccessToken();
 }

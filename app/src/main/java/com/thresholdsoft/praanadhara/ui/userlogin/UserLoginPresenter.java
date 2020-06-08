@@ -111,7 +111,8 @@ public class UserLoginPresenter<V extends UserLoginMvpView> extends BasePresente
                     Log.e("TAG", response.code() + "");
                     if (response.body() != null && response.body().getSuccess()) {
                         getDataManager().storeUserLogin(true);
-                        getDataManager().setAccessToken(response.body().getData().getToken());
+                        getDataManager().updateUserInfo(response.body().getData().getToken(),response.body().getData().getName(),response.body().getData().getEmail(),response.body().getData().getPhone());
+                      //  getDataManager().setAccessToken(response.body().getData().getToken());
                         getMvpView().onSucessfullLogin();
                         getMvpView().navigateToSurveyListActivity();
                         getMvpView().hideKeyboard();
