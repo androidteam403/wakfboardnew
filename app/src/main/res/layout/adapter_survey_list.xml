@@ -14,7 +14,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/seven_dp">
+        android:layout_marginTop="@dimen/three_dp">
 
         <LinearLayout
             android:id="@+id/mainLayout"
@@ -22,6 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/eight_dp"
             android:layout_marginEnd="@dimen/eight_dp"
+            android:layout_marginBottom="@dimen/five_dp"
             android:background="@drawable/adapter_survey_background"
             android:orientation="vertical"
             tools:ignore="UselessParent">

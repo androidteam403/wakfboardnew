@@ -5,6 +5,8 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -13,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity;
 import com.thresholdsoft.praanadhara.databinding.AdapterSurveyListBinding;
+import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.SurveyListFrag;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.SurveyListMvpPresenter;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.SurveyListMvpView;
 
@@ -22,18 +25,21 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder> {
+public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder> implements Filterable {
 
     private ArrayList<RowsEntity> surveyModelArrayList;
+    private ArrayList<RowsEntity> filteredSurveyModelArrayList;
     private SurveyListMvpPresenter<SurveyListMvpView> mPresenter;
     private Activity activity;
-
+    private SurveyListFrag frag;
 
     public SurveyAdapter(Activity activity, ArrayList<RowsEntity> surveyModelArrayList,
-                         SurveyListMvpPresenter<SurveyListMvpView> mPresenter) {
+                         SurveyListMvpPresenter<SurveyListMvpView> mPresenter, SurveyListFrag frag) {
         this.activity = activity;
         this.surveyModelArrayList = surveyModelArrayList;
+        this.filteredSurveyModelArrayList = surveyModelArrayList;
         this.mPresenter = mPresenter;
+        this.frag = frag;
     }
 
     @NonNull
@@ -46,7 +52,7 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull final SurveyAdapter.ViewHolder holder, int position) {
-        RowsEntity farmerModel = surveyModelArrayList.get(position);
+        RowsEntity farmerModel = filteredSurveyModelArrayList.get(position);
         holder.adapterSurveyListBinding.setSurvey(farmerModel);
 
         if (farmerModel.getFarmerLand().getSurveyLandLocation().getSubmitted().getUid() != null) {
@@ -112,6 +118,38 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
         });
     }
 
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String charString = charSequence.toString();
+                if (charString.isEmpty()) {
+                    filteredSurveyModelArrayList = surveyModelArrayList;
+                } else {
+                    ArrayList<RowsEntity> filteredList = new ArrayList<>();
+                    for (RowsEntity row : surveyModelArrayList) {
+                        if (row.getName().toUpperCase().contains(charString.toUpperCase())) {
+                            filteredList.add(row);
+                        }
+                    }
+                    filteredSurveyModelArrayList = filteredList;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = filteredSurveyModelArrayList;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                filteredSurveyModelArrayList = (ArrayList<RowsEntity>) filterResults.values;
+                notifyDataSetChanged();
+                frag.updateFilteredList(filteredSurveyModelArrayList);
+            }
+        };
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public AdapterSurveyListBinding adapterSurveyListBinding;
 
@@ -123,7 +161,7 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
-        return surveyModelArrayList.size();
+        return filteredSurveyModelArrayList.size();
     }
 
     @Override

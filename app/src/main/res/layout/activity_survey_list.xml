@@ -15,6 +15,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingTop="@dimen/twenty_five_dp"
             android:background="@color/colorPrimaryDark"
             android:orientation="vertical"
             tools:ignore="UselessParent">
@@ -126,11 +127,23 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerSurveyList"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent">
 
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerSurveyList"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+
+                    <TextView
+                        android:id="@+id/no_data_found"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:textSize="@dimen/text_dimen_16"
+                        android:text="No data found"/>
+                </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>

@@ -144,14 +144,14 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
 
         activitySurveyStatusBinding.checkBoxHeader.setOnClickListener(view -> {
             if (activitySurveyStatusBinding.checkBoxHeader.isChecked()) {
-                for (int i = 0; i < surveyModel.getSurveyModelArrayList().size(); i++) {
-                    surveyModel.getSurveyModelArrayList().get(i).setChecked(true);
+                for (int i = 0; i < surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().size(); i++) {
+                    surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().get(i).setUnChecked(false);
                 }
                 surveyDetailsAdapter.notifyDataSetChanged();
                 previewDisplay();
             } else {
-                for (int i = 0; i < surveyModel.getSurveyModelArrayList().size(); i++) {
-                    surveyModel.getSurveyModelArrayList().get(i).setChecked(false);
+                for (int i = 0; i < surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().size(); i++) {
+                    surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().get(i).setUnChecked(true);
                 }
                 surveyDetailsAdapter.notifyDataSetChanged();
                 previewDisplay();
@@ -341,9 +341,10 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
                         runningPathPolygon.setFillColor(Color.argb(20, 0, 255, 0));
                         isIncludeLatLong = true;
                     }
-                } else {
-                    activitySurveyStatusBinding.checkBoxHeader.setChecked(false);
-                }
+                } // Due to Select all is not checking, code is commenting by Raghava
+//                else {
+//                    activitySurveyStatusBinding.checkBoxHeader.setChecked(false);
+//                }
             }
             if(isIncludeLatLong) {
                 LatLngBounds bounds = builder.build();
