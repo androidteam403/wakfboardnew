@@ -2,11 +2,16 @@ package com.thresholdsoft.praanadhara.ui.surveystatusactivity;
 
 import com.thresholdsoft.praanadhara.data.DataManager;
 import com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity;
-import com.thresholdsoft.praanadhara.data.network.pojo.SurveyLandLocationEntity;
+import com.thresholdsoft.praanadhara.data.network.pojo.SurveyDetailsEntity;
 import com.thresholdsoft.praanadhara.data.network.pojo.SurveySaveReq;
 import com.thresholdsoft.praanadhara.data.network.pojo.SurveyStartReq;
+import com.thresholdsoft.praanadhara.ui.ApiClient;
+import com.thresholdsoft.praanadhara.ui.ApiInterface;
 import com.thresholdsoft.praanadhara.ui.base.BasePresenter;
+import com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.DeleteReq;
 import com.thresholdsoft.praanadhara.utils.rx.SchedulerProvider;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -65,6 +70,7 @@ public class SurveyStatusPresenter<V extends SurveyStatusMvpView> extends BasePr
                 }));
     }
 
+
     @Override
     public void onpolygonRadioClick() {
         getMvpView().onpolygonRadioClick();
@@ -79,4 +85,37 @@ public class SurveyStatusPresenter<V extends SurveyStatusMvpView> extends BasePr
     public void onPointsRadioClick() {
         getMvpView().onPointsRadioClick();
     }
+
+    @Override
+    public void deleteApiCall(SurveyDetailsEntity farmerModel, int position) {
+
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+            getMvpView().hideKeyboard();
+            ApiInterface api = ApiClient.getClient().create(ApiInterface.class);
+            final DeleteReq request = new DeleteReq();
+            ArrayList<String> uids = new ArrayList<>();
+            uids.add(farmerModel.getUid());
+            request.setUids(uids);
+            getMvpView().showLoading();
+            getCompositeDisposable().add(getDataManager()
+                    .deleteSurvey(request)
+                    .subscribeOn(getSchedulerProvider().io())
+                    .observeOn(getSchedulerProvider().ui())
+                    .subscribe(blogResponse -> {
+                        if (blogResponse != null && blogResponse.getData() != null && blogResponse.getSuccess()) {
+                            getMvpView().onDeleteApiSuccess(position);
+                        }
+                        getMvpView().hideLoading();
+                    }, throwable -> {
+                        getMvpView().hideLoading();
+                        handleApiError(throwable);
+                    }));
+
+        } else {
+            getMvpView().showMessage("Please Connect to Proper internet");
+        }
+    }
+
+
 }

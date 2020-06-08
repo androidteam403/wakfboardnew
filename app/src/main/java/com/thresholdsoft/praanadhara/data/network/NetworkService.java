@@ -8,6 +8,8 @@ import com.thresholdsoft.praanadhara.data.network.pojo.SurveyStartReq;
 import com.thresholdsoft.praanadhara.data.network.pojo.SurveyStartRes;
 import com.thresholdsoft.praanadhara.data.network.pojo.UserProfile;
 import com.thresholdsoft.praanadhara.data.network.pojo.WrapperResponse;
+import com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.DeleteReq;
+import com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.DeleteRes;
 import com.thresholdsoft.praanadhara.ui.userlogin.model.LoginResponse;
 
 import java.util.List;
@@ -41,5 +43,8 @@ public interface NetworkService {
 
     @POST("api/survey/save-update/survey-submit")
     Single<WrapperResponse<SurveyStartRes>> SURVEY_SUBMIT_RES_SINGLE(@Body SurveySaveReq.SurveyEntity landLocationEntity);
+
+    @POST("api/survey_details/delete/survey-details-delete")
+    Single<WrapperResponse<DeleteRes>> DELETE_SURVEY_RES_SINGLE (@Body DeleteReq deleteReq);
 
 }

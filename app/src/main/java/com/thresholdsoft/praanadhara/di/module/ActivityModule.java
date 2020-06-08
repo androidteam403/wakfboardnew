@@ -30,6 +30,12 @@ import com.thresholdsoft.praanadhara.ui.splash.SplashPresenter;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusMvpPresenter;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusMvpView;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusPresenter;
+import com.thresholdsoft.praanadhara.ui.surveystatusactivity.dialog.deletedialog.DeleteMvpPresenter;
+import com.thresholdsoft.praanadhara.ui.surveystatusactivity.dialog.deletedialog.DeleteMvpView;
+import com.thresholdsoft.praanadhara.ui.surveystatusactivity.dialog.deletedialog.DeletePresenter;
+import com.thresholdsoft.praanadhara.ui.surveystatusactivity.dialog.editdialog.EditDialogMvpPresenter;
+import com.thresholdsoft.praanadhara.ui.surveystatusactivity.dialog.editdialog.EditDialogMvpView;
+import com.thresholdsoft.praanadhara.ui.surveystatusactivity.dialog.editdialog.EditDialogPresenter;
 import com.thresholdsoft.praanadhara.ui.surveytrack.SurveyTrackMvpPresenter;
 import com.thresholdsoft.praanadhara.ui.surveytrack.SurveyTrackMvpView;
 import com.thresholdsoft.praanadhara.ui.surveytrack.SurveyTrackPresenter;
@@ -135,6 +141,18 @@ public class ActivityModule {
     @Provides
     @PerActivity
     LogoutMvpPresenter<LogoutMvpView> logoutMvpViewLogoutMvpPresenter(LogoutPresenter<LogoutMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    EditDialogMvpPresenter<EditDialogMvpView> EditDialogMvpPresenter(EditDialogPresenter<EditDialogMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    DeleteMvpPresenter<DeleteMvpView> deletePresenter(DeletePresenter<DeleteMvpView> presenter) {
         return presenter;
     }
 

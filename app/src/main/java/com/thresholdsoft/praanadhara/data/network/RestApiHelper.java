@@ -6,6 +6,8 @@ import com.thresholdsoft.praanadhara.data.network.pojo.SurveySaveReq;
 import com.thresholdsoft.praanadhara.data.network.pojo.SurveyStartRes;
 import com.thresholdsoft.praanadhara.data.network.pojo.SurveyStartReq;
 import com.thresholdsoft.praanadhara.data.network.pojo.WrapperResponse;
+import com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.DeleteReq;
+import com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.DeleteRes;
 
 import java.util.List;
 
@@ -22,4 +24,6 @@ public interface RestApiHelper {
     Single<WrapperResponse<SurveyStartRes>> submitSurvey(SurveySaveReq.SurveyEntity locationEntity);
 
     Single<WrapperResponse<List<FeedItem>>> getFeedList();
+
+    Single<WrapperResponse<DeleteRes>> deleteSurvey(DeleteReq deleteReq);
 }
