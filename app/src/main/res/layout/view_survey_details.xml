@@ -22,13 +22,13 @@
             android:ellipsize="end"
             android:singleLine="true"
             android:layout_marginEnd="@dimen/fifty_dp"
-            android:text="@{data.name}" />
+            android:text="@{data.description}" />
 
         <TextView
             android:id="@+id/type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{data.displayMapType}"
+            android:text="@{data.mapType.name}"
             android:textColor="@color/black"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"/>

@@ -758,7 +758,7 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
                         surveyModelArrayList.clear();
                         surveyModelArrayList.add(new SurveyDetailsEntity(dialogView.getPointName(), dialogView.getPointDescription(), json, surveyModel.getMapTypeEntity()));
                         SurveySaveReq surveySaveReq = new SurveySaveReq();
-                        surveySaveReq.setSurvey(new SurveySaveReq.SurveyEntity(surveyModel.getStartSurveyUid()));
+                        surveySaveReq.setSurvey(new SurveySaveReq.SurveyEntity(surveyModel.getFarmerLand().getSurveyLandLocation().getUid()));
                         surveySaveReq.setMapType(surveyModel.getMapTypeEntity());
                         surveySaveReq.setLatlongs(json);
                         surveySaveReq.setDescription(dialogView.getPointDescription());
@@ -824,7 +824,7 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
                 surveyModelArrayList.clear();
                 surveyModelArrayList.add(new SurveyDetailsEntity(dialogView.getPointName(),dialogView.getPointDescription(),json, surveyModel.getMapTypeEntity()));
                 SurveySaveReq surveySaveReq = new SurveySaveReq();
-                surveySaveReq.setSurvey(new SurveySaveReq.SurveyEntity(surveyModel.getStartSurveyUid()));
+                surveySaveReq.setSurvey(new SurveySaveReq.SurveyEntity(surveyModel.getFarmerLand().getSurveyLandLocation().getUid()));
                 surveySaveReq.setMapType(surveyModel.getMapTypeEntity());
                 surveySaveReq.setLatlongs(json);
                 surveySaveReq.setDescription(dialogView.getPointDescription());
@@ -887,7 +887,7 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
             public void onClick(View view) {
                 dialogView.dismiss();
                 SurveySaveReq surveySaveReq = new SurveySaveReq();
-                surveySaveReq.setSurvey(new SurveySaveReq.SurveyEntity(surveyModel.getStartSurveyUid()));
+                surveySaveReq.setSurvey(new SurveySaveReq.SurveyEntity(surveyModel.getFarmerLand().getSurveyLandLocation().getUid()));
                 surveySaveReq.setMapType(surveyModel.getMapTypeEntity());
                 SurveyModel.PointDetails pointDetails = new SurveyModel.PointDetails(latLng.latitude,latLng.longitude);
                 Gson gson = new Gson();

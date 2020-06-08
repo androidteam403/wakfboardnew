@@ -29,7 +29,6 @@ public class SurveyStatusPresenter<V extends SurveyStatusMvpView> extends BasePr
                 .observeOn(getSchedulerProvider().ui())
                 .subscribe(blogResponse -> {
                     if (blogResponse != null && blogResponse.getData() != null && blogResponse.getSuccess()) {
-                        rowsEntity.setStartSurveyUid(blogResponse.getData().getUid());
                         getMvpView().startSurveySuccess(rowsEntity,blogResponse.getData());
                     }
                     getMvpView().hideLoading();
@@ -49,7 +48,7 @@ public class SurveyStatusPresenter<V extends SurveyStatusMvpView> extends BasePr
 
     @Override
     public void submitSurvey(RowsEntity rowsEntity) {
-        SurveySaveReq.SurveyEntity landLocationEntity = new SurveySaveReq.SurveyEntity(rowsEntity.getStartSurveyUid());
+        SurveySaveReq.SurveyEntity landLocationEntity = new SurveySaveReq.SurveyEntity(rowsEntity.getFarmerLand().getSurveyLandLocation().getUid());
         getMvpView().showLoading();
         getCompositeDisposable().add(getDataManager()
                 .submitSurvey(landLocationEntity)

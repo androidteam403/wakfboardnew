@@ -78,7 +78,8 @@ public class MainActiivty extends BaseActivity implements MainActivityMvpView {
 
             }
         });
-
+       TextView userName = activityMainBinding.navView.getHeaderView(0).findViewById(R.id.user_name);
+       userName.setText(mPresenter.getUserName());
     }
 
     @Override

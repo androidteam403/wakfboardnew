@@ -264,6 +264,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
 
     private void previewDisplay() {
         map.clear();
+        boolean isIncludeLatLong = false;
         if (surveyModel != null && surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().size() > 0) {
             LatLngBounds.Builder builder = new LatLngBounds.Builder();
             for (SurveyDetailsEntity detailsEntity : surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails()) {
@@ -277,6 +278,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
                                 .position(latLng)
                                 .flat(true)
                                 .anchor(0.5f, 0.5f));
+                        isIncludeLatLong = true;
                     } else if (detailsEntity.getMapType().getUid().equalsIgnoreCase("line")) {
                         Gson gson = new Gson();
                         SurveyModel.PolyLineDetails polyLineDetails = gson.fromJson(detailsEntity.getLatlongs(), SurveyModel.PolyLineDetails.class);
@@ -285,6 +287,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
                         runningPathPolyline.setPattern(null);
                         builder.include(new LatLng(polyLineDetails.getFromLatitude(), polyLineDetails.getFromLongitude()));
                         builder.include(new LatLng(polyLineDetails.getToLatitude(), polyLineDetails.getToLongitude()));
+                        isIncludeLatLong = true;
                     } else if (detailsEntity.getMapType().getUid().equalsIgnoreCase("polygon")) {
                         List<LatLng> polygonPoints = new ArrayList<>();
                         Gson gson = new Gson();
@@ -300,15 +303,18 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
                                 .addAll(polygonPoints));
                         runningPathPolygon.setStrokeColor(Color.BLUE);
                         runningPathPolygon.setFillColor(Color.argb(20, 0, 255, 0));
+                        isIncludeLatLong = true;
                     }
                 } else {
                     activitySurveyStatusBinding.checkBoxHeader.setChecked(false);
                 }
             }
-            LatLngBounds bounds = builder.build();
-            int padding = 0; // offset from edges of the map in pixels
-            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
-            map.animateCamera(cu);
+            if(isIncludeLatLong) {
+                LatLngBounds bounds = builder.build();
+                int padding = 0; // offset from edges of the map in pixels
+                CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+                map.animateCamera(cu);
+            }
         } else {
             LatLng location = new LatLng(surveyModel.getCurrentLatitude(), surveyModel.getCurrentLongitude());
             map.addMarker(new MarkerOptions().position(location));

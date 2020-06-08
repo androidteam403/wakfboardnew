@@ -57,13 +57,11 @@ public class BaseDataManager implements DataManager {
     }
 
     @Override
-    public void updateUserInfo(String accessToken, Long userId, LoggedInMode loggedInMode, String userName, String email, String profilePicPath) {
+    public void updateUserInfo(String accessToken,  String userName, String email, String phone) {
         mPreferencesHelper.setAccessToken(accessToken);
-        mPreferencesHelper.setUserId(userId);
-        mPreferencesHelper.setUserLoggedIn(loggedInMode);
         mPreferencesHelper.setUserName(userName);
         mPreferencesHelper.setUserEmail(email);
-        mPreferencesHelper.setUserProfilePicUrl(profilePicPath);
+        mPreferencesHelper.setUserMobile(phone);
     }
 
     @Override

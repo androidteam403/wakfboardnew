@@ -99,15 +99,6 @@ public class RowsEntity extends BaseObservable implements Serializable {
         this.surveyType = surveyType;
     }
 
-    private String startSurveyUid;
-
-    public String getStartSurveyUid() {
-        return startSurveyUid;
-    }
-
-    public void setStartSurveyUid(String startSurveyUid) {
-        this.startSurveyUid = startSurveyUid;
-    }
 
     private MapTypeEntity mapTypeEntity;
 

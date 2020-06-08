@@ -75,11 +75,24 @@ public class OtpVerifyRes {
         public void setToken(String token) {
             this.token = token;
         }
-        @SerializedName("zcDebugLogs")
-        public String zcDebugLogs;
 
-        public String getZcDebugLogs() {
-            return zcDebugLogs;
+        @SerializedName("name")
+        private String name;
+        @SerializedName("phone")
+        private String phone;
+        @SerializedName("email")
+        private String email;
+
+        public String getName() {
+            return name;
+        }
+
+        public String getPhone() {
+            return phone;
+        }
+
+        public String getEmail() {
+            return email;
         }
     }
 }
