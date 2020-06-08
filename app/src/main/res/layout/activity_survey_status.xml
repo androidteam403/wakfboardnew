@@ -219,7 +219,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_margin="@dimen/ten_dp"
-                    android:visibility="@{survey.surveyModelArrayList.size() > 0 ? View.VISIBLE : View.GONE}">
+                    android:visibility="@{survey.farmerLand.surveyLandLocation.surveyDetails.size() > 0 ? View.VISIBLE : View.GONE}">
 
 
                     <CheckBox
@@ -262,7 +262,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/twenty_dp"
                     android:orientation="horizontal"
-                    android:visibility="@{survey.farmerLand.surveyLandLocation.uid != null ? View.VISIBLE : View.GONE}"
+                    android:visibility="@{survey.farmerLand.surveyLandLocation.uid != null &amp; survey.farmerLand.surveyLandLocation.submitted.uid.equalsIgnoreCase(`No`) ? View.VISIBLE : View.GONE}"
                     android:weightSum="3">
 
                     <LinearLayout
@@ -375,7 +375,7 @@
                     android:layout_marginTop="@dimen/thirty_dp"
                     android:gravity="center"
                     android:orientation="horizontal"
-                    android:visibility="@{survey.farmerLand.surveyLandLocation.uid != null ? View.VISIBLE : View.GONE}">
+                    android:visibility="@{survey.farmerLand.surveyLandLocation.uid != null &amp; survey.farmerLand.surveyLandLocation.submitted.uid.equalsIgnoreCase(`No`) ? View.VISIBLE : View.GONE}">
 
                     <TextView
                         android:id="@+id/addbutton"
@@ -401,7 +401,7 @@
                         android:onClick="@{()-> presenterCallback.submitSurvey(survey)}"
                         android:text="Submit Survey"
                         android:textColor="@color/white"
-                        android:visibility="@{survey.surveyModelArrayList.size() > 0 ? View.VISIBLE : View.GONE}"/>
+                        android:visibility="@{survey.farmerLand.surveyLandLocation.surveyDetails.size() > 0 ? View.VISIBLE : View.GONE}"/>
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
