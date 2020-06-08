@@ -1,6 +1,5 @@
 package com.thresholdsoft.praanadhara.ui.surveystatusactivity.dialog.editdialog;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,9 +11,7 @@ import androidx.databinding.DataBindingUtil;
 
 import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.databinding.DialogEditBinding;
-import com.thresholdsoft.praanadhara.databinding.DialogLogotBinding;
 import com.thresholdsoft.praanadhara.ui.base.BaseDialog;
-import com.thresholdsoft.praanadhara.ui.userlogin.UserLoginActivity;
 
 import javax.inject.Inject;
 
@@ -40,7 +37,7 @@ public class EditDialog extends BaseDialog implements EditDialogMvpView {
 
     @Override
     protected void setUp(View view) {
-        dialogEditBinding.setCallbacks(mpresenter);
+//        dialogEditBinding.setCallbacks(mpresenter);
     }
 
     @Override

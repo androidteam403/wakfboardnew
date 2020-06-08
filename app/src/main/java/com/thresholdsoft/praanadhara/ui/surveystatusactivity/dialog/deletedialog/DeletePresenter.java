@@ -21,9 +21,4 @@ public class DeletePresenter<V extends DeleteMvpView> extends BasePresenter<V>
         getMvpView().onNoClick();
     }
 
-    @Override
-    public void onYesClick() {
-        getMvpView().onYesClick();
-    }
-
 }

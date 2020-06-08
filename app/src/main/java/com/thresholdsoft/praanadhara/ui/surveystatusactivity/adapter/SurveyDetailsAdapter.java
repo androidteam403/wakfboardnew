@@ -4,20 +4,17 @@ import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.databinding.ViewSurveyDetailsBinding;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusMvpPresenter;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusMvpView;
+import com.thresholdsoft.praanadhara.ui.surveystatusactivity.dialog.CustomEditDialog;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.dialog.deletedialog.DeleteDialog;
-import com.thresholdsoft.praanadhara.ui.surveystatusactivity.dialog.editdialog.EditDialog;
 import com.thresholdsoft.praanadhara.ui.surveytrack.model.SurveyModel;
 
 import java.util.ArrayList;
@@ -64,19 +61,68 @@ public class SurveyDetailsAdapter extends RecyclerView.Adapter<SurveyDetailsAdap
         holder.adapterSurveyListBinding.edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManager manager = ((AppCompatActivity) activity).getSupportFragmentManager();
-                EditDialog dialog = new EditDialog();
-                dialog.show(manager, "editdialog");
+//                FragmentManager manager = ((AppCompatActivity) activity).getSupportFragmentManager();
+//                EditDialog dialog = new EditDialog();
+//                dialog.show(manager, "editdialog");
+
+                CustomEditDialog customEditDialog = new CustomEditDialog(activity);
+                customEditDialog.setTitle("Edit Details");
+                customEditDialog.setPositiveLabel("Ok");
+                customEditDialog.setPositiveListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        customEditDialog.visibleDetails();
+                    }
+                });
+                customEditDialog.setNegativeLabel("No");
+                customEditDialog.setNegativeListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        customEditDialog.dismiss();
+                    }
+                });
+                customEditDialog.setPositiveUpdateLabel("Update");
+                customEditDialog.setPositiveUpdateListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        holder.adapterSurveyListBinding.checkBox.setText(customEditDialog.getPointName());
+                    }
+                });
+                customEditDialog.setNegativeUpdateLabel("Back");
+                customEditDialog.setNegativeUpdateListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        customEditDialog.dismiss();
+                    }
+                });
+                customEditDialog.show();
             }
         });
         holder.adapterSurveyListBinding.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManager manager = ((AppCompatActivity) activity).getSupportFragmentManager();
-                DeleteDialog dialog = new DeleteDialog();
-                dialog.show(manager, "deletedialog");            }
+
+                DeleteDialog deleteDialog = new DeleteDialog(activity);
+                deleteDialog.setTitle("Delete Details");
+                deleteDialog.setPositiveLabel("Ok");
+                deleteDialog.setPositiveListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        surveyModelArrayList.remove(position);
+                    }
+                });
+                deleteDialog.setNegativeLabel("Cancel");
+                deleteDialog.setNegativeListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        deleteDialog.dismiss();
+                    }
+                });
+                deleteDialog.show();
+            }
         });
     }
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ViewSurveyDetailsBinding adapterSurveyListBinding;

@@ -1,4 +1,4 @@
-package com.thresholdsoft.praanadhara.ui.surveystatusactivity.dialog.deletedialog;
+package com.thresholdsoft.praanadhara.ui.surveystatusactivity.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -10,23 +10,21 @@ import android.view.View;
 import androidx.databinding.DataBindingUtil;
 
 import com.thresholdsoft.praanadhara.R;
-import com.thresholdsoft.praanadhara.databinding.DialogDeleteBinding;
-import com.thresholdsoft.praanadhara.databinding.SurveyPointDialogBinding;
-import com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.SurveyDetailsModel;
+import com.thresholdsoft.praanadhara.databinding.DialogEditBinding;
 import com.thresholdsoft.praanadhara.ui.surveytrack.SurveyTrackMvpView;
 
 
-public class DeleteDialog {
+public class CustomEditDialog {
 
     private Dialog dialog;
-    private DialogDeleteBinding editQuantityDialogBinding;
+    private DialogEditBinding editQuantityDialogBinding;
     private SurveyTrackMvpView surveyTrackMvpView;
 
     private boolean negativeExist = false;
 
-    public DeleteDialog(Context context) {
+    public CustomEditDialog(Context context) {
         dialog = new Dialog(context);
-        editQuantityDialogBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_delete, null, false);
+        editQuantityDialogBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_edit, null, false);
         dialog.setContentView(editQuantityDialogBinding.getRoot());
         if (dialog.getWindow() != null)
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -55,6 +53,15 @@ public class DeleteDialog {
         editQuantityDialogBinding.dialogButtonNO.setOnClickListener(okListener);
     }
 
+    public void setPositiveUpdateListener(View.OnClickListener okListener) {
+        editQuantityDialogBinding.dialogButtonUpdate.setOnClickListener(okListener);
+    }
+
+
+    public void setNegativeUpdateListener(View.OnClickListener okListener) {
+        editQuantityDialogBinding.noUpdate.setOnClickListener(okListener);
+    }
+
     public void show() {
         if (negativeExist) {
             editQuantityDialogBinding.dialogButtonNO.setVisibility(View.VISIBLE);
@@ -65,6 +72,12 @@ public class DeleteDialog {
         }
         dialog.show();
     }
+
+    public void visibleDetails() {
+        editQuantityDialogBinding.updateDetails.setVisibility(View.VISIBLE);
+        editQuantityDialogBinding.editDetails.setVisibility(View.GONE);
+    }
+
 
     public void dismiss() {
         dialog.dismiss();
@@ -84,9 +97,18 @@ public class DeleteDialog {
         editQuantityDialogBinding.dialogButtonNO.setText(negative);
     }
 
+    public void setPositiveUpdateLabel(String positive) {
+        editQuantityDialogBinding.dialogButtonUpdate.setText(positive);
+    }
+
+    public void setNegativeUpdateLabel(String negative) {
+        negativeExist = true;
+        editQuantityDialogBinding.noUpdate.setText(negative);
+    }
+
+
     public String getPointName() {
-//        return editQuantityDialogBinding.editNameEditText.getText().toString();
-        return null;
+        return editQuantityDialogBinding.editNameEditText.getText().toString();
     }
 
     public String getPointDescription() {
