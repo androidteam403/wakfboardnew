@@ -12,9 +12,7 @@ public interface DataManager extends SurveyDao, PreferencesHelper, RestApiHelper
 
     void updateUserInfo(
             String accessToken,
-            Long userId,
-            LoggedInMode loggedInMode,
             String userName,
             String email,
-            String profilePicPath);
+            String phone);
 }

@@ -50,11 +50,11 @@
                         tools:ignore="RtlSymmetry" />
 
                     <TextView
+                        android:id="@+id/user_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_bold"
                         android:paddingStart="@dimen/ten_dp"
-                        android:text="@string/label_krishna_kishore"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_dimen_17"
                         tools:ignore="RtlSymmetry" />

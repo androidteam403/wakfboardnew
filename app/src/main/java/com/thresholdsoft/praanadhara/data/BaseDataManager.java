@@ -17,6 +17,8 @@ import com.thresholdsoft.praanadhara.data.network.pojo.WrapperResponse;
 import com.thresholdsoft.praanadhara.data.prefs.PreferencesHelper;
 import com.thresholdsoft.praanadhara.data.utils.LoggedInMode;
 import com.thresholdsoft.praanadhara.di.ApplicationContext;
+import com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.DeleteReq;
+import com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.DeleteRes;
 import com.thresholdsoft.praanadhara.ui.userlogin.model.LoginResponse;
 
 import java.util.ArrayList;
@@ -57,13 +59,11 @@ public class BaseDataManager implements DataManager {
     }
 
     @Override
-    public void updateUserInfo(String accessToken, Long userId, LoggedInMode loggedInMode, String userName, String email, String profilePicPath) {
+    public void updateUserInfo(String accessToken,  String userName, String email, String phone) {
         mPreferencesHelper.setAccessToken(accessToken);
-        mPreferencesHelper.setUserId(userId);
-        mPreferencesHelper.setUserLoggedIn(loggedInMode);
         mPreferencesHelper.setUserName(userName);
         mPreferencesHelper.setUserEmail(email);
-        mPreferencesHelper.setUserProfilePicUrl(profilePicPath);
+        mPreferencesHelper.setUserMobile(phone);
     }
 
     @Override
@@ -130,6 +130,11 @@ public class BaseDataManager implements DataManager {
     @Override
     public Single<WrapperResponse<List<FeedItem>>> getFeedList() {
         return mApiHelper.getFeedList();
+    }
+
+    @Override
+    public Single<WrapperResponse<DeleteRes>> deleteSurvey(DeleteReq deleteReq) {
+        return mApiHelper.deleteSurvey(deleteReq);
     }
 
     @Override

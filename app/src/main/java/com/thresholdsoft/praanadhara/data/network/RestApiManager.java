@@ -8,6 +8,8 @@ import com.thresholdsoft.praanadhara.data.network.pojo.SurveyStartReq;
 import com.thresholdsoft.praanadhara.data.network.pojo.SurveyStartRes;
 import com.thresholdsoft.praanadhara.data.network.pojo.UserProfile;
 import com.thresholdsoft.praanadhara.data.network.pojo.WrapperResponse;
+import com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.DeleteReq;
+import com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.DeleteRes;
 
 import java.util.List;
 
@@ -49,5 +51,10 @@ public class RestApiManager implements RestApiHelper {
     @Override
     public Single<WrapperResponse<List<FeedItem>>> getFeedList() {
         return mService.getFeedList();
+    }
+
+    @Override
+    public Single<WrapperResponse<DeleteRes>> deleteSurvey(DeleteReq deleteReq) {
+        return mService.DELETE_SURVEY_RES_SINGLE(deleteReq);
     }
 }

@@ -151,6 +151,11 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
         activitySurveyListBinding.getSurvey().setNewCount(newSurveyList);
         activitySurveyListBinding.getSurvey().setCompletedCount(completedSurveyList);
         activitySurveyListBinding.getSurvey().setInProgressCount(inProgressSurveyList);
+        if (newSurveyList == 0 && inProgressSurveyList == 0 && completedSurveyList == 0) {
+            activitySurveyListBinding.noDataFound.setVisibility(View.VISIBLE);
+        } else {
+            activitySurveyListBinding.noDataFound.setVisibility(View.GONE);
+        }
     }
 
     @Override

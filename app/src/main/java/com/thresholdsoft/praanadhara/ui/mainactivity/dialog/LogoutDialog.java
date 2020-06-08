@@ -13,6 +13,8 @@ import androidx.databinding.DataBindingUtil;
 import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.databinding.DialogLogotBinding;
 import com.thresholdsoft.praanadhara.ui.base.BaseDialog;
+import com.thresholdsoft.praanadhara.ui.surveystatusactivity.dialog.editdialog.EditDialogMvpPresenter;
+import com.thresholdsoft.praanadhara.ui.surveystatusactivity.dialog.editdialog.EditDialogMvpView;
 import com.thresholdsoft.praanadhara.ui.userlogin.UserLoginActivity;
 
 import javax.inject.Inject;

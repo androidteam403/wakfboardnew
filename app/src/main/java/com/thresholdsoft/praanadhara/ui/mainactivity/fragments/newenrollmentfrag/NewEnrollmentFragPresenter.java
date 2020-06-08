@@ -15,4 +15,9 @@ public class NewEnrollmentFragPresenter<V extends NewEnrollmentFragMvpView> exte
     public NewEnrollmentFragPresenter(DataManager manager, SchedulerProvider schedulerProvider, CompositeDisposable compositeDisposable) {
         super(manager, schedulerProvider, compositeDisposable);
     }
+
+    @Override
+    public String getAccessToken() {
+        return getDataManager().getAccessToken();
+    }
 }

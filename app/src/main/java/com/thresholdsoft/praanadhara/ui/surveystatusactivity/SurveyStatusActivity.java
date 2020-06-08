@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
@@ -42,9 +41,7 @@ import com.thresholdsoft.praanadhara.data.network.pojo.SurveyStartRes;
 import com.thresholdsoft.praanadhara.databinding.ActivitySurveyStatusBinding;
 import com.thresholdsoft.praanadhara.databinding.CustomActionbarBinding;
 import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
-import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.adapter.SurveyAdapter;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.adapter.SurveyDetailsAdapter;
-import com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.SurveyDetailsModel;
 import com.thresholdsoft.praanadhara.ui.surveytrack.SurveyTrackingActivity;
 import com.thresholdsoft.praanadhara.ui.surveytrack.model.SurveyModel;
 import com.thresholdsoft.praanadhara.ui.userlogin.UserLoginActivity;
@@ -61,6 +58,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     SurveyStatusMvpPresenter<SurveyStatusMvpView> mpresenter;
     private ActivitySurveyStatusBinding activitySurveyStatusBinding;
     private RowsEntity surveyModel;
+    private int pos;
     private Context context;
     private ArrayList<RowsEntity> surveyModelArrayList = new ArrayList<>();
     CustomActionbarBinding customActionbarBinding;
@@ -99,7 +97,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     protected void setUp() {
         Intent intent = getIntent();
         surveyModel = (RowsEntity) intent.getSerializableExtra("surveyData");
-        if(surveyModel != null && !TextUtils.isEmpty(surveyModel.getFarmerLand().getSurveyLandLocation().getUid())) {
+        if (surveyModel != null && !TextUtils.isEmpty(surveyModel.getFarmerLand().getSurveyLandLocation().getUid())) {
             surveyModel.getFarmerLand().getSurveyLandLocation().setUid(surveyModel.getFarmerLand().getSurveyLandLocation().getUid());
         }
 //        if(surveyModel!= null && surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().size() > 0){
@@ -146,14 +144,14 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
 
         activitySurveyStatusBinding.checkBoxHeader.setOnClickListener(view -> {
             if (activitySurveyStatusBinding.checkBoxHeader.isChecked()) {
-                for (int i = 0; i < surveyModel.getSurveyModelArrayList().size(); i++) {
-                    surveyModel.getSurveyModelArrayList().get(i).setChecked(true);
+                for (int i = 0; i < surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().size(); i++) {
+                    surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().get(i).setUnChecked(false);
                 }
                 surveyDetailsAdapter.notifyDataSetChanged();
                 previewDisplay();
             } else {
-                for (int i = 0; i < surveyModel.getSurveyModelArrayList().size(); i++) {
-                    surveyModel.getSurveyModelArrayList().get(i).setChecked(false);
+                for (int i = 0; i < surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().size(); i++) {
+                    surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().get(i).setUnChecked(true);
                 }
                 surveyDetailsAdapter.notifyDataSetChanged();
                 previewDisplay();
@@ -246,10 +244,48 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     }
 
     @Override
+    public void deleteAnItem(int pos) {
+        if (surveyModel != null) {
+            for (int i = 0; i < surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().size(); i++) {
+                surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().remove(pos);
+            }
+            surveyDetailsAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void deleteApiCall() {
+    }
+
+
+    @Override
+    public void onDeleteApiSuccess(int pos) {
+        if (surveyModel != null) {
+            surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().remove(pos);
+            surveyDetailsAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public ArrayList<RowsEntity> getUidDetails() {
+        return surveyModelArrayList;
+    }
+
+    @Override
+    public RowsEntity getSurvey() {
+        return surveyModel;
+    }
+
+    @Override
+    public void onSuccessEditSurvey(String description, int postion) {
+        surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().get(postion).setDescription(description);
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
-            surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().addAll((ArrayList<SurveyDetailsEntity>) data.getSerializableExtra("surveySubmit"));
+            surveyModel.getFarmerLand().getSurveyLandLocation().setSurveyDetails((ArrayList<SurveyDetailsEntity>) data.getSerializableExtra("surveySubmit"));
             surveyDetailsAdapter.notifyDataSetChanged();
             previewDisplay();
         }
@@ -264,6 +300,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
 
     private void previewDisplay() {
         map.clear();
+        boolean isIncludeLatLong = false;
         if (surveyModel != null && surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().size() > 0) {
             LatLngBounds.Builder builder = new LatLngBounds.Builder();
             for (SurveyDetailsEntity detailsEntity : surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails()) {
@@ -277,6 +314,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
                                 .position(latLng)
                                 .flat(true)
                                 .anchor(0.5f, 0.5f));
+                        isIncludeLatLong = true;
                     } else if (detailsEntity.getMapType().getUid().equalsIgnoreCase("line")) {
                         Gson gson = new Gson();
                         SurveyModel.PolyLineDetails polyLineDetails = gson.fromJson(detailsEntity.getLatlongs(), SurveyModel.PolyLineDetails.class);
@@ -285,6 +323,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
                         runningPathPolyline.setPattern(null);
                         builder.include(new LatLng(polyLineDetails.getFromLatitude(), polyLineDetails.getFromLongitude()));
                         builder.include(new LatLng(polyLineDetails.getToLatitude(), polyLineDetails.getToLongitude()));
+                        isIncludeLatLong = true;
                     } else if (detailsEntity.getMapType().getUid().equalsIgnoreCase("polygon")) {
                         List<LatLng> polygonPoints = new ArrayList<>();
                         Gson gson = new Gson();
@@ -300,15 +339,19 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
                                 .addAll(polygonPoints));
                         runningPathPolygon.setStrokeColor(Color.BLUE);
                         runningPathPolygon.setFillColor(Color.argb(20, 0, 255, 0));
+                        isIncludeLatLong = true;
                     }
-                } else {
-                    activitySurveyStatusBinding.checkBoxHeader.setChecked(false);
-                }
+                } // Due to Select all is not checking, code is commenting by Raghava
+//                else {
+//                    activitySurveyStatusBinding.checkBoxHeader.setChecked(false);
+//                }
             }
-            LatLngBounds bounds = builder.build();
-            int padding = 0; // offset from edges of the map in pixels
-            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
-            map.animateCamera(cu);
+            if(isIncludeLatLong) {
+                LatLngBounds bounds = builder.build();
+                int padding = 0; // offset from edges of the map in pixels
+                CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+                map.animateCamera(cu);
+            }
         } else {
             LatLng location = new LatLng(surveyModel.getCurrentLatitude(), surveyModel.getCurrentLongitude());
             map.addMarker(new MarkerOptions().position(location));
