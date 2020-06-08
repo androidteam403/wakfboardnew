@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/title"
             android:orientation="vertical"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <LinearLayout
                 android:id="@+id/line"
@@ -122,7 +122,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/title"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <EditText
                 android:id="@+id/edit_name_edit_text"

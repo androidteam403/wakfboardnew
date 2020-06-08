@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
@@ -42,9 +41,7 @@ import com.thresholdsoft.praanadhara.data.network.pojo.SurveyStartRes;
 import com.thresholdsoft.praanadhara.databinding.ActivitySurveyStatusBinding;
 import com.thresholdsoft.praanadhara.databinding.CustomActionbarBinding;
 import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
-import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.adapter.SurveyAdapter;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.adapter.SurveyDetailsAdapter;
-import com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.SurveyDetailsModel;
 import com.thresholdsoft.praanadhara.ui.surveytrack.SurveyTrackingActivity;
 import com.thresholdsoft.praanadhara.ui.surveytrack.model.SurveyModel;
 import com.thresholdsoft.praanadhara.ui.userlogin.UserLoginActivity;
@@ -61,6 +58,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     SurveyStatusMvpPresenter<SurveyStatusMvpView> mpresenter;
     private ActivitySurveyStatusBinding activitySurveyStatusBinding;
     private RowsEntity surveyModel;
+    private int pos;
     private Context context;
     private ArrayList<RowsEntity> surveyModelArrayList = new ArrayList<>();
     CustomActionbarBinding customActionbarBinding;
@@ -99,7 +97,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     protected void setUp() {
         Intent intent = getIntent();
         surveyModel = (RowsEntity) intent.getSerializableExtra("surveyData");
-        if(surveyModel != null && !TextUtils.isEmpty(surveyModel.getFarmerLand().getSurveyLandLocation().getUid())) {
+        if (surveyModel != null && !TextUtils.isEmpty(surveyModel.getFarmerLand().getSurveyLandLocation().getUid())) {
             surveyModel.getFarmerLand().getSurveyLandLocation().setUid(surveyModel.getFarmerLand().getSurveyLandLocation().getUid());
         }
 //        if(surveyModel!= null && surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().size() > 0){
@@ -243,6 +241,34 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
         }
         surveyDetailsAdapter.notifyDataSetChanged();
         previewDisplay();
+    }
+
+    @Override
+    public void deleteAnItem(int pos) {
+        if (surveyModel != null) {
+            for (int i = 0; i < surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().size(); i++) {
+                surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().remove(pos);
+            }
+            surveyDetailsAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public void deleteApiCall() {
+    }
+
+
+    @Override
+    public void onDeleteApiSuccess(int pos) {
+        if (surveyModel != null) {
+            surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().remove(pos);
+            surveyDetailsAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    public ArrayList<RowsEntity> getUidDetails() {
+        return surveyModelArrayList;
     }
 
     @Override

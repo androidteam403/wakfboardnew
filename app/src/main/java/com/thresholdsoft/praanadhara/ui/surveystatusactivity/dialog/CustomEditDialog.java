@@ -29,15 +29,6 @@ public class CustomEditDialog {
         if (dialog.getWindow() != null)
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-//        editQuantityDialogBinding.dialogButtonOK.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                SurveyDetailsModel surveyDetailsModel = new SurveyDetailsModel();
-//                surveyDetailsModel.setSurveyName(editQuantityDialogBinding.editNameEditText.getText().toString());
-//                surveyTrackMvpView.onPassSurveyTrackEnteredDetails(surveyDetailsModel);
-//
-//            }
-//        });
     }
 
     public void setEditTextDialogDetails(SurveyTrackMvpView surveyTrackMvpView) {
@@ -109,6 +100,9 @@ public class CustomEditDialog {
 
     public String getPointName() {
         return editQuantityDialogBinding.editNameEditText.getText().toString();
+    }
+    public void setEditTextData(String editTextData){
+        editQuantityDialogBinding.editNameEditText.setText(editTextData);
     }
 
     public String getPointDescription() {
