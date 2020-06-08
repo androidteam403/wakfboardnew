@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity;
+import com.thresholdsoft.praanadhara.data.network.pojo.SurveyDetailsEntity;
 import com.thresholdsoft.praanadhara.databinding.AdapterSurveyListBinding;
 import com.thresholdsoft.praanadhara.databinding.ViewSurveyDetailsBinding;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.SurveyListMvpPresenter;
@@ -29,13 +30,13 @@ import java.util.List;
 
 public class SurveyDetailsAdapter extends RecyclerView.Adapter<SurveyDetailsAdapter.ViewHolder> {
 
-    private ArrayList<SurveyModel> surveyModelArrayList;
+    private ArrayList<SurveyDetailsEntity> surveyModelArrayList;
     private SurveyStatusMvpPresenter<SurveyStatusMvpView> mPresenter;
     private Activity activity;
     private SurveyStatusMvpView statusMvpView;
 
 
-    public SurveyDetailsAdapter(Activity activity, ArrayList<SurveyModel> surveyModelArrayList,
+    public SurveyDetailsAdapter(Activity activity, ArrayList<SurveyDetailsEntity> surveyModelArrayList,
                                 SurveyStatusMvpPresenter<SurveyStatusMvpView> mPresenter, SurveyStatusMvpView statusMvpView) {
         this.activity = activity;
         this.surveyModelArrayList = surveyModelArrayList;
@@ -53,10 +54,10 @@ public class SurveyDetailsAdapter extends RecyclerView.Adapter<SurveyDetailsAdap
 
     @Override
     public void onBindViewHolder(@NonNull final SurveyDetailsAdapter.ViewHolder holder, int position) {
-        SurveyModel farmerModel = surveyModelArrayList.get(position);
+        SurveyDetailsEntity farmerModel = surveyModelArrayList.get(position);
         holder.adapterSurveyListBinding.setData(farmerModel);
 
-        if (farmerModel.isChecked()) {
+        if (!farmerModel.isUnChecked()) {
             holder.adapterSurveyListBinding.checkBox.setChecked(true);
         } else {
             holder.adapterSurveyListBinding.checkBox.setChecked(false);
@@ -86,7 +87,7 @@ public class SurveyDetailsAdapter extends RecyclerView.Adapter<SurveyDetailsAdap
         return position;
     }
 
-    public void addItems(List<SurveyModel> blogList) {
+    public void addItems(List<SurveyDetailsEntity> blogList) {
         surveyModelArrayList.addAll(blogList);
         notifyDataSetChanged();
     }
