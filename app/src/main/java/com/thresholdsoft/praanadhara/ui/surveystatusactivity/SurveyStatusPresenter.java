@@ -98,7 +98,6 @@ public class SurveyStatusPresenter<V extends SurveyStatusMvpView> extends BasePr
             ArrayList<String> uids = new ArrayList<>();
             uids.add(farmerModel.getUid());
             request.setUids(uids);
-
             getMvpView().showLoading();
             getCompositeDisposable().add(getDataManager()
                     .deleteSurvey(request)
