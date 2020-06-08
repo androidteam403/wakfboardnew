@@ -3,7 +3,7 @@
         <data>
             <variable
                 name="data"
-                type="com.thresholdsoft.praanadhara.ui.surveytrack.model.SurveyModel" />
+                type="com.thresholdsoft.praanadhara.data.network.pojo.SurveyDetailsEntity" />
         </data>
 
     <RelativeLayout

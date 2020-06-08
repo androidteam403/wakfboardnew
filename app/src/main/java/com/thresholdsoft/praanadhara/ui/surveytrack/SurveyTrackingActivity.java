@@ -59,6 +59,7 @@ import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.data.db.model.Survey;
 import com.thresholdsoft.praanadhara.data.network.pojo.MapTypeEntity;
 import com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity;
+import com.thresholdsoft.praanadhara.data.network.pojo.SurveyDetailsEntity;
 import com.thresholdsoft.praanadhara.data.network.pojo.SurveySaveReq;
 import com.thresholdsoft.praanadhara.databinding.ActivitySurveyTrackingBinding;
 import com.thresholdsoft.praanadhara.services.LocationMonitoringService;
@@ -97,7 +98,7 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
     private Polygon runningPathPolygon;
     private int polylineWidth = 10;
     private ArrayList<Location> locationList = new ArrayList<>();
-    private ArrayList<SurveyModel> surveyModelArrayList = new ArrayList<>();
+    private ArrayList<SurveyDetailsEntity> surveyModelArrayList = new ArrayList<>();
 
     private static final int PATTERN_GAP_LENGTH_PX = 20;
     private static final PatternItem DOT = new Dot();
@@ -410,7 +411,7 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
         } else if (getSurveyType() == 1) {
             //  planePolyline();
         } else if (getSurveyType() == 2) {
-            surveyModelArrayList.add(new SurveyModel(location.getLatitude(),location.getLongitude(),location.getAccuracy()));
+            surveyModelArrayList.add(new SurveyDetailsEntity(location.getLatitude(),location.getLongitude(),location.getAccuracy()));
             drawUserPositionMarker(location);
             polygonPolyline();
         }
@@ -755,7 +756,7 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
                         Gson gson = new Gson();
                         String json = gson.toJson(polyLineDetails);
                         surveyModelArrayList.clear();
-                        surveyModelArrayList.add(new SurveyModel(dialogView.getPointName(), dialogView.getPointDescription(), json, getSurveyType()));
+                        surveyModelArrayList.add(new SurveyDetailsEntity(dialogView.getPointName(), dialogView.getPointDescription(), json, surveyModel.getMapTypeEntity()));
                         SurveySaveReq surveySaveReq = new SurveySaveReq();
                         surveySaveReq.setSurvey(new SurveySaveReq.SurveyEntity(surveyModel.getStartSurveyUid()));
                         surveySaveReq.setMapType(surveyModel.getMapTypeEntity());
@@ -821,7 +822,7 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
                 Gson gson = new Gson();
                 String json = gson.toJson(surveyModelArrayList);
                 surveyModelArrayList.clear();
-                surveyModelArrayList.add(new SurveyModel(dialogView.getPointName(),dialogView.getPointDescription(),json, getSurveyType()));
+                surveyModelArrayList.add(new SurveyDetailsEntity(dialogView.getPointName(),dialogView.getPointDescription(),json, surveyModel.getMapTypeEntity()));
                 SurveySaveReq surveySaveReq = new SurveySaveReq();
                 surveySaveReq.setSurvey(new SurveySaveReq.SurveyEntity(surveyModel.getStartSurveyUid()));
                 surveySaveReq.setMapType(surveyModel.getMapTypeEntity());
@@ -860,7 +861,7 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
         SurveyModel.PointDetails pointDetails = new SurveyModel.PointDetails(latLng.latitude,latLng.longitude);
         Gson gson = new Gson();
         String json = gson.toJson(pointDetails);
-        surveyModelArrayList.add(new SurveyModel(pointName, pointDescription,json , getSurveyType()));
+        surveyModelArrayList.add(new SurveyDetailsEntity(pointName, pointDescription,json , surveyModel.getMapTypeEntity()));
         mMap.setOnMarkerClickListener(this);
     }
 

@@ -8,6 +8,7 @@ import com.google.gson.annotations.SerializedName;
 import com.thresholdsoft.praanadhara.BR;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class SurveyLandLocationEntity  extends BaseObservable implements Serializable{
     @Expose
@@ -18,7 +19,7 @@ public class SurveyLandLocationEntity  extends BaseObservable implements Seriali
     private String submittedDate;
     @Expose
     @SerializedName("survey_details")
-    private SurveyDetailsEntity surveyDetails;
+    private ArrayList<SurveyDetailsEntity> surveyDetails;
     @Expose
     @SerializedName("submitted")
     private SubmittedEntity submitted;
@@ -34,7 +35,8 @@ public class SurveyLandLocationEntity  extends BaseObservable implements Seriali
         return submittedDate;
     }
 
-    public SurveyDetailsEntity getSurveyDetails() {
+    @Bindable
+    public ArrayList<SurveyDetailsEntity> getSurveyDetails() {
         return surveyDetails;
     }
 
@@ -55,8 +57,9 @@ public class SurveyLandLocationEntity  extends BaseObservable implements Seriali
         this.submittedDate = submittedDate;
     }
 
-    public void setSurveyDetails(SurveyDetailsEntity surveyDetails) {
+    public void setSurveyDetails(ArrayList<SurveyDetailsEntity> surveyDetails) {
         this.surveyDetails = surveyDetails;
+        notifyPropertyChanged(BR.surveyDetails);
     }
 
     public void setSubmitted(SubmittedEntity submitted) {
