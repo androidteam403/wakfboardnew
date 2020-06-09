@@ -18,9 +18,9 @@ import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.newenrollmentfrag
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.SurveyListMvpPresenter;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.SurveyListMvpView;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.SurveyListPresenter;
-import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.userprofile.UserProfileMvpPresenter;
-import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.userprofile.UserProfileMvpView;
-import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.userprofile.UserProfilePresenter;
+import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.userprofilefrag.UserProfileMvpPresenter;
+import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.userprofilefrag.UserProfileMvpView;
+import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.userprofilefrag.UserProfilePresenter;
 import com.thresholdsoft.praanadhara.ui.selectingformactivity.SelectingFormMvpPresenter;
 import com.thresholdsoft.praanadhara.ui.selectingformactivity.SelectingFormMvpView;
 import com.thresholdsoft.praanadhara.ui.selectingformactivity.SelectingFormPresenter;

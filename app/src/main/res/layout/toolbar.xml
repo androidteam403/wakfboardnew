@@ -1,74 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
     </data>
 
 
+    <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark">
 
-        <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:background="@color/colorPrimaryDark"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/twenty_dp"
+            android:paddingTop="@dimen/twenty_dp"
+            android:paddingBottom="@dimen/thirty_dp"
+            tools:ignore="RtlSymmetry">
+
+            <ImageView
+                android:id="@+id/menulines"
+                android:layout_width="@dimen/thirty_dp"
+                android:layout_height="@dimen/forty_dp"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/menuhdpi" />
+
+            <ImageView
+                android:layout_width="@dimen/forty_five_dp"
+                android:layout_height="@dimen/forty_dp"
+                android:layout_marginStart="@dimen/ten_dp"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/tree" />
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingStart="@dimen/twenty_dp"
-                android:paddingTop="@dimen/twenty_dp"
-                android:paddingBottom="@dimen/thirty_dp"
-                tools:ignore="RtlSymmetry">
+                android:layout_gravity="end"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/menulines"
-                    android:layout_width="@dimen/thirty_dp"
-                    android:layout_height="@dimen/forty_dp"
-                    android:contentDescription="@string/app_name"
-                    android:src="@drawable/menuhdpi" />
-
-                <ImageView
-                    android:layout_width="@dimen/forty_five_dp"
-                    android:layout_height="@dimen/forty_dp"
-                    android:layout_marginStart="@dimen/ten_dp"
-                    android:contentDescription="@string/app_name"
-                    android:src="@drawable/tree" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:paddingStart="@dimen/three_dp"
+                    android:text="@string/label_praanadhaara"
+                    android:textColor="@color/yellow"
+                    android:textSize="@dimen/text_dimen_18"
+                    android:textStyle="bold" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingStart="@dimen/three_dp"
-                        android:text="@string/label_praanadhaara"
-                        android:textColor="@color/yellow"
-                        android:textSize="@dimen/text_dimen_18"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/label_survey_list"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/text_dimen_12" />
-                </LinearLayout>
-
-                <ImageView
-                    android:layout_width="@dimen/twenty_five_dp"
-                    android:layout_height="@dimen/twenty_five_dp"
-                    android:layout_marginEnd="@dimen/twenty_five_dp"
-                    android:contentDescription="@string/app_name"
-                    android:src="@drawable/search_white" />
-
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_survey_list"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_dimen_12" />
             </LinearLayout>
 
-        </RelativeLayout>
+            <ImageView
+                android:layout_width="@dimen/twenty_five_dp"
+                android:layout_height="@dimen/twenty_five_dp"
+                android:layout_marginEnd="@dimen/twenty_five_dp"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/search_white" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
 
 </layout>

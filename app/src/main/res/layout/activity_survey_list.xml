@@ -125,12 +125,16 @@
 
                     </LinearLayout>
                 </LinearLayout>
-
+                <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                    android:id="@+id/simpleSwipeRefreshLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:context=".RecyclerMainActivity">
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerSurveyList"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
-
+                </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>

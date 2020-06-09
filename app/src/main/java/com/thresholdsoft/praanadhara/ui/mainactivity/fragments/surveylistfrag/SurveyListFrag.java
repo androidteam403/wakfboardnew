@@ -22,6 +22,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.library.baseAdapters.BuildConfig;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -46,8 +47,10 @@ import com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusActivit
 import com.thresholdsoft.praanadhara.ui.userlogin.UserLoginActivity;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 import javax.inject.Inject;
 
@@ -94,7 +97,15 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
         activitySurveyListBinding.recyclerSurveyList.setLayoutManager(mLayoutManager1);
         activitySurveyListBinding.recyclerSurveyList.setAdapter(surveyAdapter);
         mpresenter.farmersListApiCall();
+
+        activitySurveyListBinding.simpleSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mpresenter.farmersListApiCall();
+            }
+        });
     }
+
 
     @Override
     public void onItemClick(RowsEntity farmerModel) {
@@ -108,6 +119,7 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
 
     @Override
     public void onFarmersRes(List<RowsEntity> rowsEntity) {
+        activitySurveyListBinding.simpleSwipeRefreshLayout.setRefreshing(false);
         surveyModelArrayList.clear();
         surveyModelArrayList.addAll(rowsEntity);
         surveyAdapter.notifyDataSetChanged();

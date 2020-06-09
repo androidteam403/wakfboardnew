@@ -7,7 +7,7 @@ import com.thresholdsoft.praanadhara.ui.mainactivity.MainActiivty;
 import com.thresholdsoft.praanadhara.ui.mainactivity.dialog.LogoutDialog;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.newenrollmentfrag.NewEnrollmentFrag;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.SurveyListFrag;
-import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.userprofile.UserProfileFragment;
+import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.userprofilefrag.UserProfileFragment;
 import com.thresholdsoft.praanadhara.ui.selectingformactivity.SelectingFormActivity;
 import com.thresholdsoft.praanadhara.ui.splash.SplashActivity;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusActivity;
