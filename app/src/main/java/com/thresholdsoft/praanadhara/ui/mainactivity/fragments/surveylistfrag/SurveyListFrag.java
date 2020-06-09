@@ -1,6 +1,8 @@
 package com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag;
 
 import android.Manifest;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
@@ -10,14 +12,19 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.MenuItemCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.library.baseAdapters.BuildConfig;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -41,6 +48,7 @@ import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity;
 import com.thresholdsoft.praanadhara.databinding.ActivitySurveyListBinding;
 import com.thresholdsoft.praanadhara.ui.base.BaseFragment;
+import com.thresholdsoft.praanadhara.ui.mainactivity.MainActiivty;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.adapter.SurveyAdapter;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.SurveyCountModel;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusActivity;
@@ -83,6 +91,12 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setUp(view);
@@ -92,7 +106,7 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
     protected void setUp(View view) {
         activitySurveyListBinding.setSurvey(new SurveyCountModel());
 //        setUpGClient();
-        surveyAdapter = new SurveyAdapter(getActivity(), surveyModelArrayList, mpresenter);
+        surveyAdapter = new SurveyAdapter(getActivity(), surveyModelArrayList, mpresenter, SurveyListFrag.this);
         RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(getContext());
         activitySurveyListBinding.recyclerSurveyList.setLayoutManager(mLayoutManager1);
         activitySurveyListBinding.recyclerSurveyList.setAdapter(surveyAdapter);
@@ -123,21 +137,37 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
         surveyModelArrayList.clear();
         surveyModelArrayList.addAll(rowsEntity);
         surveyAdapter.notifyDataSetChanged();
-        for (RowsEntity entity : rowsEntity) {
-            if (entity.getFarmerLand().getSurveyLandLocation().getSubmitted().getUid() == null) {
-                activitySurveyListBinding.getSurvey().setNewCount(activitySurveyListBinding.getSurvey().getNewCount() + 1);
-            } else if (entity.getFarmerLand().getSurveyLandLocation().getSubmitted().getUid().equalsIgnoreCase("Yes")) {
-                activitySurveyListBinding.getSurvey().setCompletedCount(activitySurveyListBinding.getSurvey().getCompletedCount() + 1);
-            } else if (entity.getFarmerLand().getSurveyLandLocation().getSubmitted().getUid().equalsIgnoreCase("No")) {
-                activitySurveyListBinding.getSurvey().setInProgressCount(activitySurveyListBinding.getSurvey().getInProgressCount() + 1);
-            }
-        }
+        updateFilteredList(surveyModelArrayList);
     }
 
     @Override
     public void arrayListClear() {
         surveyModelArrayList.clear();
         surveyAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void updateFilteredList(ArrayList<RowsEntity> surveyList) {
+        int newSurveyList = 0;
+        int inProgressSurveyList = 0;
+        int completedSurveyList = 0;
+        for (RowsEntity entity : surveyList) {
+            if (entity.getFarmerLand().getSurveyLandLocation().getSubmitted().getUid() == null) {
+                newSurveyList = newSurveyList + 1;
+            } else if (entity.getFarmerLand().getSurveyLandLocation().getSubmitted().getUid().equalsIgnoreCase("Yes")) {
+                completedSurveyList = completedSurveyList + 1;
+            } else if (entity.getFarmerLand().getSurveyLandLocation().getSubmitted().getUid().equalsIgnoreCase("No")) {
+                inProgressSurveyList = inProgressSurveyList + 1;
+            }
+        }
+        activitySurveyListBinding.getSurvey().setNewCount(newSurveyList);
+        activitySurveyListBinding.getSurvey().setCompletedCount(completedSurveyList);
+        activitySurveyListBinding.getSurvey().setInProgressCount(inProgressSurveyList);
+        if (newSurveyList == 0 && inProgressSurveyList == 0 && completedSurveyList == 0) {
+            activitySurveyListBinding.noDataFound.setVisibility(View.VISIBLE);
+        } else {
+            activitySurveyListBinding.noDataFound.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -391,5 +421,39 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
         Intent intent = new Intent(getContext(), UserLoginActivity.class);
         startActivity(intent);
         getActivity().overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+    }
+
+//    @Override
+//    public void onPrepareOptionsMenu(Menu menu) {
+//        MenuItem mSearchMenuItem = menu.findItem(R.id.action_search);
+//        SearchView searchView = (SearchView) mSearchMenuItem.getActionView();
+//    }
+
+    private MenuItem mSearchItem;
+    private SearchView sv;
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_main, menu); // Put your search menu in "menu_search" menu file.
+        mSearchItem = menu.findItem(R.id.action_search);
+        sv = (SearchView) MenuItemCompat.getActionView(mSearchItem);
+        sv.setIconified(true);
+
+        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+        sv.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+        sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+//                mSearchView.clearFocus();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String query) {
+                surveyAdapter.getFilter().filter(query);
+                return true;
+            }
+        });
+        super.onCreateOptionsMenu(menu, inflater);
     }
 }

@@ -1,15 +1,22 @@
 package com.thresholdsoft.praanadhara.ui.mainactivity;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
@@ -26,9 +33,6 @@ import com.thresholdsoft.praanadhara.databinding.ActivityMainBinding;
 import com.thresholdsoft.praanadhara.databinding.NavHeaderMainBinding;
 import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
 import com.thresholdsoft.praanadhara.ui.mainactivity.dialog.LogoutDialog;
-import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.newenrollmentfrag.NewEnrollmentFrag;
-import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.SurveyListFrag;
-import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.userprofilefrag.UserProfileFragment;
 import com.thresholdsoft.praanadhara.ui.userlogin.UserLoginActivity;
 
 import javax.inject.Inject;
@@ -45,7 +49,6 @@ public class MainActiivty extends BaseActivity implements MainActivityMvpView {
     Toolbar mTopToolbar;
     TextView count;
     DrawerLayout drawer;
-    Fragment fragment ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +60,9 @@ public class MainActiivty extends BaseActivity implements MainActivityMvpView {
                 R.id.nav_home, R.id.nav_profile, R.id.nav_enrollment)
                 .setDrawerLayout(drawer)
                 .build();
+
+        Toolbar toolbar = findViewById(R.id.toolBar);
+        setSupportActionBar(toolbar);
 
         ImageView imageView = findViewById(R.id.menulines);
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -73,37 +79,6 @@ public class MainActiivty extends BaseActivity implements MainActivityMvpView {
         setUp();
     }
 
-//    public void setTitle(final String title) {
-//        ((TextView) findViewById(R.id.name)).setText(title);
-//    }
-
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        String title = null;
-//        switch (item.getItemId()) {
-//            case 0:
-//                fragment = new SurveyListFrag();
-//                title = "home";
-//                break;
-//            case 1:
-//                fragment = new NewEnrollmentFrag();
-//                title = "enrollment";
-//                break;
-//            case 2:
-//                fragment = new UserProfileFragment();
-//                title = "User Profile";
-//                break;
-//        }
-//        if (fragment != null){
-//
-//            FragmentManager fragmentManager = getFragmentManager();
-//
-//            //The key is this line
-//            if (title != null && findViewById(R.id.name)!= null ) setTitle(title);
-//        }
-//        return true;
-//    }
-
     @Override
     protected void setUp() {
         activityMainBinding.logout.setOnClickListener(new View.OnClickListener() {
@@ -115,10 +90,8 @@ public class MainActiivty extends BaseActivity implements MainActivityMvpView {
 
             }
         });
-        TextView userName = activityMainBinding.navView.getHeaderView(0).findViewById(R.id.user_name);
-        userName.setText(mPresenter.getUserName());
-
-
+       TextView userName = activityMainBinding.navView.getHeaderView(0).findViewById(R.id.user_name);
+       userName.setText(mPresenter.getUserName());
     }
 
     @Override
