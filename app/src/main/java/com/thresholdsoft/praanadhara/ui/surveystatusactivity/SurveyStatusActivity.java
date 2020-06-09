@@ -348,7 +348,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
             }
             if(isIncludeLatLong) {
                 LatLngBounds bounds = builder.build();
-                int padding = 0; // offset from edges of the map in pixels
+                int padding = 30; // offset from edges of the map in pixels
                 CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
                 map.animateCamera(cu);
             }
