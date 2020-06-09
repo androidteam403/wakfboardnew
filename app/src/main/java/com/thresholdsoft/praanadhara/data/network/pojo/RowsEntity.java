@@ -48,8 +48,14 @@ public class RowsEntity extends BaseObservable implements Serializable {
         return pic;
     }
 
+    @Bindable
     public FarmerLandEntity getFarmerLand() {
         return farmerLand;
+    }
+
+    public void setFarmerLand(FarmerLandEntity farmerLand) {
+        this.farmerLand = farmerLand;
+        notifyPropertyChanged(BR.farmerLand);
     }
 
     public String getName() {

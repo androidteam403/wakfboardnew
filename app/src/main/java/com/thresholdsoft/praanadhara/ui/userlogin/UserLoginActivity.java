@@ -16,6 +16,7 @@ import com.mukesh.OnOtpCompletionListener;
 import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.databinding.ActivityUserLoginBinding;
 import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
+import com.thresholdsoft.praanadhara.ui.mainactivity.MainActiivty;
 import com.thresholdsoft.praanadhara.ui.selectingformactivity.SelectingFormActivity;
 
 import javax.inject.Inject;
@@ -82,7 +83,7 @@ public class UserLoginActivity extends BaseActivity implements UserLoginMvpView,
 
     @Override
     public void navigateToSurveyListActivity() {
-        Intent intent = new Intent(this, SelectingFormActivity.class);
+        Intent intent = new Intent(this, MainActiivty.class);
         startActivity(intent);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }

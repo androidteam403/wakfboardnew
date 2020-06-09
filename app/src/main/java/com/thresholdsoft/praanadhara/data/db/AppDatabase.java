@@ -3,6 +3,7 @@ package com.thresholdsoft.praanadhara.data.db;
 import android.content.Context;
 
 import com.thresholdsoft.praanadhara.data.db.dao.SurveyDao;
+import com.thresholdsoft.praanadhara.data.db.model.FarmerLands;
 import com.thresholdsoft.praanadhara.data.db.model.Survey;
 
 import androidx.room.Database;
@@ -14,7 +15,7 @@ import androidx.room.RoomDatabase;
  * Created on : March 30, 2020
  * Author     : JAGADEESH
  */
-@Database(entities = {Survey.class}, version = 1, exportSchema = false)
+@Database(entities = {FarmerLands.class,Survey.class}, version = 2, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     private static final String DATABASE_NAME = "praanadhaara-database";
     private static AppDatabase mInstance;

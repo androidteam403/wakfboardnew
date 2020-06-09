@@ -1,11 +1,15 @@
 package com.thresholdsoft.praanadhara.data.network.pojo;
 
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.thresholdsoft.praanadhara.BR;
 
 import java.io.Serializable;
 
-public class FarmerLandEntity implements Serializable {
+public class FarmerLandEntity extends BaseObservable implements Serializable {
     @Expose
     @SerializedName("survey_land_location")
     private SurveyLandLocationEntity surveyLandLocation;
@@ -28,8 +32,14 @@ public class FarmerLandEntity implements Serializable {
     @SerializedName("uid")
     private String uid;
 
+    @Bindable
     public SurveyLandLocationEntity getSurveyLandLocation() {
         return surveyLandLocation;
+    }
+
+    public void setSurveyLandLocation(SurveyLandLocationEntity surveyLandLocation) {
+        this.surveyLandLocation = surveyLandLocation;
+        notifyPropertyChanged(BR.surveyLandLocation);
     }
 
     public PincodeEntity getPincode() {
