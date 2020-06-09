@@ -137,8 +137,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
         insideTheIncludedLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
-                overridePendingTransition(R.anim.left_right, R.anim.right_left);
+                onBackPressed();
             }
         });
 
@@ -174,6 +173,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     @Override
     public void startSurveySuccess(RowsEntity rowsEntity, SurveyStartRes data) {
         surveyModel.getFarmerLand().getSurveyLandLocation().setUid(data.getUid());
+        surveyModel.getFarmerLand().getSurveyLandLocation().getSubmitted().setUid("No");
     }
 
     @Override
@@ -355,7 +355,14 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
         } else {
             LatLng location = new LatLng(surveyModel.getCurrentLatitude(), surveyModel.getCurrentLongitude());
             map.addMarker(new MarkerOptions().position(location));
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 17.0f));
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 21.0f));
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+        overridePendingTransition(R.anim.left_right, R.anim.right_left);
     }
 }

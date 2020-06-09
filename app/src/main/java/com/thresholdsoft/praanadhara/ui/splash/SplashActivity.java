@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil;
 import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.databinding.ActivitySplashBinding;
 import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
+import com.thresholdsoft.praanadhara.ui.mainactivity.MainActiivty;
 import com.thresholdsoft.praanadhara.ui.selectingformactivity.SelectingFormActivity;
 import com.thresholdsoft.praanadhara.ui.userlogin.UserLoginActivity;
 
@@ -52,7 +53,7 @@ public class SplashActivity extends BaseActivity implements SplashMvpView {
 
     @Override
     public void navigateToSurveyListActivity() {
-        Intent intent = new Intent(this, SelectingFormActivity.class);
+        Intent intent = new Intent(this, MainActiivty.class);
         startActivity(intent);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }

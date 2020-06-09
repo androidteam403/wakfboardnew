@@ -91,6 +91,7 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        setUpGClient();
     }
 
     @Override
@@ -107,7 +108,7 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
         RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(getContext());
         activitySurveyListBinding.recyclerSurveyList.setLayoutManager(mLayoutManager1);
         activitySurveyListBinding.recyclerSurveyList.setAdapter(surveyAdapter);
-        mpresenter.farmersListApiCall();
+
     }
 
     @Override
@@ -173,6 +174,7 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
     public void onResume() {
         super.onResume();
         startStep1();
+        mpresenter.farmersListApiCall();
     }
 
     /**
@@ -181,8 +183,11 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
     private void startStep1() {
         //Check whether this user has installed Google play service which is being used by Location updates.
         if (isGooglePlayServicesAvailable()) {
-            if (!checkPermissions()) {
+            if (checkPermissions()) {
+                getMyLocation();
+            }else{
                 requestPermissions();
+
             }
         } else {
             Toast.makeText(getContext(), R.string.no_google_playservice_available, Toast.LENGTH_LONG).show();
@@ -384,7 +389,7 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-
+        getMyLocation();
     }
 
     @Override
