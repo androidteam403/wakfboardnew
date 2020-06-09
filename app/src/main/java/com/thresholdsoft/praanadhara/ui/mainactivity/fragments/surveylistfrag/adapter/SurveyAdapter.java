@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity;
 import com.thresholdsoft.praanadhara.databinding.AdapterSurveyListBinding;
+import com.thresholdsoft.praanadhara.databinding.LmItemLoadingBinding;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.SurveyListFrag;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.SurveyListMvpPresenter;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.SurveyListMvpView;
@@ -25,13 +26,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder> implements Filterable {
+public class SurveyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable {
 
     private ArrayList<RowsEntity> surveyModelArrayList;
     private ArrayList<RowsEntity> filteredSurveyModelArrayList;
     private SurveyListMvpPresenter<SurveyListMvpView> mPresenter;
     private Activity activity;
     private SurveyListFrag frag;
+    private final int VIEW_TYPE_ITEM = 0;
+    private final int VIEW_TYPE_LOADING = 1;
 
     public SurveyAdapter(Activity activity, ArrayList<RowsEntity> surveyModelArrayList,
                          SurveyListMvpPresenter<SurveyListMvpView> mPresenter, SurveyListFrag frag) {
@@ -44,14 +47,47 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
 
     @NonNull
     @Override
-    public SurveyAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        AdapterSurveyListBinding adapterSurveyListBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
-                R.layout.adapter_survey_list, parent, false);
-        return new SurveyAdapter.ViewHolder(adapterSurveyListBinding);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if (viewType == VIEW_TYPE_ITEM) {
+            AdapterSurveyListBinding adapterSurveyListBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                    R.layout.adapter_survey_list, parent, false);
+            return new SurveyAdapter.ViewHolder(adapterSurveyListBinding);
+
+        } else {
+            LmItemLoadingBinding lmItemLoadingBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                    R.layout.lm_item_loading, parent, false);
+            return new SurveyAdapter.LoadingViewHolder(lmItemLoadingBinding);
+        }
+    }
+
+    public static class LoadingViewHolder extends RecyclerView.ViewHolder {
+        public LmItemLoadingBinding lmItemLoadingBinding;
+
+        public LoadingViewHolder(@NonNull LmItemLoadingBinding lmItemLoadingBinding) {
+            super(lmItemLoadingBinding.getRoot());
+            this.lmItemLoadingBinding = lmItemLoadingBinding;
+        }
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        public AdapterSurveyListBinding adapterSurveyListBinding;
+
+        public ViewHolder(@NonNull AdapterSurveyListBinding adapterSurveyListBinding) {
+            super(adapterSurveyListBinding.getRoot());
+            this.adapterSurveyListBinding = adapterSurveyListBinding;
+        }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final SurveyAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof ViewHolder) {
+            populateItemRows((SurveyAdapter.ViewHolder) holder, position);
+        } else if (holder instanceof LoadingViewHolder) {
+            showLoadingView((SurveyAdapter.LoadingViewHolder) holder, position);
+        }
+    }
+
+    private void populateItemRows(SurveyAdapter.ViewHolder holder, int position) {
         RowsEntity farmerModel = filteredSurveyModelArrayList.get(position);
         holder.adapterSurveyListBinding.setSurvey(farmerModel);
 
@@ -150,15 +186,6 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
         };
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public AdapterSurveyListBinding adapterSurveyListBinding;
-
-        public ViewHolder(@NonNull AdapterSurveyListBinding adapterSurveyListBinding) {
-            super(adapterSurveyListBinding.getRoot());
-            this.adapterSurveyListBinding = adapterSurveyListBinding;
-        }
-    }
-
     @Override
     public int getItemCount() {
         return filteredSurveyModelArrayList.size();
@@ -166,8 +193,14 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
 
     @Override
     public int getItemViewType(int position) {
-        return position;
+        return surveyModelArrayList.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
     }
+
+    private void showLoadingView(LoadingViewHolder viewHolder, int position) {
+        //ProgressBar would be displayed
+
+    }
+
 
     public void addItems(List<RowsEntity> blogList) {
         surveyModelArrayList.addAll(blogList);

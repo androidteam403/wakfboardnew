@@ -28,7 +28,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/one_hundred_seventy_dp"
+                android:layout_height="@dimen/one_hundred_forty_dp"
                 android:background="@color/colorPrimaryDark"
                 android:orientation="vertical"
                 tools:ignore="UselessParent">
@@ -42,9 +42,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/fifteen_dp"
-                android:layout_marginTop="@dimen/ninety_five_dp"
-                android:layout_marginEnd="@dimen/fifteen_dp"
+                android:layout_marginTop="@dimen/fifty_five_dp"
                 android:orientation="vertical"
                 tools:ignore="UselessParent">
 
@@ -123,54 +121,25 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="@dimen/five_dp"
                                     android:baselineAligned="false"
-                                    android:orientation="horizontal"
-                                    android:weightSum="2">
+                                    android:orientation="vertical">
 
-                                    <LinearLayout
-                                        android:layout_width="@dimen/zero_dp"
+                                    <TextView
+                                        android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:orientation="vertical">
+                                        android:text="@{String.valueOf(survey.mobile)}"
+                                        android:textColor="@color/black"
+                                        android:fontFamily="@font/roboto_regular"
+                                        android:textSize="@dimen/text_dimen_12" />
 
-                                        <TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:fontFamily="@font/roboto_regular"
-                                            android:text="@string/label_mobile_number"
-                                            android:textSize="@dimen/text_dimen_11"
-                                            tools:ignore="TooDeepLayout" />
-
-                                        <TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:text="@{String.valueOf(survey.mobile)}"
-                                            android:textColor="@color/black"
-                                            android:textSize="@dimen/text_dimen_12" />
-                                    </LinearLayout>
-
-                                    <LinearLayout
-                                        android:layout_width="@dimen/zero_dp"
+                                    <TextView
+                                        android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:orientation="vertical">
-
-                                        <TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:fontFamily="@font/roboto_regular"
-                                            android:text="Email"
-                                            android:textSize="@dimen/text_dimen_11"
-                                            tools:ignore="HardcodedText" />
-
-                                        <TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:ellipsize="end"
-                                            android:maxLines="1"
-                                            android:text="@{survey.email}"
-                                            android:textColor="@color/black"
-                                            android:textSize="@dimen/text_dimen_12" />
-                                    </LinearLayout>
+                                        android:ellipsize="end"
+                                        android:fontFamily="@font/roboto_regular"
+                                        android:maxLines="1"
+                                        android:text="@{survey.email}"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_dimen_12" />
                                 </LinearLayout>
 
                             </LinearLayout>
@@ -226,8 +195,8 @@
                         android:id="@+id/checkBoxHeader"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:checked="false"
                         android:layout_alignParentStart="true"
+                        android:checked="false"
                         android:text="Name" />
 
                     <TextView
@@ -243,11 +212,11 @@
                         android:layout_height="match_parent"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/twenty_dp"
                         android:gravity="center"
                         android:orientation="horizontal"
                         android:text="Action"
-                        android:textColor="@color/black"
-                        android:layout_marginEnd="@dimen/twenty_dp">
+                        android:textColor="@color/black">
 
                     </TextView>
                 </RelativeLayout>
@@ -401,7 +370,7 @@
                         android:onClick="@{()-> presenterCallback.submitSurvey(survey)}"
                         android:text="Submit Survey"
                         android:textColor="@color/white"
-                        android:visibility="@{survey.farmerLand.surveyLandLocation.surveyDetails.size() > 0 ? View.VISIBLE : View.GONE}"/>
+                        android:visibility="@{survey.farmerLand.surveyLandLocation.surveyDetails.size() > 0 ? View.VISIBLE : View.GONE}" />
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
