@@ -8,6 +8,7 @@ import com.thresholdsoft.praanadhara.data.network.pojo.SurveyStartReq;
 import com.thresholdsoft.praanadhara.data.network.pojo.SurveyStartRes;
 import com.thresholdsoft.praanadhara.data.network.pojo.UserProfile;
 import com.thresholdsoft.praanadhara.data.network.pojo.WrapperResponse;
+import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.FarmerLandReq;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.DeleteReq;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.DeleteRes;
 
@@ -29,7 +30,7 @@ public class RestApiManager implements RestApiHelper {
     }
 
     @Override
-    public Single<FarmerSurveyList> doFarmerListApiCall(Object request) {
+    public Single<FarmerSurveyList> doFarmerListApiCall(FarmerLandReq request) {
         return mService.doFarmerListApiCall(request);
     }
 

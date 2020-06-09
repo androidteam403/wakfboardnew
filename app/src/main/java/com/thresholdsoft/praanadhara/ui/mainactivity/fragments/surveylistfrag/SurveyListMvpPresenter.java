@@ -8,4 +8,14 @@ public interface SurveyListMvpPresenter<V extends SurveyListMvpView> extends Mvp
     void farmersListApiCall();
 
     void anotherizedTokenClearDate();
+
+    void onClickNew();
+
+    void onClickInProgress();
+
+    void onClickCompleted();
+
+    void pullToRefreshApiCall();
+
+    void loadMoreApiCall();
 }

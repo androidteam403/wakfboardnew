@@ -17,6 +17,7 @@ import com.thresholdsoft.praanadhara.data.network.pojo.WrapperResponse;
 import com.thresholdsoft.praanadhara.data.prefs.PreferencesHelper;
 import com.thresholdsoft.praanadhara.data.utils.LoggedInMode;
 import com.thresholdsoft.praanadhara.di.ApplicationContext;
+import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.FarmerLandReq;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.DeleteReq;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.DeleteRes;
 import com.thresholdsoft.praanadhara.ui.userlogin.model.LoginResponse;
@@ -108,7 +109,7 @@ public class BaseDataManager implements DataManager {
 //    }
 
     @Override
-    public Single<FarmerSurveyList> doFarmerListApiCall(Object request) {
+    public Single<FarmerSurveyList> doFarmerListApiCall(FarmerLandReq request) {
         return mApiHelper.doFarmerListApiCall(request);
     }
 

@@ -6,6 +6,7 @@ import com.thresholdsoft.praanadhara.data.network.pojo.SurveySaveReq;
 import com.thresholdsoft.praanadhara.data.network.pojo.SurveyStartRes;
 import com.thresholdsoft.praanadhara.data.network.pojo.SurveyStartReq;
 import com.thresholdsoft.praanadhara.data.network.pojo.WrapperResponse;
+import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.FarmerLandReq;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.DeleteReq;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.DeleteRes;
 
@@ -15,7 +16,7 @@ import io.reactivex.Single;
 
 public interface RestApiHelper {
 
-    Single<FarmerSurveyList> doFarmerListApiCall(Object request);
+    Single<FarmerSurveyList> doFarmerListApiCall(FarmerLandReq request);
 
     Single<WrapperResponse<SurveyStartRes>> startSurvey(SurveyStartReq surveyStartReq);
 

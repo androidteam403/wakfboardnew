@@ -11,6 +11,12 @@ public interface SurveyListMvpView extends MvpView {
 
     void onFarmersRes(List<RowsEntity> rowsEntity);
 
+    void onSuccessLoadMore(List<RowsEntity> rowsEntities);
+
+    void onSuccessLoadMoreNodData();
+
+    void displayNoData();
+
     void arrayListClear();
 
     void updateFilteredList(ArrayList<RowsEntity> surveyList);
