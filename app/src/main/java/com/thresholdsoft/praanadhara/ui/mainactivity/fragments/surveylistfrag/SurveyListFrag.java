@@ -146,13 +146,13 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
         });
     }
 
-    private void populateData() {
-        int i = 0;
-        while (i < 10) {
-            surveyModelArrayList.add(surveyModelArrayListTempOne.get(i));
-            i++;
-        }
-    }
+//    private void populateData() {
+//        int i = 0;
+//        while (i < 10) {
+//            surveyModelArrayList.add(surveyModelArrayListTempOne.get(i));
+//            i++;
+//        }
+//    }
 
     private void loadMore() {
         surveyModelArrayList.add(null);
@@ -168,7 +168,7 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
                 int nextLimit = 10;
                 while (i < nextLimit) {
                     // LMMovieList.add(tempOneLMMovieList.get(i));
-                    surveyModelArrayList.add(surveyModelArrayListTwo.get(i));
+                    surveyModelArrayList.add(surveyModelArrayList.get(i));
                     i++;
                 }
                 surveyAdapter.notifyDataSetChanged();
@@ -191,11 +191,11 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
         activitySurveyListBinding.simpleSwipeRefreshLayout.setRefreshing(false);
         surveyModelArrayList.clear();
         surveyModelArrayList.addAll(rowsEntity);
-        surveyModelArrayListTempOne.clear();
-        surveyModelArrayListTempOne.addAll(surveyModelArrayList);
-        surveyModelArrayListTwo.clear();
-        surveyModelArrayListTwo.addAll(surveyModelArrayList);
-        populateData();
+//        surveyModelArrayListTempOne.clear();
+//        surveyModelArrayListTempOne.addAll(surveyModelArrayList);
+//        surveyModelArrayListTwo.clear();
+//        surveyModelArrayListTwo.addAll(surveyModelArrayList);
+//        populateData();
         surveyAdapter.notifyDataSetChanged();
         updateFilteredList(surveyModelArrayList);
     }

@@ -305,48 +305,50 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
             LatLngBounds.Builder builder = new LatLngBounds.Builder();
             for (SurveyDetailsEntity detailsEntity : surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails()) {
                 if (!detailsEntity.isUnChecked()) {
-                    if (detailsEntity.getMapType().getUid().equalsIgnoreCase("point")) {
-                        Gson gson = new Gson();
-                        SurveyModel.PointDetails pointDetails = gson.fromJson(detailsEntity.getLatlongs(), SurveyModel.PointDetails.class);
-                        LatLng latLng = new LatLng(pointDetails.getLatitude(), pointDetails.getLongitude());
-                        builder.include(latLng);
-                        map.addMarker(new MarkerOptions().title(detailsEntity.getName())
-                                .position(latLng)
-                                .flat(true)
-                                .anchor(0.5f, 0.5f));
-                        isIncludeLatLong = true;
-                    } else if (detailsEntity.getMapType().getUid().equalsIgnoreCase("line")) {
-                        Gson gson = new Gson();
-                        SurveyModel.PolyLineDetails polyLineDetails = gson.fromJson(detailsEntity.getLatlongs(), SurveyModel.PolyLineDetails.class);
-                        Polyline runningPathPolyline = map.addPolyline(new PolylineOptions()
-                                .add(new LatLng(polyLineDetails.getFromLatitude(), polyLineDetails.getFromLongitude()), new LatLng(polyLineDetails.getToLatitude(), polyLineDetails.getToLongitude())).width(polylineWidth).color(Color.parseColor("#801B60FE")).geodesic(true));
-                        runningPathPolyline.setPattern(null);
-                        builder.include(new LatLng(polyLineDetails.getFromLatitude(), polyLineDetails.getFromLongitude()));
-                        builder.include(new LatLng(polyLineDetails.getToLatitude(), polyLineDetails.getToLongitude()));
-                        isIncludeLatLong = true;
-                    } else if (detailsEntity.getMapType().getUid().equalsIgnoreCase("polygon")) {
-                        List<LatLng> polygonPoints = new ArrayList<>();
-                        Gson gson = new Gson();
-                        Type listType = new TypeToken<List<SurveyModel>>() {
-                        }.getType();
-                        List<SurveyModel> posts = gson.fromJson(detailsEntity.getLatlongs(), listType);
-                        for (SurveyModel model : posts) {
-                            LatLng location = new LatLng(model.getLatitude(), model.getLongitude());
-                            builder.include(location);
-                            polygonPoints.add(location);
+                    if (detailsEntity.getMapType().getUid() != null) {
+                        if (detailsEntity.getMapType().getUid().equalsIgnoreCase("point")) {
+                            Gson gson = new Gson();
+                            SurveyModel.PointDetails pointDetails = gson.fromJson(detailsEntity.getLatlongs(), SurveyModel.PointDetails.class);
+                            LatLng latLng = new LatLng(pointDetails.getLatitude(), pointDetails.getLongitude());
+                            builder.include(latLng);
+                            map.addMarker(new MarkerOptions().title(detailsEntity.getName())
+                                    .position(latLng)
+                                    .flat(true)
+                                    .anchor(0.5f, 0.5f));
+                            isIncludeLatLong = true;
+                        } else if (detailsEntity.getMapType().getUid().equalsIgnoreCase("line")) {
+                            Gson gson = new Gson();
+                            SurveyModel.PolyLineDetails polyLineDetails = gson.fromJson(detailsEntity.getLatlongs(), SurveyModel.PolyLineDetails.class);
+                            Polyline runningPathPolyline = map.addPolyline(new PolylineOptions()
+                                    .add(new LatLng(polyLineDetails.getFromLatitude(), polyLineDetails.getFromLongitude()), new LatLng(polyLineDetails.getToLatitude(), polyLineDetails.getToLongitude())).width(polylineWidth).color(Color.parseColor("#801B60FE")).geodesic(true));
+                            runningPathPolyline.setPattern(null);
+                            builder.include(new LatLng(polyLineDetails.getFromLatitude(), polyLineDetails.getFromLongitude()));
+                            builder.include(new LatLng(polyLineDetails.getToLatitude(), polyLineDetails.getToLongitude()));
+                            isIncludeLatLong = true;
+                        } else if (detailsEntity.getMapType().getUid().equalsIgnoreCase("polygon")) {
+                            List<LatLng> polygonPoints = new ArrayList<>();
+                            Gson gson = new Gson();
+                            Type listType = new TypeToken<List<SurveyModel>>() {
+                            }.getType();
+                            List<SurveyModel> posts = gson.fromJson(detailsEntity.getLatlongs(), listType);
+                            for (SurveyModel model : posts) {
+                                LatLng location = new LatLng(model.getLatitude(), model.getLongitude());
+                                builder.include(location);
+                                polygonPoints.add(location);
+                            }
+                            Polygon runningPathPolygon = map.addPolygon(new PolygonOptions()
+                                    .addAll(polygonPoints));
+                            runningPathPolygon.setStrokeColor(Color.BLUE);
+                            runningPathPolygon.setFillColor(Color.argb(20, 0, 255, 0));
+                            isIncludeLatLong = true;
                         }
-                        Polygon runningPathPolygon = map.addPolygon(new PolygonOptions()
-                                .addAll(polygonPoints));
-                        runningPathPolygon.setStrokeColor(Color.BLUE);
-                        runningPathPolygon.setFillColor(Color.argb(20, 0, 255, 0));
-                        isIncludeLatLong = true;
-                    }
-                } // Due to Select all is not checking, code is commenting by Raghava
+                    } // Due to Select all is not checking, code is commenting by Raghava
 //                else {
 //                    activitySurveyStatusBinding.checkBoxHeader.setChecked(false);
 //                }
+                }
             }
-            if(isIncludeLatLong) {
+            if (isIncludeLatLong) {
                 LatLngBounds bounds = builder.build();
                 int padding = 30; // offset from edges of the map in pixels
                 CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
