@@ -47,11 +47,11 @@ public class SurveyDetailsEntity extends BaseObservable implements Serializable 
     private boolean isUnChecked;
 
     public String getDisplayMapType() {
-        if(getSurveyType() == 0){
+        if (getSurveyType() == 0) {
             displayMapType = "Points";
-        }else if(getSurveyType() == 1){
+        } else if (getSurveyType() == 1) {
             displayMapType = "Line";
-        }else if(getSurveyType() == 2){
+        } else if (getSurveyType() == 2) {
             displayMapType = "Polygon";
         }
         return displayMapType;
@@ -103,12 +103,12 @@ public class SurveyDetailsEntity extends BaseObservable implements Serializable 
     }
 
 
-
-    public SurveyDetailsEntity(String description, String name, String latlongs, MapTypeEntity surveyType) {
+    public SurveyDetailsEntity(String description, String name, String latlongs, MapTypeEntity surveyType, String uid) {
         this.description = description;
         this.name = name;
         this.mapType = surveyType;
         this.latlongs = latlongs;
+        this.uid = uid;
     }
 
     private double latitude;
