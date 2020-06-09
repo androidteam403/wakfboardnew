@@ -126,24 +126,29 @@
 
                     </LinearLayout>
                 </LinearLayout>
-
-                <RelativeLayout
+                <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                    android:id="@+id/simpleSwipeRefreshLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerSurveyList"
+                    android:layout_height="match_parent"
+                    tools:context=".RecyclerMainActivity">
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"/>
+                        android:layout_height="match_parent">
 
-                    <TextView
-                        android:id="@+id/no_data_found"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:textSize="@dimen/text_dimen_16"
-                        android:text="No data found"/>
-                </RelativeLayout>
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerSurveyList"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"/>
+
+                        <TextView
+                            android:id="@+id/no_data_found"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:textSize="@dimen/text_dimen_16"
+                            android:text="No data found"/>
+                    </RelativeLayout>
+                </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>

@@ -34,7 +34,7 @@ public class SurveyStatusPresenter<V extends SurveyStatusMvpView> extends BasePr
                 .observeOn(getSchedulerProvider().ui())
                 .subscribe(blogResponse -> {
                     if (blogResponse != null && blogResponse.getData() != null && blogResponse.getSuccess()) {
-                        getMvpView().startSurveySuccess(rowsEntity,blogResponse.getData());
+                        getMvpView().startSurveySuccess(rowsEntity, blogResponse.getData());
                     }
                     getMvpView().hideLoading();
                 }, throwable -> {
@@ -134,7 +134,7 @@ public class SurveyStatusPresenter<V extends SurveyStatusMvpView> extends BasePr
                     .observeOn(getSchedulerProvider().ui())
                     .subscribe(blogResponse -> {
                         if (blogResponse != null && blogResponse.getData() != null && blogResponse.getSuccess()) {
-                            getMvpView().onSuccessEditSurvey(surveyDetailsEntity.getDescription(),position);
+                            getMvpView().onSuccessEditSurvey(surveyDetailsEntity.getDescription(), position);
                         }
                         getMvpView().hideLoading();
                     }, throwable -> {

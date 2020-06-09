@@ -1,4 +1,4 @@
-package com.thresholdsoft.praanadhara.ui.mainactivity.fragments.userprofile;
+package com.thresholdsoft.praanadhara.ui.mainactivity.fragments.userprofilefrag;
 
 import com.thresholdsoft.praanadhara.data.DataManager;
 import com.thresholdsoft.praanadhara.ui.base.BasePresenter;

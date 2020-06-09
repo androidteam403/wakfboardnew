@@ -2,11 +2,13 @@ package com.thresholdsoft.praanadhara.ui.mainactivity;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;

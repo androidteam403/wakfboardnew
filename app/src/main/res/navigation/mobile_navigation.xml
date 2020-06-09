@@ -17,7 +17,7 @@
         tools:layout="@layout/fragment_enrollment" />
     <fragment
         android:id="@+id/nav_profile"
-        android:name="com.thresholdsoft.praanadhara.ui.mainactivity.fragments.userprofile.UserProfileFragment"
+        android:name="com.thresholdsoft.praanadhara.ui.mainactivity.fragments.userprofilefrag.UserProfileFragment"
         tools:layout="@layout/fragment_dashboard" />
 
     <!--    <fragment-->
