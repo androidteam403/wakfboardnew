@@ -17,52 +17,55 @@
             android:id="@+id/title"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_regular"
             android:paddingLeft="12dp"
-            android:paddingRight="12dp"
             android:paddingTop="16dp"
+            android:paddingRight="12dp"
             android:textAlignment="center"
             android:textColor="#000"
             android:textSize="19sp"
-            android:textStyle="bold"
-            android:fontFamily="@font/roboto_regular"/>
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/edit_name_edit_text"
             android:layout_width="match_parent"
             android:layout_height="@dimen/forty_dp"
+            android:layout_below="@+id/title"
+            android:layout_marginStart="@dimen/twenty_dp"
+            android:layout_marginTop="@dimen/five_dp"
+            android:layout_marginEnd="@dimen/twenty_dp"
+            android:layout_marginBottom="@dimen/five_dp"
             android:background="@drawable/rounded_corners_white"
             android:fontFamily="@font/roboto_light"
-            android:inputType="text"
-            android:textColor="@color/black"
             android:hint="Name"
-            android:layout_marginStart="@dimen/twenty_dp"
-            android:layout_marginEnd="@dimen/twenty_dp"
-            android:layout_marginTop="@dimen/five_dp"
-            android:layout_marginBottom="@dimen/five_dp"
-            android:layout_below="@+id/title" />
+            android:inputType="text"
+            android:paddingStart="@dimen/ten_dp"
+            android:textColor="@color/black" />
 
         <EditText
             android:id="@+id/edit_description_edit_text"
             android:layout_width="match_parent"
             android:layout_height="@dimen/forty_dp"
+            android:layout_below="@+id/edit_name_edit_text"
+            android:layout_marginStart="@dimen/twenty_dp"
+            android:layout_marginTop="@dimen/five_dp"
+            android:layout_marginEnd="@dimen/twenty_dp"
+            android:layout_marginBottom="@dimen/five_dp"
             android:background="@drawable/rounded_corners_white"
             android:fontFamily="@font/roboto_light"
-            android:inputType="text"
             android:hint="Description"
-            android:textColor="@color/black"
-            android:layout_marginStart="@dimen/twenty_dp"
-            android:layout_marginEnd="@dimen/twenty_dp"
-            android:layout_marginTop="@dimen/five_dp"
-            android:layout_marginBottom="@dimen/five_dp"
-            android:layout_below="@+id/edit_name_edit_text" />
+            android:inputType="text"
+            android:paddingStart="@dimen/ten_dp"
+            android:textColor="@color/black" />
 
         <View
             android:id="@+id/line"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_below="@+id/edit_description_edit_text"
-            android:background="#cdced2"
-            android:layout_marginTop="@dimen/five_dp"/>
+            android:layout_marginTop="@dimen/five_dp"
+            android:background="#cdced2" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -74,13 +77,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:paddingBottom="12dp"
+                android:fontFamily="@font/roboto_regular"
                 android:paddingTop="12dp"
+                android:paddingBottom="12dp"
                 android:stateListAnimator="@null"
                 android:textAlignment="center"
                 android:textColor="#007aff"
-                android:textSize="19sp"
-                android:fontFamily="@font/roboto_regular"/>
+                android:textSize="19sp" />
 
             <View
                 android:id="@+id/separator"
@@ -93,14 +96,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:paddingBottom="12dp"
+                android:fontFamily="@font/roboto_regular"
                 android:paddingTop="12dp"
+                android:paddingBottom="12dp"
                 android:stateListAnimator="@null"
                 android:textAlignment="center"
                 android:textColor="#007aff"
                 android:textSize="19sp"
-                android:textStyle="bold"
-                android:fontFamily="@font/roboto_regular"/>
+                android:textStyle="bold" />
         </LinearLayout>
 
     </RelativeLayout>

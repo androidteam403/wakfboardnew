@@ -56,8 +56,6 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.thresholdsoft.praanadhara.BuildConfig;
 import com.thresholdsoft.praanadhara.R;
-import com.thresholdsoft.praanadhara.data.db.model.Survey;
-import com.thresholdsoft.praanadhara.data.network.pojo.MapTypeEntity;
 import com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity;
 import com.thresholdsoft.praanadhara.data.network.pojo.SurveyDetailsEntity;
 import com.thresholdsoft.praanadhara.data.network.pojo.SurveySaveReq;
@@ -360,8 +358,8 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
                 if (getSurveyType() == 0) {
                     showPointDialog(point);
                 } else if (getSurveyType() == 1) {
-                    if(markerList.size() < 2){
-                        Marker myMarker =  mMap.addMarker(new MarkerOptions()
+                    if (markerList.size() < 2) {
+                        Marker myMarker = mMap.addMarker(new MarkerOptions()
                                 .position(point)
                                 .flat(true)
                                 .anchor(0.5f, 0.5f));
@@ -411,7 +409,7 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
         } else if (getSurveyType() == 1) {
             //  planePolyline();
         } else if (getSurveyType() == 2) {
-            surveyModelArrayList.add(new SurveyDetailsEntity(location.getLatitude(),location.getLongitude(),location.getAccuracy()));
+            surveyModelArrayList.add(new SurveyDetailsEntity(location.getLatitude(), location.getLongitude(), location.getAccuracy()));
             drawUserPositionMarker(location);
             polygonPolyline();
         }
@@ -734,13 +732,13 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
 
     @Override
     public void onClickSavePoints() {
-        if(getSurveyType() == 0) {
+        if (getSurveyType() == 0) {
             Intent intent = getIntent();
             intent.putExtra("surveySubmit", surveyModelArrayList);
             setResult(RESULT_OK, intent);
             finish();
-        }else if(getSurveyType() == 1){
-            if(markerList.size() == 2) {
+        } else if (getSurveyType() == 1) {
+            if (markerList.size() == 2) {
                 SurveyPointDialog dialogView = new SurveyPointDialog(this);
                 dialogView.setTitle("Line Details");
                 dialogView.setPositiveLabel("Ok");
@@ -756,7 +754,8 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
                         Gson gson = new Gson();
                         String json = gson.toJson(polyLineDetails);
                         surveyModelArrayList.clear();
-                        surveyModelArrayList.add(new SurveyDetailsEntity(dialogView.getPointName(), dialogView.getPointDescription(), json, surveyModel.getMapTypeEntity()));
+                        surveyModelArrayList.add(new SurveyDetailsEntity(dialogView.getPointName(), dialogView.getPointDescription(), json, surveyModel.getMapTypeEntity(),
+                                surveyModel.getUid()));
                         SurveySaveReq surveySaveReq = new SurveySaveReq();
                         surveySaveReq.setSurvey(new SurveySaveReq.SurveyEntity(surveyModel.getFarmerLand().getSurveyLandLocation().getUid()));
                         surveySaveReq.setMapType(surveyModel.getMapTypeEntity());
@@ -777,7 +776,7 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
                     }
                 });
                 dialogView.show();
-            }else{
+            } else {
                 showMessage("please add Line");
             }
         }
@@ -822,7 +821,8 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
                 Gson gson = new Gson();
                 String json = gson.toJson(surveyModelArrayList);
                 surveyModelArrayList.clear();
-                surveyModelArrayList.add(new SurveyDetailsEntity(dialogView.getPointName(),dialogView.getPointDescription(),json, surveyModel.getMapTypeEntity()));
+                surveyModelArrayList.add(new SurveyDetailsEntity(dialogView.getPointName(), dialogView.getPointDescription(), json, surveyModel.getMapTypeEntity(),
+                        surveyModel.getUid()));
                 SurveySaveReq surveySaveReq = new SurveySaveReq();
                 surveySaveReq.setSurvey(new SurveySaveReq.SurveyEntity(surveyModel.getFarmerLand().getSurveyLandLocation().getUid()));
                 surveySaveReq.setMapType(surveyModel.getMapTypeEntity());
@@ -858,10 +858,10 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
                 .position(latLng)
                 .flat(true)
                 .anchor(0.5f, 0.5f));
-        SurveyModel.PointDetails pointDetails = new SurveyModel.PointDetails(latLng.latitude,latLng.longitude);
+        SurveyModel.PointDetails pointDetails = new SurveyModel.PointDetails(latLng.latitude, latLng.longitude);
         Gson gson = new Gson();
         String json = gson.toJson(pointDetails);
-        surveyModelArrayList.add(new SurveyDetailsEntity(pointName, pointDescription,json , surveyModel.getMapTypeEntity()));
+        surveyModelArrayList.add(new SurveyDetailsEntity(pointName, pointDescription, json, surveyModel.getMapTypeEntity(), surveyModel.getUid()));
         mMap.setOnMarkerClickListener(this);
     }
 
@@ -889,7 +889,7 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
                 SurveySaveReq surveySaveReq = new SurveySaveReq();
                 surveySaveReq.setSurvey(new SurveySaveReq.SurveyEntity(surveyModel.getFarmerLand().getSurveyLandLocation().getUid()));
                 surveySaveReq.setMapType(surveyModel.getMapTypeEntity());
-                SurveyModel.PointDetails pointDetails = new SurveyModel.PointDetails(latLng.latitude,latLng.longitude);
+                SurveyModel.PointDetails pointDetails = new SurveyModel.PointDetails(latLng.latitude, latLng.longitude);
                 Gson gson = new Gson();
                 String json = gson.toJson(pointDetails);
                 surveySaveReq.setLatlongs(json);
