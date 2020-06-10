@@ -44,7 +44,7 @@
                 android:layout_height="@dimen/forty_five_dp"
                 android:background="@drawable/rectangular_light_round"
                 android:fontFamily="@font/roboto_regular"
-                android:hint="anupama"
+                android:hint="first name"
                 android:inputType="text"
                 android:paddingStart="@dimen/ten_dp"
                 android:singleLine="true" />
@@ -63,7 +63,7 @@
                 android:layout_height="@dimen/forty_five_dp"
                 android:background="@drawable/rectangular_light_round"
                 android:fontFamily="@font/roboto_regular"
-                android:hint="katamreddy"
+                android:hint="last name"
                 android:inputType="text"
                 android:paddingStart="@dimen/ten_dp"
                 android:singleLine="true" />
@@ -82,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/three_dp"
                 android:fontFamily="@font/roboto_regular"
-                android:text=""
+                android:text="email"
                 android:textColor="@color/black" />
 
             <TextView
@@ -115,7 +115,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/three_dp"
                 android:fontFamily="@font/roboto_regular"
-                android:text=""
+                android:text="contact number"
                 android:textColor="@color/black" />
 
             <LinearLayout
