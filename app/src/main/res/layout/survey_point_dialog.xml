@@ -17,14 +17,13 @@
             android:id="@+id/title"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/roboto_regular"
+            android:fontFamily="@font/roboto_bold"
             android:paddingLeft="12dp"
             android:paddingTop="16dp"
             android:paddingRight="12dp"
             android:textAlignment="center"
             android:textColor="#000"
-            android:textSize="19sp"
-            android:textStyle="bold" />
+            android:textSize="19sp" />
 
         <EditText
             android:id="@+id/edit_name_edit_text"
@@ -102,8 +101,7 @@
                 android:stateListAnimator="@null"
                 android:textAlignment="center"
                 android:textColor="#007aff"
-                android:textSize="19sp"
-                android:textStyle="bold" />
+                android:textSize="19sp" />
         </LinearLayout>
 
     </RelativeLayout>

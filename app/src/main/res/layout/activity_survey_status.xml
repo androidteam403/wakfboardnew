@@ -188,35 +188,38 @@
                 android:visibility="@{survey.farmerLand.surveyLandLocation.surveyDetails.size() > 0 ? View.VISIBLE : View.GONE}">
 
 
-                <CheckBox
-                    android:id="@+id/checkBoxHeader"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:checked="false"
-                    android:text="Name" />
+                    <CheckBox
+                        android:id="@+id/checkBoxHeader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:layout_alignParentStart="true"
+                        android:checked="false"
+                        android:text="Name" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:text="Type"
-                    android:textColor="@color/black" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:fontFamily="@font/roboto_regular"
+                        android:layout_centerVertical="true"
+                        android:text="Type"
+                        android:textColor="@color/black" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/twenty_dp"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:text="Action"
-                    android:textColor="@color/black">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/twenty_dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:text="Action"
+                        android:textColor="@color/black">
 
-                </TextView>
-            </RelativeLayout>
+                    </TextView>
+                </RelativeLayout>
 
             <ScrollView
                 android:layout_width="match_parent"
