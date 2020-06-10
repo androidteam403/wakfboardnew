@@ -53,7 +53,8 @@ public class SplashPresenter<V extends SplashMvpView> extends BasePresenter<V>
 
     @Override
     public void checkUserLogin() {
-        if (getDataManager().isUserLogin() && getDataManager().isSurveyClick()) {
+//        if (getDataManager().isUserLogin() && getDataManager().isSurveyClick()) {
+        if (getDataManager().isUserLogin()) {
             getMvpView().navigateToSurveyListActivity();
         } else {
             getMvpView().navigateToUserLgin();

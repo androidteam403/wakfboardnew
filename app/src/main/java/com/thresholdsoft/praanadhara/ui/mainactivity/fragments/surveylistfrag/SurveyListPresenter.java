@@ -1,6 +1,5 @@
 package com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag;
 
-import com.google.gson.JsonObject;
 import com.thresholdsoft.praanadhara.data.DataManager;
 import com.thresholdsoft.praanadhara.data.network.pojo.PicEntity;
 import com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity;
@@ -16,6 +15,7 @@ public class SurveyListPresenter<V extends SurveyListMvpView> extends BasePresen
         implements SurveyListMvpPresenter<V> {
     PicEntity picEntity;
     private int pageNumber = 2;
+
     @Inject
     public SurveyListPresenter(DataManager manager, SchedulerProvider schedulerProvider, CompositeDisposable compositeDisposable) {
         super(manager, schedulerProvider, compositeDisposable);
@@ -30,7 +30,7 @@ public class SurveyListPresenter<V extends SurveyListMvpView> extends BasePresen
     public void farmersListApiCall() {
         pageNumber = 2;
         getMvpView().showLoading();
-        listApiCall("",1,false);
+        listApiCall("", 1, false);
     }
 
     @Override
@@ -42,35 +42,35 @@ public class SurveyListPresenter<V extends SurveyListMvpView> extends BasePresen
     public void onClickNew() {
         pageNumber = 2;
         getMvpView().showLoading();
-        listApiCall("New",1,false);
+        listApiCall("New", 1, false);
     }
 
     @Override
     public void onClickInProgress() {
         pageNumber = 2;
         getMvpView().showLoading();
-        listApiCall("InProgress",1,false);
+        listApiCall("InProgress", 1, false);
     }
 
     @Override
     public void onClickCompleted() {
         pageNumber = 2;
         getMvpView().showLoading();
-        listApiCall("Completed",1,false);
+        listApiCall("Completed", 1, false);
     }
 
     @Override
     public void pullToRefreshApiCall() {
         pageNumber = 2;
-        listApiCall("",1,false);
+        listApiCall("", 1, false);
     }
 
     @Override
     public void loadMoreApiCall() {
-        listApiCall("",pageNumber,true);
+        listApiCall("", pageNumber, true);
     }
 
-    private void listApiCall(String status, int page, boolean isLoadMore){
+    private void listApiCall(String status, int page, boolean isLoadMore) {
         FarmerLandReq farmerLandReq = new FarmerLandReq();
         farmerLandReq.setPage(page);
         farmerLandReq.setStatus(status);
@@ -79,17 +79,17 @@ public class SurveyListPresenter<V extends SurveyListMvpView> extends BasePresen
                 .subscribeOn(getSchedulerProvider().io())
                 .observeOn(getSchedulerProvider().ui())
                 .subscribe(blogResponse -> {
-                    if (blogResponse != null && blogResponse.getData() != null ) {
-                        if(blogResponse.getData().getListdata().getRows().size() > 0) {
+                    if (blogResponse != null && blogResponse.getData() != null) {
+                        if (blogResponse.getData().getListdata().getRows().size() > 0) {
                             if (isLoadMore) {
                                 pageNumber++;
                                 getMvpView().onSuccessLoadMore(blogResponse.getData().getListdata().getRows());
-                            }else {
+                            } else {
                                 getMvpView().onFarmersRes(blogResponse.getData().getListdata().getRows());
                             }
-                        }else if(isLoadMore){
+                        } else if (isLoadMore) {
                             getMvpView().onSuccessLoadMoreNodData();
-                        }else{
+                        } else {
                             getMvpView().displayNoData();
                         }
                     }
