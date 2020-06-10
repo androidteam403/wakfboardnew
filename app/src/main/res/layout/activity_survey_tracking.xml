@@ -60,7 +60,7 @@
                 android:text="Accuracy"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                android:textStyle="normal"
+                android:fontFamily="@font/roboto_regular"
                 android:layout_alignParentStart="true"/>
 
             <TextView
@@ -74,7 +74,7 @@
                 android:text="Distance"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                android:textStyle="normal"
+                android:fontFamily="@font/roboto_regular"
                 android:layout_centerHorizontal="true"/>
 
             <TextView
@@ -88,7 +88,7 @@
                 android:text="@{survey.surveyName}"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                android:textStyle="normal"
+                android:fontFamily="@font/roboto_regular"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="@dimen/twenty_dp"/>
 
@@ -116,8 +116,8 @@
                 android:layout_weight="1"
                 android:text="Pause"
                 android:gravity="center"
+                android:fontFamily="@font/roboto_regular"
                 android:textColor="@color/white"
-                android:textStyle="normal"
                 android:textSize="@dimen/text_dimen_18"
                 android:onClick="@{()-> view.onClickPauseResumeBtn()}"/>
 
@@ -133,8 +133,8 @@
                 android:layout_weight="1"
                 android:text="Stop"
                 android:gravity="center"
+                android:fontFamily="@font/roboto_regular"
                 android:textColor="@color/white"
-                android:textStyle="normal"
                 android:textSize="@dimen/text_dimen_18"
                 android:onClick="@{()-> view.onClickStopBtn()}" />
 
@@ -148,7 +148,7 @@
                 android:text="Save"
                 android:gravity="center"
                 android:textColor="@color/white"
-                android:textStyle="bold"
+                android:fontFamily="@font/roboto_regular"
                 android:textSize="@dimen/text_dimen_18"
                 android:onClick="@{()-> view.onClickSavePoints()}"
                 android:visibility="@{type == 0 || type == 1 ? View.VISIBLE : View.GONE}"
@@ -169,7 +169,7 @@
             android:text="Start"
             android:gravity="center"
             android:textColor="@color/white"
-            android:textStyle="bold"
+            android:fontFamily="@font/roboto_bold"
             android:textSize="@dimen/text_dimen_18"
             android:onClick="@{()-> view.onClickStartPolygon()}"
             android:visibility="@{type == 2 &amp; !start &amp; !save ? View.VISIBLE : View.GONE}"
@@ -190,7 +190,7 @@
             android:text="Save"
             android:gravity="center"
             android:textColor="@color/white"
-            android:textStyle="bold"
+            android:fontFamily="@font/roboto_bold"
             android:textSize="@dimen/text_dimen_18"
             android:onClick="@{()-> view.savePolyGone()}"
             android:visibility="@{type == 2 &amp; save ? View.VISIBLE : View.GONE}"

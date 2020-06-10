@@ -26,11 +26,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:fontFamily="@font/roboto_regular"
+                android:fontFamily="@font/roboto_medium"
                 android:text="Are You Sure!"
                 android:textColor="@color/black"
-                android:textSize="@dimen/text_dimen_16"
-                android:textStyle="bold" />
+                android:textSize="@dimen/text_dimen_16"/>
 
             <TextView
                 android:id="@+id/text"
