@@ -35,8 +35,7 @@
                 android:fontFamily="@font/roboto_bold"
                 android:text="@string/label_praanadhaara"
                 android:textColor="@color/yellow"
-                android:textSize="@dimen/text_dimen_22"
-                android:textStyle="bold" />
+                android:textSize="@dimen/text_dimen_22" />
 
             <TextView
                 android:layout_width="wrap_content"

@@ -110,6 +110,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_regular"
                                 android:text="@{String.valueOf(survey.mobile)}"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/text_dimen_12" />
@@ -133,6 +134,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:ellipsize="end"
+                                android:fontFamily="@font/roboto_regular"
                                 android:maxLines="1"
                                 android:text="@{survey.email}"
                                 android:textColor="@color/black"
@@ -203,9 +205,9 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:text="TAKE SURVEY"
+                            android:fontFamily="@font/roboto_medium"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/text_dimen_11"
-                            android:textStyle="bold" />
+                            android:textSize="@dimen/text_dimen_11" />
 
                         <TextView
                             android:id="@+id/surveyDate"
@@ -213,6 +215,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:text="anupama"
+                            android:fontFamily="@font/roboto_regular"
                             android:textColor="@color/white"
                             android:textSize="@dimen/text_dimen_11"
                             android:visibility="gone" />

@@ -234,6 +234,7 @@
                             android:textColor="@android:color/black"
                             app:hideLineWhenFilled="true"
                             app:itemCount="6"
+                            android:fontFamily="@font/roboto_regular"
                             app:itemSpacing="6dp"
                             app:lineColor="@drawable/otp_item_state"
                             app:state_filled="true"

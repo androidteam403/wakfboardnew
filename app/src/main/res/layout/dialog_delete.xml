@@ -23,8 +23,7 @@
             android:textAlignment="center"
             android:textColor="#000"
             android:textSize="19sp"
-            android:textStyle="bold"
-            android:fontFamily="@font/roboto_regular"/>
+            android:fontFamily="@font/roboto_bold"/>
         <LinearLayout
             android:layout_below="@id/title"
             android:id="@+id/line"
@@ -92,7 +91,6 @@
                 android:textAlignment="center"
                 android:textColor="#007aff"
                 android:textSize="19sp"
-                android:textStyle="bold"
                 android:fontFamily="@font/roboto_regular"/>
         </LinearLayout>
 
