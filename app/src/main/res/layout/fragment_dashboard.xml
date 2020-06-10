@@ -3,6 +3,9 @@
 
     <data>
 
+        <variable
+            name="presenter"
+            type="com.thresholdsoft.praanadhara.ui.mainactivity.fragments.userprofilefrag.UserProfileMvpPresenter" />
     </data>
 
     <RelativeLayout
@@ -74,11 +77,12 @@
                 android:textColor="@color/black" />
 
             <TextView
+                android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/three_dp"
                 android:fontFamily="@font/roboto_regular"
-                android:text="Anupama.k@thresholdsoft.com"
+                android:text=""
                 android:textColor="@color/black" />
 
             <TextView
@@ -106,11 +110,12 @@
                 android:textColor="@color/black" />
 
             <TextView
+                android:id="@+id/contact"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/three_dp"
                 android:fontFamily="@font/roboto_regular"
-                android:text="8074477313"
+                android:text=""
                 android:textColor="@color/black" />
 
             <LinearLayout
@@ -128,6 +133,7 @@
                     android:backgroundTint="@color/yellow"
                     android:fontFamily="@font/roboto_bold"
                     android:gravity="center"
+                    android:onClick="@{()->presenter.onUpdateClick()}"
                     android:text="Update"
                     android:textColor="@color/black" />
 
@@ -139,6 +145,7 @@
                     android:backgroundTint="@color/grey"
                     android:fontFamily="@font/roboto_bold"
                     android:gravity="center"
+                    android:onClick="@{()->presenter.onCancelClick()}"
                     android:text="Cancel"
                     android:textColor="@color/white" />
 

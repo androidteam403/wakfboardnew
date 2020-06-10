@@ -1,21 +1,14 @@
 package com.thresholdsoft.praanadhara.ui.mainactivity.fragments.userprofilefrag;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
 
 import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.databinding.FragmentDashboardBinding;
@@ -48,10 +41,41 @@ public class UserProfileFragment extends BaseFragment implements UserProfileMvpV
 
     @Override
     protected void setUp(View view) {
+        fragmentDashboardBinding.setPresenter(mpresenter);
+        fragmentDashboardBinding.firstName.setText(mpresenter.getUserName());
+        fragmentDashboardBinding.email.setText(mpresenter.getUserEmail());
+        fragmentDashboardBinding.contact.setText(mpresenter.getUserContactNum());
     }
 
     @Override
     public void anotherizedToken() {
 
+    }
+
+    private boolean validations() {
+        String fname = fragmentDashboardBinding.firstName.getText().toString().trim();
+        String lname = fragmentDashboardBinding.lastname.getText().toString().trim();
+        if (fname.isEmpty()) {
+            fragmentDashboardBinding.firstName.setError("Please enter First Name");
+            fragmentDashboardBinding.firstName.requestFocus();
+            return false;
+        } else if (lname.isEmpty()) {
+            fragmentDashboardBinding.lastname.setError("Please enter Last Name");
+            fragmentDashboardBinding.lastname.requestFocus();
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public void onUpdateClick() {
+        if (validations()){
+            Toast.makeText(getContext(), "Updated", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onCancelClick() {
+        Toast.makeText(getContext(), "Canceled", Toast.LENGTH_SHORT).show();
     }
 }
