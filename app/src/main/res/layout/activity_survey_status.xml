@@ -233,6 +233,7 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/surve_details_recyclerview"
                         android:layout_width="match_parent"
+                        android:nestedScrollingEnabled="false"
                         android:layout_height="wrap_content" />
 
                     <LinearLayout

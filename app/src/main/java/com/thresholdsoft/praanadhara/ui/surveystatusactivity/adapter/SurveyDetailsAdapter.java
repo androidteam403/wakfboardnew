@@ -66,14 +66,14 @@ public class SurveyDetailsAdapter extends RecyclerView.Adapter<SurveyDetailsAdap
 //                EditDialog dialog = new EditDialog();
 //                dialog.show(manager, "editdialog");
                 CustomEditDialog customEditDialog = new CustomEditDialog(activity);
-                customEditDialog.setEditTextData(farmerModel.getDescription());
+                customEditDialog.setEditTextData(farmerModel.getName());
                 customEditDialog.setTitle("Edit ");
                 customEditDialog.setPositiveUpdateLabel("Update");
                 customEditDialog.setPositiveUpdateListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                       // holder.adapterSurveyListBinding.checkBox.setText(customEditDialog.getPointDescription());
-                        farmerModel.setDescription(customEditDialog.getPointDescription());
+//                        holder.adapterSurveyListBinding.checkBox.setText(customEditDialog.getPointName());
+                        farmerModel.setName(customEditDialog.getPointName());
                         customEditDialog.dismiss();
                         mPresenter.editApiCal(farmerModel,position);
                     }
