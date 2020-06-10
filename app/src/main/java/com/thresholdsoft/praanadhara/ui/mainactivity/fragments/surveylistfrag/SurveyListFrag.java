@@ -107,13 +107,13 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
     @Override
     protected void setUp(View view) {
         activitySurveyListBinding.setSurvey(new SurveyCountModel());
-//        setUpGClient();
+        activitySurveyListBinding.setCallback(mpresenter);
 
         surveyAdapter = new SurveyAdapter(getActivity(), surveyModelArrayList, mpresenter, SurveyListFrag.this);
         RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(getContext());
         activitySurveyListBinding.recyclerSurveyList.setLayoutManager(mLayoutManager1);
         activitySurveyListBinding.recyclerSurveyList.setAdapter(surveyAdapter);
-        mpresenter.farmersListApiCall();
+      //  mpresenter.farmersListApiCall();
         initScrollListener();
 
         activitySurveyListBinding.simpleSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -146,34 +146,11 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
         });
     }
 
-//    private void populateData() {
-//        int i = 0;
-//        while (i < 10) {
-//            surveyModelArrayList.add(surveyModelArrayListTempOne.get(i));
-//            i++;
-//        }
-//    }
 
     private void loadMore() {
         surveyModelArrayList.add(null);
         surveyAdapter.notifyItemInserted(surveyModelArrayList.size() - 1);
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                surveyModelArrayList.remove(surveyModelArrayList.size() - 1);
-                int scrollPosition = surveyModelArrayList.size();
-                surveyAdapter.notifyItemRemoved(scrollPosition);
-                int i = 0;
-                int nextLimit = 10;
-                while (i < nextLimit) {
-                    // LMMovieList.add(tempOneLMMovieList.get(i));
-                    surveyModelArrayList.add(surveyModelArrayList.get(i));
-                    i++;
-                }
-                surveyAdapter.notifyDataSetChanged();
-            }
-        }, 2000);
+        mpresenter.loadMoreApiCall();
     }
 
     @Override
@@ -188,16 +165,40 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
 
     @Override
     public void onFarmersRes(List<RowsEntity> rowsEntity) {
+        activitySurveyListBinding.noDataFound.setVisibility(View.GONE);
+        isLoading = false;
         activitySurveyListBinding.simpleSwipeRefreshLayout.setRefreshing(false);
         surveyModelArrayList.clear();
         surveyModelArrayList.addAll(rowsEntity);
-//        surveyModelArrayListTempOne.clear();
-//        surveyModelArrayListTempOne.addAll(surveyModelArrayList);
-//        surveyModelArrayListTwo.clear();
-//        surveyModelArrayListTwo.addAll(surveyModelArrayList);
-//        populateData();
         surveyAdapter.notifyDataSetChanged();
         updateFilteredList(surveyModelArrayList);
+    }
+
+    @Override
+    public void onSuccessLoadMore(List<RowsEntity> rowsEntities) {
+        activitySurveyListBinding.noDataFound.setVisibility(View.GONE);
+        isLoading = false;
+        surveyModelArrayList.remove(surveyModelArrayList.size() - 1);
+        int scrollPosition = surveyModelArrayList.size();
+        surveyAdapter.notifyItemRemoved(scrollPosition);
+        surveyModelArrayList.addAll(rowsEntities);
+        surveyAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onSuccessLoadMoreNodData() {
+        activitySurveyListBinding.noDataFound.setVisibility(View.GONE);
+        surveyModelArrayList.remove(surveyModelArrayList.size() - 1);
+        int scrollPosition = surveyModelArrayList.size();
+        surveyAdapter.notifyItemRemoved(scrollPosition);
+        surveyAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void displayNoData() {
+        surveyModelArrayList.clear();
+        surveyAdapter.notifyDataSetChanged();
+        activitySurveyListBinding.noDataFound.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -248,6 +249,12 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
         mpresenter.farmersListApiCall();
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        mGoogleApiClient.stopAutoManage(getBaseActivity());
+        mGoogleApiClient.disconnect();
+    }
     /**
      * Step 1: Check Google Play services
      */

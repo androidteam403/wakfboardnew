@@ -8,6 +8,7 @@ import com.thresholdsoft.praanadhara.data.network.pojo.SurveyStartReq;
 import com.thresholdsoft.praanadhara.data.network.pojo.SurveyStartRes;
 import com.thresholdsoft.praanadhara.data.network.pojo.UserProfile;
 import com.thresholdsoft.praanadhara.data.network.pojo.WrapperResponse;
+import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.FarmerLandReq;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.DeleteReq;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.DeleteRes;
 import com.thresholdsoft.praanadhara.ui.userlogin.model.LoginResponse;
@@ -33,7 +34,7 @@ public interface NetworkService {
 
 
     @POST("api/farmer/list/farmer-survey-list")
-    Single<FarmerSurveyList> doFarmerListApiCall(@Body Object o);
+    Single<FarmerSurveyList> doFarmerListApiCall(@Body FarmerLandReq o);
 
     @POST("api/survey/save-update/survey-start")
     Single<WrapperResponse<SurveyStartRes>> SURVEY_START_RES_SINGLE (@Body SurveyStartReq surveyStartReq);

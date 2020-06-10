@@ -6,6 +6,10 @@
         <variable
             name="survey"
             type="com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.SurveyCountModel" />
+
+        <variable
+            name="callback"
+            type="com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.SurveyListMvpPresenter" />
     </data>
 
     <RelativeLayout
@@ -40,7 +44,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:onClick="@{()->callback.onClickNew()}">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -72,7 +77,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:onClick="@{()->callback.onClickInProgress()}">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -104,7 +110,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:onClick="@{()->callback.onClickCompleted()}">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -146,7 +153,8 @@
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
                             android:textSize="@dimen/text_dimen_16"
-                            android:text="No data found"/>
+                            android:text="No data found"
+                            android:visibility="gone"/>
                     </RelativeLayout>
                 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
             </LinearLayout>
