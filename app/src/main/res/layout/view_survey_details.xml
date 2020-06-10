@@ -25,7 +25,7 @@
             android:ellipsize="end"
             android:fontFamily="@font/roboto_regular"
             android:singleLine="true"
-            android:text="@{data.description}" />
+            android:text="@{data.name}" />
 
         <TextView
             android:id="@+id/type"

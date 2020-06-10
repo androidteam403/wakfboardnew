@@ -9,7 +9,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/cart_item_color">
+        android:background="@drawable/splash_logo_background">
 
         <LinearLayout
             android:layout_width="match_parent"
