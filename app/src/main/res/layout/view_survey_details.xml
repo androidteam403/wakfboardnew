@@ -24,7 +24,7 @@
             android:layout_marginEnd="@dimen/fifty_dp"
             android:ellipsize="end"
             android:singleLine="true"
-            android:text="@{data.description}" />
+            android:text="@{data.name}" />
 
         <TextView
             android:id="@+id/type"

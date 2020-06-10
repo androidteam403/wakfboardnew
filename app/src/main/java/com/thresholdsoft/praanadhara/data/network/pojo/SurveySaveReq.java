@@ -21,6 +21,17 @@ public class SurveySaveReq {
     @Expose
     @SerializedName("description")
     private String description;
+    @Expose
+    @SerializedName("name")
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public void setSurvey(SurveyEntity survey) {
         this.survey = survey;

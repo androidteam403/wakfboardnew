@@ -20,6 +20,9 @@ public class SurveyDetailsEntity extends BaseObservable implements Serializable 
     @SerializedName("description")
     private String description;
     @Expose
+    @SerializedName("name")
+    private String name;
+    @Expose
     @SerializedName("uid")
     private String uid;
 
@@ -41,7 +44,6 @@ public class SurveyDetailsEntity extends BaseObservable implements Serializable 
     }
 
 
-    private String name;
     private int surveyType;
     private String displayMapType;
     private boolean isUnChecked;
@@ -78,12 +80,14 @@ public class SurveyDetailsEntity extends BaseObservable implements Serializable 
         this.uid = uid;
     }
 
+    @Bindable
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+        notifyPropertyChanged(BR.name);
     }
 
     public void setSurveyType(int surveyType) {
@@ -103,7 +107,7 @@ public class SurveyDetailsEntity extends BaseObservable implements Serializable 
     }
 
 
-    public SurveyDetailsEntity(String description, String name, String latlongs, MapTypeEntity surveyType, String uid) {
+    public SurveyDetailsEntity(String name,String description,  String latlongs, MapTypeEntity surveyType, String uid) {
         this.description = description;
         this.name = name;
         this.mapType = surveyType;

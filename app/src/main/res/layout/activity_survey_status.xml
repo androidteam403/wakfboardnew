@@ -17,362 +17,370 @@
 
     </data>
 
-    <ScrollView
+
+    <RelativeLayout
+        android:id="@+id/container_wrapper"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
-        <RelativeLayout
-            android:id="@+id/container_wrapper"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="@dimen/one_hundred_forty_dp"
+            android:background="@color/colorPrimaryDark"
+            android:orientation="vertical"
+            tools:ignore="UselessParent">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/one_hundred_forty_dp"
-                android:background="@color/colorPrimaryDark"
-                android:orientation="vertical"
-                tools:ignore="UselessParent">
+            <include
+                android:id="@+id/backArrow"
+                layout="@layout/custom_actionbar" />
 
-                <include
-                    android:id="@+id/backArrow"
-                    layout="@layout/custom_actionbar" />
+        </LinearLayout>
 
-            </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/fifty_five_dp"
+            android:orientation="vertical"
+            tools:ignore="UselessParent">
 
-            <LinearLayout
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/fifty_five_dp"
-                android:orientation="vertical"
-                tools:ignore="UselessParent">
+                android:elevation="@dimen/ten_dp"
+                app:cardCornerRadius="@dimen/twenty_dp">
 
-                <androidx.cardview.widget.CardView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:elevation="@dimen/ten_dp"
-                    app:cardCornerRadius="@dimen/twenty_dp">
+                    android:background="@drawable/adapter_survey_background"
+                    android:orientation="vertical"
+                    tools:ignore="UselessParent">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/adapter_survey_background"
-                        android:orientation="vertical"
-                        tools:ignore="UselessParent">
+                        android:layout_marginStart="@dimen/ten_dp"
+                        android:layout_marginTop="@dimen/fifteen_dp"
+                        android:layout_marginEnd="@dimen/ten_dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/image"
+                            android:layout_width="@dimen/one_hundred_dp"
+                            android:layout_height="match_parent"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/placeholder" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/ten_dp"
-                            android:layout_marginTop="@dimen/fifteen_dp"
-                            android:layout_marginEnd="@dimen/ten_dp"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:id="@+id/image"
-                                android:layout_width="@dimen/one_hundred_dp"
-                                android:layout_height="match_parent"
-                                android:contentDescription="@string/app_name"
-                                android:src="@drawable/placeholder" />
+                            android:layout_marginStart="@dimen/five_dp"
+                            android:orientation="vertical">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/five_dp"
+                                android:orientation="horizontal"
+                                android:weightSum="1">
+
+                                <TextView
+                                    android:layout_width="@dimen/zero_dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.9"
+                                    android:fontFamily="@font/roboto_bold"
+                                    android:text="@{survey.name}"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_dimen_13" />
+
+                                <ImageView
+                                    android:layout_width="@dimen/zero_dp"
+                                    android:layout_height="@dimen/twenty_dp"
+                                    android:layout_weight="0.1"
+                                    android:contentDescription="@string/app_name"
+                                    android:paddingEnd="@dimen/ten_dp"
+                                    android:src="@drawable/edit_ic"
+                                    tools:ignore="RtlSymmetry" />
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="end"
+                                android:fontFamily="@font/roboto_bold"
+                                android:maxLines="1"
+                                android:text="@{survey.farmerLand.pincode.village.name}"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_dimen_12" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/five_dp"
+                                android:baselineAligned="false"
                                 android:orientation="vertical">
 
-                                <LinearLayout
-                                    android:layout_width="match_parent"
+                                <TextView
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:weightSum="1">
-
-                                    <TextView
-                                        android:layout_width="@dimen/zero_dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="0.9"
-                                        android:fontFamily="@font/roboto_bold"
-                                        android:text="@{survey.name}"
-                                        android:textColor="@color/black"
-                                        android:textSize="@dimen/text_dimen_13" />
-
-                                    <ImageView
-                                        android:layout_width="@dimen/zero_dp"
-                                        android:layout_height="@dimen/twenty_dp"
-                                        android:layout_weight="0.1"
-                                        android:contentDescription="@string/app_name"
-                                        android:paddingEnd="@dimen/ten_dp"
-                                        android:src="@drawable/edit_ic"
-                                        tools:ignore="RtlSymmetry" />
-
-                                </LinearLayout>
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:text="@{String.valueOf(survey.mobile)}"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_dimen_12" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:ellipsize="end"
-                                    android:fontFamily="@font/roboto_bold"
+                                    android:fontFamily="@font/roboto_regular"
                                     android:maxLines="1"
-                                    android:text="@{survey.farmerLand.pincode.village.name}"
+                                    android:text="@{survey.email}"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/text_dimen_12" />
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/five_dp"
-                                    android:baselineAligned="false"
-                                    android:orientation="vertical">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="@{String.valueOf(survey.mobile)}"
-                                        android:textColor="@color/black"
-                                        android:fontFamily="@font/roboto_regular"
-                                        android:textSize="@dimen/text_dimen_12" />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:ellipsize="end"
-                                        android:fontFamily="@font/roboto_regular"
-                                        android:maxLines="1"
-                                        android:text="@{survey.email}"
-                                        android:textColor="@color/black"
-                                        android:textSize="@dimen/text_dimen_12" />
-                                </LinearLayout>
-
                             </LinearLayout>
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/one_dp"
+                        android:layout_marginStart="@dimen/fifteen_dp"
+                        android:layout_marginTop="@dimen/five_dp"
+                        android:layout_marginEnd="@dimen/fifteen_dp"
+                        android:background="@color/grey" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/ten_dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/eighteen_dp"
+                            android:layout_marginEnd="@dimen/ten_dp"
+                            android:layout_marginBottom="@dimen/twenty_five_dp"
+                            android:text="@string/carry_out_your_entire_project_from_start_to_finish_and_report_to_stakeholders_using_one_solution_without_worrying_about_piles_of_paperwork"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_dimen_12"
+                            android:visibility="gone" />
+
+                        <androidx.fragment.app.FragmentContainerView
+                            android:id="@+id/preview_map"
+                            android:name="com.google.android.gms.maps.SupportMapFragment"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/three_hundred_dp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="@dimen/ten_dp"
+                android:visibility="@{survey.farmerLand.surveyLandLocation.surveyDetails.size() > 0 ? View.VISIBLE : View.GONE}">
+
+
+                <CheckBox
+                    android:id="@+id/checkBoxHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:checked="false"
+                    android:text="Name" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:text="Type"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/twenty_dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:text="Action"
+                    android:textColor="@color/black">
+
+                </TextView>
+            </RelativeLayout>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/surve_details_recyclerview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/twenty_dp"
+                        android:orientation="horizontal"
+                        android:visibility="@{survey.farmerLand.surveyLandLocation.uid != null &amp; survey.farmerLand.surveyLandLocation.submitted.uid.equalsIgnoreCase(`No`) ? View.VISIBLE : View.GONE}"
+                        android:weightSum="3">
+
+                        <LinearLayout
+                            android:layout_width="@dimen/zero_dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="@dimen/seventy_five_dp"
+                                android:layout_height="@dimen/thirty_dp"
+                                android:layout_gravity="center_horizontal"
+                                android:contentDescription="@string/app_name"
+                                android:src="@drawable/points" />
+
+                            <RadioButton
+                                android:id="@+id/pointsRadio"
+                                android:layout_width="wrap_content"
+                                android:layout_height="21dp"
+                                android:layout_marginTop="@dimen/five_dp"
+                                android:checked="true"
+                                android:fontFamily="@font/roboto_regular"
+                                android:onClick="@{()-> presenterCallback.onPointsRadioClick()}"
+                                android:text="@string/label_points"
+                                android:textColor="@color/black" />
+
                         </LinearLayout>
 
                         <View
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/one_dp"
-                            android:layout_marginStart="@dimen/fifteen_dp"
-                            android:layout_marginTop="@dimen/five_dp"
-                            android:layout_marginEnd="@dimen/fifteen_dp"
+                            android:layout_width="@dimen/one_dp"
+                            android:layout_height="match_parent"
                             android:background="@color/grey" />
 
                         <LinearLayout
-                            android:layout_width="match_parent"
+                            android:layout_width="@dimen/zero_dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/ten_dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
                             android:orientation="vertical">
 
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/eighteen_dp"
-                                android:layout_marginEnd="@dimen/ten_dp"
-                                android:layout_marginBottom="@dimen/twenty_five_dp"
-                                android:text="@string/carry_out_your_entire_project_from_start_to_finish_and_report_to_stakeholders_using_one_solution_without_worrying_about_piles_of_paperwork"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/text_dimen_12"
-                                android:visibility="gone" />
+                            <ImageView
+                                android:layout_width="@dimen/seventy_five_dp"
+                                android:layout_height="@dimen/thirty_dp"
+                                android:layout_gravity="center_horizontal"
+                                android:contentDescription="@string/app_name"
+                                android:src="@drawable/lines" />
 
-                            <androidx.fragment.app.FragmentContainerView
-                                android:id="@+id/preview_map"
-                                android:name="com.google.android.gms.maps.SupportMapFragment"
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/three_hundred_dp" />
-
+                            <RadioButton
+                                android:id="@+id/linesRadio"
+                                android:layout_width="wrap_content"
+                                android:layout_height="21dp"
+                                android:layout_marginTop="@dimen/five_dp"
+                                android:checked="true"
+                                android:fontFamily="@font/roboto_regular"
+                                android:onClick="@{()-> presenterCallback.onLinesRadioClick()}"
+                                android:text="@string/label_lines"
+                                android:textColor="@color/black" />
                         </LinearLayout>
 
+                        <View
+                            android:layout_width="@dimen/one_dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/grey" />
+
+                        <LinearLayout
+                            android:layout_width="@dimen/zero_dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="@dimen/seventy_five_dp"
+                                android:layout_height="@dimen/thirty_dp"
+                                android:layout_gravity="center_horizontal"
+                                android:contentDescription="@string/app_name"
+                                android:src="@drawable/polygon" />
+
+                            <RadioButton
+                                android:id="@+id/polygonRadio"
+                                android:layout_width="wrap_content"
+                                android:layout_height="21dp"
+                                android:layout_marginTop="@dimen/five_dp"
+                                android:checked="true"
+                                android:fontFamily="@font/roboto_regular"
+                                android:onClick="@{()-> presenterCallback.onpolygonRadioClick()}"
+                                android:text="@string/label_polygons"
+                                android:textColor="@color/black" />
+                        </LinearLayout>
                     </LinearLayout>
 
-
-                </androidx.cardview.widget.CardView>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_margin="@dimen/ten_dp"
-                    android:visibility="@{survey.farmerLand.surveyLandLocation.surveyDetails.size() > 0 ? View.VISIBLE : View.GONE}">
-
-
-                    <CheckBox
-                        android:id="@+id/checkBoxHeader"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:checked="false"
-                        android:text="Name" />
-
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:layout_centerVertical="true"
-                        android:text="Type"
-                        android:textColor="@color/black" />
+                        android:layout_width="@dimen/one_hundred_forty_dp"
+                        android:layout_height="@dimen/thirty_five_dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/thirty_five_dp"
+                        android:background="@drawable/button_rounded_blue"
+                        android:backgroundTint="@color/complaint_btn_color"
+                        android:fontFamily="@font/roboto_bold"
+                        android:gravity="center"
+                        android:onClick="@{()-> presenterCallback.startSurvey(survey)}"
+                        android:text="@string/label_start_survey"
+                        android:textColor="@color/white"
+                        android:visibility="@{survey.farmerLand.surveyLandLocation.uid == null ? View.VISIBLE : View.GONE}" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="@dimen/twenty_dp"
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/thirty_dp"
                         android:gravity="center"
                         android:orientation="horizontal"
-                        android:text="Action"
-                        android:textColor="@color/black">
+                        android:visibility="@{survey.farmerLand.surveyLandLocation.uid != null &amp; survey.farmerLand.surveyLandLocation.submitted.uid.equalsIgnoreCase(`No`) ? View.VISIBLE : View.GONE}">
 
-                    </TextView>
-                </RelativeLayout>
+                        <TextView
+                            android:id="@+id/addbutton"
+                            android:layout_width="@dimen/one_hundred_forty_dp"
+                            android:layout_height="@dimen/thirty_five_dp"
+                            android:layout_marginEnd="@dimen/twenty_dp"
+                            android:background="@drawable/button_rounded_blue"
+                            android:backgroundTint="@color/complaint_btn_color"
+                            android:fontFamily="@font/roboto_bold"
+                            android:gravity="center"
+                            android:onClick="@{()-> presenterCallback.addSurvey(survey)}"
+                            android:text="Add"
+                            android:textColor="@color/white" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/surve_details_recyclerview"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/twenty_dp"
-                    android:orientation="horizontal"
-                    android:visibility="@{survey.farmerLand.surveyLandLocation.uid != null &amp; survey.farmerLand.surveyLandLocation.submitted.uid.equalsIgnoreCase(`No`) ? View.VISIBLE : View.GONE}"
-                    android:weightSum="3">
-
-                    <LinearLayout
-                        android:layout_width="@dimen/zero_dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="@dimen/seventy_five_dp"
-                            android:layout_height="@dimen/thirty_dp"
-                            android:layout_gravity="center_horizontal"
-                            android:contentDescription="@string/app_name"
-                            android:src="@drawable/points" />
-
-                        <RadioButton
-                            android:id="@+id/pointsRadio"
-                            android:layout_width="wrap_content"
-                            android:layout_height="21dp"
-                            android:layout_marginTop="@dimen/five_dp"
-                            android:checked="true"
-                            android:fontFamily="@font/roboto_regular"
-                            android:onClick="@{()-> presenterCallback.onPointsRadioClick()}"
-                            android:text="@string/label_points"
-                            android:textColor="@color/black" />
-
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="@dimen/one_dp"
-                        android:layout_height="match_parent"
-                        android:background="@color/grey" />
-
-                    <LinearLayout
-                        android:layout_width="@dimen/zero_dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="@dimen/seventy_five_dp"
-                            android:layout_height="@dimen/thirty_dp"
-                            android:layout_gravity="center_horizontal"
-                            android:contentDescription="@string/app_name"
-                            android:src="@drawable/lines" />
-
-                        <RadioButton
-                            android:id="@+id/linesRadio"
-                            android:layout_width="wrap_content"
-                            android:layout_height="21dp"
-                            android:layout_marginTop="@dimen/five_dp"
-                            android:checked="true"
-                            android:fontFamily="@font/roboto_regular"
-                            android:onClick="@{()-> presenterCallback.onLinesRadioClick()}"
-                            android:text="@string/label_lines"
-                            android:textColor="@color/black" />
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="@dimen/one_dp"
-                        android:layout_height="match_parent"
-                        android:background="@color/grey" />
-
-                    <LinearLayout
-                        android:layout_width="@dimen/zero_dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="@dimen/seventy_five_dp"
-                            android:layout_height="@dimen/thirty_dp"
-                            android:layout_gravity="center_horizontal"
-                            android:contentDescription="@string/app_name"
-                            android:src="@drawable/polygon" />
-
-                        <RadioButton
-                            android:id="@+id/polygonRadio"
-                            android:layout_width="wrap_content"
-                            android:layout_height="21dp"
-                            android:layout_marginTop="@dimen/five_dp"
-                            android:checked="true"
-                            android:fontFamily="@font/roboto_regular"
-                            android:onClick="@{()-> presenterCallback.onpolygonRadioClick()}"
-                            android:text="@string/label_polygons"
-                            android:textColor="@color/black" />
+                        <TextView
+                            android:layout_width="@dimen/one_hundred_forty_dp"
+                            android:layout_height="@dimen/thirty_five_dp"
+                            android:layout_marginStart="@dimen/twenty_dp"
+                            android:background="@drawable/button_rounded_blue"
+                            android:backgroundTint="@color/complaint_btn_color"
+                            android:fontFamily="@font/roboto_bold"
+                            android:gravity="center"
+                            android:onClick="@{()-> presenterCallback.submitSurvey(survey)}"
+                            android:text="Submit Survey"
+                            android:textColor="@color/white"
+                            android:visibility="@{survey.farmerLand.surveyLandLocation.surveyDetails.size() > 0 ? View.VISIBLE : View.GONE}" />
                     </LinearLayout>
                 </LinearLayout>
+            </ScrollView>
+        </LinearLayout>
+    </RelativeLayout>
 
-                <TextView
-                    android:layout_width="@dimen/one_hundred_forty_dp"
-                    android:layout_height="@dimen/thirty_five_dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/thirty_five_dp"
-                    android:background="@drawable/button_rounded_blue"
-                    android:backgroundTint="@color/complaint_btn_color"
-                    android:fontFamily="@font/roboto_bold"
-                    android:gravity="center"
-                    android:onClick="@{()-> presenterCallback.startSurvey(survey)}"
-                    android:text="@string/label_start_survey"
-                    android:textColor="@color/white"
-                    android:visibility="@{survey.farmerLand.surveyLandLocation.uid == null ? View.VISIBLE : View.GONE}" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/thirty_dp"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:visibility="@{survey.farmerLand.surveyLandLocation.uid != null &amp; survey.farmerLand.surveyLandLocation.submitted.uid.equalsIgnoreCase(`No`) ? View.VISIBLE : View.GONE}">
-
-                    <TextView
-                        android:id="@+id/addbutton"
-                        android:layout_width="@dimen/one_hundred_forty_dp"
-                        android:layout_height="@dimen/thirty_five_dp"
-                        android:layout_marginEnd="@dimen/twenty_dp"
-                        android:background="@drawable/button_rounded_blue"
-                        android:backgroundTint="@color/complaint_btn_color"
-                        android:fontFamily="@font/roboto_bold"
-                        android:gravity="center"
-                        android:onClick="@{()-> presenterCallback.addSurvey(survey)}"
-                        android:text="Add"
-                        android:textColor="@color/white" />
-
-                    <TextView
-                        android:layout_width="@dimen/one_hundred_forty_dp"
-                        android:layout_height="@dimen/thirty_five_dp"
-                        android:layout_marginStart="@dimen/twenty_dp"
-                        android:background="@drawable/button_rounded_blue"
-                        android:backgroundTint="@color/complaint_btn_color"
-                        android:fontFamily="@font/roboto_bold"
-                        android:gravity="center"
-                        android:onClick="@{()-> presenterCallback.submitSurvey(survey)}"
-                        android:text="Submit Survey"
-                        android:textColor="@color/white"
-                        android:visibility="@{survey.farmerLand.surveyLandLocation.surveyDetails.size() > 0 ? View.VISIBLE : View.GONE}" />
-                </LinearLayout>
-            </LinearLayout>
-        </RelativeLayout>
-    </ScrollView>
 </layout>

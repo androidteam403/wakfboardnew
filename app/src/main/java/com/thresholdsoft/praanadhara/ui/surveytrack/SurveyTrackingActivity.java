@@ -761,6 +761,7 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
                         surveySaveReq.setMapType(surveyModel.getMapTypeEntity());
                         surveySaveReq.setLatlongs(json);
                         surveySaveReq.setDescription(dialogView.getPointDescription());
+                        surveySaveReq.setName(dialogView.getPointName());
                         mpresenter.saveSurvey(surveySaveReq);
 //                        Intent intent = getIntent();
 //                        intent.putExtra("surveySubmit", surveyModelArrayList);
@@ -828,6 +829,7 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
                 surveySaveReq.setMapType(surveyModel.getMapTypeEntity());
                 surveySaveReq.setLatlongs(json);
                 surveySaveReq.setDescription(dialogView.getPointDescription());
+                surveySaveReq.setName(dialogView.getPointName());
                 mpresenter.saveSurvey(surveySaveReq);
 //                Intent intent = getIntent();
 //                intent.putExtra("surveySubmit", surveyModelArrayList);
@@ -894,6 +896,7 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
                 String json = gson.toJson(pointDetails);
                 surveySaveReq.setLatlongs(json);
                 surveySaveReq.setDescription(dialogView.getPointDescription());
+                surveySaveReq.setName(dialogView.getPointName());
                 mpresenter.saveSurvey(surveySaveReq);
                 addPoint(latLng, dialogView.getPointName(), dialogView.getPointDescription());
             }
