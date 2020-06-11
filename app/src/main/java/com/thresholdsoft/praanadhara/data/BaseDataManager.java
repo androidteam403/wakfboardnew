@@ -19,6 +19,8 @@ import com.thresholdsoft.praanadhara.data.prefs.PreferencesHelper;
 import com.thresholdsoft.praanadhara.data.utils.LoggedInMode;
 import com.thresholdsoft.praanadhara.di.ApplicationContext;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.FarmerLandReq;
+import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.SurveyStatusCountModelRequest;
+import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.SurveyStatusCountModelResponse;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.DeleteReq;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.DeleteRes;
 import com.thresholdsoft.praanadhara.ui.userlogin.model.LoginResponse;
@@ -157,6 +159,11 @@ public class BaseDataManager implements DataManager {
     @Override
     public Single<WrapperResponse<DeleteRes>> deleteSurvey(DeleteReq deleteReq) {
         return mApiHelper.deleteSurvey(deleteReq);
+    }
+
+    @Override
+    public Single<WrapperResponse<SurveyStatusCountModelResponse>> statusCount(SurveyStatusCountModelRequest surveyStatusCountModelRequest) {
+        return mApiHelper.statusCount(surveyStatusCountModelRequest);
     }
 
     @Override

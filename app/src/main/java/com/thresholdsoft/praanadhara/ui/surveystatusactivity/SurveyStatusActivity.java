@@ -310,14 +310,17 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
                         if (detailsEntity.getMapType().getUid().equalsIgnoreCase("point")) {
                             Gson gson = new Gson();
                             SurveyModel.PointDetails pointDetails = gson.fromJson(detailsEntity.getLatlongs(), SurveyModel.PointDetails.class);
-                            LatLng latLng = new LatLng(pointDetails.getLatitude(), pointDetails.getLongitude());
-                            builder.include(latLng);
-                            map.addMarker(new MarkerOptions().title(detailsEntity.getName())
-                                    .position(latLng)
-                                    .flat(true)
-                                    .anchor(0.5f, 0.5f));
-                            isIncludeLatLong = true;
-                        } else if (detailsEntity.getMapType().getUid().equalsIgnoreCase("line")) {
+                            if (pointDetails != null) {
+                                LatLng latLng = new LatLng(pointDetails.getLatitude(), pointDetails.getLongitude());
+
+                                builder.include(latLng);
+                                map.addMarker(new MarkerOptions().title(detailsEntity.getName())
+                                        .position(latLng)
+                                        .flat(true)
+                                        .anchor(0.5f, 0.5f));
+                                isIncludeLatLong = true;
+                            }
+                        }else if (detailsEntity.getMapType().getUid().equalsIgnoreCase("line")) {
                             Gson gson = new Gson();
                             SurveyModel.PolyLineDetails polyLineDetails = gson.fromJson(detailsEntity.getLatlongs(), SurveyModel.PolyLineDetails.class);
                             Polyline runningPathPolyline = map.addPolyline(new PolylineOptions()

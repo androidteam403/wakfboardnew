@@ -6,6 +6,7 @@ import com.thresholdsoft.praanadhara.data.network.pojo.PicEntity;
 import com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity;
 import com.thresholdsoft.praanadhara.ui.base.BasePresenter;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.FarmerLandReq;
+import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.SurveyStatusCountModelRequest;
 import com.thresholdsoft.praanadhara.utils.rx.SchedulerProvider;
 
 import java.util.List;
@@ -103,9 +104,36 @@ public class SurveyListPresenter<V extends SurveyListMvpView> extends BasePresen
                 }));
     }
 
-    private void insertOrUpdateLands(List<RowsEntity> rows){
-        for(RowsEntity entity : rows){
-            FarmerLands farmerLands = new FarmerLands(entity.getUid(),entity.getName(),entity.getMobile(),entity.getEmail(), entity.getPic().size()>0 ? entity.getPic().get(0).getPath() : "",entity.getFarmerLand().getUid(),entity.getFarmerLand().getPincode().getPincode(),entity.getFarmerLand().getPincode().getVillage().getName());
+    @Override
+    public void onStatusCountApiCall() {
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+            getMvpView().hideKeyboard();
+            final SurveyStatusCountModelRequest request = new SurveyStatusCountModelRequest();
+            getMvpView().showLoading();
+            getCompositeDisposable().add(getDataManager()
+                    .statusCount(request)
+                    .subscribeOn(getSchedulerProvider().io())
+                    .observeOn(getSchedulerProvider().ui())
+                    .subscribe(blogResponse -> {
+                        if (blogResponse != null && blogResponse.getData() != null && blogResponse.getSuccess()) {
+                            getMvpView().onStatuCountApiSucess(blogResponse.getData());
+                        }
+                        getMvpView().hideLoading();
+                    }, throwable -> {
+                        getMvpView().hideLoading();
+                        handleApiError(throwable);
+                    }));
+
+        } else {
+            getMvpView().showMessage("Please Connect to Proper internet");
+        }
+    }
+
+
+    private void insertOrUpdateLands(List<RowsEntity> rows) {
+        for (RowsEntity entity : rows) {
+            FarmerLands farmerLands = new FarmerLands(entity.getUid(), entity.getName(), entity.getMobile(), entity.getEmail(), entity.getPic().size() > 0 ? entity.getPic().get(0).getPath() : "", entity.getFarmerLand().getUid(), entity.getFarmerLand().getPincode().getPincode(), entity.getFarmerLand().getPincode().getVillage().getName());
             getDataManager().insertFarmerLand(farmerLands);
         }
         getMvpView().onFarmersRes(rows);
