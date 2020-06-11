@@ -4,7 +4,9 @@ import android.content.Context;
 
 import com.thresholdsoft.praanadhara.data.db.AppDatabase;
 import com.thresholdsoft.praanadhara.data.db.model.FarmerLands;
+import com.thresholdsoft.praanadhara.data.db.model.LandEntity;
 import com.thresholdsoft.praanadhara.data.db.model.Survey;
+import com.thresholdsoft.praanadhara.data.db.model.SurveyEntity;
 import com.thresholdsoft.praanadhara.data.network.RestApiHelper;
 import com.thresholdsoft.praanadhara.data.network.pojo.FarmerSurveyList;
 import com.thresholdsoft.praanadhara.data.network.pojo.FeedItem;
@@ -122,8 +124,58 @@ public class BaseDataManager implements DataManager {
     }
 
     @Override
+    public List<FarmerLands> getAllFarmerLands() {
+        return mDatabase.userDao().getAllFarmerLands();
+    }
+
+    @Override
     public void updateFarmerLand(FarmerLands farmerLands) {
         mDatabase.userDao().updateFarmerLand(farmerLands);
+    }
+
+    @Override
+    public void insetLandEntity(LandEntity landEntity) {
+        LandEntity lands = getLandEntity(landEntity.getUid());
+        if( lands != null){
+            landEntity.setId(lands.getId());
+            updateLandEntity(landEntity);
+        }else
+            mDatabase.userDao().insetLandEntity(landEntity);
+    }
+
+    @Override
+    public LandEntity getLandEntity(String landUid) {
+        return mDatabase.userDao().getLandEntity(landUid);
+    }
+
+    @Override
+    public void updateLandEntity(LandEntity landEntity) {
+        mDatabase.userDao().updateLandEntity(landEntity);
+    }
+
+    @Override
+    public void insetSurveyEntity(SurveyEntity surveyEntity) {
+        SurveyEntity lands = getSurveyEntity(surveyEntity.getUid());
+        if( lands != null){
+            surveyEntity.setId(lands.getId());
+            updateSurveyEntity(surveyEntity);
+        }else
+            mDatabase.userDao().insetSurveyEntity(surveyEntity);
+    }
+
+    @Override
+    public SurveyEntity getSurveyEntity(String uid) {
+        return mDatabase.userDao().getSurveyEntity(uid);
+    }
+
+    @Override
+    public void updateSurveyEntity(SurveyEntity surveyEntity) {
+        mDatabase.userDao().updateSurveyEntity(surveyEntity);
+    }
+
+    @Override
+    public List<SurveyEntity> getAllSurveyList(String landUid) {
+        return mDatabase.userDao().getAllSurveyList(landUid);
     }
 
 //    @Override

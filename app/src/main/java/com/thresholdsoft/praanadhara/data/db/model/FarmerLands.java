@@ -1,6 +1,5 @@
 package com.thresholdsoft.praanadhara.data.db.model;
 
-import androidx.databinding.BaseObservable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -10,7 +9,7 @@ import com.thresholdsoft.praanadhara.data.utils.DateConverter;
 
 @Entity(tableName = "farmer_land")
 @TypeConverters({DateConverter.class})
-public class FarmerLands extends BaseObservable {
+public class FarmerLands {
     @PrimaryKey(autoGenerate = true)
     private int id;
 

@@ -4,6 +4,7 @@ import com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity;
 import com.thresholdsoft.praanadhara.data.network.pojo.SurveyDetailsEntity;
 import com.thresholdsoft.praanadhara.data.network.pojo.SurveyStartRes;
 import com.thresholdsoft.praanadhara.ui.base.MvpView;
+import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.SurveyListModel;
 
 import java.util.ArrayList;
 
@@ -35,7 +36,7 @@ public interface SurveyStatusMvpView extends MvpView {
 
     ArrayList<RowsEntity> getUidDetails();
 
-    RowsEntity getSurvey();
+    SurveyListModel getSurvey();
 
     void onSuccessEditSurvey(String description,int postion);
 

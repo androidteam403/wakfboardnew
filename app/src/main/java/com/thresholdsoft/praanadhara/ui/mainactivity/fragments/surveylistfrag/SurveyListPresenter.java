@@ -2,13 +2,19 @@ package com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag;
 
 import com.thresholdsoft.praanadhara.data.DataManager;
 import com.thresholdsoft.praanadhara.data.db.model.FarmerLands;
+import com.thresholdsoft.praanadhara.data.db.model.LandEntity;
+import com.thresholdsoft.praanadhara.data.db.model.SurveyEntity;
 import com.thresholdsoft.praanadhara.data.network.pojo.PicEntity;
 import com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity;
+import com.thresholdsoft.praanadhara.data.network.pojo.SurveyDetailsEntity;
+import com.thresholdsoft.praanadhara.data.network.pojo.SurveyLandLocationEntity;
 import com.thresholdsoft.praanadhara.ui.base.BasePresenter;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.FarmerLandReq;
+import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.SurveyListModel;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.SurveyStatusCountModelRequest;
 import com.thresholdsoft.praanadhara.utils.rx.SchedulerProvider;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -26,7 +32,7 @@ public class SurveyListPresenter<V extends SurveyListMvpView> extends BasePresen
     }
 
     @Override
-    public void onItemClick(RowsEntity farmerModel) {
+    public void onItemClick(SurveyListModel farmerModel) {
         getMvpView().onItemClick(farmerModel);
     }
 
@@ -135,7 +141,24 @@ public class SurveyListPresenter<V extends SurveyListMvpView> extends BasePresen
         for (RowsEntity entity : rows) {
             FarmerLands farmerLands = new FarmerLands(entity.getUid(), entity.getName(), entity.getMobile(), entity.getEmail(), entity.getPic().size() > 0 ? entity.getPic().get(0).getPath() : "", entity.getFarmerLand().getUid(), entity.getFarmerLand().getPincode().getPincode(), entity.getFarmerLand().getPincode().getVillage().getName());
             getDataManager().insertFarmerLand(farmerLands);
+            LandEntity landEntity = new LandEntity(entity.getFarmerLand().getUid(), entity.getFarmerLand().getSurveyLandLocation().getSubmitted().getUid(), entity.getFarmerLand().getSurveyLandLocation().getStartDate(),entity.getFarmerLand().getSurveyLandLocation().getSubmittedDate());
+            getDataManager().insetLandEntity(landEntity);
+            for(SurveyDetailsEntity surveyDetailsEntity : entity.getFarmerLand().getSurveyLandLocation().getSurveyDetails()) {
+                SurveyEntity surveyEntity = new SurveyEntity(entity.getFarmerLand().getUid(), surveyDetailsEntity.getUid(), surveyDetailsEntity.getName(), surveyDetailsEntity.getDescription(), surveyDetailsEntity.getLatlongs(), surveyDetailsEntity.getMapType().getUid(), true);
+                getDataManager().insetSurveyEntity(surveyEntity);
+            }
         }
-        getMvpView().onFarmersRes(rows);
+        loadListData();
+    }
+
+    private void loadListData() {
+        List<SurveyListModel> surveyListModels = new ArrayList<>();
+        List<FarmerLands> farmerLands = getDataManager().getAllFarmerLands();
+        for(FarmerLands lands : farmerLands){
+            LandEntity landEntity = getDataManager().getLandEntity(lands.getFarmerLandUid());
+            surveyListModels.add(new SurveyListModel(lands.getUid(),lands.getName(),lands.getVillage(),lands.getMobile(),lands.getEmail(),lands.getPicPath(),
+                    landEntity.getUid(),landEntity.getStatus(),landEntity.getStartDate(),landEntity.getSubmittedDate()));
+        }
+        getMvpView().onFarmersRes(surveyListModels);
     }
 }

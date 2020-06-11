@@ -9,7 +9,7 @@
 
         <variable
             name="survey"
-            type="com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity" />
+            type="com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.SurveyListModel" />
 
         <variable
             name="presenterCallback"
@@ -69,7 +69,8 @@
                             android:layout_width="@dimen/one_hundred_dp"
                             android:layout_height="match_parent"
                             android:contentDescription="@string/app_name"
-                            android:src="@drawable/placeholder" />
+                            android:src="@drawable/placeholder"
+                            app:imageUrl="@{survey.pic}" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -99,7 +100,8 @@
                                     android:contentDescription="@string/app_name"
                                     android:paddingEnd="@dimen/ten_dp"
                                     android:src="@drawable/edit_ic"
-                                    tools:ignore="RtlSymmetry" />
+                                    tools:ignore="RtlSymmetry"
+                                    android:visibility="gone"/>
 
                             </LinearLayout>
 
@@ -109,7 +111,7 @@
                                 android:ellipsize="end"
                                 android:fontFamily="@font/roboto_bold"
                                 android:maxLines="1"
-                                android:text="@{survey.farmerLand.pincode.village.name}"
+                                android:text="@{survey.address}"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/text_dimen_12" />
 
@@ -185,7 +187,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_margin="@dimen/ten_dp"
-                android:visibility="@{survey.farmerLand.surveyLandLocation.surveyDetails.size() > 0 ? View.VISIBLE : View.GONE}">
+                android:visibility="@{survey.surveyDetails.size() > 0 ? View.VISIBLE : View.GONE}">
 
 
                     <CheckBox
@@ -240,7 +242,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/twenty_dp"
                         android:orientation="horizontal"
-                        android:visibility="@{survey.farmerLand.surveyLandLocation.uid != null &amp; survey.farmerLand.surveyLandLocation.submitted.uid.equalsIgnoreCase(`No`) ? View.VISIBLE : View.GONE}"
+                        android:visibility="@{survey.status != null &amp; survey.status.equalsIgnoreCase(`No`) ? View.VISIBLE : View.GONE}"
                         android:weightSum="3">
 
                         <LinearLayout
@@ -342,18 +344,18 @@
                         android:backgroundTint="@color/complaint_btn_color"
                         android:fontFamily="@font/roboto_bold"
                         android:gravity="center"
-                        android:onClick="@{()-> presenterCallback.startSurvey(survey)}"
+
                         android:text="@string/label_start_survey"
                         android:textColor="@color/white"
-                        android:visibility="@{survey.farmerLand.surveyLandLocation.uid == null ? View.VISIBLE : View.GONE}" />
-
+                        android:visibility="@{survey.status == null ? View.VISIBLE : View.GONE}" />
+<!--                    android:onClick="@{()-> presenterCallback.startSurvey(survey)}"-->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/thirty_dp"
                         android:gravity="center"
                         android:orientation="horizontal"
-                        android:visibility="@{survey.farmerLand.surveyLandLocation.uid != null &amp; survey.farmerLand.surveyLandLocation.submitted.uid.equalsIgnoreCase(`No`) ? View.VISIBLE : View.GONE}">
+                        android:visibility="@{survey.status != null &amp; survey.status.equalsIgnoreCase(`No`) ? View.VISIBLE : View.GONE}">
 
                         <TextView
                             android:id="@+id/addbutton"
@@ -364,10 +366,10 @@
                             android:backgroundTint="@color/complaint_btn_color"
                             android:fontFamily="@font/roboto_bold"
                             android:gravity="center"
-                            android:onClick="@{()-> presenterCallback.addSurvey(survey)}"
+
                             android:text="Add"
                             android:textColor="@color/white" />
-
+<!--                        android:onClick="@{()-> presenterCallback.addSurvey(survey)}"-->
                         <TextView
                             android:layout_width="@dimen/one_hundred_forty_dp"
                             android:layout_height="@dimen/thirty_five_dp"
@@ -376,10 +378,11 @@
                             android:backgroundTint="@color/complaint_btn_color"
                             android:fontFamily="@font/roboto_bold"
                             android:gravity="center"
-                            android:onClick="@{()-> presenterCallback.submitSurvey(survey)}"
+
                             android:text="Submit Survey"
                             android:textColor="@color/white"
-                            android:visibility="@{survey.farmerLand.surveyLandLocation.surveyDetails.size() > 0 ? View.VISIBLE : View.GONE}" />
+                            android:visibility="@{survey.surveyDetails.size() > 0 ? View.VISIBLE : View.GONE}" />
+<!--                        android:onClick="@{()-> presenterCallback.submitSurvey(survey)}"-->
                     </LinearLayout>
                 </LinearLayout>
             </ScrollView>

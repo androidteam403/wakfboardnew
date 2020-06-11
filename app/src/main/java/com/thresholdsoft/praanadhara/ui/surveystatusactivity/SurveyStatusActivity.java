@@ -41,6 +41,7 @@ import com.thresholdsoft.praanadhara.data.network.pojo.SurveyStartRes;
 import com.thresholdsoft.praanadhara.databinding.ActivitySurveyStatusBinding;
 import com.thresholdsoft.praanadhara.databinding.CustomActionbarBinding;
 import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
+import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.SurveyListModel;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.adapter.SurveyDetailsAdapter;
 import com.thresholdsoft.praanadhara.ui.surveytrack.SurveyTrackingActivity;
 import com.thresholdsoft.praanadhara.ui.surveytrack.model.SurveyModel;
@@ -57,7 +58,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     @Inject
     SurveyStatusMvpPresenter<SurveyStatusMvpView> mpresenter;
     private ActivitySurveyStatusBinding activitySurveyStatusBinding;
-    private RowsEntity surveyModel;
+    private SurveyListModel surveyModel;
     private int pos;
     private Context context;
     private ArrayList<RowsEntity> surveyModelArrayList = new ArrayList<>();
@@ -96,10 +97,10 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     @Override
     protected void setUp() {
         Intent intent = getIntent();
-        surveyModel = (RowsEntity) intent.getSerializableExtra("surveyData");
-        if (surveyModel != null && !TextUtils.isEmpty(surveyModel.getFarmerLand().getSurveyLandLocation().getUid())) {
-            surveyModel.getFarmerLand().getSurveyLandLocation().setUid(surveyModel.getFarmerLand().getSurveyLandLocation().getUid());
-        }
+        surveyModel = (SurveyListModel) intent.getSerializableExtra("surveyData");
+//        if (surveyModel != null && !TextUtils.isEmpty(surveyModel.getFarmerLand().getSurveyLandLocation().getUid())) {
+//            surveyModel.getFarmerLand().getSurveyLandLocation().setUid(surveyModel.getFarmerLand().getSurveyLandLocation().getUid());
+//        }
 //        if(surveyModel!= null && surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().size() > 0){
 //            ArrayList<SurveyModel> modelArrayList = new ArrayList<>();
 //            for(SurveyDetailsEntity surveyDetailsEntity : surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails()){
@@ -107,9 +108,9 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
 //            }
 //            surveyModel.setSurveyModelArrayList(modelArrayList);
 //        }
-        surveyModelArrayList.add(surveyModel);
-
-        surveyDetailsAdapter = new SurveyDetailsAdapter(this, surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails(), mpresenter, this);
+ //       surveyModelArrayList.add(surveyModel);
+        surveyModel.setSurveyDetails(mpresenter.getAllSurveyList(surveyModel.getLandUid()));;
+        surveyDetailsAdapter = new SurveyDetailsAdapter(this, surveyModel.getSurveyDetails(), mpresenter, this);
         RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(this);
         activitySurveyStatusBinding.surveDetailsRecyclerview.setLayoutManager(mLayoutManager1);
         activitySurveyStatusBinding.surveDetailsRecyclerview.setAdapter(surveyDetailsAdapter);
@@ -118,10 +119,6 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
         activitySurveyStatusBinding.setSurvey(surveyModel);
         //  activitySurveyStatusBinding.setCallback(this);
 
-        if (surveyModel.getPic().size() > 0) {
-            Glide.with(getApplicationContext()).load(BuildConfig.IMAGE_URL + surveyModel.getPic().get(0).getPath()).placeholder(R.drawable.
-                    placeholder).into(activitySurveyStatusBinding.image);
-        }
         if (activitySurveyStatusBinding.pointsRadio.isChecked()) {
             activitySurveyStatusBinding.linesRadio.setChecked(false);
             activitySurveyStatusBinding.polygonRadio.setChecked(false);
@@ -143,14 +140,14 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
 
         activitySurveyStatusBinding.checkBoxHeader.setOnClickListener(view -> {
             if (activitySurveyStatusBinding.checkBoxHeader.isChecked()) {
-                for (int i = 0; i < surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().size(); i++) {
-                    surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().get(i).setUnChecked(false);
+                for (int i = 0; i < surveyModel.getSurveyDetails().size(); i++) {
+                    surveyModel.getSurveyDetails().get(i).setUnChecked(false);
                 }
                 surveyDetailsAdapter.notifyDataSetChanged();
                 previewDisplay();
             } else {
-                for (int i = 0; i < surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().size(); i++) {
-                    surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().get(i).setUnChecked(true);
+                for (int i = 0; i < surveyModel.getSurveyDetails().size(); i++) {
+                    surveyModel.getSurveyDetails().get(i).setUnChecked(true);
                 }
                 surveyDetailsAdapter.notifyDataSetChanged();
                 previewDisplay();
@@ -172,8 +169,8 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
 
     @Override
     public void startSurveySuccess(RowsEntity rowsEntity, SurveyStartRes data) {
-        surveyModel.getFarmerLand().getSurveyLandLocation().setUid(data.getUid());
-        surveyModel.getFarmerLand().getSurveyLandLocation().getSubmitted().setUid("No");
+        surveyModel.setUid(data.getUid());
+        surveyModel.setStatus("No");
     }
 
     @Override
@@ -233,11 +230,11 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
 
     @Override
     public void onListItemClicked(int position) {
-        boolean isCheckedStatus = surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().get(position).isUnChecked();
+        boolean isCheckedStatus = surveyModel.getSurveyDetails().get(position).isUnChecked();
         if (!isCheckedStatus) {
-            surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().get(position).setUnChecked(true);
+            surveyModel.getSurveyDetails().get(position).setUnChecked(true);
         } else {
-            surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().get(position).setUnChecked(false);
+            surveyModel.getSurveyDetails().get(position).setUnChecked(false);
         }
         surveyDetailsAdapter.notifyDataSetChanged();
         previewDisplay();
@@ -246,8 +243,8 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     @Override
     public void deleteAnItem(int pos) {
         if (surveyModel != null) {
-            for (int i = 0; i < surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().size(); i++) {
-                surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().remove(pos);
+            for (int i = 0; i < surveyModel.getSurveyDetails().size(); i++) {
+                surveyModel.getSurveyDetails().remove(pos);
             }
             surveyDetailsAdapter.notifyDataSetChanged();
         }
@@ -261,7 +258,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     @Override
     public void onDeleteApiSuccess(int pos) {
         if (surveyModel != null) {
-            surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().remove(pos);
+            surveyModel.getSurveyDetails().remove(pos);
             surveyDetailsAdapter.notifyDataSetChanged();
             previewDisplay();
         }
@@ -273,20 +270,20 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     }
 
     @Override
-    public RowsEntity getSurvey() {
+    public SurveyListModel getSurvey() {
         return surveyModel;
     }
 
     @Override
     public void onSuccessEditSurvey(String description, int postion) {
-        surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().get(postion).setDescription(description);
+        surveyModel.getSurveyDetails().get(postion).setDescription(description);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
-            surveyModel.getFarmerLand().getSurveyLandLocation().setSurveyDetails((ArrayList<SurveyDetailsEntity>) data.getSerializableExtra("surveySubmit"));
+            surveyModel.setSurveyDetails((ArrayList<SurveyDetailsEntity>) data.getSerializableExtra("surveySubmit"));
             surveyDetailsAdapter.notifyDataSetChanged();
             previewDisplay();
         }
@@ -302,9 +299,9 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     private void previewDisplay() {
         map.clear();
         boolean isIncludeLatLong = false;
-        if (surveyModel != null && surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().size() > 0) {
+        if (surveyModel != null && surveyModel.getSurveyDetails().size() > 0) {
             LatLngBounds.Builder builder = new LatLngBounds.Builder();
-            for (SurveyDetailsEntity detailsEntity : surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails()) {
+            for (SurveyDetailsEntity detailsEntity : surveyModel.getSurveyDetails()) {
                 if (!detailsEntity.isUnChecked()) {
                     if (detailsEntity.getMapType().getUid() != null) {
                         if (detailsEntity.getMapType().getUid().equalsIgnoreCase("point")) {

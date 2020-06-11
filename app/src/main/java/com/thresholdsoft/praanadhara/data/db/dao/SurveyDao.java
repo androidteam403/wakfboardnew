@@ -1,7 +1,9 @@
 package com.thresholdsoft.praanadhara.data.db.dao;
 
 import com.thresholdsoft.praanadhara.data.db.model.FarmerLands;
+import com.thresholdsoft.praanadhara.data.db.model.LandEntity;
 import com.thresholdsoft.praanadhara.data.db.model.Survey;
+import com.thresholdsoft.praanadhara.data.db.model.SurveyEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,10 +52,34 @@ public interface SurveyDao {
     @Insert
     void insertFarmerLand(FarmerLands farmerLands);
 
-    @Query("SELECT * FROM FARMER_LAND Where uid = :uid and farmer_land_uid = :landUid")
+    @Query("SELECT * FROM farmer_land Where uid = :uid and farmer_land_uid = :landUid")
     FarmerLands  getFarmerLand(String uid,String landUid);
+
+    @Query("SELECT * FROM farmer_land")
+    List<FarmerLands> getAllFarmerLands();
 
     @Update
     void updateFarmerLand(FarmerLands farmerLands);
+
+    @Insert
+    void insetLandEntity(LandEntity landEntity);
+
+    @Query("SELECT * FROM land_details where uid = :landUid")
+    LandEntity getLandEntity(String landUid);
+
+    @Update
+    void updateLandEntity(LandEntity landEntity);
+
+    @Insert
+    void insetSurveyEntity(SurveyEntity surveyEntity);
+
+    @Query("SELECT * FROM survey_details where uid = :uid")
+    SurveyEntity getSurveyEntity(String uid);
+
+    @Update
+    void updateSurveyEntity(SurveyEntity surveyEntity);
+
+    @Query("SELECT * FROM survey_details where land_uid = :landUid")
+    List<SurveyEntity> getAllSurveyList(String landUid);
 }
 

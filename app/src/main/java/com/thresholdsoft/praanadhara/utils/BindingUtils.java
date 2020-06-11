@@ -1,7 +1,10 @@
 package com.thresholdsoft.praanadhara.utils;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.databinding.BindingAdapter;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,10 +38,52 @@ public final class BindingUtils {
     }
 
     @BindingAdapter("imageUrl")
-    public static void setImageUrl(ImageView imageView, List<PicEntity> picEntity) {
-        if(picEntity.size() > 0) {
+    public static void setImageUrl(ImageView imageView, String picEntity) {
+        if(!TextUtils.isEmpty(picEntity)) {
             Context context = imageView.getContext();
-            Glide.with(context).load(BuildConfig.IMAGE_URL + picEntity.get(0).getPath()).placeholder(R.drawable.placeholder).into(imageView);
+            Glide.with(context).load(BuildConfig.IMAGE_URL + picEntity).placeholder(R.drawable.placeholder).into(imageView);
+        }
+    }
+
+    @BindingAdapter("statustext")
+    public static void setStatusText(TextView statusText, String status){
+        if(status == null){
+            statusText.setText("New");
+            statusText.setTextColor(statusText.getResources().getColor(R.color.survey_new_status_color));
+        }else if(status.equalsIgnoreCase("No")){
+            statusText.setText("In Progress");
+            statusText.setTextColor(statusText.getResources().getColor(R.color.survey_inprogress_status_color));
+        }else if(status.equalsIgnoreCase("Yes")){
+            statusText.setText("Completed");
+            statusText.setTextColor(statusText.getResources().getColor(R.color.survey_complete_status_color));
+        }
+    }
+
+    @BindingAdapter("surveyMode")
+    public static void setSurveyMode(TextView surveyText, String surveyMode){
+        if(surveyMode == null){
+            surveyText.setText("TAKE SURVEY");
+            surveyText.setBackgroundResource(R.drawable.button_light_blue_rounde);
+            surveyText.setCompoundDrawables(null,null,null,null);
+        }else if(surveyMode.equalsIgnoreCase("No")) {
+            surveyText.setText("CONTINUE");
+            surveyText.setBackgroundResource(R.drawable.button_back_orange);
+            surveyText.setCompoundDrawables(null,null,null,null);
+        }else if(surveyMode.equalsIgnoreCase("Yes")) {
+            surveyText.setText("DONE");
+            surveyText.setBackgroundResource(R.drawable.button_back_green);
+            surveyText.setCompoundDrawables(surveyText.getResources().getDrawable(R.drawable.tick_mark),null,null,null);
+        }
+    }
+
+    @BindingAdapter("backgroundbox")
+    public static void setBackgroundBox(LinearLayout linearLayout, String status){
+        if(status == null){
+            linearLayout.setBackgroundResource(R.drawable.adapter_survey_background);
+        }else if(status.equalsIgnoreCase("No")){
+            linearLayout.setBackgroundResource(R.drawable.adapter_survey_back_orange);
+        }else if(status.equalsIgnoreCase("Yes")){
+            linearLayout.setBackgroundResource(R.drawable.adapter_survey_back_green);
         }
     }
 }

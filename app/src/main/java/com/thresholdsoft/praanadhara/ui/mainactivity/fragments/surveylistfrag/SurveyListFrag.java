@@ -51,6 +51,7 @@ import com.thresholdsoft.praanadhara.databinding.ActivitySurveyListBinding;
 import com.thresholdsoft.praanadhara.ui.base.BaseFragment;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.adapter.SurveyAdapter;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.SurveyCountModel;
+import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.SurveyListModel;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.SurveyStatusCountModelResponse;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusActivity;
 import com.thresholdsoft.praanadhara.ui.userlogin.UserLoginActivity;
@@ -66,7 +67,7 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
     @Inject
     SurveyListMvpPresenter<SurveyListMvpView> mpresenter;
     private ActivitySurveyListBinding activitySurveyListBinding;
-    private ArrayList<RowsEntity> surveyModelArrayList = new ArrayList<>();
+    private ArrayList<SurveyListModel> surveyModelArrayList = new ArrayList<>();
     private boolean isLoading = false;
     private ArrayList<RowsEntity> surveyModelArrayListTempOne = new ArrayList<>();
     private ArrayList<RowsEntity> surveyModelArrayListTwo = new ArrayList<>();
@@ -156,7 +157,7 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
     }
 
     @Override
-    public void onItemClick(RowsEntity farmerModel) {
+    public void onItemClick(SurveyListModel farmerModel) {
         farmerModel.setCurrentLatitude(latitude);
         farmerModel.setCurrentLongitude(longitude);
         Intent intent = new Intent(getContext(), SurveyStatusActivity.class);
@@ -166,7 +167,7 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
     }
 
     @Override
-    public void onFarmersRes(List<RowsEntity> rowsEntity) {
+    public void onFarmersRes(List<SurveyListModel> rowsEntity) {
         activitySurveyListBinding.noDataFound.setVisibility(View.GONE);
         isLoading = false;
         activitySurveyListBinding.simpleSwipeRefreshLayout.setRefreshing(false);
@@ -183,7 +184,7 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
         surveyModelArrayList.remove(surveyModelArrayList.size() - 1);
         int scrollPosition = surveyModelArrayList.size();
         surveyAdapter.notifyItemRemoved(scrollPosition);
-        surveyModelArrayList.addAll(rowsEntities);
+       // surveyModelArrayList.addAll(rowsEntities);
         surveyAdapter.notifyDataSetChanged();
     }
 
