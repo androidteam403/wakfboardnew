@@ -1,5 +1,6 @@
 package com.thresholdsoft.praanadhara.data.db.model;
 
+import androidx.databinding.BaseObservable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -9,7 +10,7 @@ import com.thresholdsoft.praanadhara.data.utils.DateConverter;
 
 @Entity(tableName = "farmer_land")
 @TypeConverters({DateConverter.class})
-public class FarmerLands {
+public class FarmerLands extends BaseObservable {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
@@ -20,7 +21,7 @@ public class FarmerLands {
     private String mName;
 
     @ColumnInfo(name = "mobile")
-    private String mMobile;
+    private long mMobile;
 
     @ColumnInfo(name = "email")
     private String mEmail;
@@ -37,7 +38,7 @@ public class FarmerLands {
     @ColumnInfo(name = "village")
     private String mVillage;
 
-    public FarmerLands(String mUid, String mName, String mMobile, String mEmail, String mPicPath, String mFarmerLandUid, String mPincode, String mVillage) {
+    public FarmerLands(String mUid, String mName, long mMobile, String mEmail, String mPicPath, String mFarmerLandUid, String mPincode, String mVillage) {
         this.mUid = mUid;
         this.mName = mName;
         this.mMobile = mMobile;
@@ -72,11 +73,11 @@ public class FarmerLands {
         this.mName = mName;
     }
 
-    public String getMobile() {
+    public long getMobile() {
         return mMobile;
     }
 
-    public void setMobile(String mMobile) {
+    public void setMobile(long mMobile) {
         this.mMobile = mMobile;
     }
 

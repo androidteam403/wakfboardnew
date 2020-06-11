@@ -3,6 +3,7 @@ package com.thresholdsoft.praanadhara.data;
 import android.content.Context;
 
 import com.thresholdsoft.praanadhara.data.db.AppDatabase;
+import com.thresholdsoft.praanadhara.data.db.model.FarmerLands;
 import com.thresholdsoft.praanadhara.data.db.model.Survey;
 import com.thresholdsoft.praanadhara.data.network.RestApiHelper;
 import com.thresholdsoft.praanadhara.data.network.pojo.FarmerSurveyList;
@@ -101,6 +102,26 @@ public class BaseDataManager implements DataManager {
     @Override
     public List<Survey> loadAllByIds(int[] userIds) {
         return mDatabase.userDao().loadAllByIds(userIds);
+    }
+
+    @Override
+    public void insertFarmerLand(FarmerLands farmerLands) {
+        FarmerLands lands = getFarmerLand(farmerLands.getUid(),farmerLands.getFarmerLandUid());
+       if( lands != null){
+           farmerLands.setId(lands.getId());
+           updateFarmerLand(farmerLands);
+       }else
+           mDatabase.userDao().insertFarmerLand(farmerLands);
+    }
+
+    @Override
+    public FarmerLands getFarmerLand(String uid, String landUid) {
+        return mDatabase.userDao().getFarmerLand(uid,landUid);
+    }
+
+    @Override
+    public void updateFarmerLand(FarmerLands farmerLands) {
+        mDatabase.userDao().updateFarmerLand(farmerLands);
     }
 
 //    @Override

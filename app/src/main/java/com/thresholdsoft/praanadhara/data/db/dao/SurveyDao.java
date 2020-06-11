@@ -1,5 +1,6 @@
 package com.thresholdsoft.praanadhara.data.db.dao;
 
+import com.thresholdsoft.praanadhara.data.db.model.FarmerLands;
 import com.thresholdsoft.praanadhara.data.db.model.Survey;
 
 import java.util.ArrayList;
@@ -45,5 +46,14 @@ public interface SurveyDao {
 //    @Query("SELECT * FROM Survey WHERE first_name LIKE :first AND " +
 //            "last_name LIKE :last LIMIT 1")
 //    Survey findByName(String first, String last);
+
+    @Insert
+    void insertFarmerLand(FarmerLands farmerLands);
+
+    @Query("SELECT * FROM FARMER_LAND Where uid = :uid and farmer_land_uid = :landUid")
+    FarmerLands  getFarmerLand(String uid,String landUid);
+
+    @Update
+    void updateFarmerLand(FarmerLands farmerLands);
 }
 

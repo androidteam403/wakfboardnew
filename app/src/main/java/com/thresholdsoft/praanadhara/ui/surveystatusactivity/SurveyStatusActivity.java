@@ -263,6 +263,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
         if (surveyModel != null) {
             surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().remove(pos);
             surveyDetailsAdapter.notifyDataSetChanged();
+            previewDisplay();
         }
     }
 

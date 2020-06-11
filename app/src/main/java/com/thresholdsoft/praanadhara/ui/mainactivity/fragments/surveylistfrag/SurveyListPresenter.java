@@ -1,11 +1,14 @@
 package com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag;
 
 import com.thresholdsoft.praanadhara.data.DataManager;
+import com.thresholdsoft.praanadhara.data.db.model.FarmerLands;
 import com.thresholdsoft.praanadhara.data.network.pojo.PicEntity;
 import com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity;
 import com.thresholdsoft.praanadhara.ui.base.BasePresenter;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.FarmerLandReq;
 import com.thresholdsoft.praanadhara.utils.rx.SchedulerProvider;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -85,7 +88,7 @@ public class SurveyListPresenter<V extends SurveyListMvpView> extends BasePresen
                                 pageNumber++;
                                 getMvpView().onSuccessLoadMore(blogResponse.getData().getListdata().getRows());
                             } else {
-                                getMvpView().onFarmersRes(blogResponse.getData().getListdata().getRows());
+                                insertOrUpdateLands(blogResponse.getData().getListdata().getRows());
                             }
                         } else if (isLoadMore) {
                             getMvpView().onSuccessLoadMoreNodData();
@@ -98,5 +101,13 @@ public class SurveyListPresenter<V extends SurveyListMvpView> extends BasePresen
                     getMvpView().hideLoading();
                     handleApiError(throwable);
                 }));
+    }
+
+    private void insertOrUpdateLands(List<RowsEntity> rows){
+        for(RowsEntity entity : rows){
+            FarmerLands farmerLands = new FarmerLands(entity.getUid(),entity.getName(),entity.getMobile(),entity.getEmail(), entity.getPic().size()>0 ? entity.getPic().get(0).getPath() : "",entity.getFarmerLand().getUid(),entity.getFarmerLand().getPincode().getPincode(),entity.getFarmerLand().getPincode().getVillage().getName());
+            getDataManager().insertFarmerLand(farmerLands);
+        }
+        getMvpView().onFarmersRes(rows);
     }
 }
