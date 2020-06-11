@@ -5,7 +5,7 @@
     <data>
         <variable
             name="survey"
-            type="com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.SurveyCountModel" />
+            type="com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.SurveyStatusCountModelResponse" />
 
         <variable
             name="callback"
@@ -61,7 +61,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/two_dp"
                             android:fontFamily="@font/roboto_bold"
-                            android:text="@{String.valueOf(survey.newCount)}"
+                            android:text="@{String.valueOf(survey.new)}"
                             android:textColor="@color/blue"
                             android:textSize="@dimen/text_dimen_22" />
 
@@ -94,7 +94,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/two_dp"
                             android:fontFamily="@font/roboto_bold"
-                            android:text="@{String.valueOf(survey.inProgressCount)}"
+                            android:text="@{String.valueOf(survey.inProgress)}"
                             android:textColor="@color/pharmacy_circle_color"
                             android:textSize="@dimen/text_dimen_22" />
 
@@ -127,7 +127,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/two_dp"
                             android:fontFamily="@font/roboto_bold"
-                            android:text="@{String.valueOf(survey.completedCount)}"
+                            android:text="@{String.valueOf(survey.completed)}"
                             android:textColor="@color/transaction_id_color"
                             android:textSize="@dimen/text_dimen_22" />
 

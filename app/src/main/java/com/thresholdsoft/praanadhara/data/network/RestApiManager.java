@@ -2,13 +2,13 @@ package com.thresholdsoft.praanadhara.data.network;
 
 import com.thresholdsoft.praanadhara.data.network.pojo.FarmerSurveyList;
 import com.thresholdsoft.praanadhara.data.network.pojo.FeedItem;
-import com.thresholdsoft.praanadhara.data.network.pojo.LoginRequest;
 import com.thresholdsoft.praanadhara.data.network.pojo.SurveySaveReq;
 import com.thresholdsoft.praanadhara.data.network.pojo.SurveyStartReq;
 import com.thresholdsoft.praanadhara.data.network.pojo.SurveyStartRes;
-import com.thresholdsoft.praanadhara.data.network.pojo.UserProfile;
 import com.thresholdsoft.praanadhara.data.network.pojo.WrapperResponse;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.FarmerLandReq;
+import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.SurveyStatusCountModelRequest;
+import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.SurveyStatusCountModelResponse;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.DeleteReq;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.DeleteRes;
 
@@ -57,5 +57,10 @@ public class RestApiManager implements RestApiHelper {
     @Override
     public Single<WrapperResponse<DeleteRes>> deleteSurvey(DeleteReq deleteReq) {
         return mService.DELETE_SURVEY_RES_SINGLE(deleteReq);
+    }
+
+    @Override
+    public Single<WrapperResponse<SurveyStatusCountModelResponse>> statusCount(SurveyStatusCountModelRequest surveyStatusCountModelRequest) {
+        return mService.STATUS_COUNT_SURVEY_RES_SINGLE(surveyStatusCountModelRequest);
     }
 }

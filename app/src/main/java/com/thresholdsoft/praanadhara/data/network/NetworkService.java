@@ -9,6 +9,8 @@ import com.thresholdsoft.praanadhara.data.network.pojo.SurveyStartRes;
 import com.thresholdsoft.praanadhara.data.network.pojo.UserProfile;
 import com.thresholdsoft.praanadhara.data.network.pojo.WrapperResponse;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.FarmerLandReq;
+import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.SurveyStatusCountModelRequest;
+import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.SurveyStatusCountModelResponse;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.DeleteReq;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.DeleteRes;
 import com.thresholdsoft.praanadhara.ui.userlogin.model.LoginResponse;
@@ -47,5 +49,8 @@ public interface NetworkService {
 
     @POST("api/survey_details/delete/survey-details-delete")
     Single<WrapperResponse<DeleteRes>> DELETE_SURVEY_RES_SINGLE (@Body DeleteReq deleteReq);
+
+    @POST("api/farmer/select/survey-status-count")
+    Single<WrapperResponse<SurveyStatusCountModelResponse>> STATUS_COUNT_SURVEY_RES_SINGLE (@Body SurveyStatusCountModelRequest surveyStatusCountModelRequest);
 
 }
