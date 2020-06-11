@@ -181,7 +181,7 @@ public class SurveyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
                 filteredSurveyModelArrayList = (ArrayList<RowsEntity>) filterResults.values;
                 notifyDataSetChanged();
-                frag.updateFilteredList(filteredSurveyModelArrayList);
+               // frag.updateFilteredList(filteredSurveyModelArrayList);
             }
         };
     }

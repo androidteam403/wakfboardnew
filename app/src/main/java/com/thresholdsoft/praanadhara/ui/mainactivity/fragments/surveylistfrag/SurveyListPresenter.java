@@ -1,11 +1,19 @@
 package com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag;
 
+import android.widget.Toast;
+
 import com.thresholdsoft.praanadhara.data.DataManager;
 import com.thresholdsoft.praanadhara.data.network.pojo.PicEntity;
 import com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity;
+import com.thresholdsoft.praanadhara.ui.ApiClient;
+import com.thresholdsoft.praanadhara.ui.ApiInterface;
 import com.thresholdsoft.praanadhara.ui.base.BasePresenter;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.FarmerLandReq;
+import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.SurveyStatusCountModelRequest;
+import com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.DeleteReq;
 import com.thresholdsoft.praanadhara.utils.rx.SchedulerProvider;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -70,6 +78,7 @@ public class SurveyListPresenter<V extends SurveyListMvpView> extends BasePresen
         listApiCall("", pageNumber, true);
     }
 
+
     private void listApiCall(String status, int page, boolean isLoadMore) {
         FarmerLandReq farmerLandReq = new FarmerLandReq();
         farmerLandReq.setPage(page);
@@ -99,4 +108,31 @@ public class SurveyListPresenter<V extends SurveyListMvpView> extends BasePresen
                     handleApiError(throwable);
                 }));
     }
+
+    @Override
+    public void onStatusCountApiCall() {
+        if (getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+            getMvpView().hideKeyboard();
+            final SurveyStatusCountModelRequest request = new SurveyStatusCountModelRequest();
+            getMvpView().showLoading();
+            getCompositeDisposable().add(getDataManager()
+                    .statusCount(request)
+                    .subscribeOn(getSchedulerProvider().io())
+                    .observeOn(getSchedulerProvider().ui())
+                    .subscribe(blogResponse -> {
+                        if (blogResponse != null && blogResponse.getData() != null && blogResponse.getSuccess()) {
+                            getMvpView().onStatuCountApiSucess(blogResponse.getData());
+                        }
+                        getMvpView().hideLoading();
+                    }, throwable -> {
+                        getMvpView().hideLoading();
+                        handleApiError(throwable);
+                    }));
+
+        } else {
+            getMvpView().showMessage("Please Connect to Proper internet");
+        }
+    }
+
 }

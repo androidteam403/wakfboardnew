@@ -51,6 +51,7 @@ import com.thresholdsoft.praanadhara.databinding.ActivitySurveyListBinding;
 import com.thresholdsoft.praanadhara.ui.base.BaseFragment;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.adapter.SurveyAdapter;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.SurveyCountModel;
+import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.SurveyStatusCountModelResponse;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusActivity;
 import com.thresholdsoft.praanadhara.ui.userlogin.UserLoginActivity;
 
@@ -106,7 +107,8 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
 
     @Override
     protected void setUp(View view) {
-        activitySurveyListBinding.setSurvey(new SurveyCountModel());
+        mpresenter.onStatusCountApiCall();
+//        activitySurveyListBinding.setSurvey(new SurveyStatusCountModelResponse().data);
         activitySurveyListBinding.setCallback(mpresenter);
 
         surveyAdapter = new SurveyAdapter(getActivity(), surveyModelArrayList, mpresenter, SurveyListFrag.this);
@@ -171,7 +173,7 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
         surveyModelArrayList.clear();
         surveyModelArrayList.addAll(rowsEntity);
         surveyAdapter.notifyDataSetChanged();
-        updateFilteredList(surveyModelArrayList);
+       // updateFilteredList(surveyModelArrayList);
     }
 
     @Override
@@ -221,14 +223,19 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
                 inProgressSurveyList = inProgressSurveyList + 1;
             }
         }
-        activitySurveyListBinding.getSurvey().setNewCount(newSurveyList);
-        activitySurveyListBinding.getSurvey().setCompletedCount(completedSurveyList);
-        activitySurveyListBinding.getSurvey().setInProgressCount(inProgressSurveyList);
+        activitySurveyListBinding.getSurvey().setNew(newSurveyList);
+        activitySurveyListBinding.getSurvey().setCompleted(completedSurveyList);
+        activitySurveyListBinding.getSurvey().setInProgress(inProgressSurveyList);
         if (newSurveyList == 0 && inProgressSurveyList == 0 && completedSurveyList == 0) {
             activitySurveyListBinding.noDataFound.setVisibility(View.VISIBLE);
         } else {
             activitySurveyListBinding.noDataFound.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void onStatuCountApiSucess(SurveyStatusCountModelResponse response) {
+        activitySurveyListBinding.setSurvey(response);
     }
 
     @Override
