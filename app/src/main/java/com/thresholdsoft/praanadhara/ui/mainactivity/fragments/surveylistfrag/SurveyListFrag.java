@@ -9,7 +9,6 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -50,7 +49,6 @@ import com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity;
 import com.thresholdsoft.praanadhara.databinding.ActivitySurveyListBinding;
 import com.thresholdsoft.praanadhara.ui.base.BaseFragment;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.adapter.SurveyAdapter;
-import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.SurveyCountModel;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.SurveyStatusCountModelResponse;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusActivity;
 import com.thresholdsoft.praanadhara.ui.userlogin.UserLoginActivity;
@@ -71,7 +69,7 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
     private ArrayList<RowsEntity> surveyModelArrayListTempOne = new ArrayList<>();
     private ArrayList<RowsEntity> surveyModelArrayListTwo = new ArrayList<>();
 
-    SurveyAdapter surveyAdapter;
+    private SurveyAdapter surveyAdapter;
     public static final int REQUEST_CODE = 1;
     private static final String TAG = SurveyListFrag.class.getSimpleName();
     private GoogleApiClient mGoogleApiClient;
@@ -115,7 +113,7 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
         RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(getContext());
         activitySurveyListBinding.recyclerSurveyList.setLayoutManager(mLayoutManager1);
         activitySurveyListBinding.recyclerSurveyList.setAdapter(surveyAdapter);
-      //  mpresenter.farmersListApiCall();
+        //  mpresenter.farmersListApiCall();
         initScrollListener();
 
         activitySurveyListBinding.simpleSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -173,7 +171,7 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
         surveyModelArrayList.clear();
         surveyModelArrayList.addAll(rowsEntity);
         surveyAdapter.notifyDataSetChanged();
-       // updateFilteredList(surveyModelArrayList);
+        // updateFilteredList(surveyModelArrayList);
     }
 
     @Override
@@ -262,6 +260,7 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
         mGoogleApiClient.stopAutoManage(getBaseActivity());
         mGoogleApiClient.disconnect();
     }
+
     /**
      * Step 1: Check Google Play services
      */
@@ -270,7 +269,7 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
         if (isGooglePlayServicesAvailable()) {
             if (checkPermissions()) {
                 getMyLocation();
-            }else{
+            } else {
                 requestPermissions();
 
             }
@@ -516,10 +515,10 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
         mSearchItem = menu.findItem(R.id.action_search);
         sv = (SearchView) MenuItemCompat.getActionView(mSearchItem);
         sv.setIconified(true);
-
         SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
         sv.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
         sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
             @Override
             public boolean onQueryTextSubmit(String query) {
 //                mSearchView.clearFocus();
@@ -534,4 +533,11 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
         });
         super.onCreateOptionsMenu(menu, inflater);
     }
+
+
+//    @Override
+//    public void onCreateOptionsMenu( Menu menu, @NonNull MenuInflater inflater) {
+//        inflater.inflate(R.menu.menu_main,menu);
+//        super.onCreateOptionsMenu(menu, inflater);
+//    }
 }

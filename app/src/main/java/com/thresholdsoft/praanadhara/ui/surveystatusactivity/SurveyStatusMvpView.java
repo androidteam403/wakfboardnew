@@ -39,5 +39,6 @@ public interface SurveyStatusMvpView extends MvpView {
 
     void onSuccessEditSurvey(String description,int postion);
 
+    void onItemClick(int position);
 
 }

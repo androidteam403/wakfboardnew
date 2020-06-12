@@ -26,6 +26,16 @@ public class SurveyDetailsEntity extends BaseObservable implements Serializable 
     @SerializedName("uid")
     private String uid;
 
+    public boolean swipe = false;
+
+    public boolean isSwipe() {
+        return swipe;
+    }
+
+    public void setSwipe(boolean swipe) {
+        this.swipe = swipe;
+    }
+
     public MapTypeEntity getMapType() {
         return mapType;
     }
@@ -106,8 +116,10 @@ public class SurveyDetailsEntity extends BaseObservable implements Serializable 
         isUnChecked = checked;
     }
 
+    public SurveyDetailsEntity() {
+    }
 
-    public SurveyDetailsEntity(String name,String description,  String latlongs, MapTypeEntity surveyType, String uid) {
+    public SurveyDetailsEntity(String name, String description, String latlongs, MapTypeEntity surveyType, String uid) {
         this.description = description;
         this.name = name;
         this.mapType = surveyType;
