@@ -4,10 +4,12 @@ import com.thresholdsoft.praanadhara.data.db.model.FarmerLands;
 import com.thresholdsoft.praanadhara.data.db.model.LandEntity;
 import com.thresholdsoft.praanadhara.data.db.model.Survey;
 import com.thresholdsoft.praanadhara.data.db.model.SurveyEntity;
+import com.thresholdsoft.praanadhara.data.db.model.SurveyStatusEntity;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -56,19 +58,19 @@ public interface SurveyDao {
     FarmerLands  getFarmerLand(String uid,String landUid);
 
     @Query("SELECT * FROM farmer_land")
-    List<FarmerLands> getAllFarmerLands();
+    LiveData<List<FarmerLands>> getAllFarmerLands();
 
     @Update
     void updateFarmerLand(FarmerLands farmerLands);
 
-    @Insert
-    void insetLandEntity(LandEntity landEntity);
-
-    @Query("SELECT * FROM land_details where uid = :landUid")
-    LandEntity getLandEntity(String landUid);
-
-    @Update
-    void updateLandEntity(LandEntity landEntity);
+//    @Insert
+//    void insetLandEntity(LandEntity landEntity);
+//
+//    @Query("SELECT * FROM land_details where uid = :landUid")
+//    LandEntity getLandEntity(String landUid);
+//
+//    @Update
+//    void updateLandEntity(LandEntity landEntity);
 
     @Insert
     void insetSurveyEntity(SurveyEntity surveyEntity);
@@ -81,5 +83,15 @@ public interface SurveyDao {
 
     @Query("SELECT * FROM survey_details where land_uid = :landUid")
     List<SurveyEntity> getAllSurveyList(String landUid);
+
+    @Insert(onConflict = REPLACE)
+    void insertSurveyCount(SurveyStatusEntity surveyStatusEntity);
+
+    @Update
+    void updateSurveyCount(SurveyStatusEntity surveyStatusEntity);
+
+    @Query("SELECT * FROM survey_status_count")
+    LiveData<SurveyStatusEntity> getSurveyCount();
+
 }
 

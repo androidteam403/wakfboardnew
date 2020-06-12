@@ -1,6 +1,7 @@
 package com.thresholdsoft.praanadhara.ui.surveystatusactivity;
 
 import com.thresholdsoft.praanadhara.data.DataManager;
+import com.thresholdsoft.praanadhara.data.db.model.FarmerLands;
 import com.thresholdsoft.praanadhara.data.db.model.SurveyEntity;
 import com.thresholdsoft.praanadhara.data.network.pojo.MapTypeEntity;
 import com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity;
@@ -10,6 +11,7 @@ import com.thresholdsoft.praanadhara.data.network.pojo.SurveyStartReq;
 import com.thresholdsoft.praanadhara.ui.ApiClient;
 import com.thresholdsoft.praanadhara.ui.ApiInterface;
 import com.thresholdsoft.praanadhara.ui.base.BasePresenter;
+import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.SurveyListModel;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.DeleteReq;
 import com.thresholdsoft.praanadhara.ui.surveytrack.model.SurveyModel;
 import com.thresholdsoft.praanadhara.utils.rx.SchedulerProvider;
@@ -30,10 +32,10 @@ public class SurveyStatusPresenter<V extends SurveyStatusMvpView> extends BasePr
     }
 
     @Override
-    public void startSurvey(RowsEntity rowsEntity) {
+    public void startSurvey(SurveyListModel rowsEntity) {
         getMvpView().showLoading();
         getCompositeDisposable().add(getDataManager()
-                .startSurvey(new SurveyStartReq(new SurveyStartReq.LandLocationEntity(rowsEntity.getFarmerLand().getUid())))
+                .startSurvey(new SurveyStartReq(new SurveyStartReq.LandLocationEntity(rowsEntity.getLandUid())))
                 .subscribeOn(getSchedulerProvider().io())
                 .observeOn(getSchedulerProvider().ui())
                 .subscribe(blogResponse -> {
@@ -51,13 +53,13 @@ public class SurveyStatusPresenter<V extends SurveyStatusMvpView> extends BasePr
 
 
     @Override
-    public void addSurvey(RowsEntity rowsEntity) {
+    public void addSurvey(SurveyListModel rowsEntity) {
         getMvpView().addSurvey(rowsEntity);
     }
 
     @Override
-    public void submitSurvey(RowsEntity rowsEntity) {
-        SurveySaveReq.SurveyEntity landLocationEntity = new SurveySaveReq.SurveyEntity(rowsEntity.getFarmerLand().getSurveyLandLocation().getUid());
+    public void submitSurvey(SurveyListModel rowsEntity) {
+        SurveySaveReq.SurveyEntity landLocationEntity = new SurveySaveReq.SurveyEntity(rowsEntity.getUid());
         getMvpView().showLoading();
         getCompositeDisposable().add(getDataManager()
                 .submitSurvey(landLocationEntity)
@@ -74,6 +76,11 @@ public class SurveyStatusPresenter<V extends SurveyStatusMvpView> extends BasePr
                 }));
     }
 
+
+    @Override
+    public FarmerLands getFarmerLand(String uid, String landUid) {
+       return getDataManager().getFarmerLand(uid,landUid);
+    }
 
     @Override
     public void onpolygonRadioClick() {
@@ -164,6 +171,15 @@ public class SurveyStatusPresenter<V extends SurveyStatusMvpView> extends BasePr
             }
         }
         return surveyModelList;
+    }
+
+    @Override
+    public void updateFarmerLandStatus(String uid, String landUid) {
+        FarmerLands lands = getDataManager().getFarmerLand(uid,landUid);
+        if(lands != null){
+            lands.setStatus("No");
+            getDataManager().updateFarmerLand(lands);
+        }
     }
 
 

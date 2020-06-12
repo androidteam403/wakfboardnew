@@ -47,7 +47,7 @@ public final class BindingUtils {
 
     @BindingAdapter("statustext")
     public static void setStatusText(TextView statusText, String status){
-        if(status == null){
+        if(status.equalsIgnoreCase("New")){
             statusText.setText("New");
             statusText.setTextColor(statusText.getResources().getColor(R.color.survey_new_status_color));
         }else if(status.equalsIgnoreCase("No")){
@@ -61,7 +61,7 @@ public final class BindingUtils {
 
     @BindingAdapter("surveyMode")
     public static void setSurveyMode(TextView surveyText, String surveyMode){
-        if(surveyMode == null){
+        if(surveyMode.equalsIgnoreCase("New")){
             surveyText.setText("TAKE SURVEY");
             surveyText.setBackgroundResource(R.drawable.button_light_blue_rounde);
             surveyText.setCompoundDrawables(null,null,null,null);
@@ -78,7 +78,7 @@ public final class BindingUtils {
 
     @BindingAdapter("backgroundbox")
     public static void setBackgroundBox(LinearLayout linearLayout, String status){
-        if(status == null){
+        if(status.equalsIgnoreCase("New")){
             linearLayout.setBackgroundResource(R.drawable.adapter_survey_background);
         }else if(status.equalsIgnoreCase("No")){
             linearLayout.setBackgroundResource(R.drawable.adapter_survey_back_orange);

@@ -93,11 +93,15 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
         }
         setUp();
     }
-
+    String uid;
+    String landUid ;
     @Override
     protected void setUp() {
         Intent intent = getIntent();
-        surveyModel = (SurveyListModel) intent.getSerializableExtra("surveyData");
+         uid = intent.getStringExtra("surveyData");
+         landUid = intent.getStringExtra("landUid");
+        surveyModel =  new SurveyListModel();
+        surveyModel.setLandUid(landUid);
 //        if (surveyModel != null && !TextUtils.isEmpty(surveyModel.getFarmerLand().getSurveyLandLocation().getUid())) {
 //            surveyModel.getFarmerLand().getSurveyLandLocation().setUid(surveyModel.getFarmerLand().getSurveyLandLocation().getUid());
 //        }
@@ -109,7 +113,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
 //            surveyModel.setSurveyModelArrayList(modelArrayList);
 //        }
  //       surveyModelArrayList.add(surveyModel);
-        surveyModel.setSurveyDetails(mpresenter.getAllSurveyList(surveyModel.getLandUid()));;
+        surveyModel.setSurveyDetails(mpresenter.getAllSurveyList(landUid));;
         surveyDetailsAdapter = new SurveyDetailsAdapter(this, surveyModel.getSurveyDetails(), mpresenter, this);
         RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(this);
         activitySurveyStatusBinding.surveDetailsRecyclerview.setLayoutManager(mLayoutManager1);
@@ -163,14 +167,15 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     }
 
     @Override
-    public void startSurvey(RowsEntity surveyModel) {
+    public void startSurvey(SurveyListModel surveyModel) {
         mpresenter.startSurvey(surveyModel);
     }
 
     @Override
-    public void startSurveySuccess(RowsEntity rowsEntity, SurveyStartRes data) {
-        surveyModel.setUid(data.getUid());
+    public void startSurveySuccess(SurveyListModel rowsEntity, SurveyStartRes data) {
+        surveyModel.setStartUid(data.getUid());
         surveyModel.setStatus("No");
+        mpresenter.updateFarmerLandStatus(uid,landUid);
     }
 
     @Override
@@ -210,13 +215,13 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     }
 
     @Override
-    public void addSurvey(RowsEntity rowsEntity) {
+    public void addSurvey(SurveyListModel rowsEntity) {
         startActivityForResult(SurveyTrackingActivity.getIntent(this, rowsEntity), REQUEST_CODE);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
     @Override
-    public void submitSurvey(RowsEntity rowsEntity) {
+    public void submitSurvey(SurveyListModel rowsEntity) {
         mpresenter.submitSurvey(rowsEntity);
     }
 

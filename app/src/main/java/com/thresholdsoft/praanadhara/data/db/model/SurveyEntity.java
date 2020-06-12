@@ -20,6 +20,9 @@ public class SurveyEntity {
     @ColumnInfo(name = "uid")
     private String uid;
 
+    @ColumnInfo(name = "start_uid")
+    private String startUid;
+
     @ColumnInfo(name = "name")
     private String name;
 
@@ -35,9 +38,10 @@ public class SurveyEntity {
     @ColumnInfo(name = "isSync")
     private boolean isSync;
 
-    public SurveyEntity(String landUid, String uid, String name, String description, String latLongs, String mapType, boolean isSync) {
+    public SurveyEntity(String landUid, String uid, String startUid, String name, String description, String latLongs, String mapType, boolean isSync) {
         this.landUid = landUid;
         this.uid = uid;
+        this.startUid = startUid;
         this.name = name;
         this.description = description;
         this.latLongs = latLongs;
@@ -67,6 +71,14 @@ public class SurveyEntity {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public String getStartUid() {
+        return startUid;
+    }
+
+    public void setStartUid(String startUid) {
+        this.startUid = startUid;
     }
 
     public String getName() {

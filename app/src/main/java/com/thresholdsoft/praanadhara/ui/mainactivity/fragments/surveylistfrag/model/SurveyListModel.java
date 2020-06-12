@@ -25,6 +25,9 @@ public class SurveyListModel extends BaseObservable implements Serializable {
     private String startDate;
     private String submitDate;
 
+    public SurveyListModel() {
+    }
+
     public SurveyListModel(String uid, String name, String address, Long mobile, String email, String pic, String landUid, String status, String startDate, String submitDate) {
         this.uid = uid;
         this.name = name;
@@ -38,20 +41,24 @@ public class SurveyListModel extends BaseObservable implements Serializable {
         this.submitDate = submitDate;
     }
 
+    @Bindable
     public String getStartDate() {
         return CommonUtils.dateConversion(startDate);
     }
 
     public void setStartDate(String startDate) {
         this.startDate = startDate;
+        notifyPropertyChanged(BR.startDate);
     }
 
+    @Bindable
     public String getSubmitDate() {
         return CommonUtils.dateConversion(submitDate);
     }
 
     public void setSubmitDate(String submitDate) {
         this.submitDate = submitDate;
+        notifyPropertyChanged(BR.submitDate);
     }
 
     public String getLandUid() {
@@ -102,12 +109,14 @@ public class SurveyListModel extends BaseObservable implements Serializable {
         this.email = email;
     }
 
+    @Bindable
     public String getStatus() {
         return status;
     }
 
     public void setStatus(String status) {
         this.status = status;
+        notifyPropertyChanged(BR.status);
     }
 
 
@@ -171,5 +180,15 @@ public class SurveyListModel extends BaseObservable implements Serializable {
 
     public void setSurveyType(int surveyType) {
         this.surveyType = surveyType;
+    }
+
+    private String startUid;
+
+    public String getStartUid() {
+        return startUid;
+    }
+
+    public void setStartUid(String startUid) {
+        this.startUid = startUid;
     }
 }

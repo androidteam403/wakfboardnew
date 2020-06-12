@@ -2,11 +2,14 @@ package com.thresholdsoft.praanadhara.data;
 
 import android.content.Context;
 
+import androidx.lifecycle.LiveData;
+
 import com.thresholdsoft.praanadhara.data.db.AppDatabase;
 import com.thresholdsoft.praanadhara.data.db.model.FarmerLands;
 import com.thresholdsoft.praanadhara.data.db.model.LandEntity;
 import com.thresholdsoft.praanadhara.data.db.model.Survey;
 import com.thresholdsoft.praanadhara.data.db.model.SurveyEntity;
+import com.thresholdsoft.praanadhara.data.db.model.SurveyStatusEntity;
 import com.thresholdsoft.praanadhara.data.network.RestApiHelper;
 import com.thresholdsoft.praanadhara.data.network.pojo.FarmerSurveyList;
 import com.thresholdsoft.praanadhara.data.network.pojo.FeedItem;
@@ -124,7 +127,7 @@ public class BaseDataManager implements DataManager {
     }
 
     @Override
-    public List<FarmerLands> getAllFarmerLands() {
+    public LiveData<List<FarmerLands>> getAllFarmerLands() {
         return mDatabase.userDao().getAllFarmerLands();
     }
 
@@ -133,25 +136,25 @@ public class BaseDataManager implements DataManager {
         mDatabase.userDao().updateFarmerLand(farmerLands);
     }
 
-    @Override
-    public void insetLandEntity(LandEntity landEntity) {
-        LandEntity lands = getLandEntity(landEntity.getUid());
-        if( lands != null){
-            landEntity.setId(lands.getId());
-            updateLandEntity(landEntity);
-        }else
-            mDatabase.userDao().insetLandEntity(landEntity);
-    }
-
-    @Override
-    public LandEntity getLandEntity(String landUid) {
-        return mDatabase.userDao().getLandEntity(landUid);
-    }
-
-    @Override
-    public void updateLandEntity(LandEntity landEntity) {
-        mDatabase.userDao().updateLandEntity(landEntity);
-    }
+//    @Override
+//    public void insetLandEntity(LandEntity landEntity) {
+//        LandEntity lands = getLandEntity(landEntity.getUid());
+//        if( lands != null){
+//            landEntity.setId(lands.getId());
+//            updateLandEntity(landEntity);
+//        }else
+//            mDatabase.userDao().insetLandEntity(landEntity);
+//    }
+//
+//    @Override
+//    public LandEntity getLandEntity(String landUid) {
+//        return mDatabase.userDao().getLandEntity(landUid);
+//    }
+//
+//    @Override
+//    public void updateLandEntity(LandEntity landEntity) {
+//        mDatabase.userDao().updateLandEntity(landEntity);
+//    }
 
     @Override
     public void insetSurveyEntity(SurveyEntity surveyEntity) {
@@ -176,6 +179,21 @@ public class BaseDataManager implements DataManager {
     @Override
     public List<SurveyEntity> getAllSurveyList(String landUid) {
         return mDatabase.userDao().getAllSurveyList(landUid);
+    }
+
+    @Override
+    public void insertSurveyCount(SurveyStatusEntity surveyStatusEntity) {
+        mDatabase.userDao().insertSurveyCount(surveyStatusEntity);
+    }
+
+    @Override
+    public void updateSurveyCount(SurveyStatusEntity surveyStatusEntity) {
+
+    }
+
+    @Override
+    public LiveData<SurveyStatusEntity> getSurveyCount() {
+        return mDatabase.userDao().getSurveyCount();
     }
 
 //    @Override

@@ -344,11 +344,11 @@
                         android:backgroundTint="@color/complaint_btn_color"
                         android:fontFamily="@font/roboto_bold"
                         android:gravity="center"
-
+                        android:onClick="@{()-> presenterCallback.startSurvey(survey)}"
                         android:text="@string/label_start_survey"
                         android:textColor="@color/white"
                         android:visibility="@{survey.status == null ? View.VISIBLE : View.GONE}" />
-<!--                    android:onClick="@{()-> presenterCallback.startSurvey(survey)}"-->
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -366,10 +366,10 @@
                             android:backgroundTint="@color/complaint_btn_color"
                             android:fontFamily="@font/roboto_bold"
                             android:gravity="center"
-
+                            android:onClick="@{()-> presenterCallback.addSurvey(survey)}"
                             android:text="Add"
                             android:textColor="@color/white" />
-<!--                        android:onClick="@{()-> presenterCallback.addSurvey(survey)}"-->
+
                         <TextView
                             android:layout_width="@dimen/one_hundred_forty_dp"
                             android:layout_height="@dimen/thirty_five_dp"
@@ -378,11 +378,10 @@
                             android:backgroundTint="@color/complaint_btn_color"
                             android:fontFamily="@font/roboto_bold"
                             android:gravity="center"
-
+                            android:onClick="@{()-> presenterCallback.submitSurvey(survey)}"
                             android:text="Submit Survey"
                             android:textColor="@color/white"
                             android:visibility="@{survey.surveyDetails.size() > 0 ? View.VISIBLE : View.GONE}" />
-<!--                        android:onClick="@{()-> presenterCallback.submitSurvey(survey)}"-->
                     </LinearLayout>
                 </LinearLayout>
             </ScrollView>

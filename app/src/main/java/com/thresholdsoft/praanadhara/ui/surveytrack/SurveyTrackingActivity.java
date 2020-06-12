@@ -63,6 +63,7 @@ import com.thresholdsoft.praanadhara.databinding.ActivitySurveyTrackingBinding;
 import com.thresholdsoft.praanadhara.services.LocationMonitoringService;
 import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
 import com.thresholdsoft.praanadhara.ui.dialog.SurveyPointDialog;
+import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.SurveyListModel;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusActivity;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.SurveyDetailsModel;
 import com.thresholdsoft.praanadhara.ui.surveytrack.model.SurveyModel;
@@ -113,7 +114,7 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
     private RowsEntity surveyModel;
     private List<Marker> markerList = new ArrayList<>();
 
-    public static Intent getIntent(Context context, RowsEntity surveyModel) {
+    public static Intent getIntent(Context context, SurveyListModel surveyModel) {
         Intent intent = new Intent(context, SurveyTrackingActivity.class);
         intent.putExtra("surveyData", surveyModel);
         return intent;

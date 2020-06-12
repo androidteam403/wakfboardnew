@@ -1,9 +1,12 @@
 package com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag;
 
+import androidx.lifecycle.LiveData;
+
 import com.thresholdsoft.praanadhara.data.DataManager;
 import com.thresholdsoft.praanadhara.data.db.model.FarmerLands;
 import com.thresholdsoft.praanadhara.data.db.model.LandEntity;
 import com.thresholdsoft.praanadhara.data.db.model.SurveyEntity;
+import com.thresholdsoft.praanadhara.data.db.model.SurveyStatusEntity;
 import com.thresholdsoft.praanadhara.data.network.pojo.PicEntity;
 import com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity;
 import com.thresholdsoft.praanadhara.data.network.pojo.SurveyDetailsEntity;
@@ -32,7 +35,7 @@ public class SurveyListPresenter<V extends SurveyListMvpView> extends BasePresen
     }
 
     @Override
-    public void onItemClick(SurveyListModel farmerModel) {
+    public void onItemClick(FarmerLands farmerModel) {
         getMvpView().onItemClick(farmerModel);
     }
 
@@ -123,6 +126,7 @@ public class SurveyListPresenter<V extends SurveyListMvpView> extends BasePresen
                     .observeOn(getSchedulerProvider().ui())
                     .subscribe(blogResponse -> {
                         if (blogResponse != null && blogResponse.getData() != null && blogResponse.getSuccess()) {
+                            getDataManager().insertSurveyCount(new SurveyStatusEntity(blogResponse.getData().getInProgress(),blogResponse.getData().getCompleted(),blogResponse.getData().getNew(),blogResponse.getData().getTotal()));
                             getMvpView().onStatuCountApiSucess(blogResponse.getData());
                         }
                         getMvpView().hideLoading();
@@ -136,29 +140,27 @@ public class SurveyListPresenter<V extends SurveyListMvpView> extends BasePresen
         }
     }
 
+    @Override
+    public LiveData<List<FarmerLands>> getAllFarmersLands() {
+        return getDataManager().getAllFarmerLands();
+    }
+
+    @Override
+    public LiveData<SurveyStatusEntity> getSurveyStatusCount() {
+        return getDataManager().getSurveyCount();
+    }
+
 
     private void insertOrUpdateLands(List<RowsEntity> rows) {
         for (RowsEntity entity : rows) {
-            FarmerLands farmerLands = new FarmerLands(entity.getUid(), entity.getName(), entity.getMobile(), entity.getEmail(), entity.getPic().size() > 0 ? entity.getPic().get(0).getPath() : "", entity.getFarmerLand().getUid(), entity.getFarmerLand().getPincode().getPincode(), entity.getFarmerLand().getPincode().getVillage().getName());
+            FarmerLands farmerLands = new FarmerLands(entity.getUid(), entity.getName(), entity.getMobile(), entity.getEmail(), entity.getPic().size() > 0 ? entity.getPic().get(0).getPath() : "", entity.getFarmerLand().getPincode().getPincode(), entity.getFarmerLand().getPincode().getVillage().getName(),
+                   entity.getFarmerLand().getUid(), entity.getFarmerLand().getSurveyLandLocation().getUid(), entity.getFarmerLand().getSurveyLandLocation().getSubmitted().getUid()== null? "New":entity.getFarmerLand().getSurveyLandLocation().getSubmitted().getUid(), entity.getFarmerLand().getSurveyLandLocation().getStartDate(),entity.getFarmerLand().getSurveyLandLocation().getSubmittedDate());
             getDataManager().insertFarmerLand(farmerLands);
-            LandEntity landEntity = new LandEntity(entity.getFarmerLand().getUid(), entity.getFarmerLand().getSurveyLandLocation().getSubmitted().getUid(), entity.getFarmerLand().getSurveyLandLocation().getStartDate(),entity.getFarmerLand().getSurveyLandLocation().getSubmittedDate());
-            getDataManager().insetLandEntity(landEntity);
             for(SurveyDetailsEntity surveyDetailsEntity : entity.getFarmerLand().getSurveyLandLocation().getSurveyDetails()) {
-                SurveyEntity surveyEntity = new SurveyEntity(entity.getFarmerLand().getUid(), surveyDetailsEntity.getUid(), surveyDetailsEntity.getName(), surveyDetailsEntity.getDescription(), surveyDetailsEntity.getLatlongs(), surveyDetailsEntity.getMapType().getUid(), true);
+                SurveyEntity surveyEntity = new SurveyEntity(entity.getFarmerLand().getUid(), surveyDetailsEntity.getUid(), entity.getFarmerLand().getSurveyLandLocation().getUid()==null? "New":entity.getFarmerLand().getSurveyLandLocation().getUid(),surveyDetailsEntity.getName(), surveyDetailsEntity.getDescription(), surveyDetailsEntity.getLatlongs(), surveyDetailsEntity.getMapType().getUid(), true);
                 getDataManager().insetSurveyEntity(surveyEntity);
             }
         }
-        loadListData();
     }
 
-    private void loadListData() {
-        List<SurveyListModel> surveyListModels = new ArrayList<>();
-        List<FarmerLands> farmerLands = getDataManager().getAllFarmerLands();
-        for(FarmerLands lands : farmerLands){
-            LandEntity landEntity = getDataManager().getLandEntity(lands.getFarmerLandUid());
-            surveyListModels.add(new SurveyListModel(lands.getUid(),lands.getName(),lands.getVillage(),lands.getMobile(),lands.getEmail(),lands.getPicPath(),
-                    landEntity.getUid(),landEntity.getStatus(),landEntity.getStartDate(),landEntity.getSubmittedDate()));
-        }
-        getMvpView().onFarmersRes(surveyListModels);
-    }
 }

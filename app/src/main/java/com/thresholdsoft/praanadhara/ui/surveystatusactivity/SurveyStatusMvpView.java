@@ -10,9 +10,9 @@ import java.util.ArrayList;
 
 public interface SurveyStatusMvpView extends MvpView {
 
-    void startSurvey(RowsEntity surveyModel);
+    void startSurvey(SurveyListModel surveyModel);
 
-    void startSurveySuccess(RowsEntity rowsEntity, SurveyStartRes data);
+    void startSurveySuccess(SurveyListModel rowsEntity, SurveyStartRes data);
 
     void onpolygonRadioClick();
 
@@ -20,9 +20,9 @@ public interface SurveyStatusMvpView extends MvpView {
 
     void onPointsRadioClick();
 
-    void addSurvey(RowsEntity rowsEntity);
+    void addSurvey(SurveyListModel rowsEntity);
 
-    void submitSurvey(RowsEntity rowsEntity);
+    void submitSurvey(SurveyListModel rowsEntity);
 
     void surveySubmitSuccess(SurveyStartRes data);
 
