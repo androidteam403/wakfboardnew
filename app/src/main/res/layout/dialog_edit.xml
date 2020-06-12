@@ -127,7 +127,6 @@
                 android:id="@+id/edit_name_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/forty_dp"
-                android:layout_below="@+id/title"
                 android:layout_marginStart="@dimen/ten_dp"
                 android:layout_marginTop="@dimen/five_dp"
                 android:layout_marginEnd="@dimen/ten_dp"
@@ -135,6 +134,21 @@
                 android:background="@drawable/rounded_corners_white"
                 android:fontFamily="@font/roboto_light"
                 android:hint="Name"
+                android:inputType="text"
+                android:paddingStart="@dimen/ten_dp"
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/forty_dp"
+                android:layout_marginStart="@dimen/ten_dp"
+                android:layout_marginTop="@dimen/five_dp"
+                android:layout_marginEnd="@dimen/ten_dp"
+                android:layout_marginBottom="@dimen/five_dp"
+                android:background="@drawable/rounded_corners_white"
+                android:fontFamily="@font/roboto_light"
+                android:hint="Description"
                 android:inputType="text"
                 android:paddingStart="@dimen/ten_dp"
                 android:textColor="@color/black" />

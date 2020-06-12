@@ -124,6 +124,7 @@ public class SurveyStatusPresenter<V extends SurveyStatusMvpView> extends BasePr
             getMvpView().hideKeyboard();
             SurveySaveReq surveySaveReq = new SurveySaveReq();
             surveySaveReq.setUid(surveyDetailsEntity.getUid());
+            surveySaveReq.setName(surveyDetailsEntity.getName());
             surveySaveReq.setDescription(surveyDetailsEntity.getDescription());
             surveySaveReq.setLatlongs(surveyDetailsEntity.getLatlongs());
             surveySaveReq.setMapType(surveyDetailsEntity.getMapType());
@@ -145,6 +146,12 @@ public class SurveyStatusPresenter<V extends SurveyStatusMvpView> extends BasePr
         } else {
             getMvpView().showMessage("Please Connect to Proper internet");
         }
+    }
+
+    @Override
+    public void onItemClick(int position) {
+
+        getMvpView().onItemClick(position);
     }
 
 
