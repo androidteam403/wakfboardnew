@@ -101,11 +101,31 @@ public class CustomEditDialog {
     public String getPointName() {
         return editQuantityDialogBinding.editNameEditText.getText().toString();
     }
-    public void setEditTextData(String editTextData){
+
+    public String getPointDescription() {
+        return editQuantityDialogBinding.description.getText().toString();
+    }
+
+    public void setEditTextData(String editTextData) {
         editQuantityDialogBinding.editNameEditText.setText(editTextData);
     }
 
-    public String getPointDescription() {
-        return editQuantityDialogBinding.editNameEditText.getText().toString();
+    public void setEditTextDescriptionData(String editTextDescriptionData) {
+        editQuantityDialogBinding.description.setText(editTextDescriptionData);
+    }
+
+    public boolean validations() {
+        String name = editQuantityDialogBinding.editNameEditText.getText().toString();
+        String description = editQuantityDialogBinding.description.getText().toString();
+        if (name.isEmpty()) {
+            editQuantityDialogBinding.editNameEditText.setError("Please enter name");
+            editQuantityDialogBinding.editNameEditText.requestFocus();
+            return false;
+        } else if (description.isEmpty()) {
+            editQuantityDialogBinding.description.setError("Please enter description");
+            editQuantityDialogBinding.description.requestFocus();
+            return false;
+        }
+        return true;
     }
 }

@@ -11,7 +11,6 @@ import androidx.databinding.DataBindingUtil;
 
 import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.databinding.SurveyPointDialogBinding;
-import com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.SurveyDetailsModel;
 import com.thresholdsoft.praanadhara.ui.surveytrack.SurveyTrackMvpView;
 
 
@@ -89,5 +88,20 @@ public class SurveyPointDialog {
 
     public String getPointDescription() {
         return editQuantityDialogBinding.editDescriptionEditText.getText().toString();
+    }
+
+    public boolean validations() {
+        String name = editQuantityDialogBinding.editNameEditText.getText().toString();
+        String description = editQuantityDialogBinding.editDescriptionEditText.getText().toString();
+        if (name.isEmpty()) {
+            editQuantityDialogBinding.editNameEditText.setError("please enter name");
+            editQuantityDialogBinding.editNameEditText.requestFocus();
+            return false;
+        } else if (description.isEmpty()) {
+            editQuantityDialogBinding.editDescriptionEditText.setError("Please enter description");
+            editQuantityDialogBinding.editDescriptionEditText.requestFocus();
+            return false;
+        }
+        return true;
     }
 }

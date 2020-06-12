@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.thresholdsoft.praanadhara.data.network.pojo.SurveyDetailsEntity" />
+    </data>
+
+    <FrameLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/view_list_repo_action_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            tools:ignore="RtlHardcoded">
+
+            <TextView
+                android:id="@+id/view_list_repo_action_delete"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:background="@color/red"
+                android:gravity="center"
+                android:padding="12dp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="Delete"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/view_list_repo_action_update"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:background="@color/red"
+                android:fontFamily="@font/roboto_regular"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="edit"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+
+        <include
+            android:id="@+id/cartlayout"
+            layout="@layout/view_survey_details"
+            app:data="@{data}" />
+    </FrameLayout>
+</layout>

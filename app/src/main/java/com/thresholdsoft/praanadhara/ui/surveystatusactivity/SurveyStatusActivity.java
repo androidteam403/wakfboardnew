@@ -10,6 +10,8 @@ import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,6 +34,7 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.loopeer.itemtouchhelperextension.ItemTouchHelperExtension;
 import com.thresholdsoft.praanadhara.BuildConfig;
 import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.data.network.pojo.MapTypeEntity;
@@ -43,6 +46,7 @@ import com.thresholdsoft.praanadhara.databinding.CustomActionbarBinding;
 import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.SurveyListModel;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.adapter.SurveyDetailsAdapter;
+import com.thresholdsoft.praanadhara.ui.surveystatusactivity.swipe.ItemTouchHelperCallback;
 import com.thresholdsoft.praanadhara.ui.surveytrack.SurveyTrackingActivity;
 import com.thresholdsoft.praanadhara.ui.surveytrack.model.SurveyModel;
 import com.thresholdsoft.praanadhara.ui.userlogin.UserLoginActivity;
@@ -117,7 +121,14 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
         surveyDetailsAdapter = new SurveyDetailsAdapter(this, surveyModel.getSurveyDetails(), mpresenter, this);
         RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(this);
         activitySurveyStatusBinding.surveDetailsRecyclerview.setLayoutManager(mLayoutManager1);
+        activitySurveyStatusBinding.surveDetailsRecyclerview.setItemAnimator(new DefaultItemAnimator());
+        activitySurveyStatusBinding.surveDetailsRecyclerview.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         activitySurveyStatusBinding.surveDetailsRecyclerview.setAdapter(surveyDetailsAdapter);
+
+        ItemTouchHelperCallback mCallback = new ItemTouchHelperCallback();
+        ItemTouchHelperExtension mItemTouchHelper = new ItemTouchHelperExtension(mCallback);
+        mItemTouchHelper.attachToRecyclerView(activitySurveyStatusBinding.surveDetailsRecyclerview);
+        surveyDetailsAdapter.setItemTouchHelperExtension(mItemTouchHelper);
 
         activitySurveyStatusBinding.setPresenterCallback(mpresenter);
         activitySurveyStatusBinding.setSurvey(surveyModel);
@@ -282,6 +293,11 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     @Override
     public void onSuccessEditSurvey(String description, int postion) {
         surveyModel.getSurveyDetails().get(postion).setDescription(description);
+    }
+
+    @Override
+    public void onItemClick(int position) {
+
     }
 
     @Override
