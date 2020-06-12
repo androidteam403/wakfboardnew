@@ -113,16 +113,16 @@ public class BaseDataManager implements DataManager {
 
     @Override
     public void insertFarmerLand(FarmerLands farmerLands) {
-        FarmerLands lands = getFarmerLand(farmerLands.getUid(),farmerLands.getFarmerLandUid());
-       if( lands != null){
-           farmerLands.setId(lands.getId());
+        LiveData<FarmerLands> lands = getFarmerLand(farmerLands.getUid(),farmerLands.getFarmerLandUid());
+       if( lands.getValue() != null){
+           farmerLands.setId(lands.getValue().getId());
            updateFarmerLand(farmerLands);
        }else
            mDatabase.userDao().insertFarmerLand(farmerLands);
     }
 
     @Override
-    public FarmerLands getFarmerLand(String uid, String landUid) {
+    public LiveData<FarmerLands> getFarmerLand(String uid, String landUid) {
         return mDatabase.userDao().getFarmerLand(uid,landUid);
     }
 
@@ -177,8 +177,13 @@ public class BaseDataManager implements DataManager {
     }
 
     @Override
-    public List<SurveyEntity> getAllSurveyList(String landUid) {
+    public LiveData<List<SurveyEntity>> getAllSurveyList(String landUid) {
         return mDatabase.userDao().getAllSurveyList(landUid);
+    }
+
+    @Override
+    public void deleteSurveyEntity(SurveyEntity surveyEntity) {
+        mDatabase.userDao().deleteSurveyEntity(surveyEntity);
     }
 
     @Override

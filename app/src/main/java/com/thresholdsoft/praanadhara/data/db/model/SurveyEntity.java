@@ -1,15 +1,18 @@
 package com.thresholdsoft.praanadhara.data.db.model;
 
+import androidx.databinding.BaseObservable;
+import androidx.databinding.Bindable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
+import com.thresholdsoft.praanadhara.BR;
 import com.thresholdsoft.praanadhara.data.utils.DateConverter;
 
 @Entity(tableName = "survey_details")
 @TypeConverters({DateConverter.class})
-public class SurveyEntity {
+public class SurveyEntity extends BaseObservable {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
@@ -34,6 +37,12 @@ public class SurveyEntity {
 
     @ColumnInfo(name = "map_type")
     private String mapType;
+
+    @ColumnInfo(name = "isEdit")
+    private boolean isEdit;
+
+    @ColumnInfo(name = "isDelete")
+    private boolean isDelete;
 
     @ColumnInfo(name = "isSync")
     private boolean isSync;
@@ -113,11 +122,39 @@ public class SurveyEntity {
         this.mapType = mapType;
     }
 
+    public boolean isEdit() {
+        return isEdit;
+    }
+
+    public void setEdit(boolean edit) {
+        isEdit = edit;
+    }
+
+    public boolean isDelete() {
+        return isDelete;
+    }
+
+    public void setDelete(boolean delete) {
+        isDelete = delete;
+    }
+
     public boolean isSync() {
         return isSync;
     }
 
     public void setSync(boolean sync) {
         isSync = sync;
+    }
+
+    private boolean isUnchecked;
+
+    @Bindable
+    public boolean isUnchecked() {
+        return isUnchecked;
+    }
+
+    public void setUnchecked(boolean unchecked) {
+        isUnchecked = unchecked;
+        notifyPropertyChanged(BR.unchecked);
     }
 }

@@ -1,10 +1,8 @@
 package com.thresholdsoft.praanadhara.ui.surveystatusactivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -15,19 +13,14 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.Dash;
-import com.google.android.gms.maps.model.Dot;
-import com.google.android.gms.maps.model.Gap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.PatternItem;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.maps.model.Polyline;
@@ -35,17 +28,16 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.loopeer.itemtouchhelperextension.ItemTouchHelperExtension;
-import com.thresholdsoft.praanadhara.BuildConfig;
 import com.thresholdsoft.praanadhara.R;
-import com.thresholdsoft.praanadhara.data.network.pojo.MapTypeEntity;
-import com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity;
-import com.thresholdsoft.praanadhara.data.network.pojo.SurveyDetailsEntity;
+import com.thresholdsoft.praanadhara.data.db.model.FarmerLands;
+import com.thresholdsoft.praanadhara.data.db.model.SurveyEntity;
 import com.thresholdsoft.praanadhara.data.network.pojo.SurveyStartRes;
 import com.thresholdsoft.praanadhara.databinding.ActivitySurveyStatusBinding;
-import com.thresholdsoft.praanadhara.databinding.CustomActionbarBinding;
 import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.SurveyListModel;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.adapter.SurveyDetailsAdapter;
+import com.thresholdsoft.praanadhara.ui.surveystatusactivity.dialog.CustomEditDialog;
+import com.thresholdsoft.praanadhara.ui.surveystatusactivity.dialog.deletedialog.DeleteDialog;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.swipe.ItemTouchHelperCallback;
 import com.thresholdsoft.praanadhara.ui.surveytrack.SurveyTrackingActivity;
 import com.thresholdsoft.praanadhara.ui.surveytrack.model.SurveyModel;
@@ -53,7 +45,6 @@ import com.thresholdsoft.praanadhara.ui.userlogin.UserLoginActivity;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -62,27 +53,9 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     @Inject
     SurveyStatusMvpPresenter<SurveyStatusMvpView> mpresenter;
     private ActivitySurveyStatusBinding activitySurveyStatusBinding;
-    private SurveyListModel surveyModel;
-    private int pos;
-    private Context context;
-    private ArrayList<RowsEntity> surveyModelArrayList = new ArrayList<>();
-    CustomActionbarBinding customActionbarBinding;
-
-    private SurveyStatusMvpView mvpView;
-
     private GoogleMap map;
-
     public static final int REQUEST_CODE = 2;
-    private static final int PATTERN_DASH_LENGTH_PX = 20;
-    private static final int PATTERN_GAP_LENGTH_PX = 20;
-    private static final PatternItem DOT = new Dot();
-    private static final PatternItem DASH = new Dash(PATTERN_DASH_LENGTH_PX);
-    private static final PatternItem GAP = new Gap(PATTERN_GAP_LENGTH_PX);
-    private static final List<PatternItem> PATTERN_POLYLINE_DOTTED = Arrays.asList(GAP, DOT);
-    SurveyDetailsAdapter surveyDetailsAdapter;
-    SurveyModel survey;
-
-    private int polylineWidth = 10;
+    private SurveyDetailsAdapter surveyDetailsAdapter;
 
 
     @Override
@@ -97,28 +70,19 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
         }
         setUp();
     }
+
     String uid;
-    String landUid ;
+    String landUid;
+    int mapType;
+
     @Override
     protected void setUp() {
         Intent intent = getIntent();
-         uid = intent.getStringExtra("surveyData");
-         landUid = intent.getStringExtra("landUid");
-        surveyModel =  new SurveyListModel();
-        surveyModel.setLandUid(landUid);
-//        if (surveyModel != null && !TextUtils.isEmpty(surveyModel.getFarmerLand().getSurveyLandLocation().getUid())) {
-//            surveyModel.getFarmerLand().getSurveyLandLocation().setUid(surveyModel.getFarmerLand().getSurveyLandLocation().getUid());
-//        }
-//        if(surveyModel!= null && surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails().size() > 0){
-//            ArrayList<SurveyModel> modelArrayList = new ArrayList<>();
-//            for(SurveyDetailsEntity surveyDetailsEntity : surveyModel.getFarmerLand().getSurveyLandLocation().getSurveyDetails()){
-//                modelArrayList.add(new SurveyModel(surveyDetailsEntity));
-//            }
-//            surveyModel.setSurveyModelArrayList(modelArrayList);
-//        }
- //       surveyModelArrayList.add(surveyModel);
-        surveyModel.setSurveyDetails(mpresenter.getAllSurveyList(landUid));;
-        surveyDetailsAdapter = new SurveyDetailsAdapter(this, surveyModel.getSurveyDetails(), mpresenter, this);
+        uid = intent.getStringExtra("surveyData");
+        landUid = intent.getStringExtra("landUid");
+        mpresenter.getFarmerLand(uid, landUid).observe(this, farmerLands -> activitySurveyStatusBinding.setFarmerLand(farmerLands));
+
+        surveyDetailsAdapter = new SurveyDetailsAdapter(this);
         RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(this);
         activitySurveyStatusBinding.surveDetailsRecyclerview.setLayoutManager(mLayoutManager1);
         activitySurveyStatusBinding.surveDetailsRecyclerview.setItemAnimator(new DefaultItemAnimator());
@@ -131,42 +95,36 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
         surveyDetailsAdapter.setItemTouchHelperExtension(mItemTouchHelper);
 
         activitySurveyStatusBinding.setPresenterCallback(mpresenter);
-        activitySurveyStatusBinding.setSurvey(surveyModel);
-        //  activitySurveyStatusBinding.setCallback(this);
+
 
         if (activitySurveyStatusBinding.pointsRadio.isChecked()) {
             activitySurveyStatusBinding.linesRadio.setChecked(false);
             activitySurveyStatusBinding.polygonRadio.setChecked(false);
-            surveyModel.setSurveyType(0);
-            MapTypeEntity mapTypeEntity = new MapTypeEntity();
-            mapTypeEntity.setUid("point");
-            mapTypeEntity.setName("point");
-            surveyModel.setMapTypeEntity(mapTypeEntity);
+            mapType = 0;
         }
 
         View includedLayout = findViewById(R.id.backArrow);
-        ImageView insideTheIncludedLayout = (ImageView) includedLayout.findViewById(R.id.imageButton);
-        insideTheIncludedLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        ImageView insideTheIncludedLayout = includedLayout.findViewById(R.id.imageButton);
+        insideTheIncludedLayout.setOnClickListener(v -> onBackPressed());
 
         activitySurveyStatusBinding.checkBoxHeader.setOnClickListener(view -> {
             if (activitySurveyStatusBinding.checkBoxHeader.isChecked()) {
-                for (int i = 0; i < surveyModel.getSurveyDetails().size(); i++) {
-                    surveyModel.getSurveyDetails().get(i).setUnChecked(false);
+                for (SurveyEntity surveyEntity : surveyDetailsAdapter.getListData()) {
+                    surveyEntity.setUnchecked(false);
                 }
-                surveyDetailsAdapter.notifyDataSetChanged();
-                previewDisplay();
             } else {
-                for (int i = 0; i < surveyModel.getSurveyDetails().size(); i++) {
-                    surveyModel.getSurveyDetails().get(i).setUnChecked(true);
+                for (SurveyEntity surveyEntity : surveyDetailsAdapter.getListData()) {
+                    surveyEntity.setUnchecked(true);
                 }
-                surveyDetailsAdapter.notifyDataSetChanged();
-                previewDisplay();
             }
+            surveyDetailsAdapter.notifyDataSetChanged();
+            previewDisplay(surveyDetailsAdapter.getListData());
+        });
+
+        mpresenter.getAllSurveyList(landUid).observe(this, surveyEntities -> {
+            surveyDetailsAdapter.addItems(surveyEntities);
+            activitySurveyStatusBinding.setSurvey(surveyEntities.size() > 0);
+            previewDisplay(surveyEntities);
         });
     }
 
@@ -174,19 +132,12 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
         map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
-        previewDisplay();
     }
 
-    @Override
-    public void startSurvey(SurveyListModel surveyModel) {
-        mpresenter.startSurvey(surveyModel);
-    }
 
     @Override
-    public void startSurveySuccess(SurveyListModel rowsEntity, SurveyStartRes data) {
-        surveyModel.setStartUid(data.getUid());
-        surveyModel.setStatus("No");
-        mpresenter.updateFarmerLandStatus(uid,landUid);
+    public void startSurveySuccess(FarmerLands rowsEntity, SurveyStartRes data) {
+        mpresenter.updateFarmerLandStatus(uid, landUid);
     }
 
     @Override
@@ -194,11 +145,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
         activitySurveyStatusBinding.polygonRadio.setChecked(true);
         activitySurveyStatusBinding.linesRadio.setChecked(false);
         activitySurveyStatusBinding.pointsRadio.setChecked(false);
-        surveyModel.setSurveyType(2);
-        MapTypeEntity mapTypeEntity = new MapTypeEntity();
-        mapTypeEntity.setUid("polygon");
-        mapTypeEntity.setName("polygon");
-        surveyModel.setMapTypeEntity(mapTypeEntity);
+        mapType = 2;
     }
 
     @Override
@@ -206,11 +153,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
         activitySurveyStatusBinding.linesRadio.setChecked(true);
         activitySurveyStatusBinding.polygonRadio.setChecked(false);
         activitySurveyStatusBinding.pointsRadio.setChecked(false);
-        surveyModel.setSurveyType(1);
-        MapTypeEntity mapTypeEntity = new MapTypeEntity();
-        mapTypeEntity.setUid("line");
-        mapTypeEntity.setName("line");
-        surveyModel.setMapTypeEntity(mapTypeEntity);
+        mapType = 1;
     }
 
     @Override
@@ -218,21 +161,17 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
         activitySurveyStatusBinding.pointsRadio.setChecked(true);
         activitySurveyStatusBinding.linesRadio.setChecked(false);
         activitySurveyStatusBinding.polygonRadio.setChecked(false);
-        surveyModel.setSurveyType(0);
-        MapTypeEntity mapTypeEntity = new MapTypeEntity();
-        mapTypeEntity.setUid("point");
-        mapTypeEntity.setName("point");
-        surveyModel.setMapTypeEntity(mapTypeEntity);
+        mapType = 0;
     }
 
     @Override
-    public void addSurvey(SurveyListModel rowsEntity) {
-        startActivityForResult(SurveyTrackingActivity.getIntent(this, rowsEntity), REQUEST_CODE);
+    public void addSurvey(FarmerLands rowsEntity) {
+        startActivityForResult(SurveyTrackingActivity.getIntent(this, rowsEntity,mapType), REQUEST_CODE);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
     @Override
-    public void submitSurvey(SurveyListModel rowsEntity) {
+    public void submitSurvey(FarmerLands rowsEntity) {
         mpresenter.submitSurvey(rowsEntity);
     }
 
@@ -245,69 +184,61 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     }
 
     @Override
-    public void onListItemClicked(int position) {
-        boolean isCheckedStatus = surveyModel.getSurveyDetails().get(position).isUnChecked();
+    public void onListItemClicked(SurveyEntity surveyEntity) {
+        boolean isCheckedStatus = surveyEntity.isUnchecked();
         if (!isCheckedStatus) {
-            surveyModel.getSurveyDetails().get(position).setUnChecked(true);
+            surveyEntity.setUnchecked(true);
         } else {
-            surveyModel.getSurveyDetails().get(position).setUnChecked(false);
+            surveyEntity.setUnchecked(false);
         }
         surveyDetailsAdapter.notifyDataSetChanged();
-        previewDisplay();
-    }
-
-    @Override
-    public void deleteAnItem(int pos) {
-        if (surveyModel != null) {
-            for (int i = 0; i < surveyModel.getSurveyDetails().size(); i++) {
-                surveyModel.getSurveyDetails().remove(pos);
-            }
-            surveyDetailsAdapter.notifyDataSetChanged();
-        }
-    }
-
-    @Override
-    public void deleteApiCall() {
-    }
-
-
-    @Override
-    public void onDeleteApiSuccess(int pos) {
-        if (surveyModel != null) {
-            surveyModel.getSurveyDetails().remove(pos);
-            surveyDetailsAdapter.notifyDataSetChanged();
-            previewDisplay();
-        }
-    }
-
-    @Override
-    public ArrayList<RowsEntity> getUidDetails() {
-        return surveyModelArrayList;
+        previewDisplay(surveyDetailsAdapter.getListData());
     }
 
     @Override
     public SurveyListModel getSurvey() {
-        return surveyModel;
+        return null;
+    }
+
+
+    @Override
+    public void onClickEditSurvey(SurveyEntity surveyEntity) {
+        CustomEditDialog customEditDialog = new CustomEditDialog(this);
+        customEditDialog.setEditTextData(surveyEntity.getName());
+        customEditDialog.setEditTextDescriptionData(surveyEntity.getDescription());
+        customEditDialog.setTitle("Edit ");
+        customEditDialog.setPositiveUpdateLabel("Update");
+        customEditDialog.setPositiveUpdateListener(v -> {
+            if (customEditDialog.validations()) {
+                surveyEntity.setName(customEditDialog.getPointName());
+                surveyEntity.setDescription(customEditDialog.getPointDescription());
+                customEditDialog.dismiss();
+                mpresenter.editApiCal(surveyEntity);
+            }
+        });
+        customEditDialog.setNegativeUpdateLabel("Cancel");
+        customEditDialog.setNegativeUpdateListener(v -> customEditDialog.dismiss());
+        customEditDialog.show();
     }
 
     @Override
-    public void onSuccessEditSurvey(String description, int postion) {
-        surveyModel.getSurveyDetails().get(postion).setDescription(description);
-    }
-
-    @Override
-    public void onItemClick(int position) {
-
+    public void onClickDeleteSurvey(SurveyEntity surveyEntity) {
+        DeleteDialog deleteDialog = new DeleteDialog(this);
+        deleteDialog.setTitle("Are You Sure!");
+        deleteDialog.setPositiveLabel("Ok");
+        deleteDialog.setPositiveListener(v -> {
+            mpresenter.deleteApiCall(surveyEntity);
+            deleteDialog.dismiss();
+        });
+        deleteDialog.setNegativeLabel("Cancel");
+        deleteDialog.setNegativeListener(v -> deleteDialog.dismiss());
+        deleteDialog.show();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
-            surveyModel.setSurveyDetails((ArrayList<SurveyDetailsEntity>) data.getSerializableExtra("surveySubmit"));
-            surveyDetailsAdapter.notifyDataSetChanged();
-            previewDisplay();
-        }
+
     }
 
     @Override
@@ -317,17 +248,17 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
-    private void previewDisplay() {
+    private void previewDisplay(List<SurveyEntity> surveyEntities) {
         map.clear();
         boolean isIncludeLatLong = false;
-        if (surveyModel != null && surveyModel.getSurveyDetails().size() > 0) {
+        if (surveyEntities.size() > 0) {
             LatLngBounds.Builder builder = new LatLngBounds.Builder();
-            for (SurveyDetailsEntity detailsEntity : surveyModel.getSurveyDetails()) {
-                if (!detailsEntity.isUnChecked()) {
-                    if (detailsEntity.getMapType().getUid() != null) {
-                        if (detailsEntity.getMapType().getUid().equalsIgnoreCase("point")) {
+            for (SurveyEntity detailsEntity : surveyEntities) {
+                if (!detailsEntity.isUnchecked()) {
+                    if (detailsEntity.getMapType() != null) {
+                        if (detailsEntity.getMapType().equalsIgnoreCase("point")) {
                             Gson gson = new Gson();
-                            SurveyModel.PointDetails pointDetails = gson.fromJson(detailsEntity.getLatlongs(), SurveyModel.PointDetails.class);
+                            SurveyModel.PointDetails pointDetails = gson.fromJson(detailsEntity.getLatLongs(), SurveyModel.PointDetails.class);
                             if (pointDetails != null) {
                                 LatLng latLng = new LatLng(pointDetails.getLatitude(), pointDetails.getLongitude());
 
@@ -338,21 +269,22 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
                                         .anchor(0.5f, 0.5f));
                                 isIncludeLatLong = true;
                             }
-                        }else if (detailsEntity.getMapType().getUid().equalsIgnoreCase("line")) {
+                        } else if (detailsEntity.getMapType().equalsIgnoreCase("line")) {
                             Gson gson = new Gson();
-                            SurveyModel.PolyLineDetails polyLineDetails = gson.fromJson(detailsEntity.getLatlongs(), SurveyModel.PolyLineDetails.class);
+                            SurveyModel.PolyLineDetails polyLineDetails = gson.fromJson(detailsEntity.getLatLongs(), SurveyModel.PolyLineDetails.class);
+                            int polylineWidth = 10;
                             Polyline runningPathPolyline = map.addPolyline(new PolylineOptions()
                                     .add(new LatLng(polyLineDetails.getFromLatitude(), polyLineDetails.getFromLongitude()), new LatLng(polyLineDetails.getToLatitude(), polyLineDetails.getToLongitude())).width(polylineWidth).color(Color.parseColor("#801B60FE")).geodesic(true));
                             runningPathPolyline.setPattern(null);
                             builder.include(new LatLng(polyLineDetails.getFromLatitude(), polyLineDetails.getFromLongitude()));
                             builder.include(new LatLng(polyLineDetails.getToLatitude(), polyLineDetails.getToLongitude()));
                             isIncludeLatLong = true;
-                        } else if (detailsEntity.getMapType().getUid().equalsIgnoreCase("polygon")) {
+                        } else if (detailsEntity.getMapType().equalsIgnoreCase("polygon")) {
                             List<LatLng> polygonPoints = new ArrayList<>();
                             Gson gson = new Gson();
                             Type listType = new TypeToken<List<SurveyModel>>() {
                             }.getType();
-                            List<SurveyModel> posts = gson.fromJson(detailsEntity.getLatlongs(), listType);
+                            List<SurveyModel> posts = gson.fromJson(detailsEntity.getLatLongs(), listType);
                             for (SurveyModel model : posts) {
                                 LatLng location = new LatLng(model.getLatitude(), model.getLongitude());
                                 builder.include(location);
@@ -377,7 +309,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
                 map.animateCamera(cu);
             }
         } else {
-            LatLng location = new LatLng(surveyModel.getCurrentLatitude(), surveyModel.getCurrentLongitude());
+            LatLng location = new LatLng(72.34, 17.34);
             map.addMarker(new MarkerOptions().position(location));
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 21.0f));
         }

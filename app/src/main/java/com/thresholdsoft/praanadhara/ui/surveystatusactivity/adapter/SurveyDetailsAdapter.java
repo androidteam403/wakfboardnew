@@ -1,6 +1,5 @@
 package com.thresholdsoft.praanadhara.ui.surveystatusactivity.adapter;
 
-import android.app.Activity;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,35 +7,24 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.AsyncListDiffer;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.loopeer.itemtouchhelperextension.Extension;
 import com.loopeer.itemtouchhelperextension.ItemTouchHelperExtension;
 import com.thresholdsoft.praanadhara.R;
-import com.thresholdsoft.praanadhara.data.network.pojo.SurveyDetailsEntity;
+import com.thresholdsoft.praanadhara.data.db.model.SurveyEntity;
 import com.thresholdsoft.praanadhara.databinding.ListItemMainBinding;
-import com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusMvpPresenter;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusMvpView;
-import com.thresholdsoft.praanadhara.ui.surveystatusactivity.dialog.CustomEditDialog;
-import com.thresholdsoft.praanadhara.ui.surveystatusactivity.dialog.deletedialog.DeleteDialog;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SurveyDetailsAdapter extends RecyclerView.Adapter<SurveyDetailsAdapter.ItemBaseViewHolder> {
-    private ArrayList<SurveyDetailsEntity> surveyModelArrayList;
-    private SurveyStatusMvpPresenter<SurveyStatusMvpView> mPresenter;
-    private Activity activity;
     private SurveyStatusMvpView statusMvpView;
     private ItemTouchHelperExtension mItemTouchHelperExtension;
-    private CustomEditDialog customEditDialog;
-    private DeleteDialog deleteDialog;
 
-    public SurveyDetailsAdapter(Activity activity, ArrayList<SurveyDetailsEntity> surveyModelArrayList,
-                                SurveyStatusMvpPresenter<SurveyStatusMvpView> mPresenter, SurveyStatusMvpView statusMvpView) {
-        this.activity = activity;
-        this.surveyModelArrayList = surveyModelArrayList;
-        this.mPresenter = mPresenter;
+    public SurveyDetailsAdapter(SurveyStatusMvpView statusMvpView) {
         this.statusMvpView = statusMvpView;
     }
 
@@ -55,103 +43,54 @@ public class SurveyDetailsAdapter extends RecyclerView.Adapter<SurveyDetailsAdap
 
     @Override
     public void onBindViewHolder(@NonNull final SurveyDetailsAdapter.ItemBaseViewHolder holder, int position) {
-        SurveyDetailsEntity farmerModel = surveyModelArrayList.get(position);
+        SurveyEntity farmerModel = differ.getCurrentList().get(position);
         holder.listItemMainBinding.setData(farmerModel);
         holder.listItemMainBinding.cartlayout.setData(farmerModel);
 
-        if (farmerModel.getMapType().getName().equalsIgnoreCase("point")) {
+        if (farmerModel.getMapType().equalsIgnoreCase("point")) {
             holder.listItemMainBinding.cartlayout.image.setBackgroundResource(R.drawable.points);
-        } else if (farmerModel.getMapType().getName().equalsIgnoreCase("line")) {
+        } else if (farmerModel.getMapType().equalsIgnoreCase("line")) {
             holder.listItemMainBinding.cartlayout.image.setBackgroundResource(R.drawable.lines);
-        } else if (farmerModel.getMapType().getName().equalsIgnoreCase("polygon")) {
+        } else if (farmerModel.getMapType().equalsIgnoreCase("polygon")) {
             holder.listItemMainBinding.cartlayout.image.setBackgroundResource(R.drawable.polygon);
         }
 
-        if (!farmerModel.isUnChecked()) {
+        if (!farmerModel.isUnchecked()) {
             holder.listItemMainBinding.cartlayout.checkBox.setChecked(true);
         } else {
             holder.listItemMainBinding.cartlayout.checkBox.setChecked(false);
         }
 
-        holder.listItemMainBinding.cartlayout.checkBox.setOnClickListener(view -> {
-            statusMvpView.onListItemClicked(position);
-        });
+        holder.listItemMainBinding.cartlayout.checkBox.setOnClickListener(view -> statusMvpView.onListItemClicked(farmerModel));
 
         if (holder instanceof ItemSwipeWithActionWidthViewHolder) {
             ItemSwipeWithActionWidthViewHolder viewHolder = (ItemSwipeWithActionWidthViewHolder) holder;
             viewHolder.mActionViewDelete.setOnClickListener(
-                    new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            viewHolder.listItemMainBinding.viewListRepoActionContainer.setVisibility(View.GONE);
-                            deleteDialog = new DeleteDialog(activity);
-                            deleteDialog.setTitle("Are You Sure!");
-                            deleteDialog.setPositiveLabel("Ok");
-                            deleteDialog.setPositiveListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    mPresenter.deleteApiCall(farmerModel, position);
-                                    deleteDialog.dismiss();
-                                }
-                            });
-                            deleteDialog.setNegativeLabel("Cancel");
-                            deleteDialog.setNegativeListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    deleteDialog.dismiss();
-                                }
-                            });
-                            deleteDialog.show();
-                            mItemTouchHelperExtension.closeOpened();
-                        }
+                    view -> {
+                        viewHolder.listItemMainBinding.viewListRepoActionContainer.setVisibility(View.GONE);
+                        statusMvpView.onClickDeleteSurvey(farmerModel);
+                        mItemTouchHelperExtension.closeOpened();
                     }
             );
             viewHolder.mActionViewEdit.setOnClickListener(
-                    new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            viewHolder.listItemMainBinding.viewListRepoActionContainer.setVisibility(View.GONE);
-                            customEditDialog = new CustomEditDialog(activity);
-                            customEditDialog.setEditTextData(farmerModel.getName());
-                            customEditDialog.setEditTextDescriptionData(farmerModel.getDescription());
-                            customEditDialog.setTitle("Edit ");
-                            customEditDialog.setPositiveUpdateLabel("Update");
-                            customEditDialog.setPositiveUpdateListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-//                        holder.adapterSurveyListBinding.checkBox.setText(customEditDialog.getPointName());
-                                    if (customEditDialog.validations()) {
-                                        farmerModel.setName(customEditDialog.getPointName());
-                                        farmerModel.setDescription(customEditDialog.getPointDescription());
-                                        customEditDialog.dismiss();
-                                        mPresenter.editApiCal(farmerModel, position);
-                                    }
-                                }
-                            });
-                            customEditDialog.setNegativeUpdateLabel("Cancel");
-                            customEditDialog.setNegativeUpdateListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    customEditDialog.dismiss();
-                                }
-                            });
-                            customEditDialog.show();
-                            mItemTouchHelperExtension.closeOpened();
-                        }
+                    view -> {
+                        viewHolder.listItemMainBinding.viewListRepoActionContainer.setVisibility(View.GONE);
+                        statusMvpView.onClickEditSurvey(farmerModel);
+                        mItemTouchHelperExtension.closeOpened();
                     }
             );
         }
     }
 
     public void move(int from, int to) {
-        SurveyDetailsEntity prev = surveyModelArrayList.remove(from);
-        surveyModelArrayList.add(to > from ? to - 1 : to, prev);
+        SurveyEntity prev = differ.getCurrentList().remove(from);
+        differ.getCurrentList().add(to > from ? to - 1 : to, prev);
         notifyItemMoved(from, to);
     }
 
     @Override
     public int getItemCount() {
-        return surveyModelArrayList.size();
+        return differ.getCurrentList().size();
     }
 
     @Override
@@ -159,13 +98,12 @@ public class SurveyDetailsAdapter extends RecyclerView.Adapter<SurveyDetailsAdap
         return position;
     }
 
-    public void addItems(List<SurveyDetailsEntity> blogList) {
-        surveyModelArrayList.addAll(blogList);
-        notifyDataSetChanged();
+    public void addItems(List<SurveyEntity> blogList) {
+        differ.submitList(blogList);
     }
 
-    public void clearItems() {
-        surveyModelArrayList.clear();
+    public List<SurveyEntity> getListData(){
+       return differ.getCurrentList();
     }
 
     public static class ItemBaseViewHolder extends RecyclerView.ViewHolder {
@@ -200,23 +138,23 @@ public class SurveyDetailsAdapter extends RecyclerView.Adapter<SurveyDetailsAdap
 
     private void postDelay() {
         Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                notifyDataSetChanged();
-            }
-        }, 100);
+        handler.postDelayed(this::notifyDataSetChanged, 100);
     }
 
-    private boolean validations() {
-        String name = customEditDialog.getPointName();
-        String description = customEditDialog.getPointDescription();
-        if (name.isEmpty()) {
-            return false;
-        } else if (description.isEmpty()) {
-            return false;
+
+    private static final DiffUtil.ItemCallback<SurveyEntity> DIFF_CALLBACK = new DiffUtil.ItemCallback<SurveyEntity>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull SurveyEntity oldItem, @NonNull SurveyEntity newItem) {
+            return oldItem.getId() == newItem.getId();
         }
-        return true;
-    }
 
+        @Override
+        public boolean areContentsTheSame(@NonNull SurveyEntity oldItem, @NonNull SurveyEntity newItem) {
+            return oldItem.getName().equals(newItem.getName());
+        }
+
+
+    };
+
+    private AsyncListDiffer<SurveyEntity> differ = new AsyncListDiffer<>(this, DIFF_CALLBACK);
 }

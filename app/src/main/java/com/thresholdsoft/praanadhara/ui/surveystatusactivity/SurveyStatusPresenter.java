@@ -1,19 +1,15 @@
 package com.thresholdsoft.praanadhara.ui.surveystatusactivity;
 
+import androidx.lifecycle.LiveData;
+
 import com.thresholdsoft.praanadhara.data.DataManager;
 import com.thresholdsoft.praanadhara.data.db.model.FarmerLands;
 import com.thresholdsoft.praanadhara.data.db.model.SurveyEntity;
 import com.thresholdsoft.praanadhara.data.network.pojo.MapTypeEntity;
-import com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity;
-import com.thresholdsoft.praanadhara.data.network.pojo.SurveyDetailsEntity;
 import com.thresholdsoft.praanadhara.data.network.pojo.SurveySaveReq;
 import com.thresholdsoft.praanadhara.data.network.pojo.SurveyStartReq;
-import com.thresholdsoft.praanadhara.ui.ApiClient;
-import com.thresholdsoft.praanadhara.ui.ApiInterface;
 import com.thresholdsoft.praanadhara.ui.base.BasePresenter;
-import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.SurveyListModel;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.DeleteReq;
-import com.thresholdsoft.praanadhara.ui.surveytrack.model.SurveyModel;
 import com.thresholdsoft.praanadhara.utils.rx.SchedulerProvider;
 
 import java.util.ArrayList;
@@ -32,10 +28,10 @@ public class SurveyStatusPresenter<V extends SurveyStatusMvpView> extends BasePr
     }
 
     @Override
-    public void startSurvey(SurveyListModel rowsEntity) {
+    public void startSurvey(FarmerLands rowsEntity) {
         getMvpView().showLoading();
         getCompositeDisposable().add(getDataManager()
-                .startSurvey(new SurveyStartReq(new SurveyStartReq.LandLocationEntity(rowsEntity.getLandUid())))
+                .startSurvey(new SurveyStartReq(new SurveyStartReq.LandLocationEntity(rowsEntity.getSurveyLandUid())))
                 .subscribeOn(getSchedulerProvider().io())
                 .observeOn(getSchedulerProvider().ui())
                 .subscribe(blogResponse -> {
@@ -53,12 +49,12 @@ public class SurveyStatusPresenter<V extends SurveyStatusMvpView> extends BasePr
 
 
     @Override
-    public void addSurvey(SurveyListModel rowsEntity) {
+    public void addSurvey(FarmerLands rowsEntity) {
         getMvpView().addSurvey(rowsEntity);
     }
 
     @Override
-    public void submitSurvey(SurveyListModel rowsEntity) {
+    public void submitSurvey(FarmerLands rowsEntity) {
         SurveySaveReq.SurveyEntity landLocationEntity = new SurveySaveReq.SurveyEntity(rowsEntity.getUid());
         getMvpView().showLoading();
         getCompositeDisposable().add(getDataManager()
@@ -78,8 +74,8 @@ public class SurveyStatusPresenter<V extends SurveyStatusMvpView> extends BasePr
 
 
     @Override
-    public FarmerLands getFarmerLand(String uid, String landUid) {
-       return getDataManager().getFarmerLand(uid,landUid);
+    public LiveData<FarmerLands> getFarmerLand(String uid, String landUid) {
+        return getDataManager().getFarmerLand(uid, landUid);
     }
 
     @Override
@@ -98,15 +94,14 @@ public class SurveyStatusPresenter<V extends SurveyStatusMvpView> extends BasePr
     }
 
     @Override
-    public void deleteApiCall(SurveyDetailsEntity farmerModel, int position) {
+    public void deleteApiCall(SurveyEntity surveyEntity) {
 
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
             getMvpView().hideKeyboard();
-            ApiInterface api = ApiClient.getClient().create(ApiInterface.class);
             final DeleteReq request = new DeleteReq();
             ArrayList<String> uids = new ArrayList<>();
-            uids.add(farmerModel.getUid());
+            uids.add(surveyEntity.getUid());
             request.setUids(uids);
             getMvpView().showLoading();
             getCompositeDisposable().add(getDataManager()
@@ -115,7 +110,7 @@ public class SurveyStatusPresenter<V extends SurveyStatusMvpView> extends BasePr
                     .observeOn(getSchedulerProvider().ui())
                     .subscribe(blogResponse -> {
                         if (blogResponse != null && blogResponse.getData() != null && blogResponse.getSuccess()) {
-                            getMvpView().onDeleteApiSuccess(position);
+                            getDataManager().deleteSurveyEntity(surveyEntity);
                         }
                         getMvpView().hideLoading();
                     }, throwable -> {
@@ -124,29 +119,33 @@ public class SurveyStatusPresenter<V extends SurveyStatusMvpView> extends BasePr
                     }));
 
         } else {
-            getMvpView().showMessage("Please Connect to Proper internet");
+            surveyEntity.setDelete(true);
+            getDataManager().updateSurveyEntity(surveyEntity);
         }
     }
 
     @Override
-    public void editApiCal(SurveyDetailsEntity surveyDetailsEntity, int position) {
+    public void editApiCal(SurveyEntity surveyEntity) {
         if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
             getMvpView().hideKeyboard();
             SurveySaveReq surveySaveReq = new SurveySaveReq();
-            surveySaveReq.setUid(surveyDetailsEntity.getUid());
-            surveySaveReq.setName(surveyDetailsEntity.getName());
-            surveySaveReq.setDescription(surveyDetailsEntity.getDescription());
-            surveySaveReq.setLatlongs(surveyDetailsEntity.getLatlongs());
-            surveySaveReq.setMapType(surveyDetailsEntity.getMapType());
-            surveySaveReq.setSurvey(new SurveySaveReq.SurveyEntity(getMvpView().getSurvey().getUid()));
+            surveySaveReq.setUid(surveyEntity.getUid());
+            surveySaveReq.setName(surveyEntity.getName());
+            surveySaveReq.setDescription(surveyEntity.getDescription());
+            surveySaveReq.setLatlongs(surveyEntity.getLatLongs());
+            MapTypeEntity mapTypeEntity = new MapTypeEntity();
+            mapTypeEntity.setUid(surveyEntity.getMapType());
+            mapTypeEntity.setName(surveyEntity.getMapType());
+            surveySaveReq.setMapType(mapTypeEntity);
+            surveySaveReq.setSurvey(new SurveySaveReq.SurveyEntity(surveyEntity.getStartUid()));
             getCompositeDisposable().add(getDataManager()
                     .saveSurvey(surveySaveReq)
                     .subscribeOn(getSchedulerProvider().io())
                     .observeOn(getSchedulerProvider().ui())
                     .subscribe(blogResponse -> {
                         if (blogResponse != null && blogResponse.getData() != null && blogResponse.getSuccess()) {
-                            getMvpView().onSuccessEditSurvey(surveyDetailsEntity.getDescription(), position);
+                            getDataManager().updateSurveyEntity(surveyEntity);
                         }
                         getMvpView().hideLoading();
                     }, throwable -> {
@@ -155,37 +154,22 @@ public class SurveyStatusPresenter<V extends SurveyStatusMvpView> extends BasePr
                     }));
 
         } else {
-            getMvpView().showMessage("Please Connect to Proper internet");
+            surveyEntity.setEdit(true);
+            getDataManager().updateSurveyEntity(surveyEntity);
         }
     }
 
     @Override
-    public void onItemClick(int position) {
-
-        getMvpView().onItemClick(position);
-    }
-
-    @Override
-    public ArrayList<SurveyDetailsEntity> getAllSurveyList(String landUid) {
-        ArrayList<SurveyDetailsEntity> surveyModelList = new ArrayList<>();
-        List<SurveyEntity> surveyEntities = getDataManager().getAllSurveyList(landUid);
-        if(surveyEntities != null) {
-            for (SurveyEntity surveyEntity : surveyEntities) {
-                MapTypeEntity mapTypeEntity = new MapTypeEntity();
-                mapTypeEntity.setName(surveyEntity.getMapType());
-                mapTypeEntity.setUid(surveyEntity.getMapType());
-                surveyModelList.add(new SurveyDetailsEntity(surveyEntity.getName(), surveyEntity.getDescription(), surveyEntity.getLatLongs(), mapTypeEntity, surveyEntity.getUid()));
-            }
-        }
-        return surveyModelList;
+    public LiveData<List<SurveyEntity>> getAllSurveyList(String landUid) {
+        return getDataManager().getAllSurveyList(landUid);
     }
 
     @Override
     public void updateFarmerLandStatus(String uid, String landUid) {
-        FarmerLands lands = getDataManager().getFarmerLand(uid,landUid);
-        if(lands != null){
-            lands.setStatus("No");
-            getDataManager().updateFarmerLand(lands);
+        LiveData<FarmerLands> lands = getDataManager().getFarmerLand(uid, landUid);
+        if (lands.getValue() != null) {
+            lands.getValue().setStatus("No");
+            getDataManager().updateFarmerLand(lands.getValue());
         }
     }
 

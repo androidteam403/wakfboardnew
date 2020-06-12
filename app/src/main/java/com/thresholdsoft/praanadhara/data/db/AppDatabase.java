@@ -18,7 +18,7 @@ import androidx.room.RoomDatabase;
  * Created on : March 30, 2020
  * Author     : JAGADEESH
  */
-@Database(entities = {SurveyStatusEntity.class, FarmerLands.class, SurveyEntity.class, Survey.class}, version = 1, exportSchema = false)
+@Database(entities = {SurveyStatusEntity.class, FarmerLands.class, SurveyEntity.class, Survey.class}, version = 2, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     private static final String DATABASE_NAME = "praanadhaara-db";
     private static AppDatabase mInstance;

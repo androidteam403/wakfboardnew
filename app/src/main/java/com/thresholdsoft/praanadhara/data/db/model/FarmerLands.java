@@ -7,9 +7,11 @@ import androidx.room.TypeConverters;
 
 import com.thresholdsoft.praanadhara.data.utils.DateConverter;
 
+import java.io.Serializable;
+
 @Entity(tableName = "farmer_land")
 @TypeConverters({DateConverter.class})
-public class FarmerLands {
+public class FarmerLands implements Serializable {
     @PrimaryKey(autoGenerate = true)
     private int id;
 

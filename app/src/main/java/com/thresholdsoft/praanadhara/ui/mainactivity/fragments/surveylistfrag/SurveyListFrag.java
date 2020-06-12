@@ -200,7 +200,7 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
     @Override
     public void onStatuCountApiSucess(SurveyStatusCountModelResponse response) {
         //  activitySurveyListBinding.setSurvey(response);
-        mpresenter.getAllFarmersLands();
+        mpresenter.farmersListApiCall();
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.thresholdsoft.praanadhara.ui.surveystatusactivity;
 
+import com.thresholdsoft.praanadhara.data.db.model.FarmerLands;
+import com.thresholdsoft.praanadhara.data.db.model.SurveyEntity;
 import com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity;
 import com.thresholdsoft.praanadhara.data.network.pojo.SurveyDetailsEntity;
 import com.thresholdsoft.praanadhara.data.network.pojo.SurveyStartRes;
@@ -10,9 +12,7 @@ import java.util.ArrayList;
 
 public interface SurveyStatusMvpView extends MvpView {
 
-    void startSurvey(SurveyListModel surveyModel);
-
-    void startSurveySuccess(SurveyListModel rowsEntity, SurveyStartRes data);
+    void startSurveySuccess(FarmerLands rowsEntity, SurveyStartRes data);
 
     void onpolygonRadioClick();
 
@@ -20,26 +20,18 @@ public interface SurveyStatusMvpView extends MvpView {
 
     void onPointsRadioClick();
 
-    void addSurvey(SurveyListModel rowsEntity);
+    void addSurvey(FarmerLands rowsEntity);
 
-    void submitSurvey(SurveyListModel rowsEntity);
+    void submitSurvey(FarmerLands rowsEntity);
 
     void surveySubmitSuccess(SurveyStartRes data);
 
-    void onListItemClicked(int position);
-
-    void deleteAnItem(int pos);
-
-    void deleteApiCall();
-
-    void onDeleteApiSuccess(int position);
-
-    ArrayList<RowsEntity> getUidDetails();
+    void onListItemClicked(SurveyEntity surveyEntity);
 
     SurveyListModel getSurvey();
 
-    void onSuccessEditSurvey(String description,int postion);
+    void onClickEditSurvey(SurveyEntity surveyEntity);
 
-    void onItemClick(int position);
+    void onClickDeleteSurvey(SurveyEntity surveyEntity);
 
 }

@@ -55,7 +55,7 @@ public interface SurveyDao {
     void insertFarmerLand(FarmerLands farmerLands);
 
     @Query("SELECT * FROM farmer_land Where uid = :uid and farmer_land_uid = :landUid")
-    FarmerLands  getFarmerLand(String uid,String landUid);
+    LiveData<FarmerLands>  getFarmerLand(String uid,String landUid);
 
     @Query("SELECT * FROM farmer_land")
     LiveData<List<FarmerLands>> getAllFarmerLands();
@@ -82,7 +82,10 @@ public interface SurveyDao {
     void updateSurveyEntity(SurveyEntity surveyEntity);
 
     @Query("SELECT * FROM survey_details where land_uid = :landUid")
-    List<SurveyEntity> getAllSurveyList(String landUid);
+    LiveData<List<SurveyEntity>> getAllSurveyList(String landUid);
+
+    @Delete
+    void deleteSurveyEntity(SurveyEntity surveyEntity);
 
     @Insert(onConflict = REPLACE)
     void insertSurveyCount(SurveyStatusEntity surveyStatusEntity);
