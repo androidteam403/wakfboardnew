@@ -69,7 +69,7 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
     private ArrayList<RowsEntity> surveyModelArrayListTempOne = new ArrayList<>();
     private ArrayList<RowsEntity> surveyModelArrayListTwo = new ArrayList<>();
 
-    private SurveyAdapter surveyAdapter;
+    SurveyAdapter surveyAdapter;
     public static final int REQUEST_CODE = 1;
     private static final String TAG = SurveyListFrag.class.getSimpleName();
     private GoogleApiClient mGoogleApiClient;
