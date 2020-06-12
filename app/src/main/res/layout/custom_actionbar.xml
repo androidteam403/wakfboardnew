@@ -15,7 +15,7 @@
             android:id="@+id/imageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="@dimen/seven_dp"
             android:background="@android:color/transparent"
             android:paddingTop="@dimen/fifteen_dp"
             android:paddingBottom="@dimen/fifteen_dp"
@@ -28,21 +28,21 @@
             android:id="@+id/imageView2"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:padding="@dimen/five_dp"
+            android:paddingStart="@dimen/five_dp"
+            android:paddingTop="@dimen/five_dp"
+            android:paddingBottom="@dimen/five_dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageButton"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/tree" />
+            app:srcCompat="@drawable/praanadhaara_logo" />
 
-        <TextView
+
+        <ImageView
             android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginStart="8dp"
+            android:layout_width="@dimen/one_hundred_seventy_dp"
+            android:layout_height="@dimen/fifteen_dp"
             android:gravity="center_vertical"
-            android:text="@string/label_praanadhaara"
-            android:textColor="@color/yellow"
-            android:fontFamily="@font/roboto_medium"
+            android:src="@drawable/praanadhaara_title"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageView2"
             app:layout_constraintTop_toTopOf="parent" />

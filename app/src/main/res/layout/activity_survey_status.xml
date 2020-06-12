@@ -220,7 +220,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/twenty_dp"
+                        android:layout_marginTop="@dimen/fifteen_dp"
                         android:orientation="horizontal"
                         android:visibility="@{farmer_land.status != null &amp; farmer_land.status.equalsIgnoreCase(`No`) ? View.VISIBLE : View.GONE}"
                         android:weightSum="3">
@@ -237,7 +237,7 @@
                                 android:layout_height="@dimen/thirty_dp"
                                 android:layout_gravity="center_horizontal"
                                 android:contentDescription="@string/app_name"
-                                android:src="@drawable/points" />
+                                android:src="@drawable/new_point" />
 
                             <RadioButton
                                 android:id="@+id/pointsRadio"
@@ -269,7 +269,7 @@
                                 android:layout_height="@dimen/thirty_dp"
                                 android:layout_gravity="center_horizontal"
                                 android:contentDescription="@string/app_name"
-                                android:src="@drawable/lines" />
+                                android:src="@drawable/new_line" />
 
                             <RadioButton
                                 android:id="@+id/linesRadio"
@@ -300,7 +300,7 @@
                                 android:layout_height="@dimen/thirty_dp"
                                 android:layout_gravity="center_horizontal"
                                 android:contentDescription="@string/app_name"
-                                android:src="@drawable/polygon" />
+                                android:src="@drawable/new_polygon" />
 
                             <RadioButton
                                 android:id="@+id/polygonRadio"

@@ -18,6 +18,11 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Dash;
+import com.google.android.gms.maps.model.Dot;
+import com.google.android.gms.maps.model.Gap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -261,11 +266,11 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
                             SurveyModel.PointDetails pointDetails = gson.fromJson(detailsEntity.getLatLongs(), SurveyModel.PointDetails.class);
                             if (pointDetails != null) {
                                 LatLng latLng = new LatLng(pointDetails.getLatitude(), pointDetails.getLongitude());
-
+                                BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.new_point);
                                 builder.include(latLng);
                                 map.addMarker(new MarkerOptions().title(detailsEntity.getName())
                                         .position(latLng)
-                                        .flat(true)
+                                        .flat(true).icon(icon)
                                         .anchor(0.5f, 0.5f));
                                 isIncludeLatLong = true;
                             }
@@ -274,7 +279,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
                             SurveyModel.PolyLineDetails polyLineDetails = gson.fromJson(detailsEntity.getLatLongs(), SurveyModel.PolyLineDetails.class);
                             int polylineWidth = 10;
                             Polyline runningPathPolyline = map.addPolyline(new PolylineOptions()
-                                    .add(new LatLng(polyLineDetails.getFromLatitude(), polyLineDetails.getFromLongitude()), new LatLng(polyLineDetails.getToLatitude(), polyLineDetails.getToLongitude())).width(polylineWidth).color(Color.parseColor("#801B60FE")).geodesic(true));
+                                    .add(new LatLng(polyLineDetails.getFromLatitude(), polyLineDetails.getFromLongitude()), new LatLng(polyLineDetails.getToLatitude(), polyLineDetails.getToLongitude())).width(polylineWidth).color(Color.parseColor("#008000")).geodesic(true));
                             runningPathPolyline.setPattern(null);
                             builder.include(new LatLng(polyLineDetails.getFromLatitude(), polyLineDetails.getFromLongitude()));
                             builder.include(new LatLng(polyLineDetails.getToLatitude(), polyLineDetails.getToLongitude()));

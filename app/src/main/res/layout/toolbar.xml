@@ -32,7 +32,7 @@
                 android:layout_height="@dimen/forty_dp"
                 android:layout_marginStart="@dimen/ten_dp"
                 android:contentDescription="@string/app_name"
-                android:src="@drawable/tree" />
+                android:src="@drawable/praanadhaara_logo" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -42,14 +42,11 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="@dimen/three_dp"
-                    android:text="@string/label_praanadhaara"
-                    android:fontFamily="@font/roboto_medium"
-                    android:textColor="@color/yellow"
-                    android:textSize="@dimen/text_dimen_18" />
+                <ImageView
+                    android:layout_width="@dimen/one_hundred_seventy_dp"
+                    android:layout_height="@dimen/seventeen_dp"
+                    android:src="@drawable/praanadhaara_title"
+                    android:contentDescription="@string/app_name"/>
 
                 <TextView
                     android:layout_width="wrap_content"

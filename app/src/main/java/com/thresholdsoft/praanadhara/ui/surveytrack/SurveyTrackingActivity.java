@@ -17,6 +17,7 @@ import android.os.SystemClock;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -42,6 +43,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Dot;
 import com.google.android.gms.maps.model.Gap;
 import com.google.android.gms.maps.model.LatLng;
@@ -145,6 +148,13 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
         surveyModel =  (RowsEntity)getIntent().getSerializableExtra("surveyEntity");
         surveyTrackingBinding.setType(getIntent().getIntExtra("map_type",0));
         surveyTrackingBinding.setSurvey(surveyModel);
+        if (getSurveyType() == 0) {
+            surveyTrackingBinding.typeTextview.setBackgroundResource(R.drawable.new_point);
+        } else if (getSurveyType() == 1) {
+            surveyTrackingBinding.typeTextview.setBackgroundResource(R.drawable.new_line);
+        } else if (getSurveyType() == 2) {
+            surveyTrackingBinding.typeTextview.setBackgroundResource(R.drawable.new_polygon);
+        }
         LocalBroadcastManager.getInstance(this).registerReceiver(
                 new BroadcastReceiver() {
                     @Override
@@ -170,6 +180,15 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
         );
         setUpGClient();
         isStartLogging = true;
+
+        View includedLayout = findViewById(R.id.backArrow);
+        ImageView insideTheIncludedLayout = (ImageView) includedLayout.findViewById(R.id.imageButton);
+        insideTheIncludedLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
 
@@ -361,9 +380,10 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
             @Override
             public void onMapClick(LatLng point) {
                 if (getSurveyType() == 0) {
+                    BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.new_point);
                     pointMarker = mMap.addMarker(new MarkerOptions()
                             .position(point)
-                            .flat(true)
+                            .flat(true).icon(icon)
                             .anchor(0.5f, 0.5f));
                     showPointDialog(point);
                 } else if (getSurveyType() == 1) {
@@ -885,15 +905,15 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
     }
 
     private void addPoint(LatLng latLng, String name, String description) {
+        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.new_point);
         mMap.addMarker(new MarkerOptions()
                 .position(latLng)
-                .flat(true)
+                .flat(true).icon(icon)
                 .anchor(0.5f, 0.5f));
         SurveyModel.PointDetails pointDetails = new SurveyModel.PointDetails(latLng.latitude, latLng.longitude);
         Gson gson = new Gson();
         String json = gson.toJson(pointDetails);
         surveyModelArrayList.add(new SurveyDetailsEntity(name, description, json, surveyModel.getMapTypeEntity(), surveyModel.getUid()));
-        mMap.setOnMarkerClickListener(this);
     }
 
     private void drawLine() {
@@ -918,6 +938,7 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
             public void onClick(View view) {
                 if (dialogView.validations()) {
                     dialogView.dismiss();
+                    surveyTrackingBinding.saveBtn.setVisibility(View.VISIBLE);
                     SurveySaveReq surveySaveReq = new SurveySaveReq();
                     surveySaveReq.setSurvey(new SurveySaveReq.SurveyEntity(surveyModel.getFarmerLand().getSurveyLandLocation().getUid()));
                     surveySaveReq.setMapType(surveyModel.getMapTypeEntity());
@@ -952,7 +973,11 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
         }
         return true;
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+        overridePendingTransition(R.anim.left_right, R.anim.right_left);
+    }
 }
-
-
-

@@ -97,7 +97,7 @@ public class SurveyPointDialog {
             editQuantityDialogBinding.editNameEditText.setError("please enter name");
             editQuantityDialogBinding.editNameEditText.requestFocus();
             return false;
-        } else if (description.isEmpty()) {
+        }else if (description.isEmpty()){
             editQuantityDialogBinding.editDescriptionEditText.setError("Please enter description");
             editQuantityDialogBinding.editDescriptionEditText.requestFocus();
             return false;
