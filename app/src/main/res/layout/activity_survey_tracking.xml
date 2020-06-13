@@ -17,7 +17,7 @@
             type="Boolean" />
         <variable
             name="survey"
-            type="com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity" />
+            type="com.thresholdsoft.praanadhara.data.db.model.FarmerLands" />
         <variable
             name="view"
             type="com.thresholdsoft.praanadhara.ui.surveytrack.SurveyTrackMvpView" />

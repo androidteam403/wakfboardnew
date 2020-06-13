@@ -1,9 +1,12 @@
 package com.thresholdsoft.praanadhara.ui.surveytrack;
 
+import com.thresholdsoft.praanadhara.data.db.model.FarmerLands;
 import com.thresholdsoft.praanadhara.ui.base.MvpView;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.SurveyDetailsModel;
 
 public interface SurveyTrackMvpView extends MvpView {
+
+    FarmerLands getFarmerLand();
 
     String getSurveyId();
 
@@ -12,8 +15,6 @@ public interface SurveyTrackMvpView extends MvpView {
     void onClickPauseResumeBtn();
 
     void onClickStopBtn();
-
-    void onClickPointBtn();
 
     void onClickSavePoints();
 

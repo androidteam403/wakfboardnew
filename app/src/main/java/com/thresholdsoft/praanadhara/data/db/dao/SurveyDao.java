@@ -96,5 +96,15 @@ public interface SurveyDao {
     @Query("SELECT * FROM survey_status_count")
     LiveData<SurveyStatusEntity> getSurveyCount();
 
+    @Query("SELECT * FROM survey_details where isEdit = :isEdit")
+    List<SurveyEntity> getAllSurveyEditList(boolean isEdit);
+
+    @Query("SELECT * FROM survey_details where isDelete = :isDelete")
+    List<SurveyEntity> getAllSurveyDeleteList(boolean isDelete);
+
+    @Query("SELECT * FROM survey_details where isSync = :isSync")
+    List<SurveyEntity> getAllSurveySyncList(boolean isSync);
+
+
 }
 

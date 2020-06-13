@@ -1,6 +1,7 @@
 package com.thresholdsoft.praanadhara.data;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import androidx.lifecycle.LiveData;
 
@@ -158,12 +159,16 @@ public class BaseDataManager implements DataManager {
 
     @Override
     public void insetSurveyEntity(SurveyEntity surveyEntity) {
-        SurveyEntity lands = getSurveyEntity(surveyEntity.getUid());
-        if( lands != null){
-            surveyEntity.setId(lands.getId());
-            updateSurveyEntity(surveyEntity);
-        }else
+        if(!TextUtils.isEmpty(surveyEntity.getUid())) {
+            SurveyEntity lands = getSurveyEntity(surveyEntity.getUid());
+            if (lands != null) {
+                surveyEntity.setId(lands.getId());
+                updateSurveyEntity(surveyEntity);
+            } else
+                mDatabase.userDao().insetSurveyEntity(surveyEntity);
+        }else{
             mDatabase.userDao().insetSurveyEntity(surveyEntity);
+        }
     }
 
     @Override
@@ -199,6 +204,21 @@ public class BaseDataManager implements DataManager {
     @Override
     public LiveData<SurveyStatusEntity> getSurveyCount() {
         return mDatabase.userDao().getSurveyCount();
+    }
+
+    @Override
+    public List<SurveyEntity> getAllSurveyEditList(boolean isEdit) {
+        return mDatabase.userDao().getAllSurveyEditList(isEdit);
+    }
+
+    @Override
+    public List<SurveyEntity> getAllSurveyDeleteList(boolean isDelete) {
+        return mDatabase.userDao().getAllSurveyDeleteList(isDelete);
+    }
+
+    @Override
+    public List<SurveyEntity> getAllSurveySyncList(boolean isSync) {
+        return mDatabase.userDao().getAllSurveySyncList(isSync);
     }
 
 //    @Override

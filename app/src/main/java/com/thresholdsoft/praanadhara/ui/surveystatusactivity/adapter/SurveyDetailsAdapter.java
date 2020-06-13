@@ -47,14 +47,15 @@ public class SurveyDetailsAdapter extends RecyclerView.Adapter<SurveyDetailsAdap
         holder.listItemMainBinding.setData(farmerModel);
         holder.listItemMainBinding.cartlayout.setData(farmerModel);
 
-        if (farmerModel.getMapType().equalsIgnoreCase("point")) {
-            holder.listItemMainBinding.cartlayout.image.setBackgroundResource(R.drawable.new_point);
-        } else if (farmerModel.getMapType().equalsIgnoreCase("line")) {
-            holder.listItemMainBinding.cartlayout.image.setBackgroundResource(R.drawable.new_line);
-        } else if (farmerModel.getMapType().equalsIgnoreCase("polygon")) {
-            holder.listItemMainBinding.cartlayout.image.setBackgroundResource(R.drawable.new_polygon);
+        if(farmerModel.getMapType()!=null) {
+            if (farmerModel.getMapType().equalsIgnoreCase("point")) {
+                holder.listItemMainBinding.cartlayout.image.setBackgroundResource(R.drawable.new_point);
+            } else if (farmerModel.getMapType().equalsIgnoreCase("line")) {
+                holder.listItemMainBinding.cartlayout.image.setBackgroundResource(R.drawable.new_line);
+            } else if (farmerModel.getMapType().equalsIgnoreCase("polygon")) {
+                holder.listItemMainBinding.cartlayout.image.setBackgroundResource(R.drawable.new_polygon);
+            }
         }
-
         if (!farmerModel.isUnchecked()) {
             holder.listItemMainBinding.cartlayout.checkBox.setChecked(true);
         } else {

@@ -4,6 +4,7 @@ import android.location.Location;
 
 import com.thresholdsoft.praanadhara.data.DataManager;
 import com.thresholdsoft.praanadhara.data.db.model.Survey;
+import com.thresholdsoft.praanadhara.data.db.model.SurveyEntity;
 import com.thresholdsoft.praanadhara.data.network.pojo.SurveySaveReq;
 import com.thresholdsoft.praanadhara.ui.base.BasePresenter;
 import com.thresholdsoft.praanadhara.utils.rx.SchedulerProvider;
@@ -41,20 +42,25 @@ public class SurveyTrackPresenter<V extends SurveyTrackMvpView> extends BasePres
 
     @Override
     public void saveSurvey(SurveySaveReq surveySaveReq) {
-        getMvpView().showLoading();
-        getCompositeDisposable().add(getDataManager()
-                .saveSurvey(surveySaveReq)
-                .subscribeOn(getSchedulerProvider().io())
-                .observeOn(getSchedulerProvider().ui())
-                .subscribe(blogResponse -> {
-                    if (blogResponse != null && blogResponse.getData() != null && blogResponse.getSuccess()) {
-                        getMvpView().surveySaveSuccess();
-                    }
-                    getMvpView().hideLoading();
-                }, throwable -> {
-                    getMvpView().hideLoading();
-                    handleApiError(throwable);
-                }));
+        if(getMvpView().isNetworkConnected()) {
+            getMvpView().showLoading();
+            getCompositeDisposable().add(getDataManager()
+                    .saveSurvey(surveySaveReq)
+                    .subscribeOn(getSchedulerProvider().io())
+                    .observeOn(getSchedulerProvider().ui())
+                    .subscribe(blogResponse -> {
+                        if (blogResponse != null && blogResponse.getData() != null && blogResponse.getSuccess()) {
+                            getDataManager().insetSurveyEntity(new SurveyEntity(getMvpView().getFarmerLand().getFarmerLandUid(), blogResponse.getData().getUid(), getMvpView().getFarmerLand().getSurveyLandUid(), surveySaveReq.getName(), surveySaveReq.getDescription(), surveySaveReq.getLatlongs(), surveySaveReq.getMapType().getUid(), true));
+                            getMvpView().surveySaveSuccess();
+                        }
+                        getMvpView().hideLoading();
+                    }, throwable -> {
+                        getMvpView().hideLoading();
+                        handleApiError(throwable);
+                    }));
+        }else{
+            getDataManager().insetSurveyEntity(new SurveyEntity(getMvpView().getFarmerLand().getFarmerLandUid(), "", getMvpView().getFarmerLand().getSurveyLandUid(), surveySaveReq.getName(), surveySaveReq.getDescription(), surveySaveReq.getLatlongs(), surveySaveReq.getMapType().getUid(), false));
+        }
     }
 
     @Override
