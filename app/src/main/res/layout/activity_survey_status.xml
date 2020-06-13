@@ -9,7 +9,10 @@
 
         <variable
             name="survey"
-            type="com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity" />
+            type="Boolean" />
+        <variable
+            name="farmer_land"
+            type="com.thresholdsoft.praanadhara.data.db.model.FarmerLands" />
 
         <variable
             name="presenterCallback"
@@ -69,7 +72,8 @@
                             android:layout_width="@dimen/one_hundred_dp"
                             android:layout_height="match_parent"
                             android:contentDescription="@string/app_name"
-                            android:src="@drawable/placeholder" />
+                            android:src="@drawable/placeholder"
+                            app:imageUrl="@{farmer_land.picPath}" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -88,7 +92,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="0.9"
                                     android:fontFamily="@font/roboto_bold"
-                                    android:text="@{survey.name}"
+                                    android:text="@{farmer_land.name}"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/text_dimen_13" />
 
@@ -99,7 +103,8 @@
                                     android:contentDescription="@string/app_name"
                                     android:paddingEnd="@dimen/ten_dp"
                                     android:src="@drawable/edit_ic"
-                                    tools:ignore="RtlSymmetry" />
+                                    tools:ignore="RtlSymmetry"
+                                    android:visibility="gone"/>
 
                             </LinearLayout>
 
@@ -109,7 +114,7 @@
                                 android:ellipsize="end"
                                 android:fontFamily="@font/roboto_bold"
                                 android:maxLines="1"
-                                android:text="@{survey.farmerLand.pincode.village.name}"
+                                android:text="@{farmer_land.village}"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/text_dimen_12" />
 
@@ -124,7 +129,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_regular"
-                                    android:text="@{String.valueOf(survey.mobile)}"
+                                    android:text="@{String.valueOf(farmer_land.mobile)}"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/text_dimen_12" />
 
@@ -134,7 +139,7 @@
                                     android:ellipsize="end"
                                     android:fontFamily="@font/roboto_regular"
                                     android:maxLines="1"
-                                    android:text="@{survey.email}"
+                                    android:text="@{farmer_land.email}"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/text_dimen_12" />
                             </LinearLayout>
@@ -186,7 +191,8 @@
                 android:layout_gravity="center_vertical"
                 android:layout_margin="@dimen/ten_dp"
                 android:gravity="end"
-                android:visibility="@{survey.farmerLand.surveyLandLocation.surveyDetails.size() > 0 ? View.VISIBLE : View.GONE}">
+                android:visibility="@{survey ? View.VISIBLE : View.GONE}">
+
 
                 <TextView
                     android:id="@+id/text"
@@ -195,17 +201,16 @@
                     android:layout_alignParentStart="true"
                     android:layout_centerVertical="true"
                     android:fontFamily="@font/roboto_regular"
-                    android:text="Check All"
+                    android:text="Select All"
                     android:textColor="@color/black" />
 
-                <CheckBox
+            <CheckBox
                     android:id="@+id/checkBoxHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/text"
                     android:checked="true"
                     android:fontFamily="@font/roboto_regular" />
-
 
             </RelativeLayout>
 
@@ -228,7 +233,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/fifteen_dp"
                         android:orientation="horizontal"
-                        android:visibility="@{survey.farmerLand.surveyLandLocation.uid != null &amp; survey.farmerLand.surveyLandLocation.submitted.uid.equalsIgnoreCase(`No`) ? View.VISIBLE : View.GONE}"
+                        android:visibility="@{farmer_land.status != null &amp; farmer_land.status.equalsIgnoreCase(`No`) ? View.VISIBLE : View.GONE}"
                         android:weightSum="3">
 
                         <LinearLayout
@@ -330,10 +335,10 @@
                         android:backgroundTint="@color/complaint_btn_color"
                         android:fontFamily="@font/roboto_bold"
                         android:gravity="center"
-                        android:onClick="@{()-> presenterCallback.startSurvey(survey)}"
+                        android:onClick="@{()-> presenterCallback.startSurvey(farmer_land)}"
                         android:text="@string/label_start_survey"
                         android:textColor="@color/white"
-                        android:visibility="@{survey.farmerLand.surveyLandLocation.uid == null ? View.VISIBLE : View.GONE}" />
+                        android:visibility="@{farmer_land.status.equals(``)? View.VISIBLE : View.GONE}" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -341,7 +346,7 @@
                         android:layout_marginTop="@dimen/thirty_dp"
                         android:gravity="center"
                         android:orientation="horizontal"
-                        android:visibility="@{survey.farmerLand.surveyLandLocation.uid != null &amp; survey.farmerLand.surveyLandLocation.submitted.uid.equalsIgnoreCase(`No`) ? View.VISIBLE : View.GONE}">
+                        android:visibility="@{farmer_land.status.equalsIgnoreCase(`No`) ? View.VISIBLE : View.GONE}">
 
                         <TextView
                             android:id="@+id/addbutton"
@@ -352,7 +357,7 @@
                             android:backgroundTint="@color/complaint_btn_color"
                             android:fontFamily="@font/roboto_bold"
                             android:gravity="center"
-                            android:onClick="@{()-> presenterCallback.addSurvey(survey)}"
+                            android:onClick="@{()-> presenterCallback.addSurvey(farmer_land)}"
                             android:text="Add"
                             android:textColor="@color/white" />
 
@@ -364,10 +369,10 @@
                             android:backgroundTint="@color/complaint_btn_color"
                             android:fontFamily="@font/roboto_bold"
                             android:gravity="center"
-                            android:onClick="@{()-> presenterCallback.submitSurvey(survey)}"
+                            android:onClick="@{()-> presenterCallback.submitSurvey(farmer_land)}"
                             android:text="Submit Survey"
                             android:textColor="@color/white"
-                            android:visibility="@{survey.farmerLand.surveyLandLocation.surveyDetails.size() > 0 ? View.VISIBLE : View.GONE}" />
+                            android:visibility="@{survey ? View.VISIBLE : View.GONE}" />
                     </LinearLayout>
                 </LinearLayout>
             </ScrollView>

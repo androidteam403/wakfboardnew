@@ -166,4 +166,8 @@
 
     <color name="req_qty_bg">#f2f2f2</color>
     <color name="req_qty_border">#b3b3b3</color>
+
+    <color name="survey_complete_status_color">#0dbd00</color>
+    <color name="survey_inprogress_status_color">#f79f37</color>
+    <color name="survey_new_status_color">#03A9F4</color>
 </resources>

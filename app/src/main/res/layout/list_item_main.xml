@@ -6,7 +6,7 @@
 
         <variable
             name="data"
-            type="com.thresholdsoft.praanadhara.data.network.pojo.SurveyDetailsEntity" />
+            type="com.thresholdsoft.praanadhara.data.db.model.SurveyEntity" />
     </data>
 
     <FrameLayout
