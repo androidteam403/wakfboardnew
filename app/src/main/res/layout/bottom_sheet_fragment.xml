@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="survey"
+            type="com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity" />
+
+        <variable
+            name="presenterCallback"
+            type="com.thresholdsoft.praanadhara.ui.surveystatusactivity.bottomsheet.ClickListener" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/fifteen_dp"
+            android:orientation="horizontal"
+            android:visibility="@{survey.farmerLand.surveyLandLocation.uid != null &amp; survey.farmerLand.surveyLandLocation.submitted.uid.equalsIgnoreCase(`No`) ? View.VISIBLE : View.GONE}"
+            android:weightSum="3">
+
+            <LinearLayout
+                android:layout_width="@dimen/zero_dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/seventy_five_dp"
+                    android:layout_height="@dimen/thirty_dp"
+                    android:layout_gravity="center_horizontal"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/new_point" />
+
+                <RadioButton
+                    android:id="@+id/pointsRadio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="21dp"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:checked="true"
+                    android:fontFamily="@font/roboto_regular"
+                    android:onClick="@{()-> presenterCallback.onPointsRadioClick()}"
+                    android:text="@string/label_points"
+                    android:textColor="@color/black" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="@dimen/one_dp"
+                android:layout_height="match_parent"
+                android:background="@color/grey" />
+
+            <LinearLayout
+                android:layout_width="@dimen/zero_dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/seventy_five_dp"
+                    android:layout_height="@dimen/thirty_dp"
+                    android:layout_gravity="center_horizontal"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/new_line" />
+
+                <RadioButton
+                    android:id="@+id/linesRadio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="21dp"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:checked="true"
+                    android:fontFamily="@font/roboto_regular"
+                    android:onClick="@{()-> presenterCallback.onLinesRadioClick()}"
+                    android:text="@string/label_lines"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="@dimen/one_dp"
+                android:layout_height="match_parent"
+                android:background="@color/grey" />
+
+            <LinearLayout
+                android:layout_width="@dimen/zero_dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/seventy_five_dp"
+                    android:layout_height="@dimen/thirty_dp"
+                    android:layout_gravity="center_horizontal"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/new_polygon" />
+
+                <RadioButton
+                    android:id="@+id/polygonRadio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="21dp"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:checked="true"
+                    android:fontFamily="@font/roboto_regular"
+                    android:onClick="@{()-> presenterCallback.onpolygonRadioClick()}"
+                    android:text="@string/label_polygons"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="@dimen/one_hundred_forty_dp"
+            android:layout_height="@dimen/thirty_five_dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/thirty_five_dp"
+            android:background="@drawable/button_rounded_blue"
+            android:backgroundTint="@color/complaint_btn_color"
+            android:fontFamily="@font/roboto_bold"
+            android:gravity="center"
+            android:onClick="@{()-> presenterCallback.startSurvey(survey)}"
+            android:text="@string/label_start_survey"
+            android:textColor="@color/white"
+            android:visibility="@{survey.farmerLand.surveyLandLocation.uid == null ? View.VISIBLE : View.GONE}" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/thirty_dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="@{survey.farmerLand.surveyLandLocation.uid != null &amp; survey.farmerLand.surveyLandLocation.submitted.uid.equalsIgnoreCase(`No`) ? View.VISIBLE : View.GONE}">
+
+            <TextView
+                android:id="@+id/addbutton"
+                android:layout_width="@dimen/one_hundred_forty_dp"
+                android:layout_height="@dimen/thirty_five_dp"
+                android:layout_marginEnd="@dimen/twenty_dp"
+                android:background="@drawable/button_rounded_blue"
+                android:backgroundTint="@color/complaint_btn_color"
+                android:fontFamily="@font/roboto_bold"
+                android:gravity="center"
+                android:onClick="@{()-> presenterCallback.addSurvey(survey)}"
+                android:text="Add"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:layout_width="@dimen/one_hundred_forty_dp"
+                android:layout_height="@dimen/thirty_five_dp"
+                android:layout_marginStart="@dimen/twenty_dp"
+                android:background="@drawable/button_rounded_blue"
+                android:backgroundTint="@color/complaint_btn_color"
+                android:fontFamily="@font/roboto_bold"
+                android:gravity="center"
+                android:onClick="@{()-> presenterCallback.submitSurvey(survey)}"
+                android:text="Submit Survey"
+                android:textColor="@color/white"
+                android:visibility="@{survey.farmerLand.surveyLandLocation.surveyDetails.size() > 0 ? View.VISIBLE : View.GONE}" />
+        </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</layout>

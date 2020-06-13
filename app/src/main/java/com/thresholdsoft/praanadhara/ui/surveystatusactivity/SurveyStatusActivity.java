@@ -341,7 +341,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
                             Gson gson = new Gson();
                             SurveyModel.PolyLineDetails polyLineDetails = gson.fromJson(detailsEntity.getLatlongs(), SurveyModel.PolyLineDetails.class);
                             Polyline runningPathPolyline = map.addPolyline(new PolylineOptions()
-                                    .add(new LatLng(polyLineDetails.getFromLatitude(), polyLineDetails.getFromLongitude()), new LatLng(polyLineDetails.getToLatitude(), polyLineDetails.getToLongitude())).width(polylineWidth).color(Color.parseColor("#008000")).geodesic(true));
+                                    .add(new LatLng(polyLineDetails.getFromLatitude(), polyLineDetails.getFromLongitude()), new LatLng(polyLineDetails.getToLatitude(), polyLineDetails.getToLongitude())).width(polylineWidth).color(Color.parseColor("#009919")).geodesic(true));
                             runningPathPolyline.setPattern(null);
                             builder.include(new LatLng(polyLineDetails.getFromLatitude(), polyLineDetails.getFromLongitude()));
                             builder.include(new LatLng(polyLineDetails.getToLatitude(), polyLineDetails.getToLongitude()));
@@ -359,7 +359,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
                             }
                             Polygon runningPathPolygon = map.addPolygon(new PolygonOptions()
                                     .addAll(polygonPoints));
-                            runningPathPolygon.setStrokeColor(Color.BLUE);
+                            runningPathPolygon.setStrokeColor(Color.parseColor("#009919"));
                             runningPathPolygon.setFillColor(Color.argb(20, 0, 255, 0));
                             isIncludeLatLong = true;
                         }

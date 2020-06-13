@@ -46,7 +46,6 @@
         <activity
             android:name=".ui.mainactivity.MainActiivty"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-
         <activity android:name=".ui.surveytrack.SurveyTrackingActivity">
 
         </activity>

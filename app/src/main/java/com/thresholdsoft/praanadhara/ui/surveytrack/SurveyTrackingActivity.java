@@ -511,7 +511,7 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
         PolylineOptions options = new PolylineOptions();
         this.runningPathPolyline = mMap.addPolyline(options
                 .add(from, to)
-                .width(polylineWidth).color(Color.parseColor("#801B60FE")).geodesic(true));
+                .width(polylineWidth).color(Color.parseColor("#009919")).geodesic(true));
 //        if (runningPathPolyline == null) {
 //            if (locationList.size() > 1) {
 //                Location fromLocation = locationList.get(locationList.size() - 2);
@@ -555,7 +555,7 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
 
             this.runningPathPolygon = mMap.addPolygon(options
                     .addAll(polygonPoints));
-            runningPathPolygon.setStrokeColor(Color.BLUE);
+            runningPathPolygon.setStrokeColor(Color.parseColor("#009919"));
             runningPathPolygon.setFillColor(Color.argb(20, 0, 255, 0));
         }
     }
