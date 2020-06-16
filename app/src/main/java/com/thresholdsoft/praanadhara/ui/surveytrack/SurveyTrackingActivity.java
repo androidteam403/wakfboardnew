@@ -60,10 +60,7 @@ import com.google.gson.Gson;
 import com.thresholdsoft.praanadhara.BuildConfig;
 import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.data.db.model.FarmerLands;
-import com.thresholdsoft.praanadhara.data.db.model.Survey;
-import com.thresholdsoft.praanadhara.data.db.model.SurveyEntity;
 import com.thresholdsoft.praanadhara.data.network.pojo.MapTypeEntity;
-import com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity;
 import com.thresholdsoft.praanadhara.data.network.pojo.SurveyDetailsEntity;
 import com.thresholdsoft.praanadhara.data.network.pojo.SurveySaveReq;
 import com.thresholdsoft.praanadhara.databinding.ActivitySurveyTrackingBinding;
@@ -387,7 +384,7 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
             return;
         }
         mMap.setMyLocationEnabled(true);
-        mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng point) {
@@ -443,7 +440,6 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
         locationList.add(location);
         // surveyModelArrayList.add(new SurveyModel(location.getLatitude(),location.getLongitude(),location.getAccuracy()));
         polygonPoints.add(new LatLng(location.getLatitude(), location.getLongitude()));
-        mpresenter.storeSurveyDetails(location, false);
 
         if (getSurveyType() == 0) {
             //  dottedPolyline();

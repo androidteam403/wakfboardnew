@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="commonUtils"
+            type="com.thresholdsoft.praanadhara.utils.CommonUtils" />
         <variable
             name="survey"
             type="com.thresholdsoft.praanadhara.data.db.model.FarmerLands" />
@@ -160,7 +162,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_regular"
-                    android:text="@{survey.status.equalsIgnoreCase(`Yes`) ? survey.submittedDate : survey.startDate}"
+                    app:surveyStatus="@{survey.status}"
+                    app:surveyStartDate="@{survey.startDate}"
+                    app:surveySubmitDate="@{survey.submittedDate}"
                     android:textSize="@dimen/text_dimen_12"
                     android:visibility="visible" />
 

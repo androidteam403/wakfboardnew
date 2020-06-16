@@ -4,16 +4,13 @@ import androidx.lifecycle.LiveData;
 
 import com.thresholdsoft.praanadhara.data.db.model.FarmerLands;
 import com.thresholdsoft.praanadhara.data.db.model.SurveyStatusEntity;
-import com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity;
 import com.thresholdsoft.praanadhara.ui.base.MvpPresenter;
-import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.SurveyListModel;
 
 import java.util.List;
 
 public interface SurveyListMvpPresenter<V extends SurveyListMvpView> extends MvpPresenter<V> {
     void onItemClick(FarmerLands farmerModel);
 
-    void farmersListApiCall();
 
     void anotherizedTokenClearDate();
 
@@ -25,9 +22,9 @@ public interface SurveyListMvpPresenter<V extends SurveyListMvpView> extends Mvp
 
     void pullToRefreshApiCall();
 
-    void loadMoreApiCall();
+    void loadMoreApiCall(int i);
 
-    void onStatusCountApiCall();
+    void onStatusCountApiCall(boolean isPullToRefresh);
 
     LiveData<List<FarmerLands>> getAllFarmersLands();
 

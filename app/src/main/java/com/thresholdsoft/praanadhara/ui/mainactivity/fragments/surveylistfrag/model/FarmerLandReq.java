@@ -18,7 +18,7 @@ public class FarmerLandReq {
     private List<String> sort;
     @Expose
     @SerializedName("rows")
-    private int rows = 10;
+    private int rows = 100;
     @Expose
     @SerializedName("page")
     private int page;

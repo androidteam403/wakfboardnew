@@ -15,8 +15,14 @@ public class FarmerLands implements Serializable {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
+    @ColumnInfo(name = "page_no")
+    private int pageNo;
+
     @ColumnInfo(name = "uid")
     private String mUid;
+
+    @ColumnInfo(name = "order_no")
+    private int orderNo;
 
     @ColumnInfo(name = "name")
     private String mName;
@@ -51,8 +57,16 @@ public class FarmerLands implements Serializable {
     @ColumnInfo(name = "submitted_date")
     private String mSubmittedDate;
 
+    @ColumnInfo(name = "is_start")
+    private boolean isStart;
 
-    public FarmerLands(String mUid, String mName, long mMobile, String mEmail, String mPicPath, String mPincode, String mVillage, String mFarmerLandUid, String mSurveyLandUid, String mStatus, String mStartDate, String mSubmittedDate) {
+    @ColumnInfo(name = "is_submit")
+    private boolean isSubmit;
+
+
+    public FarmerLands(int pageNo, int orderNo, String mUid, String mName, long mMobile, String mEmail, String mPicPath, String mPincode, String mVillage, String mFarmerLandUid, String mSurveyLandUid, String mStatus, String mStartDate, String mSubmittedDate) {
+        this.pageNo = pageNo;
+        this.orderNo = orderNo;
         this.mUid = mUid;
         this.mName = mName;
         this.mMobile = mMobile;
@@ -169,5 +183,37 @@ public class FarmerLands implements Serializable {
 
     public void setSurveyLandUid(String mSurveyLandUid) {
         this.mSurveyLandUid = mSurveyLandUid;
+    }
+
+    public int getPageNo() {
+        return pageNo;
+    }
+
+    public void setPageNo(int pageNo) {
+        this.pageNo = pageNo;
+    }
+
+    public int getOrderNo() {
+        return orderNo;
+    }
+
+    public void setOrderNo(int orderNo) {
+        this.orderNo = orderNo;
+    }
+
+    public boolean isStart() {
+        return isStart;
+    }
+
+    public void setStart(boolean start) {
+        isStart = start;
+    }
+
+    public boolean isSubmit() {
+        return isSubmit;
+    }
+
+    public void setSubmit(boolean submit) {
+        isSubmit = submit;
     }
 }

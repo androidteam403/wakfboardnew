@@ -48,6 +48,7 @@ public class SplashActivity extends BaseActivity implements SplashMvpView {
     public void navigateToUserLgin() {
         Intent intent = new Intent(this, UserLoginActivity.class);
         startActivity(intent);
+        finish();
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
@@ -55,6 +56,7 @@ public class SplashActivity extends BaseActivity implements SplashMvpView {
     public void navigateToSurveyListActivity() {
         Intent intent = new Intent(this, MainActiivty.class);
         startActivity(intent);
+        finish();
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
