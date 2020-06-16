@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
@@ -20,9 +21,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.Dash;
-import com.google.android.gms.maps.model.Dot;
-import com.google.android.gms.maps.model.Gap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -41,10 +39,10 @@ import com.thresholdsoft.praanadhara.databinding.ActivitySurveyStatusBinding;
 import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.SurveyListModel;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.adapter.SurveyDetailsAdapter;
+import com.thresholdsoft.praanadhara.ui.surveystatusactivity.bottomsheet.SurveyStatusBottomSheet;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.dialog.CustomEditDialog;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.dialog.deletedialog.DeleteDialog;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.swipe.ItemTouchHelperCallback;
-import com.thresholdsoft.praanadhara.ui.surveytrack.SurveyTrackingActivity;
 import com.thresholdsoft.praanadhara.ui.surveytrack.model.SurveyModel;
 import com.thresholdsoft.praanadhara.ui.userlogin.UserLoginActivity;
 
@@ -59,8 +57,13 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     SurveyStatusMvpPresenter<SurveyStatusMvpView> mpresenter;
     private ActivitySurveyStatusBinding activitySurveyStatusBinding;
     private GoogleMap map;
-    public static final int REQUEST_CODE = 2;
+    //    public static final int REQUEST_CODE = 2;
     private SurveyDetailsAdapter surveyDetailsAdapter;
+    private SurveyStatusBottomSheet bottomSheet;
+    boolean isExpanded = true;
+    private ImageView fullScreenView;
+    private View includedLayout;
+    FarmerLands farmerLands;
 
 
     @Override
@@ -100,17 +103,36 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
         surveyDetailsAdapter.setItemTouchHelperExtension(mItemTouchHelper);
 
         activitySurveyStatusBinding.setPresenterCallback(mpresenter);
+        activitySurveyStatusBinding.setExpandView(1);
 
+//        if (activitySurveyStatusBinding.pointsRadio.isChecked()) {
+//            activitySurveyStatusBinding.linesRadio.setChecked(false);
+//            activitySurveyStatusBinding.polygonRadio.setChecked(false);
+//            mapType = 0;
+//        }
 
-        if (activitySurveyStatusBinding.pointsRadio.isChecked()) {
-            activitySurveyStatusBinding.linesRadio.setChecked(false);
-            activitySurveyStatusBinding.polygonRadio.setChecked(false);
-            mapType = 0;
-        }
-
-        View includedLayout = findViewById(R.id.backArrow);
+        includedLayout = findViewById(R.id.backArrow);
         ImageView insideTheIncludedLayout = includedLayout.findViewById(R.id.imageButton);
         insideTheIncludedLayout.setOnClickListener(v -> onBackPressed());
+
+//        fullScreenView = includedLayout.findViewById(R.id.fullScreenview);
+//        fullScreenView.setVisibility(View.VISIBLE);
+
+        ImageView imageInsideLayout = includedLayout.findViewById(R.id.plusImage);
+//        imageInsideLayout.setVisibility(View.VISIBLE);
+        mpresenter.getFarmerLand(uid, landUid).observe(this, farmerLands -> activitySurveyStatusBinding.backArrow.setFarmerLand(farmerLands));
+        imageInsideLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomSheet = new SurveyStatusBottomSheet();
+                bottomSheet.setPresenterData(mpresenter);
+                Bundle bundle = new Bundle();
+                bundle.putString("surveyDataSheet", uid);
+                bundle.putString("landUidSheet", landUid);
+                bottomSheet.setArguments(bundle);
+                bottomSheet.show(getSupportFragmentManager(), bottomSheet.getTag());
+            }
+        });
 
         activitySurveyStatusBinding.checkBoxHeader.setOnClickListener(view -> {
             if (activitySurveyStatusBinding.checkBoxHeader.isChecked()) {
@@ -137,8 +159,34 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
         map.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+        fullMap();
     }
 
+    public void fullMap() {
+//        ImageView collapse = includedLayout.findViewById(R.id.collapseView);
+        LinearLayout mapFrameLayout = (LinearLayout) findViewById(R.id.mapFrameLayout);
+        activitySurveyStatusBinding.expandView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LinearLayout.LayoutParams fullMapParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                activitySurveyStatusBinding.farmerdata.setVisibility(View.GONE);
+                mapFrameLayout.setLayoutParams(fullMapParams);
+                activitySurveyStatusBinding.setExpandView(0);
+                activitySurveyStatusBinding.setCollapseView(1);
+            }
+        });
+        activitySurveyStatusBinding.collapseView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LinearLayout.LayoutParams fullMapParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                activitySurveyStatusBinding.farmerdata.setVisibility(View.VISIBLE);
+                fullMapParams.height = 800;
+                mapFrameLayout.setLayoutParams(fullMapParams);
+                activitySurveyStatusBinding.setExpandView(1);
+                activitySurveyStatusBinding.setCollapseView(0);
+            }
+        });
+    }
 
     @Override
     public void startSurveySuccess() {
@@ -147,32 +195,32 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
 
     @Override
     public void onpolygonRadioClick() {
-        activitySurveyStatusBinding.polygonRadio.setChecked(true);
-        activitySurveyStatusBinding.linesRadio.setChecked(false);
-        activitySurveyStatusBinding.pointsRadio.setChecked(false);
-        mapType = 2;
+//        activitySurveyStatusBinding.polygonRadio.setChecked(true);
+//        activitySurveyStatusBinding.linesRadio.setChecked(false);
+//        activitySurveyStatusBinding.pointsRadio.setChecked(false);
+//        mapType = 2;
     }
 
     @Override
     public void onLinesRadioClick() {
-        activitySurveyStatusBinding.linesRadio.setChecked(true);
-        activitySurveyStatusBinding.polygonRadio.setChecked(false);
-        activitySurveyStatusBinding.pointsRadio.setChecked(false);
-        mapType = 1;
+//        activitySurveyStatusBinding.linesRadio.setChecked(true);
+//        activitySurveyStatusBinding.polygonRadio.setChecked(false);
+//        activitySurveyStatusBinding.pointsRadio.setChecked(false);
+//        mapType = 1;
     }
 
     @Override
     public void onPointsRadioClick() {
-        activitySurveyStatusBinding.pointsRadio.setChecked(true);
-        activitySurveyStatusBinding.linesRadio.setChecked(false);
-        activitySurveyStatusBinding.polygonRadio.setChecked(false);
-        mapType = 0;
+//        activitySurveyStatusBinding.pointsRadio.setChecked(true);
+//        activitySurveyStatusBinding.linesRadio.setChecked(false);
+//        activitySurveyStatusBinding.polygonRadio.setChecked(false);
+//        mapType = 0;
     }
 
     @Override
     public void addSurvey(FarmerLands rowsEntity) {
-        startActivityForResult(SurveyTrackingActivity.getIntent(this, rowsEntity,mapType), REQUEST_CODE);
-        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+//        startActivityForResult(SurveyTrackingActivity.getIntent(this, rowsEntity, mapType), REQUEST_CODE);
+//        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
     @Override
@@ -280,7 +328,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
                             SurveyModel.PolyLineDetails polyLineDetails = gson.fromJson(detailsEntity.getLatLongs(), SurveyModel.PolyLineDetails.class);
                             int polylineWidth = 10;
                             Polyline runningPathPolyline = map.addPolyline(new PolylineOptions()
-                                    .add(new LatLng(polyLineDetails.getFromLatitude(), polyLineDetails.getFromLongitude()), new LatLng(polyLineDetails.getToLatitude(), polyLineDetails.getToLongitude())).width(polylineWidth).color(Color.parseColor("#008000")).geodesic(true));
+                                    .add(new LatLng(polyLineDetails.getFromLatitude(), polyLineDetails.getFromLongitude()), new LatLng(polyLineDetails.getToLatitude(), polyLineDetails.getToLongitude())).width(polylineWidth).color(Color.parseColor("#009919")).geodesic(true));
                             runningPathPolyline.setPattern(null);
                             builder.include(new LatLng(polyLineDetails.getFromLatitude(), polyLineDetails.getFromLongitude()));
                             builder.include(new LatLng(polyLineDetails.getToLatitude(), polyLineDetails.getToLongitude()));
@@ -296,11 +344,13 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
                                 builder.include(location);
                                 polygonPoints.add(location);
                             }
-                            Polygon runningPathPolygon = map.addPolygon(new PolygonOptions()
-                                    .addAll(polygonPoints));
-                            runningPathPolygon.setStrokeColor(Color.BLUE);
-                            runningPathPolygon.setFillColor(Color.argb(20, 0, 255, 0));
-                            isIncludeLatLong = true;
+                            if (polygonPoints.size() > 0) {
+                                Polygon runningPathPolygon = map.addPolygon(new PolygonOptions()
+                                        .addAll(polygonPoints));
+                                runningPathPolygon.setStrokeColor(Color.parseColor("#009919"));
+                                runningPathPolygon.setFillColor(Color.argb(20, 0, 255, 0));
+                                isIncludeLatLong = true;
+                            }
                         }
                     } // Due to Select all is not checking, code is commenting by Raghava
 //                else {

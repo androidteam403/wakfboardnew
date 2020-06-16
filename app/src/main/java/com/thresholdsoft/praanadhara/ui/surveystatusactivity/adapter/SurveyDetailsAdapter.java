@@ -47,7 +47,7 @@ public class SurveyDetailsAdapter extends RecyclerView.Adapter<SurveyDetailsAdap
         holder.listItemMainBinding.setData(farmerModel);
         holder.listItemMainBinding.cartlayout.setData(farmerModel);
 
-        if(farmerModel.getMapType()!=null) {
+        if (farmerModel.getMapType() != null) {
             if (farmerModel.getMapType().equalsIgnoreCase("point")) {
                 holder.listItemMainBinding.cartlayout.image.setBackgroundResource(R.drawable.new_point);
             } else if (farmerModel.getMapType().equalsIgnoreCase("line")) {
@@ -103,8 +103,8 @@ public class SurveyDetailsAdapter extends RecyclerView.Adapter<SurveyDetailsAdap
         differ.submitList(blogList);
     }
 
-    public List<SurveyEntity> getListData(){
-       return differ.getCurrentList();
+    public List<SurveyEntity> getListData() {
+        return differ.getCurrentList();
     }
 
     public static class ItemBaseViewHolder extends RecyclerView.ViewHolder {

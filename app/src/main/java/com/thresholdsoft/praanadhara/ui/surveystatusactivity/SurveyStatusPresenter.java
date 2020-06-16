@@ -53,7 +53,6 @@ public class SurveyStatusPresenter<V extends SurveyStatusMvpView> extends BasePr
             getMvpView().startSurveySuccess();
         }
 
-
     }
 
 

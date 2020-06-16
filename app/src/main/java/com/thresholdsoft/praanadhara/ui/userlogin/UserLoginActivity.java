@@ -17,7 +17,6 @@ import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.databinding.ActivityUserLoginBinding;
 import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
 import com.thresholdsoft.praanadhara.ui.mainactivity.MainActiivty;
-import com.thresholdsoft.praanadhara.ui.selectingformactivity.SelectingFormActivity;
 
 import javax.inject.Inject;
 
@@ -38,6 +37,7 @@ public class UserLoginActivity extends BaseActivity implements UserLoginMvpView,
 
     @Override
     protected void setUp() {
+        activityLoginBinding.setLogonView(1);
         activityLoginBinding.setPresenter(mPresenter);
         activityLoginBinding.phoneNo.requestFocus();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
@@ -62,8 +62,9 @@ public class UserLoginActivity extends BaseActivity implements UserLoginMvpView,
 
     @Override
     public void onSucessfullLogin() {
-        activityLoginBinding.loginDetails.setVisibility(View.GONE);
-        activityLoginBinding.otpDetails.setVisibility(View.VISIBLE);
+        activityLoginBinding.setLogonView(0);
+        activityLoginBinding.setOtpView(1);
+        activityLoginBinding.setTimeView(1);
         activityLoginBinding.number.setText(activityLoginBinding.phoneNo.getText().toString());
         backCountTimer();
     }
@@ -76,8 +77,8 @@ public class UserLoginActivity extends BaseActivity implements UserLoginMvpView,
     @Override
     public void reseneOtpClick() {
         mPresenter.onLiginApiCall();
-        activityLoginBinding.resendotp.setVisibility(View.GONE);
-        activityLoginBinding.timeLay.setVisibility(View.VISIBLE);
+        activityLoginBinding.setResendView(0);
+        activityLoginBinding.setTimeView(1);
         backCountTimer();
     }
 
@@ -105,16 +106,16 @@ public class UserLoginActivity extends BaseActivity implements UserLoginMvpView,
 
             @Override
             public void onFinish() {
-                activityLoginBinding.resendotp.setVisibility(View.VISIBLE);
-                activityLoginBinding.timeLay.setVisibility(View.GONE);
+                activityLoginBinding.setResendView(1);
+                activityLoginBinding.setTimeView(0);
             }
         }.start();
     }
 
     @Override
     public void onCrossClick() {
-        activityLoginBinding.otpDetails.setVisibility(View.GONE);
-        activityLoginBinding.loginDetails.setVisibility(View.VISIBLE);
+        activityLoginBinding.setOtpView(0);
+        activityLoginBinding.setLogonView(1);
 //        InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
 //        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
     }
