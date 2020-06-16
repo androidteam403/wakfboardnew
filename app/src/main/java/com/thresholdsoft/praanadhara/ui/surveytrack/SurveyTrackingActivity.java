@@ -60,10 +60,7 @@ import com.google.gson.Gson;
 import com.thresholdsoft.praanadhara.BuildConfig;
 import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.data.db.model.FarmerLands;
-import com.thresholdsoft.praanadhara.data.db.model.Survey;
-import com.thresholdsoft.praanadhara.data.db.model.SurveyEntity;
 import com.thresholdsoft.praanadhara.data.network.pojo.MapTypeEntity;
-import com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity;
 import com.thresholdsoft.praanadhara.data.network.pojo.SurveyDetailsEntity;
 import com.thresholdsoft.praanadhara.data.network.pojo.SurveySaveReq;
 import com.thresholdsoft.praanadhara.databinding.ActivitySurveyTrackingBinding;
@@ -391,8 +388,8 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng point) {
+                BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.new_point);
                 if (getSurveyType() == 0) {
-                    BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.new_point);
                     pointMarker = mMap.addMarker(new MarkerOptions()
                             .position(point)
                             .flat(true).icon(icon)
@@ -402,7 +399,7 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
                     if (markerList.size() < 2) {
                         Marker myMarker = mMap.addMarker(new MarkerOptions()
                                 .position(point)
-                                .flat(true)
+                                .flat(true).icon(icon)
                                 .anchor(0.5f, 0.5f));
                         mMap.setOnMarkerClickListener(SurveyTrackingActivity.this);
                         markerList.add(myMarker);
@@ -745,7 +742,7 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
 
     @Override
     public int getSurveyType() {
-        return getIntent().getIntExtra("map_type",0);
+        return getIntent().getIntExtra("map_type", 0);
     }
 
     @Override
@@ -936,7 +933,7 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
         SurveyModel.PointDetails pointDetails = new SurveyModel.PointDetails(latLng.latitude, latLng.longitude);
         Gson gson = new Gson();
         String json = gson.toJson(pointDetails);
-    //    surveyModelArrayList.add(new SurveyDetailsEntity(name, description, json, surveyModel.getMapTypeEntity(), surveyModel.getUid()));
+        //    surveyModelArrayList.add(new SurveyDetailsEntity(name, description, json, surveyModel.getMapTypeEntity(), surveyModel.getUid()));
     }
 
     private void drawLine() {

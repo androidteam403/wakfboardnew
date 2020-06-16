@@ -170,4 +170,5 @@
     <color name="survey_complete_status_color">#0dbd00</color>
     <color name="survey_inprogress_status_color">#f79f37</color>
     <color name="survey_new_status_color">#03A9F4</color>
+    <color name="praanadhaara_color">#017141</color>
 </resources>

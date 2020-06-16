@@ -5,6 +5,24 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <variable
+            name="timeView"
+            type="Integer" />
+
+        <variable
+            name="otpView"
+            type="Integer" />
+
+        <variable
+            name="resendView"
+            type="Integer" />
+
+        <variable
+            name="logonView"
+            type="Integer" />
+
         <variable
             name="presenter"
             type="com.thresholdsoft.praanadhara.ui.userlogin.UserLoginMvpPresenter" />
@@ -14,39 +32,23 @@
         android:id="@+id/mainLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/button_ripple_effect">
+        android:background="@drawable/splash_background_light">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/fifty_dp"
+            android:layout_centerInParent="true"
             android:gravity="center_horizontal"
             android:orientation="vertical"
             tools:ignore="UselessParent">
 
             <ImageView
-                android:layout_width="@dimen/sixty_five_dp"
-                android:layout_height="@dimen/sixty_five_dp"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/one_hundred_twenty_dp"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/sixty_five_dp"
                 android:contentDescription="@string/app_name"
-                android:src="@drawable/tree" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_bold"
-                android:text="@string/label_praanadhaara"
-                android:textColor="@color/yellow"
-                android:textSize="@dimen/text_dimen_22"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_regular"
-                android:text="@string/label_enrollment_form"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_dimen_17" />
+                android:src="@drawable/splash_full_logo" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -54,7 +56,7 @@
                 android:layout_marginTop="@dimen/twenty_five_dp"
                 android:fontFamily="@font/roboto_bold"
                 android:text="@string/label_login"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:textSize="@dimen/text_dimen_22" />
 
 
@@ -66,13 +68,13 @@
                 android:layout_marginTop="@dimen/thirty_five_dp"
                 android:layout_marginEnd="@dimen/twenty_five_dp"
                 android:orientation="vertical"
-                android:visibility="visible">
+                android:visibility="@{logonView ==0 ? View.GONE : View.VISIBLE}">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_regular"
-                    android:text="@string/label_enter_your_phone_number"
+                    android:text="Mobile No.*"
                     android:textColor="@color/white" />
 
                 <EditText
@@ -85,7 +87,7 @@
                     android:drawablePadding="@dimen/ten_dp"
                     android:focusable="true"
                     android:fontFamily="@font/roboto_regular"
-                    android:hint="@string/label_91_8500352572"
+                    android:hint="Enter Mobile No."
                     android:inputType="number"
                     android:maxLength="10"
                     android:paddingStart="@dimen/fifteen_dp"
@@ -110,9 +112,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/twenty_five_dp"
+                    android:layout_marginTop="@dimen/three_dp"
                     android:fontFamily="@font/roboto_regular"
-                    android:text="@string/label_otp_sent_to_ypur_phone_number"
+                    android:text="OTP will be sent to above phone number"
                     android:textColor="@color/white" />
 
             </LinearLayout>
@@ -121,16 +123,18 @@
                 android:id="@+id/otpDetails"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/ten_dp"
+                android:layout_marginEnd="@dimen/ten_dp"
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:visibility="@{otpView ==0 ? View.GONE : View.VISIBLE}">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/twenty_five_dp"
-                    android:background="@color/thickGreem"
-                    android:paddingTop="@dimen/ten_dp"
-                    android:paddingBottom="@dimen/ten_dp">
+                    android:background="#5bae81"
+                    android:paddingTop="@dimen/five_dp"
+                    android:paddingBottom="@dimen/five_dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -154,13 +158,13 @@
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/ten_dp"
                                 android:orientation="horizontal"
                                 tools:ignore="RelativeOverlap">
 
                                 <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
+                                    android:layout_width="@dimen/thirty_dp"
+                                    android:layout_height="@dimen/thirty_dp"
+                                    android:layout_marginTop="@dimen/five_dp"
                                     android:contentDescription="@string/app_name"
                                     android:src="@drawable/phone_yellow" />
 
@@ -184,7 +188,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/roboto_bold"
-                                        android:text="@string/label_91_8500354342"
+                                        android:text=""
                                         android:textColor="@color/white" />
                                 </LinearLayout>
 
@@ -192,8 +196,8 @@
 
                             <ImageView
                                 android:id="@+id/cross"
-                                android:layout_width="@dimen/twenty_five_dp"
-                                android:layout_height="@dimen/twenty_five_dp"
+                                android:layout_width="@dimen/twenty_dp"
+                                android:layout_height="@dimen/twenty_dp"
                                 android:layout_alignParentEnd="true"
                                 android:layout_centerVertical="true"
                                 android:contentDescription="@string/app_name"
@@ -229,12 +233,12 @@
                             android:id="@+id/otp_view"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_regular"
                             android:inputType="number"
                             android:itemBackground="@drawable/bg_otp_item"
                             android:textColor="@android:color/black"
                             app:hideLineWhenFilled="true"
                             app:itemCount="6"
-                            android:fontFamily="@font/roboto_regular"
                             app:itemSpacing="6dp"
                             app:lineColor="@drawable/otp_item_state"
                             app:state_filled="true"
@@ -255,13 +259,23 @@
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_dimen_17" />
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/three_dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="OTP will be sent to above phone number"
+                        android:textColor="@color/white" />
+
                     <LinearLayout
                         android:id="@+id/timeLay"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/forty_dp"
+                        android:layout_marginTop="@dimen/thirty_dp"
                         android:gravity="center_horizontal"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="@{timeView ==0 ? View.GONE : View.VISIBLE}">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -293,7 +307,7 @@
                         android:text="@string/label_resend_otp"
                         android:textColor="@color/yellow"
                         android:textSize="@dimen/text_dimen_18"
-                        android:visibility="gone" />
+                        android:visibility="@{resendView ==0 ? View.GONE : View.VISIBLE}" />
                 </LinearLayout>
 
             </LinearLayout>

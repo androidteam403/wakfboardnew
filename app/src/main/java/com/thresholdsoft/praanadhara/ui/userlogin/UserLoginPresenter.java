@@ -76,6 +76,7 @@ public class UserLoginPresenter<V extends UserLoginMvpView> extends BasePresente
                         getMvpView().onSucessfullLogin();
                         getMvpView().hideKeyboard();
                     } else {
+                        assert response.body() != null;
                         getMvpView().showMessage("" + response.body().getMessage());
                     }
                 }

@@ -21,23 +21,23 @@
             android:layout_gravity="right"
             android:orientation="horizontal">
 
-            <TextView
+            <ImageView
                 android:id="@+id/view_list_repo_action_delete"
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:padding="6dp"
-                android:text="Delete"
+                android:src="@drawable/delete_icon_white"
                 android:textColor="@android:color/white" />
 
-            <TextView
+            <ImageView
                 android:id="@+id/view_list_repo_action_update"
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
                 android:background="#8BC34A"
                 android:gravity="center"
                 android:padding="6dp"
-                android:text="Refresh"
+                android:src="@drawable/edit_icon_white"
                 android:textColor="@android:color/white" />
 
         </LinearLayout>

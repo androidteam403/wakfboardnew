@@ -1,6 +1,5 @@
 package com.thresholdsoft.praanadhara.ui.surveystatusactivity.bottomsheet;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,16 +9,24 @@ import androidx.databinding.DataBindingUtil;
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.thresholdsoft.praanadhara.R;
-import com.thresholdsoft.praanadhara.data.network.pojo.MapTypeEntity;
+import com.thresholdsoft.praanadhara.data.db.model.FarmerLands;
 import com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity;
 import com.thresholdsoft.praanadhara.databinding.BottomSheetFragmentBinding;
+import com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusMvpPresenter;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusMvpView;
+import com.thresholdsoft.praanadhara.ui.surveytrack.SurveyTrackingActivity;
 
-public class SurveyStatusBottomSheet extends BottomSheetDialogFragment implements ClickListener{
+public class SurveyStatusBottomSheet extends BottomSheetDialogFragment implements ClickListener {
     BottomSheetFragmentBinding bottomSheetFragmentBinding;
     private SurveyStatusMvpView surveyStatusMvpView;
     private RowsEntity surveyModel;
+    String uid;
+    String landUid;
+    int mapType;
+    public static final int REQUEST_CODE = 2;
+    private SurveyStatusBottomSheet bottomSheet;
 
+    SurveyStatusMvpPresenter<SurveyStatusMvpView> mpresenter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -27,8 +34,7 @@ public class SurveyStatusBottomSheet extends BottomSheetDialogFragment implement
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
         bottomSheetFragmentBinding = DataBindingUtil.inflate(inflater, R.layout.bottom_sheet_fragment, container, false);
@@ -37,23 +43,23 @@ public class SurveyStatusBottomSheet extends BottomSheetDialogFragment implement
 
     }
 
-    public void setSurveyStatusMvpView(SurveyStatusMvpView surveyStatusMvpView) {
-        this.surveyStatusMvpView = surveyStatusMvpView;
-    }
-    public void setUP(){
+    public void setUP() {
 
-        Intent i=getActivity().getIntent();
-        surveyModel = (RowsEntity) i.getSerializableExtra("surveyData");
+        Bundle bundle = getArguments();
+        uid = bundle.getString("surveyDataSheet", "");
+        landUid = bundle.getString("landUidSheet", "");
+        mpresenter.getFarmerLand(uid, landUid).observe(getActivity(), farmerLands -> bottomSheetFragmentBinding.setFarmerLand(farmerLands));
+        bottomSheetFragmentBinding.setClicklisteners(this);
+        bottomSheetFragmentBinding.setPresenterCallback(mpresenter);
 
+        mpresenter.getAllSurveyList(landUid).observe(getActivity(), surveyEntities -> {
+            bottomSheetFragmentBinding.setSurvey(surveyEntities.size() > 0);
+        });
 
         if (bottomSheetFragmentBinding.pointsRadio.isChecked()) {
             bottomSheetFragmentBinding.linesRadio.setChecked(false);
             bottomSheetFragmentBinding.polygonRadio.setChecked(false);
-            surveyModel.setSurveyType(0);
-            MapTypeEntity mapTypeEntity = new MapTypeEntity();
-            mapTypeEntity.setUid("point");
-            mapTypeEntity.setName("point");
-            surveyModel.setMapTypeEntity(mapTypeEntity);
+            mapType = 0;
         }
 
     }
@@ -63,11 +69,7 @@ public class SurveyStatusBottomSheet extends BottomSheetDialogFragment implement
         bottomSheetFragmentBinding.polygonRadio.setChecked(true);
         bottomSheetFragmentBinding.linesRadio.setChecked(false);
         bottomSheetFragmentBinding.pointsRadio.setChecked(false);
-        surveyModel.setSurveyType(2);
-        MapTypeEntity mapTypeEntity = new MapTypeEntity();
-        mapTypeEntity.setUid("polygon");
-        mapTypeEntity.setName("polygon");
-        surveyModel.setMapTypeEntity(mapTypeEntity);
+        mapType = 2;
     }
 
     @Override
@@ -75,11 +77,7 @@ public class SurveyStatusBottomSheet extends BottomSheetDialogFragment implement
         bottomSheetFragmentBinding.linesRadio.setChecked(true);
         bottomSheetFragmentBinding.polygonRadio.setChecked(false);
         bottomSheetFragmentBinding.pointsRadio.setChecked(false);
-        surveyModel.setSurveyType(1);
-        MapTypeEntity mapTypeEntity = new MapTypeEntity();
-        mapTypeEntity.setUid("line");
-        mapTypeEntity.setName("line");
-        surveyModel.setMapTypeEntity(mapTypeEntity);
+        mapType = 1;
     }
 
     @Override
@@ -87,25 +85,22 @@ public class SurveyStatusBottomSheet extends BottomSheetDialogFragment implement
         bottomSheetFragmentBinding.pointsRadio.setChecked(true);
         bottomSheetFragmentBinding.linesRadio.setChecked(false);
         bottomSheetFragmentBinding.polygonRadio.setChecked(false);
-        surveyModel.setSurveyType(0);
-        MapTypeEntity mapTypeEntity = new MapTypeEntity();
-        mapTypeEntity.setUid("point");
-        mapTypeEntity.setName("point");
-        surveyModel.setMapTypeEntity(mapTypeEntity);
+        mapType = 0;
     }
 
     @Override
-    public void addSurvey(RowsEntity rowsEntity) {
-
+    public void addSurvey(FarmerLands rowsEntity) {
+        dismiss();
+        startActivityForResult(SurveyTrackingActivity.getIntent(getContext(), rowsEntity, mapType), REQUEST_CODE);
+        getActivity().overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
     @Override
-    public void submitSurvey(RowsEntity rowsEntity) {
-
+    public void onCrossClick() {
+        dismiss();
     }
 
-    @Override
-    public void startSurvey(RowsEntity surveyModel) {
-
+    public void setPresenterData(SurveyStatusMvpPresenter<SurveyStatusMvpView> mpresenter) {
+        this.mpresenter = mpresenter;
     }
 }

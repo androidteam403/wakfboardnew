@@ -1,6 +1,6 @@
 package com.thresholdsoft.praanadhara.ui.surveystatusactivity.bottomsheet;
 
-import com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity;
+import com.thresholdsoft.praanadhara.data.db.model.FarmerLands;
 
 public interface ClickListener {
     void onpolygonRadioClick();
@@ -9,10 +9,10 @@ public interface ClickListener {
 
     void onPointsRadioClick();
 
-    void addSurvey(RowsEntity rowsEntity);
 
-    void submitSurvey(RowsEntity rowsEntity);
+    void addSurvey(FarmerLands rowsEntity);
 
-    void startSurvey(RowsEntity surveyModel);
+    void onCrossClick();
+
 
 }
