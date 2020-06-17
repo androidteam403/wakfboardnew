@@ -55,16 +55,19 @@ public class SurveyListPresenter<V extends SurveyListMvpView> extends BasePresen
     @Override
     public void onClickNew() {
         getMvpView().statusBaseListFilter("New");
+        getMvpView().onClickNew();
     }
 
     @Override
     public void onClickInProgress() {
         getMvpView().statusBaseListFilter("InProgress");
+        getMvpView().onClickInProgress();
     }
 
     @Override
     public void onClickCompleted() {
         getMvpView().statusBaseListFilter("Completed");
+        getMvpView().onClickCompleted();
     }
 
     @Override

@@ -9,6 +9,7 @@ import android.content.IntentFilter;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.Uri;
@@ -135,25 +136,6 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
             startActivityForResult(intent, REQUEST_CODE);
             getBaseActivity().overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         });
-
-        activitySurveyListBinding.newLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                
-            }
-        });
-        activitySurveyListBinding.inProgressLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        activitySurveyListBinding.completedLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
     }
 
     private void initScrollListener() {
@@ -231,6 +213,44 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
         activitySurveyListBinding.noDataFound.setVisibility(View.VISIBLE);
     }
 
+    @Override
+    public void onClickNew() {
+        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "font/roboto_bold.ttf");
+        Typeface fontreg = Typeface.createFromAsset(getActivity().getAssets(), "font/roboto_regular.ttf");
+
+        activitySurveyListBinding.newtext.setTypeface(font);
+        activitySurveyListBinding.itemblueCount.setTypeface(font);
+        activitySurveyListBinding.completedText.setTypeface(fontreg);
+        activitySurveyListBinding.itemGreenCount.setTypeface(fontreg);
+        activitySurveyListBinding.progressText.setTypeface(fontreg);
+        activitySurveyListBinding.itemOrangeCount.setTypeface(fontreg);
+    }
+
+    @Override
+    public void onClickInProgress() {
+        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "font/roboto_bold.ttf");
+        Typeface fontreg = Typeface.createFromAsset(getActivity().getAssets(), "font/roboto_regular.ttf");
+
+        activitySurveyListBinding.progressText.setTypeface(font);
+        activitySurveyListBinding.itemOrangeCount.setTypeface(font);
+        activitySurveyListBinding.newtext.setTypeface(fontreg);
+        activitySurveyListBinding.itemblueCount.setTypeface(fontreg);
+        activitySurveyListBinding.completedText.setTypeface(fontreg);
+        activitySurveyListBinding.itemGreenCount.setTypeface(fontreg);
+    }
+
+    @Override
+    public void onClickCompleted() {
+        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "font/roboto_bold.ttf");
+        Typeface fontreg = Typeface.createFromAsset(getActivity().getAssets(), "font/roboto_regular.ttf");
+
+        activitySurveyListBinding.completedText.setTypeface(font);
+        activitySurveyListBinding.itemGreenCount.setTypeface(font);
+        activitySurveyListBinding.progressText.setTypeface(fontreg);
+        activitySurveyListBinding.itemOrangeCount.setTypeface(fontreg);
+        activitySurveyListBinding.newtext.setTypeface(fontreg);
+        activitySurveyListBinding.itemblueCount.setTypeface(fontreg);
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
