@@ -395,12 +395,12 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
             return;
         }
         mMap.setMyLocationEnabled(true);
-//        View locationButton = ((View) mapView.findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("2"));
-//        RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams) locationButton.getLayoutParams();
-//// position on right bottom
-//        rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
-//        rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
-//        rlp.setMargins(0, 180, 180, 0);
+        View locationButton = ((View) mapView.findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("2"));
+        RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams) locationButton.getLayoutParams();
+// position on right bottom
+        rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
+        rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
+        rlp.setMargins(0, 100, 180, 0);
         mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
@@ -1040,7 +1040,7 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
             message = "Back to Online Mode";
             color = Color.WHITE;
             Snackbar snackbar = Snackbar
-                    .make(surveyTrackingBinding.map, message, Snackbar.LENGTH_SHORT);
+                    .make(surveyTrackingBinding.fullMap, message, Snackbar.LENGTH_SHORT);
 
             View sbView = snackbar.getView();
             sbView.setBackgroundColor(ContextCompat.getColor(this, R.color.thickGreem));
@@ -1054,7 +1054,7 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
             message = "Your in Offline Mode";
             color = Color.WHITE;
             Snackbar snackbar = Snackbar
-                    .make(surveyTrackingBinding.map, message, Snackbar.LENGTH_INDEFINITE);
+                    .make(surveyTrackingBinding.fullMap, message, Snackbar.LENGTH_INDEFINITE);
 
             View sbView = snackbar.getView();
             sbView.setBackgroundColor(ContextCompat.getColor(this, R.color.red));
