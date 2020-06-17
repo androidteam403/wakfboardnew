@@ -3,10 +3,12 @@ package com.thresholdsoft.praanadhara.ui.mainactivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -14,6 +16,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -67,6 +70,25 @@ public class MainActiivty extends BaseActivity implements MainActivityMvpView {
         NavigationUI.setupWithNavController(navigationView, navController);
         getActivityComponent().inject(this);
         mPresenter.onAttach(MainActiivty.this);
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                if (mAppBarConfiguration.getDrawerLayout() != null) {
+                    mAppBarConfiguration.getDrawerLayout().closeDrawers();
+                }
+                if (menuItem.isChecked()) return false;
+
+                if (menuItem.getItemId() == R.id.nav_home) {
+                    navController.navigate(R.id.nav_home);
+                } else if (menuItem.getItemId() == R.id.nav_profile) {
+                    navController.navigate(R.id.nav_profile);
+                } else if (menuItem.getItemId() == R.id.nav_enrollment) {
+                    navController.navigate(R.id.nav_enrollment);
+                }
+                return true;
+            }
+        });
         setUp();
     }
 

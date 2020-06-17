@@ -40,7 +40,6 @@ import com.loopeer.itemtouchhelperextension.ItemTouchHelperExtension;
 import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.data.db.model.FarmerLands;
 import com.thresholdsoft.praanadhara.data.db.model.SurveyEntity;
-import com.thresholdsoft.praanadhara.data.network.pojo.SurveyStartRes;
 import com.thresholdsoft.praanadhara.databinding.ActivitySurveyStatusBinding;
 import com.thresholdsoft.praanadhara.root.WaveApp;
 import com.thresholdsoft.praanadhara.services.ConnectivityReceiver;
@@ -191,7 +190,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
             public void onClick(View v) {
                 LinearLayout.LayoutParams fullMapParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
                 activitySurveyStatusBinding.farmerdata.setVisibility(View.VISIBLE);
-                fullMapParams.height = 800;
+                fullMapParams.height = 500;
                 mapFrameLayout.setLayoutParams(fullMapParams);
                 activitySurveyStatusBinding.setExpandView(1);
                 activitySurveyStatusBinding.setCollapseView(0);
@@ -201,8 +200,8 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     }
 
     @Override
-    public void startSurveySuccess() {
-        mpresenter.updateFarmerLandStatus(uid, landUid);
+    public void startSurveySuccess(String uid) {
+        mpresenter.updateFarmerLandStatus(this.uid, landUid,uid);
     }
 
     @Override

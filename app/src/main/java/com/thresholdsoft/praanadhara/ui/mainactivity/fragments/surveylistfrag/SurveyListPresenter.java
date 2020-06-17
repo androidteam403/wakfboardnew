@@ -107,8 +107,6 @@ public class SurveyListPresenter<V extends SurveyListMvpView> extends BasePresen
                         getMvpView().hideLoading();
                         handleApiError(throwable);
                     }));
-        }if (isPullToRefresh) {
-            getMvpView().onSuccessPullToRefresh();
         }
     }
 
@@ -135,6 +133,8 @@ public class SurveyListPresenter<V extends SurveyListMvpView> extends BasePresen
                         handleApiError(throwable);
                     }));
 
+        }else if (isPullToRefresh) {
+            getMvpView().onSuccessPullToRefresh();
         }
     }
 

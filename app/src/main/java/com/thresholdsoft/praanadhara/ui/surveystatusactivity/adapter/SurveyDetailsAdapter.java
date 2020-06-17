@@ -99,7 +99,7 @@ public class SurveyDetailsAdapter extends RecyclerView.Adapter<SurveyDetailsAdap
     public static final int ITEM_TYPE_ACTION_WIDTH = 1001;
     @Override
     public int getItemViewType(int position) {
-        return ITEM_TYPE_ACTION_WIDTH;
+        return position;
     }
 
     public void addItems(List<SurveyEntity> blogList) {
