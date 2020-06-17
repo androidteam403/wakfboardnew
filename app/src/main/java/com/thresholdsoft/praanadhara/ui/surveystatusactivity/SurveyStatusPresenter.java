@@ -42,7 +42,7 @@ public class SurveyStatusPresenter<V extends SurveyStatusMvpView> extends BasePr
                     .observeOn(getSchedulerProvider().ui())
                     .subscribe(blogResponse -> {
                         if (blogResponse != null && blogResponse.getData() != null && blogResponse.getSuccess()) {
-                            getMvpView().startSurveySuccess();
+                            getMvpView().startSurveySuccess(blogResponse.getData().getUid());
                         }
                         getMvpView().hideLoading();
                     }, throwable -> {
@@ -50,7 +50,7 @@ public class SurveyStatusPresenter<V extends SurveyStatusMvpView> extends BasePr
                         handleApiError(throwable);
                     }));
         }else{
-            getMvpView().startSurveySuccess();
+            getMvpView().startSurveySuccess("");
         }
 
     }
@@ -185,10 +185,11 @@ public class SurveyStatusPresenter<V extends SurveyStatusMvpView> extends BasePr
     }
 
     @Override
-    public void updateFarmerLandStatus(String uid, String landUid) {
+    public void updateFarmerLandStatus(String uid, String landUid,String surveyLandUid) {
         FarmerLands lands = getDataManager().getFarmerLandDetails(uid, landUid);
         if (lands != null) {
             lands.setStatus("No");
+            lands.setSurveyLandUid(surveyLandUid);
             lands.setStartDate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date()));
             if(!getMvpView().isNetworkConnected()) {
                 lands.setStart(true);
