@@ -29,7 +29,7 @@
 
             <ImageView
                 android:layout_width="@dimen/forty_five_dp"
-                android:layout_height="@dimen/forty_dp"
+                android:layout_height="@dimen/forty_five_dp"
                 android:layout_marginStart="@dimen/ten_dp"
                 android:contentDescription="@string/app_name"
                 android:src="@drawable/praanadhaara_logo" />
@@ -45,6 +45,7 @@
                 <ImageView
                     android:layout_width="@dimen/one_hundred_seventy_dp"
                     android:layout_height="@dimen/seventeen_dp"
+                    android:layout_marginTop="@dimen/five_dp"
                     android:src="@drawable/praanadhaara_title"
                     android:contentDescription="@string/app_name"/>
 
@@ -52,9 +53,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/label_survey_list"
+                    android:layout_marginStart="@dimen/three_dp"
                     android:fontFamily="@font/roboto_regular"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/text_dimen_12" />
+                    android:textSize="@dimen/text_dimen_13" />
             </LinearLayout>
 
             <ImageView

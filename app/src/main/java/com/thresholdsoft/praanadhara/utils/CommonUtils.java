@@ -4,8 +4,14 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.text.TextUtils;
 
 import com.thresholdsoft.praanadhara.R;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 
 /**
@@ -28,5 +34,22 @@ public class CommonUtils {
         progressDialog.setCancelable(false);
         progressDialog.setCanceledOnTouchOutside(false);
         return progressDialog;
+    }
+
+    public static String dateConversion(String date){
+        if(!TextUtils.isEmpty(date)) {
+            SimpleDateFormat spf = new SimpleDateFormat("yyyy-M-dd hh:mm:ss", Locale.getDefault());
+            Date newDate = null;
+            try {
+                newDate = spf.parse(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            spf = new SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
+            if (newDate != null) {
+                return spf.format(newDate);
+            }
+        }
+        return "";
     }
 }

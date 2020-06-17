@@ -57,6 +57,22 @@ public class SurveySaveReq {
         this.uid = uid;
     }
 
+    public String getUid() {
+        return uid;
+    }
+
+    public MapTypeEntity getMapType() {
+        return mapType;
+    }
+
+    public String getLatlongs() {
+        return latlongs;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
     public static class SurveyEntity {
         @Expose
         @SerializedName("uid")
@@ -64,6 +80,10 @@ public class SurveySaveReq {
 
         public void setUid(String uid) {
             this.uid = uid;
+        }
+
+        public String getUid() {
+            return uid;
         }
 
         public SurveyEntity(String uid) {

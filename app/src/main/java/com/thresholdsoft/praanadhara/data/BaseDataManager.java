@@ -1,9 +1,16 @@
 package com.thresholdsoft.praanadhara.data;
 
 import android.content.Context;
+import android.text.TextUtils;
+
+import androidx.lifecycle.LiveData;
 
 import com.thresholdsoft.praanadhara.data.db.AppDatabase;
+import com.thresholdsoft.praanadhara.data.db.model.FarmerLands;
+import com.thresholdsoft.praanadhara.data.db.model.LandEntity;
 import com.thresholdsoft.praanadhara.data.db.model.Survey;
+import com.thresholdsoft.praanadhara.data.db.model.SurveyEntity;
+import com.thresholdsoft.praanadhara.data.db.model.SurveyStatusEntity;
 import com.thresholdsoft.praanadhara.data.network.RestApiHelper;
 import com.thresholdsoft.praanadhara.data.network.pojo.FarmerSurveyList;
 import com.thresholdsoft.praanadhara.data.network.pojo.FeedItem;
@@ -103,6 +110,115 @@ public class BaseDataManager implements DataManager {
     @Override
     public List<Survey> loadAllByIds(int[] userIds) {
         return mDatabase.userDao().loadAllByIds(userIds);
+    }
+
+    @Override
+    public void insertFarmerLand(FarmerLands farmerLands) {
+        LiveData<FarmerLands> lands = getFarmerLand(farmerLands.getUid(),farmerLands.getFarmerLandUid());
+       if( lands.getValue() != null){
+           farmerLands.setId(lands.getValue().getId());
+           updateFarmerLand(farmerLands);
+       }else
+           mDatabase.userDao().insertFarmerLand(farmerLands);
+    }
+
+    @Override
+    public LiveData<FarmerLands> getFarmerLand(String uid, String landUid) {
+        return mDatabase.userDao().getFarmerLand(uid,landUid);
+    }
+
+    @Override
+    public LiveData<List<FarmerLands>> getAllFarmerLands() {
+        return mDatabase.userDao().getAllFarmerLands();
+    }
+
+    @Override
+    public void updateFarmerLand(FarmerLands farmerLands) {
+        mDatabase.userDao().updateFarmerLand(farmerLands);
+    }
+
+//    @Override
+//    public void insetLandEntity(LandEntity landEntity) {
+//        LandEntity lands = getLandEntity(landEntity.getUid());
+//        if( lands != null){
+//            landEntity.setId(lands.getId());
+//            updateLandEntity(landEntity);
+//        }else
+//            mDatabase.userDao().insetLandEntity(landEntity);
+//    }
+//
+//    @Override
+//    public LandEntity getLandEntity(String landUid) {
+//        return mDatabase.userDao().getLandEntity(landUid);
+//    }
+//
+//    @Override
+//    public void updateLandEntity(LandEntity landEntity) {
+//        mDatabase.userDao().updateLandEntity(landEntity);
+//    }
+
+    @Override
+    public void insetSurveyEntity(SurveyEntity surveyEntity) {
+        if(!TextUtils.isEmpty(surveyEntity.getUid())) {
+            SurveyEntity lands = getSurveyEntity(surveyEntity.getUid());
+            if (lands != null) {
+                surveyEntity.setId(lands.getId());
+                updateSurveyEntity(surveyEntity);
+            } else
+                mDatabase.userDao().insetSurveyEntity(surveyEntity);
+        }else{
+            mDatabase.userDao().insetSurveyEntity(surveyEntity);
+        }
+    }
+
+    @Override
+    public SurveyEntity getSurveyEntity(String uid) {
+        return mDatabase.userDao().getSurveyEntity(uid);
+    }
+
+    @Override
+    public void updateSurveyEntity(SurveyEntity surveyEntity) {
+        mDatabase.userDao().updateSurveyEntity(surveyEntity);
+    }
+
+    @Override
+    public LiveData<List<SurveyEntity>> getAllSurveyList(String landUid) {
+        return mDatabase.userDao().getAllSurveyList(landUid);
+    }
+
+    @Override
+    public void deleteSurveyEntity(SurveyEntity surveyEntity) {
+        mDatabase.userDao().deleteSurveyEntity(surveyEntity);
+    }
+
+    @Override
+    public void insertSurveyCount(SurveyStatusEntity surveyStatusEntity) {
+        mDatabase.userDao().insertSurveyCount(surveyStatusEntity);
+    }
+
+    @Override
+    public void updateSurveyCount(SurveyStatusEntity surveyStatusEntity) {
+
+    }
+
+    @Override
+    public LiveData<SurveyStatusEntity> getSurveyCount() {
+        return mDatabase.userDao().getSurveyCount();
+    }
+
+    @Override
+    public List<SurveyEntity> getAllSurveyEditList(boolean isEdit) {
+        return mDatabase.userDao().getAllSurveyEditList(isEdit);
+    }
+
+    @Override
+    public List<SurveyEntity> getAllSurveyDeleteList(boolean isDelete) {
+        return mDatabase.userDao().getAllSurveyDeleteList(isDelete);
+    }
+
+    @Override
+    public List<SurveyEntity> getAllSurveySyncList(boolean isSync) {
+        return mDatabase.userDao().getAllSurveySyncList(isSync);
     }
 
 //    @Override

@@ -7,9 +7,11 @@ import androidx.room.TypeConverters;
 
 import com.thresholdsoft.praanadhara.data.utils.DateConverter;
 
+import java.io.Serializable;
+
 @Entity(tableName = "farmer_land")
 @TypeConverters({DateConverter.class})
-public class FarmerLands {
+public class FarmerLands implements Serializable {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
@@ -20,7 +22,7 @@ public class FarmerLands {
     private String mName;
 
     @ColumnInfo(name = "mobile")
-    private String mMobile;
+    private long mMobile;
 
     @ColumnInfo(name = "email")
     private String mEmail;
@@ -28,24 +30,41 @@ public class FarmerLands {
     @ColumnInfo(name = "pic_path")
     private String mPicPath;
 
-    @ColumnInfo(name = "farmer_land_uid")
-    private String mFarmerLandUid;
-
     @ColumnInfo(name = "pincode")
     private String mPincode;
 
     @ColumnInfo(name = "village")
     private String mVillage;
 
-    public FarmerLands(String mUid, String mName, String mMobile, String mEmail, String mPicPath, String mFarmerLandUid, String mPincode, String mVillage) {
+    @ColumnInfo(name = "farmer_land_uid")
+    private String mFarmerLandUid;
+
+    @ColumnInfo(name = "survey_land_uid")
+    private String mSurveyLandUid;
+
+    @ColumnInfo(name = "status")
+    private String mStatus;
+
+    @ColumnInfo(name = "start_date")
+    private String mStartDate;
+
+    @ColumnInfo(name = "submitted_date")
+    private String mSubmittedDate;
+
+
+    public FarmerLands(String mUid, String mName, long mMobile, String mEmail, String mPicPath, String mPincode, String mVillage, String mFarmerLandUid, String mSurveyLandUid, String mStatus, String mStartDate, String mSubmittedDate) {
         this.mUid = mUid;
         this.mName = mName;
         this.mMobile = mMobile;
         this.mEmail = mEmail;
         this.mPicPath = mPicPath;
-        this.mFarmerLandUid = mFarmerLandUid;
         this.mPincode = mPincode;
         this.mVillage = mVillage;
+        this.mFarmerLandUid = mFarmerLandUid;
+        this.mSurveyLandUid = mSurveyLandUid;
+        this.mStatus = mStatus;
+        this.mStartDate = mStartDate;
+        this.mSubmittedDate = mSubmittedDate;
     }
 
     public int getId() {
@@ -72,11 +91,11 @@ public class FarmerLands {
         this.mName = mName;
     }
 
-    public String getMobile() {
+    public long getMobile() {
         return mMobile;
     }
 
-    public void setMobile(String mMobile) {
+    public void setMobile(long mMobile) {
         this.mMobile = mMobile;
     }
 
@@ -118,5 +137,37 @@ public class FarmerLands {
 
     public void setVillage(String mVillage) {
         this.mVillage = mVillage;
+    }
+
+    public String getStatus() {
+        return mStatus;
+    }
+
+    public void setStatus(String mStatus) {
+        this.mStatus = mStatus;
+    }
+
+    public String getStartDate() {
+        return mStartDate;
+    }
+
+    public void setStartDate(String mStartDate) {
+        this.mStartDate = mStartDate;
+    }
+
+    public String getSubmittedDate() {
+        return mSubmittedDate;
+    }
+
+    public void setSubmittedDate(String mSubmittedDate) {
+        this.mSubmittedDate = mSubmittedDate;
+    }
+
+    public String getSurveyLandUid() {
+        return mSurveyLandUid;
+    }
+
+    public void setSurveyLandUid(String mSurveyLandUid) {
+        this.mSurveyLandUid = mSurveyLandUid;
     }
 }
