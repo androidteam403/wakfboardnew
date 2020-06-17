@@ -45,7 +45,7 @@ public class SurveyDetailsAdapter extends RecyclerView.Adapter<SurveyDetailsAdap
     public void onBindViewHolder(@NonNull final SurveyDetailsAdapter.ItemBaseViewHolder holder, int position) {
         SurveyEntity farmerModel = differ.getCurrentList().get(position);
         holder.listItemMainBinding.setData(farmerModel);
-       // holder.listItemMainBinding.cartlayout.setData(farmerModel);
+        // holder.listItemMainBinding.cartlayout.setData(farmerModel);
 
         if (farmerModel.getMapType() != null) {
             if (farmerModel.getMapType().equalsIgnoreCase("point")) {
@@ -96,10 +96,12 @@ public class SurveyDetailsAdapter extends RecyclerView.Adapter<SurveyDetailsAdap
     public int getItemCount() {
         return differ.getCurrentList().size();
     }
+
     public static final int ITEM_TYPE_ACTION_WIDTH = 1001;
+
     @Override
     public int getItemViewType(int position) {
-        return ITEM_TYPE_ACTION_WIDTH;
+        return position;
     }
 
     public void addItems(List<SurveyEntity> blogList) {
@@ -156,7 +158,6 @@ public class SurveyDetailsAdapter extends RecyclerView.Adapter<SurveyDetailsAdap
         public boolean areContentsTheSame(@NonNull SurveyEntity oldItem, @NonNull SurveyEntity newItem) {
             return oldItem.getName().equals(newItem.getName());
         }
-
 
     };
 

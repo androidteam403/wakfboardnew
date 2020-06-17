@@ -64,7 +64,7 @@ import javax.inject.Inject;
 import static android.app.Activity.RESULT_OK;
 
 public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, LocationListener , ConnectivityReceiver.ConnectivityReceiverListener{
+        GoogleApiClient.OnConnectionFailedListener, LocationListener, ConnectivityReceiver.ConnectivityReceiverListener {
     @Inject
     SurveyListMvpPresenter<SurveyListMvpView> mpresenter;
     private ActivitySurveyListBinding activitySurveyListBinding;
@@ -82,6 +82,7 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
     private double mLatitude;
     private double mLongitude;
     private BroadcastReceiver MyReceiver = null;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -135,6 +136,24 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
             getBaseActivity().overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         });
 
+        activitySurveyListBinding.newLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                
+            }
+        });
+        activitySurveyListBinding.inProgressLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        activitySurveyListBinding.completedLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     private void initScrollListener() {
@@ -429,15 +448,15 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
     }
 
     private synchronized void setUpGClient() {
-        if (mGoogleApiClient == null || !mGoogleApiClient.isConnected()){
+        if (mGoogleApiClient == null || !mGoogleApiClient.isConnected()) {
             mGoogleApiClient = new GoogleApiClient.Builder(Objects.requireNonNull(getActivity()))
                     .enableAutoManage(getActivity(), 1, this)
                     .addConnectionCallbacks(this)
                     .addOnConnectionFailedListener(this)
                     .addApi(LocationServices.API)
                     .build();
-        mGoogleApiClient.connect();
-    }
+            mGoogleApiClient.connect();
+        }
     }
 
     @Override
@@ -501,6 +520,7 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
     }
 
     private boolean isOffline = false;
+
     // Showing the status in Snackbar
     private void showSnack(boolean isConnected) {
         String message;
@@ -515,7 +535,7 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
             sbView.setBackgroundColor(ContextCompat.getColor(getBaseActivity(), R.color.thickGreem));
             TextView textView = (TextView) sbView.findViewById(R.id.snackbar_text);
             textView.setTextColor(color);
-            if(isOffline) {
+            if (isOffline) {
                 snackbar.show();
                 isOffline = false;
             }
