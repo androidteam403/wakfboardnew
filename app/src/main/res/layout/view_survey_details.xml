@@ -26,7 +26,8 @@
                 android:id="@+id/image"
                 android:layout_width="@dimen/twenty_five_dp"
                 android:layout_height="@dimen/twenty_five_dp"
-                android:layout_centerVertical="true" />
+                android:layout_centerVertical="true"
+                android:contentDescription="@string/app_name" />
 
             <TextView
                 android:id="@+id/name_textview"

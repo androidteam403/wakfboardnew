@@ -37,7 +37,7 @@ public class SurveyStatusPresenter<V extends SurveyStatusMvpView> extends BasePr
         if(getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
             getCompositeDisposable().add(getDataManager()
-                    .startSurvey(new SurveyStartReq(new SurveyStartReq.LandLocationEntity(rowsEntity.getSurveyLandUid())))
+                    .startSurvey(new SurveyStartReq(new SurveyStartReq.LandLocationEntity(rowsEntity.getFarmerLandUid())))
                     .subscribeOn(getSchedulerProvider().io())
                     .observeOn(getSchedulerProvider().ui())
                     .subscribe(blogResponse -> {
@@ -64,7 +64,7 @@ public class SurveyStatusPresenter<V extends SurveyStatusMvpView> extends BasePr
     @Override
     public void submitSurvey(FarmerLands rowsEntity) {
         if(getMvpView().isNetworkConnected()) {
-            SurveySaveReq.SurveyEntity landLocationEntity = new SurveySaveReq.SurveyEntity(rowsEntity.getUid());
+            SurveySaveReq.SurveyEntity landLocationEntity = new SurveySaveReq.SurveyEntity(rowsEntity.getSurveyLandUid());
             getMvpView().showLoading();
             getCompositeDisposable().add(getDataManager()
                     .submitSurvey(landLocationEntity)

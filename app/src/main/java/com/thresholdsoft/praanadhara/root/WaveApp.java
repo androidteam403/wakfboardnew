@@ -6,6 +6,7 @@ import android.content.Context;
 import com.thresholdsoft.praanadhara.di.component.ApplicationComponent;
 import com.thresholdsoft.praanadhara.di.component.DaggerApplicationComponent;
 import com.thresholdsoft.praanadhara.di.module.ApplicationModule;
+import com.thresholdsoft.praanadhara.services.ConnectivityReceiver;
 import com.thresholdsoft.praanadhara.utils.CustomFontFamily;
 
 /**
@@ -16,10 +17,12 @@ public class WaveApp extends Application {
 
     private ApplicationComponent mApplicationComponent;
     private static Context context;
+    private static WaveApp mInstance;
     @Override
     public void onCreate() {
         super.onCreate();
         WaveApp.context = this;
+        mInstance = this;
         mApplicationComponent = DaggerApplicationComponent.builder()
                 .applicationModule(new ApplicationModule(this)).build();
         mApplicationComponent.inject(this);
@@ -43,5 +46,13 @@ public class WaveApp extends Application {
 
     public static Context getContext() {
         return context;
+    }
+
+    public static synchronized WaveApp getInstance() {
+        return mInstance;
+    }
+
+    public void setConnectivityListener(ConnectivityReceiver.ConnectivityReceiverListener listener) {
+        ConnectivityReceiver.connectivityReceiverListener = listener;
     }
 }

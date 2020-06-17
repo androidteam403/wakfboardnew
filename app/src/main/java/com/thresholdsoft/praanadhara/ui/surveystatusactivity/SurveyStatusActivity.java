@@ -1,13 +1,18 @@
 package com.thresholdsoft.praanadhara.ui.surveystatusactivity;
 
+import android.content.BroadcastReceiver;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -28,6 +33,7 @@ import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.loopeer.itemtouchhelperextension.ItemTouchHelperExtension;
@@ -36,6 +42,8 @@ import com.thresholdsoft.praanadhara.data.db.model.FarmerLands;
 import com.thresholdsoft.praanadhara.data.db.model.SurveyEntity;
 import com.thresholdsoft.praanadhara.data.network.pojo.SurveyStartRes;
 import com.thresholdsoft.praanadhara.databinding.ActivitySurveyStatusBinding;
+import com.thresholdsoft.praanadhara.root.WaveApp;
+import com.thresholdsoft.praanadhara.services.ConnectivityReceiver;
 import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.SurveyListModel;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.adapter.SurveyDetailsAdapter;
@@ -52,7 +60,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMvpView, OnMapReadyCallback {
+public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMvpView, OnMapReadyCallback , ConnectivityReceiver.ConnectivityReceiverListener{
     @Inject
     SurveyStatusMvpPresenter<SurveyStatusMvpView> mpresenter;
     private ActivitySurveyStatusBinding activitySurveyStatusBinding;
@@ -64,7 +72,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     private ImageView fullScreenView;
     private View includedLayout;
     FarmerLands farmerLands;
-
+    private BroadcastReceiver MyReceiver = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,6 +84,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
         }
+        MyReceiver = new ConnectivityReceiver();
         setUp();
     }
 
@@ -150,6 +159,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
 
         mpresenter.getAllSurveyList(landUid).observe(this, surveyEntities -> {
             surveyDetailsAdapter.addItems(surveyEntities);
+            surveyDetailsAdapter.notifyDataSetChanged();
             activitySurveyStatusBinding.setSurvey(surveyEntities.size() > 0);
             previewDisplay(surveyEntities);
         });
@@ -378,5 +388,57 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
         super.onBackPressed();
         finish();
         overridePendingTransition(R.anim.left_right, R.anim.right_left);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // register connection status listener
+        WaveApp.getInstance().setConnectivityListener(this);
+        registerReceiver(MyReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+       unregisterReceiver(MyReceiver);
+    }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        showSnack(isConnected);
+    }
+    private boolean isOffline = false;
+    // Showing the status in Snackbar
+    private void showSnack(boolean isConnected) {
+        String message;
+        int color;
+        if (isConnected) {
+            message = "Back to Online Mode";
+            color = Color.WHITE;
+            Snackbar snackbar = Snackbar
+                    .make(activitySurveyStatusBinding.surveDetailsRecyclerview, message, Snackbar.LENGTH_SHORT);
+
+            View sbView = snackbar.getView();
+            sbView.setBackgroundColor(ContextCompat.getColor(this, R.color.thickGreem));
+            TextView textView = (TextView) sbView.findViewById(R.id.snackbar_text);
+            textView.setTextColor(color);
+            if(isOffline) {
+                snackbar.show();
+                isOffline = false;
+            }
+        } else {
+            message = "Your in Offline Mode";
+            color = Color.WHITE;
+            Snackbar snackbar = Snackbar
+                    .make(activitySurveyStatusBinding.surveDetailsRecyclerview, message, Snackbar.LENGTH_INDEFINITE);
+
+            View sbView = snackbar.getView();
+            sbView.setBackgroundColor(ContextCompat.getColor(this, R.color.red));
+            TextView textView = (TextView) sbView.findViewById(R.id.snackbar_text);
+            textView.setTextColor(color);
+            snackbar.show();
+            isOffline = true;
+        }
     }
 }

@@ -2,11 +2,15 @@ package com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag;
 
 import android.Manifest;
 import android.app.SearchManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -17,6 +21,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -45,6 +50,8 @@ import com.google.android.material.snackbar.Snackbar;
 import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.data.db.model.FarmerLands;
 import com.thresholdsoft.praanadhara.databinding.ActivitySurveyListBinding;
+import com.thresholdsoft.praanadhara.root.WaveApp;
+import com.thresholdsoft.praanadhara.services.ConnectivityReceiver;
 import com.thresholdsoft.praanadhara.ui.base.BaseFragment;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.adapter.SurveyAdapter;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusActivity;
@@ -57,7 +64,7 @@ import javax.inject.Inject;
 import static android.app.Activity.RESULT_OK;
 
 public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, LocationListener {
+        GoogleApiClient.OnConnectionFailedListener, LocationListener , ConnectivityReceiver.ConnectivityReceiverListener{
     @Inject
     SurveyListMvpPresenter<SurveyListMvpView> mpresenter;
     private ActivitySurveyListBinding activitySurveyListBinding;
@@ -74,7 +81,7 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
     private final static int REQUEST_CHECK_SETTINGS_GPS = 0x1;
     private double mLatitude;
     private double mLongitude;
-
+    private BroadcastReceiver MyReceiver = null;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -89,6 +96,7 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         setUpGClient();
+        MyReceiver = new ConnectivityReceiver();
     }
 
     @Override
@@ -217,6 +225,9 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
     public void onResume() {
         super.onResume();
         startStep1();
+        // register connection status listener
+        WaveApp.getInstance().setConnectivityListener(this);
+        getBaseActivity().registerReceiver(MyReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
     }
 
     @Override
@@ -224,6 +235,7 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
         super.onPause();
         mGoogleApiClient.stopAutoManage(getBaseActivity());
         mGoogleApiClient.disconnect();
+        getBaseActivity().unregisterReceiver(MyReceiver);
     }
 
     /**
@@ -417,13 +429,15 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
     }
 
     private synchronized void setUpGClient() {
-        mGoogleApiClient = new GoogleApiClient.Builder(Objects.requireNonNull(getActivity()))
-                .enableAutoManage(getActivity(), 1, this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
+        if (mGoogleApiClient == null || !mGoogleApiClient.isConnected()){
+            mGoogleApiClient = new GoogleApiClient.Builder(Objects.requireNonNull(getActivity()))
+                    .enableAutoManage(getActivity(), 1, this)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API)
+                    .build();
         mGoogleApiClient.connect();
+    }
     }
 
     @Override
@@ -479,5 +493,44 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
             });
         }
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        showSnack(isConnected);
+    }
+
+    private boolean isOffline = false;
+    // Showing the status in Snackbar
+    private void showSnack(boolean isConnected) {
+        String message;
+        int color;
+        if (isConnected) {
+            message = "Back to Online Mode";
+            color = Color.WHITE;
+            Snackbar snackbar = Snackbar
+                    .make(activitySurveyListBinding.simpleSwipeRefreshLayout, message, Snackbar.LENGTH_SHORT);
+
+            View sbView = snackbar.getView();
+            sbView.setBackgroundColor(ContextCompat.getColor(getBaseActivity(), R.color.thickGreem));
+            TextView textView = (TextView) sbView.findViewById(R.id.snackbar_text);
+            textView.setTextColor(color);
+            if(isOffline) {
+                snackbar.show();
+                isOffline = false;
+            }
+        } else {
+            message = "Your in Offline Mode";
+            color = Color.WHITE;
+            Snackbar snackbar = Snackbar
+                    .make(activitySurveyListBinding.simpleSwipeRefreshLayout, message, Snackbar.LENGTH_INDEFINITE);
+
+            View sbView = snackbar.getView();
+            sbView.setBackgroundColor(ContextCompat.getColor(getBaseActivity(), R.color.red));
+            TextView textView = (TextView) sbView.findViewById(R.id.snackbar_text);
+            textView.setTextColor(color);
+            snackbar.show();
+            isOffline = true;
+        }
     }
 }
