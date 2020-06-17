@@ -64,6 +64,9 @@ public class SurveyDetailsAdapter extends RecyclerView.Adapter<SurveyDetailsAdap
 
         holder.listItemMainBinding.cartlayout.checkBox.setOnClickListener(view -> statusMvpView.onListItemClicked(farmerModel));
 
+        holder.listItemMainBinding.cartlayout.viewListMainContent.setOnClickListener(view -> {
+
+        });
         if (holder instanceof ItemSwipeWithActionWidthViewHolder) {
             ItemSwipeWithActionWidthViewHolder viewHolder = (ItemSwipeWithActionWidthViewHolder) holder;
             viewHolder.mActionViewDelete.setOnClickListener(
@@ -93,10 +96,10 @@ public class SurveyDetailsAdapter extends RecyclerView.Adapter<SurveyDetailsAdap
     public int getItemCount() {
         return differ.getCurrentList().size();
     }
-
+    public static final int ITEM_TYPE_ACTION_WIDTH = 1001;
     @Override
     public int getItemViewType(int position) {
-        return position;
+        return ITEM_TYPE_ACTION_WIDTH;
     }
 
     public void addItems(List<SurveyEntity> blogList) {

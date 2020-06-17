@@ -11,6 +11,7 @@ import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -18,6 +19,8 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -64,6 +67,8 @@ import com.thresholdsoft.praanadhara.data.network.pojo.MapTypeEntity;
 import com.thresholdsoft.praanadhara.data.network.pojo.SurveyDetailsEntity;
 import com.thresholdsoft.praanadhara.data.network.pojo.SurveySaveReq;
 import com.thresholdsoft.praanadhara.databinding.ActivitySurveyTrackingBinding;
+import com.thresholdsoft.praanadhara.root.WaveApp;
+import com.thresholdsoft.praanadhara.services.ConnectivityReceiver;
 import com.thresholdsoft.praanadhara.services.LocationMonitoringService;
 import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
 import com.thresholdsoft.praanadhara.ui.dialog.SurveyPointDialog;
@@ -79,7 +84,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackMvpView, OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, LocationListener, GoogleMap.OnMarkerClickListener {
+        GoogleApiClient.OnConnectionFailedListener, LocationListener, GoogleMap.OnMarkerClickListener , ConnectivityReceiver.ConnectivityReceiverListener{
 
     private static final String TAG = SurveyTrackingActivity.class.getSimpleName();
 
@@ -116,7 +121,8 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
     private Location currentLocation;
     private FarmerLands surveyModel;
     private List<Marker> markerList = new ArrayList<>();
-
+    private BroadcastReceiver MyReceiver = null;
+    View mapView;
     public static Intent getIntent(Context context, FarmerLands surveyEntity, int mapType) {
         Intent intent = new Intent(context, SurveyTrackingActivity.class);
         intent.putExtra("surveyEntity", surveyEntity);
@@ -132,9 +138,10 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
         mpresenter.onAttach(SurveyTrackingActivity.this);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         if (mapFragment != null) {
+            mapView = mapFragment.getView();
             mapFragment.getMapAsync(this);
         }
-
+        MyReceiver = new ConnectivityReceiver();
         setUp();
     }
 
@@ -199,6 +206,10 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
     public void onResume() {
         super.onResume();
         startStep1();
+
+        // register connection status listener
+        WaveApp.getInstance().setConnectivityListener(this);
+        registerReceiver(MyReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
     }
 
 
@@ -384,6 +395,12 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
             return;
         }
         mMap.setMyLocationEnabled(true);
+//        View locationButton = ((View) mapView.findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("2"));
+//        RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams) locationButton.getLayoutParams();
+//// position on right bottom
+//        rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
+//        rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
+//        rlp.setMargins(0, 180, 180, 0);
         mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
@@ -1001,5 +1018,50 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
         super.onBackPressed();
         finish();
         overridePendingTransition(R.anim.left_right, R.anim.right_left);
+    }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        unregisterReceiver(MyReceiver);
+    }
+
+    @Override
+    public void onNetworkConnectionChanged(boolean isConnected) {
+        showSnack(isConnected);
+    }
+    private boolean isOffline = false;
+    // Showing the status in Snackbar
+    private void showSnack(boolean isConnected) {
+        String message;
+        int color;
+        if (isConnected) {
+            message = "Back to Online Mode";
+            color = Color.WHITE;
+            Snackbar snackbar = Snackbar
+                    .make(surveyTrackingBinding.map, message, Snackbar.LENGTH_SHORT);
+
+            View sbView = snackbar.getView();
+            sbView.setBackgroundColor(ContextCompat.getColor(this, R.color.thickGreem));
+            TextView textView = (TextView) sbView.findViewById(R.id.snackbar_text);
+            textView.setTextColor(color);
+            if(isOffline) {
+                snackbar.show();
+                isOffline = false;
+            }
+        } else {
+            message = "Your in Offline Mode";
+            color = Color.WHITE;
+            Snackbar snackbar = Snackbar
+                    .make(surveyTrackingBinding.map, message, Snackbar.LENGTH_INDEFINITE);
+
+            View sbView = snackbar.getView();
+            sbView.setBackgroundColor(ContextCompat.getColor(this, R.color.red));
+            TextView textView = (TextView) sbView.findViewById(R.id.snackbar_text);
+            textView.setTextColor(color);
+            snackbar.show();
+            isOffline = true;
+        }
     }
 }
