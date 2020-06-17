@@ -173,6 +173,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
                 mapFrameLayout.setLayoutParams(fullMapParams);
                 activitySurveyStatusBinding.setExpandView(0);
                 activitySurveyStatusBinding.setCollapseView(1);
+              //  previewDisplay(surveyDetailsAdapter.getListData());
             }
         });
         activitySurveyStatusBinding.collapseView.setOnClickListener(new View.OnClickListener() {
@@ -184,6 +185,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
                 mapFrameLayout.setLayoutParams(fullMapParams);
                 activitySurveyStatusBinding.setExpandView(1);
                 activitySurveyStatusBinding.setCollapseView(0);
+              //  previewDisplay(surveyDetailsAdapter.getListData());
             }
         });
     }

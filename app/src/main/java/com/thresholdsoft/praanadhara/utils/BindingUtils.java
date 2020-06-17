@@ -39,10 +39,8 @@ public final class BindingUtils {
 
     @BindingAdapter("imageUrl")
     public static void setImageUrl(ImageView imageView, String picEntity) {
-        if(!TextUtils.isEmpty(picEntity)) {
-            Context context = imageView.getContext();
-            Glide.with(context).load(BuildConfig.IMAGE_URL + picEntity).placeholder(R.drawable.placeholder).into(imageView);
-        }
+        Context context = imageView.getContext();
+        Glide.with(context).load(BuildConfig.IMAGE_URL + picEntity).placeholder(R.drawable.placeholder).into(imageView);
     }
 
     @BindingAdapter("statustext")

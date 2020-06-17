@@ -35,7 +35,7 @@ public interface SurveyDao {
     @Query("SELECT * FROM farmer_land WHERE farmer_land_uid = :landUid")
     FarmerLands getFarmerLandDetails(String landUid);
 
-    @Query("SELECT * FROM farmer_land ORDER BY page_no ASC, order_no ASC")
+    @Query("SELECT * FROM farmer_land ORDER BY created_at DESC")
     LiveData<List<FarmerLands>> getAllFarmerLands();
 
     @Update

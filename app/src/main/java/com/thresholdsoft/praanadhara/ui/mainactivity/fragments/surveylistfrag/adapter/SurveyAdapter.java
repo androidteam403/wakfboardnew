@@ -98,9 +98,14 @@ public class SurveyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         holder.itemView.setOnClickListener(view -> {
             if (listener != null && position != RecyclerView.NO_POSITION) {
-                listener.onItemClick(differ.getCurrentList().get(position));
+                listener.onItemClick(farmerModel);
             }
         });
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
     }
 
     @Override

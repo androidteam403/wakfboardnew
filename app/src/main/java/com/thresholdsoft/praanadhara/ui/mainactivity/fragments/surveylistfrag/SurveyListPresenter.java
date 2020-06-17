@@ -19,6 +19,7 @@ import com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.DeleteReq;
 import com.thresholdsoft.praanadhara.utils.rx.SchedulerProvider;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -150,6 +151,7 @@ public class SurveyListPresenter<V extends SurveyListMvpView> extends BasePresen
 
     private void insertOrUpdateLands( int page, List<RowsEntity> rows) {
         int position = 0;
+         Collections.reverse(rows);
         for (RowsEntity entity : rows) {
             position++;
             FarmerLands farmerLands = new FarmerLands(page, position, entity.getUid(), entity.getName(), entity.getMobile(), entity.getEmail(), entity.getPic().size() > 0 ? entity.getPic().get(0).getPath() : "", entity.getFarmerLand().getPincode().getPincode(), entity.getFarmerLand().getPincode().getVillage().getName(),
@@ -166,18 +168,45 @@ public class SurveyListPresenter<V extends SurveyListMvpView> extends BasePresen
     private static int cores = Runtime.getRuntime().availableProcessors();
     private static ExecutorService executorService = Executors.newFixedThreadPool(cores + 1);
 
+    private boolean offlineSurveyStartSync(){
+        Boolean surveyStartRes = false;
+        Future<Boolean> startResponse = executorService.submit(startSurvey());
+        try {
+            surveyStartRes = startResponse.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+        return surveyStartRes;
+    }
+
+    private boolean offlineSurveySubmitSync(){
+        Boolean surveyStartRes = false;
+        Future<Boolean> submitResponse = executorService.submit(submitSurvey());
+        try {
+            surveyStartRes = submitResponse.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+        return surveyStartRes;
+    }
+
     public void main() {
         System.out.println("Program Started");
-        AtomicBoolean processing = new AtomicBoolean(true);
+        if(offlineSurveyStartSync()) {
+            AtomicBoolean processing = new AtomicBoolean(true);
 
-        syncLocalData(activities -> processing.set(false));
+            syncLocalData(activities -> processing.set(false));
 
-        while (processing.get()) {
-            // keep running Wait for Sync Database
-            processing.get();
+            while (processing.get()) {
+                // keep running Wait for Sync Database
+                processing.get();
+            }
         }
-        stop();
-        System.out.println("Program Terminated");
+
+        if(offlineSurveySubmitSync()){
+            stop();
+            System.out.println("Program Terminated");
+        }
     }
 
     private void stop() {
@@ -187,17 +216,17 @@ public class SurveyListPresenter<V extends SurveyListMvpView> extends BasePresen
     private void syncLocalData(ResultCallback callback) {
         executorService.execute(() -> {
             Boolean surveyStartRes = false;
-            Future<Boolean> startResponse = executorService.submit(startSurvey());
+      //      Future<Boolean> startResponse = executorService.submit(startSurvey());
             Future<Boolean> addResponse = executorService.submit(addSurvey());
             Future<Boolean> editResponse = executorService.submit(updateEditSurvey());
             Future<Boolean> deleteResponse = executorService.submit(deleteSurvey());
-            Future<Boolean> submitResponse = executorService.submit(submitSurvey());
+       //     Future<Boolean> submitResponse = executorService.submit(submitSurvey());
 
-            try {
-                surveyStartRes = startResponse.get();
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                surveyStartRes = startResponse.get();
+//            } catch (InterruptedException | ExecutionException e) {
+//                e.printStackTrace();
+//            }
             try {
                 surveyStartRes = addResponse.get();
             } catch (InterruptedException | ExecutionException e) {
@@ -213,11 +242,11 @@ public class SurveyListPresenter<V extends SurveyListMvpView> extends BasePresen
             } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
             }
-            try {
-                surveyStartRes = submitResponse.get();
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                surveyStartRes = submitResponse.get();
+//            } catch (InterruptedException | ExecutionException e) {
+//                e.printStackTrace();
+//            }
 
 
             callback.onResult(surveyStartRes);

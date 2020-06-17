@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "110193067376",
+    "firebase_url": "https://praanadhaara-db9a1.firebaseio.com",
+    "project_id": "praanadhaara-db9a1",
+    "storage_bucket": "praanadhaara-db9a1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:110193067376:android:03a6beb4f0c804b8303bb5",
+        "android_client_info": {
+          "package_name": "com.thresholdsoft.praanadhara"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "110193067376-ogcirj0rv0iu1fj1c0cb5grv2nbvb6j8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0cJzNsBgy6CNJcUuXGBU9qjTF_vONs_o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "110193067376-ogcirj0rv0iu1fj1c0cb5grv2nbvb6j8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

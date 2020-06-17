@@ -384,7 +384,7 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
             return;
         }
         mMap.setMyLocationEnabled(true);
-        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng point) {

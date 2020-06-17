@@ -26,6 +26,7 @@ import com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.DeleteReq;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.DeleteRes;
 import com.thresholdsoft.praanadhara.ui.userlogin.model.LoginResponse;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -75,9 +76,14 @@ public class BaseDataManager implements DataManager {
             farmerLands.setStatus(lands.getStatus());
             farmerLands.setStart(lands.isStart());
             farmerLands.setSubmit(lands.isSubmit());
+            farmerLands.setCreatedAt(lands.getCreatedAt());
+            farmerLands.setLastUpdate(new Date());
             updateFarmerLand(farmerLands);
-        } else
+        } else {
+            farmerLands.setCreatedAt(new Date());
+            farmerLands.setLastUpdate(new Date());
             mDatabase.userDao().insertFarmerLand(farmerLands);
+        }
     }
 
     @Override

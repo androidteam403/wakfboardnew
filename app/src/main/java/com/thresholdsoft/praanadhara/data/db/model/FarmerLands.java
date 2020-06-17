@@ -8,6 +8,7 @@ import androidx.room.TypeConverters;
 import com.thresholdsoft.praanadhara.data.utils.DateConverter;
 
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity(tableName = "farmer_land")
 @TypeConverters({DateConverter.class})
@@ -62,6 +63,12 @@ public class FarmerLands implements Serializable {
 
     @ColumnInfo(name = "is_submit")
     private boolean isSubmit;
+
+    @ColumnInfo(name = "last_update")
+    private Date mLastUpdate;
+
+    @ColumnInfo(name = "created_at")
+    private Date mCreatedAt;
 
 
     public FarmerLands(int pageNo, int orderNo, String mUid, String mName, long mMobile, String mEmail, String mPicPath, String mPincode, String mVillage, String mFarmerLandUid, String mSurveyLandUid, String mStatus, String mStartDate, String mSubmittedDate) {
@@ -215,5 +222,21 @@ public class FarmerLands implements Serializable {
 
     public void setSubmit(boolean submit) {
         isSubmit = submit;
+    }
+
+    public Date getLastUpdate() {
+        return mLastUpdate;
+    }
+
+    public void setLastUpdate(Date mLastUpdate) {
+        this.mLastUpdate = mLastUpdate;
+    }
+
+    public Date getCreatedAt() {
+        return mCreatedAt;
+    }
+
+    public void setCreatedAt(Date mCreatedAt) {
+        this.mCreatedAt = mCreatedAt;
     }
 }
