@@ -33,7 +33,7 @@ public interface SurveyStatusMvpPresenter<V extends SurveyStatusMvpView> extends
 
     LiveData<List<SurveyEntity>> getAllSurveyList(String landUid);
 
-    void updateFarmerLandStatus(String uid, String landUid);
+    void updateFarmerLandStatus(String uid, String landUid,String surveyLandUid);
 
     void updateLandSurveySubmit(String uid, String landUid);
 }
