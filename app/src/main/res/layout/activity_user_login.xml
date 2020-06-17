@@ -46,7 +46,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/one_hundred_twenty_dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/sixty_five_dp"
                 android:contentDescription="@string/app_name"
                 android:src="@drawable/splash_full_logo" />
 
@@ -65,7 +64,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/twenty_five_dp"
-                android:layout_marginTop="@dimen/thirty_five_dp"
+                android:layout_marginTop="@dimen/twenty_five_dp"
                 android:layout_marginEnd="@dimen/twenty_five_dp"
                 android:orientation="vertical"
                 android:visibility="@{logonView ==0 ? View.GONE : View.VISIBLE}">

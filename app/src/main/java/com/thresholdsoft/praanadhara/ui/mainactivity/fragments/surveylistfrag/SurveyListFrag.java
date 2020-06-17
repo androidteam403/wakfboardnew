@@ -44,15 +44,12 @@ import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.material.snackbar.Snackbar;
 import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.data.db.model.FarmerLands;
-import com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity;
 import com.thresholdsoft.praanadhara.databinding.ActivitySurveyListBinding;
 import com.thresholdsoft.praanadhara.ui.base.BaseFragment;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.adapter.SurveyAdapter;
-import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.SurveyStatusCountModelResponse;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusActivity;
 import com.thresholdsoft.praanadhara.ui.userlogin.UserLoginActivity;
 
-import java.util.List;
 import java.util.Objects;
 
 import javax.inject.Inject;
@@ -115,7 +112,7 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
         });
 
         mpresenter.getAllFarmersLands().observe(getBaseActivity(), notes -> {
-              surveyAdapter.submitList(notes);
+            surveyAdapter.submitList(notes);
         });
 
         mpresenter.getSurveyStatusCount().observe(getBaseActivity(), surveyStatusEntity -> activitySurveyListBinding.setCount(surveyStatusEntity));
@@ -124,8 +121,8 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
             Intent intent = new Intent(getContext(), SurveyStatusActivity.class);
             intent.putExtra("surveyData", farmerLands.getUid());
             intent.putExtra("landUid", farmerLands.getFarmerLandUid());
-            intent.putExtra("currentLatitude",mLatitude);
-            intent.putExtra("currentLongitude",mLongitude);
+            intent.putExtra("currentLatitude", mLatitude);
+            intent.putExtra("currentLongitude", mLongitude);
             startActivityForResult(intent, REQUEST_CODE);
             getBaseActivity().overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         });
@@ -146,7 +143,7 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
                 if (!isLoading) {
                     if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == surveyAdapter.getItemCount() - 1) {
                         //bottom of list!
-                     //   loadMore();
+                        //   loadMore();
                         isLoading = true;
                     }
                 }
@@ -171,8 +168,8 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
         Intent intent = new Intent(getContext(), SurveyStatusActivity.class);
         intent.putExtra("surveyData", farmerModel.getUid());
         intent.putExtra("landUid", farmerModel.getFarmerLandUid());
-        intent.putExtra("currentLatitude",mLatitude);
-        intent.putExtra("currentLongitude",mLongitude);
+        intent.putExtra("currentLatitude", mLatitude);
+        intent.putExtra("currentLongitude", mLongitude);
         startActivityForResult(intent, REQUEST_CODE);
         getBaseActivity().overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
