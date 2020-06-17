@@ -38,7 +38,7 @@ public class CommonUtils {
 
     public static String dateConversion(String date){
         if(!TextUtils.isEmpty(date)) {
-            SimpleDateFormat spf = new SimpleDateFormat("yyyy-M-dd hh:mm:ss", Locale.getDefault());
+            SimpleDateFormat spf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
             Date newDate = null;
             try {
                 newDate = spf.parse(date);

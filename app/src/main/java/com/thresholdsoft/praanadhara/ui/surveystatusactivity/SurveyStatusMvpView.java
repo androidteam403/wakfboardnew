@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public interface SurveyStatusMvpView extends MvpView {
 
-    void startSurveySuccess(FarmerLands rowsEntity, SurveyStartRes data);
+    void startSurveySuccess();
 
     void onpolygonRadioClick();
 
@@ -24,7 +24,7 @@ public interface SurveyStatusMvpView extends MvpView {
 
     void submitSurvey(FarmerLands rowsEntity);
 
-    void surveySubmitSuccess(SurveyStartRes data);
+    void surveySubmitSuccess();
 
     void onListItemClicked(SurveyEntity surveyEntity);
 

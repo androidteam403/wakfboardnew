@@ -36,6 +36,7 @@ public class SurveyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     };
     private List<FarmerLands> fullList;
     private AsyncListDiffer<FarmerLands> differ = new AsyncListDiffer<>(this, DIFF_CALLBACK);
+    private List<FarmerLands> adapterList = new ArrayList<>();
 
     private final int VIEW_TYPE_ITEM = 0;
     private OnItemClickListener listener;
@@ -92,20 +93,25 @@ public class SurveyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     private void populateItemRows(SurveyAdapter.ViewHolder holder, int position) {
-        FarmerLands farmerModel = differ.getCurrentList().get(position);
+        FarmerLands farmerModel = adapterList.get(position);
         holder.adapterSurveyListBinding.setSurvey(farmerModel);
 
         holder.itemView.setOnClickListener(view -> {
             if (listener != null && position != RecyclerView.NO_POSITION) {
-                listener.onItemClick(differ.getCurrentList().get(position));
+                listener.onItemClick(farmerModel);
             }
         });
     }
 
     @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
     public int getItemViewType(int position) {
         int VIEW_TYPE_LOADING = 1;
-        return differ.getCurrentList().get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
+        return adapterList.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
     }
 
     private void showLoadingView(LoadingViewHolder viewHolder, int position) {
@@ -115,12 +121,26 @@ public class SurveyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public int getItemCount() {
-        return differ.getCurrentList().size();
+        return adapterList.size();
     }
 
     public void submitList(List<FarmerLands> stores) {
         differ.submitList(stores);
         fullList = new ArrayList<>(stores);
+        adapterList.clear();
+        adapterList.addAll(stores);
+    }
+
+    public void addItemData(FarmerLands farmerLands){
+        adapterList.add(null);
+    }
+
+    public void removeItemData(int position){
+        adapterList.remove(position);
+    }
+
+    public int loadMorePageNumber(){
+        return adapterList.get(adapterList.size()-2).getPageNo();
     }
 
     @Override
@@ -153,8 +173,27 @@ public class SurveyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         protected void publishResults(CharSequence constraint, FilterResults results) {
             //differ.getCurrentList().clear();
             //differ.getCurrentList().addAll((List) results.values);
-            differ.submitList((List) results.values);
+            adapterList =(List) results.values;
             notifyDataSetChanged();
         }
     };
+
+    public void statusFilter(String status){
+        adapterList = fullList;
+        if(!status.equalsIgnoreCase("")){
+            if(status.equalsIgnoreCase("InProgress")){
+                status = "No";
+            }else if(status.equalsIgnoreCase("Completed")){
+                status = "Yes";
+            }
+            List<FarmerLands> filteredList = new ArrayList<>();
+            for (FarmerLands store : fullList) {
+                if (store.getStatus().equalsIgnoreCase(status)) {
+                    filteredList.add(store);
+                }
+            }
+            adapterList = filteredList;
+        }
+        notifyDataSetChanged();
+    }
 }

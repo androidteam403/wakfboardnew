@@ -48,12 +48,10 @@ import com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity;
 import com.thresholdsoft.praanadhara.databinding.ActivitySurveyListBinding;
 import com.thresholdsoft.praanadhara.ui.base.BaseFragment;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.adapter.SurveyAdapter;
-import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.SurveyListModel;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.SurveyStatusCountModelResponse;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusActivity;
 import com.thresholdsoft.praanadhara.ui.userlogin.UserLoginActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -66,7 +64,6 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
     @Inject
     SurveyListMvpPresenter<SurveyListMvpView> mpresenter;
     private ActivitySurveyListBinding activitySurveyListBinding;
-    private ArrayList<SurveyListModel> surveyModelArrayList = new ArrayList<>();
     private boolean isLoading = false;
 
     SurveyAdapter surveyAdapter;
@@ -78,6 +75,8 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
      */
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
     private final static int REQUEST_CHECK_SETTINGS_GPS = 0x1;
+    private double mLatitude;
+    private double mLongitude;
 
     @Nullable
     @Override
@@ -98,12 +97,11 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setUp(view);
     }
 
     @Override
     protected void setUp(View view) {
-        mpresenter.onStatusCountApiCall();
+        mpresenter.onStatusCountApiCall(false);
         activitySurveyListBinding.setCallback(mpresenter);
 
         surveyAdapter = new SurveyAdapter();
@@ -112,9 +110,13 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
         activitySurveyListBinding.recyclerSurveyList.setAdapter(surveyAdapter);
         initScrollListener();
 
-        activitySurveyListBinding.simpleSwipeRefreshLayout.setOnRefreshListener(() -> mpresenter.farmersListApiCall());
+        activitySurveyListBinding.simpleSwipeRefreshLayout.setOnRefreshListener(() -> {
+            mpresenter.pullToRefreshApiCall();
+        });
 
-        mpresenter.getAllFarmersLands().observe(getBaseActivity(), notes -> surveyAdapter.submitList(notes));
+        mpresenter.getAllFarmersLands().observe(getBaseActivity(), notes -> {
+              surveyAdapter.submitList(notes);
+        });
 
         mpresenter.getSurveyStatusCount().observe(getBaseActivity(), surveyStatusEntity -> activitySurveyListBinding.setCount(surveyStatusEntity));
 
@@ -122,6 +124,8 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
             Intent intent = new Intent(getContext(), SurveyStatusActivity.class);
             intent.putExtra("surveyData", farmerLands.getUid());
             intent.putExtra("landUid", farmerLands.getFarmerLandUid());
+            intent.putExtra("currentLatitude",mLatitude);
+            intent.putExtra("currentLongitude",mLongitude);
             startActivityForResult(intent, REQUEST_CODE);
             getBaseActivity().overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         });
@@ -140,9 +144,9 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
                 super.onScrolled(recyclerView, dx, dy);
                 LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
                 if (!isLoading) {
-                    if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == surveyModelArrayList.size() - 1) {
+                    if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == surveyAdapter.getItemCount() - 1) {
                         //bottom of list!
-                        loadMore();
+                     //   loadMore();
                         isLoading = true;
                     }
                 }
@@ -152,56 +156,57 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
 
 
     private void loadMore() {
-        surveyModelArrayList.add(null);
-        surveyAdapter.notifyItemInserted(surveyModelArrayList.size() - 1);
-        mpresenter.loadMoreApiCall();
+        surveyAdapter.addItemData(null);
+        surveyAdapter.notifyItemInserted(surveyAdapter.getItemCount() - 1);
+        mpresenter.loadMoreApiCall(surveyAdapter.loadMorePageNumber());
+    }
+
+    @Override
+    public void statusBaseListFilter(String status) {
+        surveyAdapter.statusFilter(status);
     }
 
     @Override
     public void onItemClick(FarmerLands farmerModel) {
-//        farmerModel.setCurrentLatitude(latitude);
-//        farmerModel.setCurrentLongitude(longitude);
         Intent intent = new Intent(getContext(), SurveyStatusActivity.class);
         intent.putExtra("surveyData", farmerModel.getUid());
         intent.putExtra("landUid", farmerModel.getFarmerLandUid());
+        intent.putExtra("currentLatitude",mLatitude);
+        intent.putExtra("currentLongitude",mLongitude);
         startActivityForResult(intent, REQUEST_CODE);
         getBaseActivity().overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
+    @Override
+    public void onSuccessPullToRefresh() {
+        activitySurveyListBinding.simpleSwipeRefreshLayout.setRefreshing(false);
+    }
+
 
     @Override
-    public void onSuccessLoadMore(List<RowsEntity> rowsEntities) {
+    public void onSuccessLoadMore() {
         activitySurveyListBinding.noDataFound.setVisibility(View.GONE);
         isLoading = false;
-        surveyModelArrayList.remove(surveyModelArrayList.size() - 1);
-        int scrollPosition = surveyModelArrayList.size();
+        surveyAdapter.removeItemData(surveyAdapter.getItemCount() - 1);
+        int scrollPosition = surveyAdapter.getItemCount();
         surveyAdapter.notifyItemRemoved(scrollPosition);
-        // surveyModelArrayList.addAll(rowsEntities);
-        surveyAdapter.notifyDataSetChanged();
+//        surveyAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onSuccessLoadMoreNodData() {
         activitySurveyListBinding.noDataFound.setVisibility(View.GONE);
-        surveyModelArrayList.remove(surveyModelArrayList.size() - 1);
-        int scrollPosition = surveyModelArrayList.size();
+        surveyAdapter.removeItemData(surveyAdapter.getItemCount() - 1);
+        int scrollPosition = surveyAdapter.getItemCount();
         surveyAdapter.notifyItemRemoved(scrollPosition);
         surveyAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void displayNoData() {
-        surveyModelArrayList.clear();
-        surveyAdapter.notifyDataSetChanged();
         activitySurveyListBinding.noDataFound.setVisibility(View.VISIBLE);
     }
 
-
-    @Override
-    public void onStatuCountApiSucess(SurveyStatusCountModelResponse response) {
-        //  activitySurveyListBinding.setSurvey(response);
-        mpresenter.farmersListApiCall();
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -441,7 +446,8 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
 
     @Override
     public void onLocationChanged(Location location) {
-
+        mLatitude = location.getLatitude();
+        mLongitude = location.getLongitude();
     }
 
     @Override

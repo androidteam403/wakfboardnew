@@ -440,7 +440,6 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
         locationList.add(location);
         // surveyModelArrayList.add(new SurveyModel(location.getLatitude(),location.getLongitude(),location.getAccuracy()));
         polygonPoints.add(new LatLng(location.getLatitude(), location.getLongitude()));
-        mpresenter.storeSurveyDetails(location, false);
 
         if (getSurveyType() == 0) {
             //  dottedPolyline();

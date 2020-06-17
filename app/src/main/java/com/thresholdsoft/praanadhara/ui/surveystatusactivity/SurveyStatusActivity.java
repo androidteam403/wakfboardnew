@@ -173,6 +173,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
                 mapFrameLayout.setLayoutParams(fullMapParams);
                 activitySurveyStatusBinding.setExpandView(0);
                 activitySurveyStatusBinding.setCollapseView(1);
+              //  previewDisplay(surveyDetailsAdapter.getListData());
             }
         });
         activitySurveyStatusBinding.collapseView.setOnClickListener(new View.OnClickListener() {
@@ -184,12 +185,13 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
                 mapFrameLayout.setLayoutParams(fullMapParams);
                 activitySurveyStatusBinding.setExpandView(1);
                 activitySurveyStatusBinding.setCollapseView(0);
+              //  previewDisplay(surveyDetailsAdapter.getListData());
             }
         });
     }
 
     @Override
-    public void startSurveySuccess(FarmerLands rowsEntity, SurveyStartRes data) {
+    public void startSurveySuccess() {
         mpresenter.updateFarmerLandStatus(uid, landUid);
     }
 
@@ -229,7 +231,8 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     }
 
     @Override
-    public void surveySubmitSuccess(SurveyStartRes data) {
+    public void surveySubmitSuccess() {
+        mpresenter.updateLandSurveySubmit(uid,landUid);
         Intent intent = getIntent();
         intent.putExtra("surveySubmit", true);
         setResult(RESULT_OK, intent);
@@ -364,7 +367,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
                 map.animateCamera(cu);
             }
         } else {
-            LatLng location = new LatLng(72.34, 17.34);
+            LatLng location = new LatLng(getIntent().getDoubleExtra("currentLatitude",0), getIntent().getDoubleExtra("currentLongitude",0));
             map.addMarker(new MarkerOptions().position(location));
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 21.0f));
         }

@@ -10,6 +10,7 @@ import com.thresholdsoft.praanadhara.data.network.pojo.MapTypeEntity;
 import com.thresholdsoft.praanadhara.data.network.pojo.RowsEntity;
 import com.thresholdsoft.praanadhara.data.network.pojo.SurveyDetailsEntity;
 import com.thresholdsoft.praanadhara.data.network.pojo.SurveySaveReq;
+import com.thresholdsoft.praanadhara.data.network.pojo.SurveyStartReq;
 import com.thresholdsoft.praanadhara.ui.base.BasePresenter;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.listener.ResultCallback;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.FarmerLandReq;
@@ -18,6 +19,7 @@ import com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.DeleteReq;
 import com.thresholdsoft.praanadhara.utils.rx.SchedulerProvider;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -33,7 +35,6 @@ import io.reactivex.disposables.CompositeDisposable;
 
 public class SurveyListPresenter<V extends SurveyListMvpView> extends BasePresenter<V>
         implements SurveyListMvpPresenter<V> {
-    private int pageNumber = 2;
 
     @Inject
     public SurveyListPresenter(DataManager manager, SchedulerProvider schedulerProvider, CompositeDisposable compositeDisposable) {
@@ -45,12 +46,6 @@ public class SurveyListPresenter<V extends SurveyListMvpView> extends BasePresen
         getMvpView().onItemClick(farmerModel);
     }
 
-    @Override
-    public void farmersListApiCall() {
-        pageNumber = 2;
-        getMvpView().showLoading();
-        listApiCall("", 1, false);
-    }
 
     @Override
     public void anotherizedTokenClearDate() {
@@ -59,41 +54,35 @@ public class SurveyListPresenter<V extends SurveyListMvpView> extends BasePresen
 
     @Override
     public void onClickNew() {
-        pageNumber = 2;
-        getMvpView().showLoading();
-        listApiCall("New", 1, false);
+        getMvpView().statusBaseListFilter("New");
     }
 
     @Override
     public void onClickInProgress() {
-        pageNumber = 2;
-        getMvpView().showLoading();
-        listApiCall("InProgress", 1, false);
+        getMvpView().statusBaseListFilter("InProgress");
     }
 
     @Override
     public void onClickCompleted() {
-        pageNumber = 2;
-        getMvpView().showLoading();
-        listApiCall("Completed", 1, false);
+        getMvpView().statusBaseListFilter("Completed");
     }
 
     @Override
     public void pullToRefreshApiCall() {
-        pageNumber = 2;
-        listApiCall("", 1, false);
+        onStatusCountApiCall(true);
     }
 
     @Override
-    public void loadMoreApiCall() {
-        listApiCall("", pageNumber, true);
+    public void loadMoreApiCall(int i) {
+        listApiCall( 10,i, true, false);
     }
 
-    private void listApiCall(String status, int page, boolean isLoadMore) {
+    private void listApiCall(int rowsCount, int page, boolean isLoadMore, boolean isPullToRefresh) {
         if (getMvpView().isNetworkConnected()) {
             FarmerLandReq farmerLandReq = new FarmerLandReq();
             farmerLandReq.setPage(page);
-            farmerLandReq.setStatus(status);
+            farmerLandReq.setRows(rowsCount);
+            farmerLandReq.setStatus("");
             getCompositeDisposable().add(getDataManager()
                     .doFarmerListApiCall(farmerLandReq)
                     .subscribeOn(getSchedulerProvider().io())
@@ -102,11 +91,11 @@ public class SurveyListPresenter<V extends SurveyListMvpView> extends BasePresen
                         if (blogResponse != null && blogResponse.getData() != null) {
                             if (blogResponse.getData().getListdata().getRows().size() > 0) {
                                 if (isLoadMore) {
-                                    pageNumber++;
-                                    getMvpView().onSuccessLoadMore(blogResponse.getData().getListdata().getRows());
-                                } else {
-                                    insertOrUpdateLands(blogResponse.getData().getListdata().getRows());
+                                    getMvpView().onSuccessLoadMore();
+                                } else if (isPullToRefresh) {
+                                    getMvpView().onSuccessPullToRefresh();
                                 }
+                                insertOrUpdateLands(blogResponse.getData().getListdata().getPage(), blogResponse.getData().getListdata().getRows());
                             } else if (isLoadMore) {
                                 getMvpView().onSuccessLoadMoreNodData();
                             } else {
@@ -118,13 +107,17 @@ public class SurveyListPresenter<V extends SurveyListMvpView> extends BasePresen
                         getMvpView().hideLoading();
                         handleApiError(throwable);
                     }));
+        }if (isPullToRefresh) {
+            getMvpView().onSuccessPullToRefresh();
         }
     }
 
     @Override
-    public void onStatusCountApiCall() {
+    public void onStatusCountApiCall(boolean isPullToRefresh) {
         if (getMvpView().isNetworkConnected()) {
-            getMvpView().showLoading();
+            if(!isPullToRefresh) {
+                getMvpView().showLoading();
+            }
             getMvpView().hideKeyboard();
             final SurveyStatusCountModelRequest request = new SurveyStatusCountModelRequest();
             getCompositeDisposable().add(getDataManager()
@@ -134,7 +127,7 @@ public class SurveyListPresenter<V extends SurveyListMvpView> extends BasePresen
                     .subscribe(blogResponse -> {
                         if (blogResponse != null && blogResponse.getData() != null && blogResponse.getSuccess()) {
                             getDataManager().insertSurveyCount(new SurveyStatusEntity(blogResponse.getData().getInProgress(), blogResponse.getData().getCompleted(), blogResponse.getData().getNew(), blogResponse.getData().getTotal()));
-                            getMvpView().onStatuCountApiSucess(blogResponse.getData());
+                            listApiCall(blogResponse.getData().getTotal(),1,false,isPullToRefresh);
                         }
                         getMvpView().hideLoading();
                     }, throwable -> {
@@ -156,9 +149,12 @@ public class SurveyListPresenter<V extends SurveyListMvpView> extends BasePresen
     }
 
 
-    private void insertOrUpdateLands(List<RowsEntity> rows) {
+    private void insertOrUpdateLands( int page, List<RowsEntity> rows) {
+        int position = 0;
+         Collections.reverse(rows);
         for (RowsEntity entity : rows) {
-            FarmerLands farmerLands = new FarmerLands(entity.getUid(), entity.getName(), entity.getMobile(), entity.getEmail(), entity.getPic().size() > 0 ? entity.getPic().get(0).getPath() : "", entity.getFarmerLand().getPincode().getPincode(), entity.getFarmerLand().getPincode().getVillage().getName(),
+            position++;
+            FarmerLands farmerLands = new FarmerLands(page, position, entity.getUid(), entity.getName(), entity.getMobile(), entity.getEmail(), entity.getPic().size() > 0 ? entity.getPic().get(0).getPath() : "", entity.getFarmerLand().getPincode().getPincode(), entity.getFarmerLand().getPincode().getVillage().getName(),
                     entity.getFarmerLand().getUid(), entity.getFarmerLand().getSurveyLandLocation().getUid(), entity.getFarmerLand().getSurveyLandLocation().getSubmitted().getUid() == null ? "New" : entity.getFarmerLand().getSurveyLandLocation().getSubmitted().getUid(), entity.getFarmerLand().getSurveyLandLocation().getStartDate(), entity.getFarmerLand().getSurveyLandLocation().getSubmittedDate());
             getDataManager().insertFarmerLand(farmerLands);
             for (SurveyDetailsEntity surveyDetailsEntity : entity.getFarmerLand().getSurveyLandLocation().getSurveyDetails()) {
@@ -172,18 +168,45 @@ public class SurveyListPresenter<V extends SurveyListMvpView> extends BasePresen
     private static int cores = Runtime.getRuntime().availableProcessors();
     private static ExecutorService executorService = Executors.newFixedThreadPool(cores + 1);
 
+    private boolean offlineSurveyStartSync(){
+        Boolean surveyStartRes = false;
+        Future<Boolean> startResponse = executorService.submit(startSurvey());
+        try {
+            surveyStartRes = startResponse.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+        return surveyStartRes;
+    }
+
+    private boolean offlineSurveySubmitSync(){
+        Boolean surveyStartRes = false;
+        Future<Boolean> submitResponse = executorService.submit(submitSurvey());
+        try {
+            surveyStartRes = submitResponse.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+        return surveyStartRes;
+    }
+
     public void main() {
         System.out.println("Program Started");
-        AtomicBoolean processing = new AtomicBoolean(true);
+        if(offlineSurveyStartSync()) {
+            AtomicBoolean processing = new AtomicBoolean(true);
 
-        syncLocalData(activities -> processing.set(false));
+            syncLocalData(activities -> processing.set(false));
 
-        while (processing.get()) {
-            // keep running Wait for Sync Database
-            processing.get();
+            while (processing.get()) {
+                // keep running Wait for Sync Database
+                processing.get();
+            }
         }
-        stop();
-        System.out.println("Program Terminated");
+
+        if(offlineSurveySubmitSync()){
+            stop();
+            System.out.println("Program Terminated");
+        }
     }
 
     private void stop() {
@@ -193,9 +216,22 @@ public class SurveyListPresenter<V extends SurveyListMvpView> extends BasePresen
     private void syncLocalData(ResultCallback callback) {
         executorService.execute(() -> {
             Boolean surveyStartRes = false;
+      //      Future<Boolean> startResponse = executorService.submit(startSurvey());
+            Future<Boolean> addResponse = executorService.submit(addSurvey());
             Future<Boolean> editResponse = executorService.submit(updateEditSurvey());
             Future<Boolean> deleteResponse = executorService.submit(deleteSurvey());
-            Future<Boolean> addResponse = executorService.submit(addSurvey());
+       //     Future<Boolean> submitResponse = executorService.submit(submitSurvey());
+
+//            try {
+//                surveyStartRes = startResponse.get();
+//            } catch (InterruptedException | ExecutionException e) {
+//                e.printStackTrace();
+//            }
+            try {
+                surveyStartRes = addResponse.get();
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
             try {
                 surveyStartRes = editResponse.get();
             } catch (InterruptedException | ExecutionException e) {
@@ -206,15 +242,50 @@ public class SurveyListPresenter<V extends SurveyListMvpView> extends BasePresen
             } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
             }
-            try {
-                surveyStartRes = addResponse.get();
-            } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                surveyStartRes = submitResponse.get();
+//            } catch (InterruptedException | ExecutionException e) {
+//                e.printStackTrace();
+//            }
+
 
             callback.onResult(surveyStartRes);
         });
 
+    }
+
+    private Callable<Boolean> startSurvey() {
+        return () -> {
+            List<FarmerLands> startSurveysList = getDataManager().getAllSurveyStartList(true);
+            AtomicInteger callCount = new AtomicInteger();
+            for (FarmerLands surveyEntity : startSurveysList) {
+                callCount.getAndIncrement();
+                getCompositeDisposable().add(getDataManager()
+                        .startSurvey(new SurveyStartReq(new SurveyStartReq.LandLocationEntity(surveyEntity.getFarmerLandUid())))
+//                        .subscribeOn(getSchedulerProvider().io())
+//                        .observeOn(getSchedulerProvider().ui())
+                        .subscribe(blogResponse -> {
+                            callCount.getAndDecrement();
+                            if (blogResponse != null && blogResponse.getData() != null && blogResponse.getSuccess()) {
+                                surveyEntity.setStart(false);
+                                surveyEntity.setSurveyLandUid(blogResponse.getData().getUid());
+                                getDataManager().updateFarmerLand(surveyEntity);
+//                                SurveyEntity entity = getDataManager().getSurveyLandEntity(surveyEntity.getFarmerLandUid());
+//                                entity.setStartUid(blogResponse.getData().getUid());
+//                                getDataManager().updateSurveyEntity(entity);
+                            }
+                            getMvpView().hideLoading();
+                        }, throwable -> {
+                            getMvpView().hideLoading();
+                            handleApiError(throwable);
+                        }));
+            }
+            while (callCount.get() != 0) {
+                // wait for Api response
+                callCount.get();
+            }
+            return true;
+        };
     }
 
     private Callable<Boolean> updateEditSurvey() {
@@ -240,6 +311,7 @@ public class SurveyListPresenter<V extends SurveyListMvpView> extends BasePresen
                         .subscribe(blogResponse -> {
                             callCount.getAndDecrement();
                             if (blogResponse != null && blogResponse.getData() != null && blogResponse.getSuccess()) {
+                                surveyEntity.setEdit(false);
                                 getDataManager().updateSurveyEntity(surveyEntity);
                             }
                             getMvpView().hideLoading();
@@ -274,6 +346,7 @@ public class SurveyListPresenter<V extends SurveyListMvpView> extends BasePresen
                         .subscribe(blogResponse -> {
                             callCount.getAndDecrement();
                             if (blogResponse != null && blogResponse.getData() != null && blogResponse.getSuccess()) {
+                                surveyEntity.setDelete(false);
                                 getDataManager().deleteSurveyEntity(surveyEntity);
                             }
                             getMvpView().hideLoading();
@@ -296,8 +369,9 @@ public class SurveyListPresenter<V extends SurveyListMvpView> extends BasePresen
             AtomicInteger callCount = new AtomicInteger();
             for (SurveyEntity surveyEntity : addSurveysList) {
                 callCount.getAndIncrement();
+                FarmerLands lands = getDataManager().getFarmerLandDetails(surveyEntity.getLandUid());
                 SurveySaveReq surveySaveReq = new SurveySaveReq();
-                surveySaveReq.setSurvey(new SurveySaveReq.SurveyEntity(surveyEntity.getStartUid()));
+                surveySaveReq.setSurvey(new SurveySaveReq.SurveyEntity(lands.getSurveyLandUid()));
                 MapTypeEntity mapTypeEntity = new MapTypeEntity();
                 mapTypeEntity.setUid(surveyEntity.getMapType());
                 mapTypeEntity.setName(surveyEntity.getMapType());
@@ -315,6 +389,37 @@ public class SurveyListPresenter<V extends SurveyListMvpView> extends BasePresen
                                 surveyEntity.setUid(blogResponse.getData().getUid());
                                 surveyEntity.setSync(true);
                                 getDataManager().updateSurveyEntity(surveyEntity);
+                            }
+                            getMvpView().hideLoading();
+                        }, throwable -> {
+                            getMvpView().hideLoading();
+                            handleApiError(throwable);
+                        }));
+            }
+            while (callCount.get() != 0) {
+                // wait for Api response
+                callCount.get();
+            }
+            return true;
+        };
+    }
+
+    private Callable<Boolean> submitSurvey() {
+        return () -> {
+            List<FarmerLands> addSurveysList = getDataManager().getAllSurveySubmitList(true);
+            AtomicInteger callCount = new AtomicInteger();
+            for (FarmerLands surveyEntity : addSurveysList) {
+                callCount.getAndIncrement();
+                SurveySaveReq.SurveyEntity landLocationEntity = new SurveySaveReq.SurveyEntity(surveyEntity.getSurveyLandUid());
+                getCompositeDisposable().add(getDataManager()
+                        .submitSurvey(landLocationEntity)
+//                        .subscribeOn(getSchedulerProvider().io())
+//                        .observeOn(getSchedulerProvider().ui())
+                        .subscribe(blogResponse -> {
+                            callCount.getAndDecrement();
+                            if (blogResponse != null && blogResponse.getData() != null && blogResponse.getSuccess()) {
+                                surveyEntity.setSubmit(false);
+                                getDataManager().updateFarmerLand(surveyEntity);
                             }
                             getMvpView().hideLoading();
                         }, throwable -> {

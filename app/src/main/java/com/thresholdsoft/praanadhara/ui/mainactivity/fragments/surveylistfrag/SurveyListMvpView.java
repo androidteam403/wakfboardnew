@@ -10,13 +10,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface SurveyListMvpView extends MvpView {
+
+    void statusBaseListFilter(String status);
+
     void onItemClick(FarmerLands farmerModel);
 
-    void onSuccessLoadMore(List<RowsEntity> rowsEntities);
+    void onSuccessPullToRefresh();
+
+    void onSuccessLoadMore();
 
     void onSuccessLoadMoreNodData();
 
     void displayNoData();
-
-    void onStatuCountApiSucess(SurveyStatusCountModelResponse response);
 }

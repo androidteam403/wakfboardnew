@@ -7,19 +7,14 @@ import androidx.lifecycle.LiveData;
 
 import com.thresholdsoft.praanadhara.data.db.AppDatabase;
 import com.thresholdsoft.praanadhara.data.db.model.FarmerLands;
-import com.thresholdsoft.praanadhara.data.db.model.LandEntity;
-import com.thresholdsoft.praanadhara.data.db.model.Survey;
 import com.thresholdsoft.praanadhara.data.db.model.SurveyEntity;
 import com.thresholdsoft.praanadhara.data.db.model.SurveyStatusEntity;
 import com.thresholdsoft.praanadhara.data.network.RestApiHelper;
 import com.thresholdsoft.praanadhara.data.network.pojo.FarmerSurveyList;
 import com.thresholdsoft.praanadhara.data.network.pojo.FeedItem;
-import com.thresholdsoft.praanadhara.data.network.pojo.LoginRequest;
 import com.thresholdsoft.praanadhara.data.network.pojo.SurveySaveReq;
 import com.thresholdsoft.praanadhara.data.network.pojo.SurveyStartReq;
 import com.thresholdsoft.praanadhara.data.network.pojo.SurveyStartRes;
-import com.thresholdsoft.praanadhara.data.network.pojo.UserProfile;
-import com.thresholdsoft.praanadhara.data.network.pojo.PicEntity;
 import com.thresholdsoft.praanadhara.data.network.pojo.WrapperResponse;
 import com.thresholdsoft.praanadhara.data.prefs.PreferencesHelper;
 import com.thresholdsoft.praanadhara.data.utils.LoggedInMode;
@@ -31,7 +26,7 @@ import com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.DeleteReq;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.DeleteRes;
 import com.thresholdsoft.praanadhara.ui.userlogin.model.LoginResponse;
 
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -39,10 +34,8 @@ import javax.inject.Inject;
 import io.reactivex.Single;
 
 public class BaseDataManager implements DataManager {
-    private static final String TAG = "BaseDataManager";
 
 
-    private final Context mContext;
     private final AppDatabase mDatabase;
     private final PreferencesHelper mPreferencesHelper;
     private final RestApiHelper mApiHelper;
@@ -52,7 +45,6 @@ public class BaseDataManager implements DataManager {
                            AppDatabase database,
                            PreferencesHelper preferencesHelper,
                            RestApiHelper apiHelper) {
-        mContext = context;
         mDatabase = database;
         mPreferencesHelper = preferencesHelper;
         mApiHelper = apiHelper;
@@ -69,7 +61,7 @@ public class BaseDataManager implements DataManager {
     }
 
     @Override
-    public void updateUserInfo(String accessToken,  String userName, String email, String phone) {
+    public void updateUserInfo(String accessToken, String userName, String email, String phone) {
         mPreferencesHelper.setAccessToken(accessToken);
         mPreferencesHelper.setUserName(userName);
         mPreferencesHelper.setUserEmail(email);
@@ -77,54 +69,36 @@ public class BaseDataManager implements DataManager {
     }
 
     @Override
-    public List<Survey> getAll() {
-        return mDatabase.userDao().getAll();
-    }
-
-    @Override
-    public void insertUser(Survey mSurvey) {
-        mDatabase.userDao().insertUser(mSurvey);
-    }
-
-    @Override
-    public void insertAllSurvey(ArrayList<Survey> surveys) {
-        mDatabase.userDao().insertAllSurvey(surveys);
-    }
-
-    @Override
-    public void deleteUser(Survey mSurvey) {
-        mDatabase.userDao().deleteUser(mSurvey);
-    }
-
-    @Override
-    public void updateUser(Survey mSurvey) {
-
-    }
-
-
-    @Override
-    public Survey getUserById(int uId) {
-        return mDatabase.userDao().getUserById(uId);
-    }
-
-    @Override
-    public List<Survey> loadAllByIds(int[] userIds) {
-        return mDatabase.userDao().loadAllByIds(userIds);
-    }
-
-    @Override
     public void insertFarmerLand(FarmerLands farmerLands) {
-        LiveData<FarmerLands> lands = getFarmerLand(farmerLands.getUid(),farmerLands.getFarmerLandUid());
-       if( lands.getValue() != null){
-           farmerLands.setId(lands.getValue().getId());
-           updateFarmerLand(farmerLands);
-       }else
-           mDatabase.userDao().insertFarmerLand(farmerLands);
+        FarmerLands lands = getFarmerLandDetails(farmerLands.getUid(), farmerLands.getFarmerLandUid());
+        if (lands != null) {
+            farmerLands.setId(lands.getId());
+            farmerLands.setStatus(lands.getStatus());
+            farmerLands.setStart(lands.isStart());
+            farmerLands.setSubmit(lands.isSubmit());
+            farmerLands.setCreatedAt(lands.getCreatedAt());
+            farmerLands.setLastUpdate(new Date());
+            updateFarmerLand(farmerLands);
+        } else {
+            farmerLands.setCreatedAt(new Date());
+            farmerLands.setLastUpdate(new Date());
+            mDatabase.userDao().insertFarmerLand(farmerLands);
+        }
     }
 
     @Override
     public LiveData<FarmerLands> getFarmerLand(String uid, String landUid) {
-        return mDatabase.userDao().getFarmerLand(uid,landUid);
+        return mDatabase.userDao().getFarmerLand(uid, landUid);
+    }
+
+    @Override
+    public FarmerLands getFarmerLandDetails(String uid, String landUid) {
+        return mDatabase.userDao().getFarmerLandDetails(uid, landUid);
+    }
+
+    @Override
+    public FarmerLands getFarmerLandDetails(String landUid) {
+        return mDatabase.userDao().getFarmerLandDetails(landUid);
     }
 
     @Override
@@ -137,36 +111,17 @@ public class BaseDataManager implements DataManager {
         mDatabase.userDao().updateFarmerLand(farmerLands);
     }
 
-//    @Override
-//    public void insetLandEntity(LandEntity landEntity) {
-//        LandEntity lands = getLandEntity(landEntity.getUid());
-//        if( lands != null){
-//            landEntity.setId(lands.getId());
-//            updateLandEntity(landEntity);
-//        }else
-//            mDatabase.userDao().insetLandEntity(landEntity);
-//    }
-//
-//    @Override
-//    public LandEntity getLandEntity(String landUid) {
-//        return mDatabase.userDao().getLandEntity(landUid);
-//    }
-//
-//    @Override
-//    public void updateLandEntity(LandEntity landEntity) {
-//        mDatabase.userDao().updateLandEntity(landEntity);
-//    }
 
     @Override
     public void insetSurveyEntity(SurveyEntity surveyEntity) {
-        if(!TextUtils.isEmpty(surveyEntity.getUid())) {
+        if (!TextUtils.isEmpty(surveyEntity.getUid())) {
             SurveyEntity lands = getSurveyEntity(surveyEntity.getUid());
             if (lands != null) {
                 surveyEntity.setId(lands.getId());
                 updateSurveyEntity(surveyEntity);
             } else
                 mDatabase.userDao().insetSurveyEntity(surveyEntity);
-        }else{
+        } else {
             mDatabase.userDao().insetSurveyEntity(surveyEntity);
         }
     }
@@ -174,6 +129,11 @@ public class BaseDataManager implements DataManager {
     @Override
     public SurveyEntity getSurveyEntity(String uid) {
         return mDatabase.userDao().getSurveyEntity(uid);
+    }
+
+    @Override
+    public SurveyEntity getSurveyLandEntity(String landUid) {
+        return mDatabase.userDao().getSurveyLandEntity(landUid);
     }
 
     @Override
@@ -197,11 +157,6 @@ public class BaseDataManager implements DataManager {
     }
 
     @Override
-    public void updateSurveyCount(SurveyStatusEntity surveyStatusEntity) {
-
-    }
-
-    @Override
     public LiveData<SurveyStatusEntity> getSurveyCount() {
         return mDatabase.userDao().getSurveyCount();
     }
@@ -219,6 +174,16 @@ public class BaseDataManager implements DataManager {
     @Override
     public List<SurveyEntity> getAllSurveySyncList(boolean isSync) {
         return mDatabase.userDao().getAllSurveySyncList(isSync);
+    }
+
+    @Override
+    public List<FarmerLands> getAllSurveyStartList(boolean isStart) {
+        return mDatabase.userDao().getAllSurveyStartList(isStart);
+    }
+
+    @Override
+    public List<FarmerLands> getAllSurveySubmitList(boolean isSubmit) {
+        return mDatabase.userDao().getAllSurveySubmitList(isSubmit);
     }
 
 //    @Override

@@ -45,7 +45,7 @@ public class SurveyDetailsAdapter extends RecyclerView.Adapter<SurveyDetailsAdap
     public void onBindViewHolder(@NonNull final SurveyDetailsAdapter.ItemBaseViewHolder holder, int position) {
         SurveyEntity farmerModel = differ.getCurrentList().get(position);
         holder.listItemMainBinding.setData(farmerModel);
-        holder.listItemMainBinding.cartlayout.setData(farmerModel);
+       // holder.listItemMainBinding.cartlayout.setData(farmerModel);
 
         if (farmerModel.getMapType() != null) {
             if (farmerModel.getMapType().equalsIgnoreCase("point")) {

@@ -39,10 +39,8 @@ public final class BindingUtils {
 
     @BindingAdapter("imageUrl")
     public static void setImageUrl(ImageView imageView, String picEntity) {
-        if(!TextUtils.isEmpty(picEntity)) {
-            Context context = imageView.getContext();
-            Glide.with(context).load(BuildConfig.IMAGE_URL + picEntity).placeholder(R.drawable.placeholder).into(imageView);
-        }
+        Context context = imageView.getContext();
+        Glide.with(context).load(BuildConfig.IMAGE_URL + picEntity).placeholder(R.drawable.placeholder).into(imageView);
     }
 
     @BindingAdapter("statustext")
@@ -84,6 +82,17 @@ public final class BindingUtils {
             linearLayout.setBackgroundResource(R.drawable.adapter_survey_back_orange);
         }else if(status.equalsIgnoreCase("Yes")){
             linearLayout.setBackgroundResource(R.drawable.adapter_survey_back_green);
+        }
+    }
+
+    @BindingAdapter({"surveyStatus","surveyStartDate","surveySubmitDate"})
+    public static void setSurveyDate(TextView textView, String status, String startDate, String submitDate){
+        if(status.equalsIgnoreCase("New")){
+            textView.setText("");
+        }else if(status.equalsIgnoreCase("No")){
+            textView.setText(CommonUtils.dateConversion(startDate));
+        }else if(status.equalsIgnoreCase("Yes")){
+            textView.setText(CommonUtils.dateConversion(submitDate));
         }
     }
 }
