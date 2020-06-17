@@ -77,7 +77,7 @@ public class UserLoginPresenter<V extends UserLoginMvpView> extends BasePresente
                         getMvpView().hideKeyboard();
                     } else {
                         assert response.body() != null;
-                        getMvpView().showMessage("" + response.body().getMessage());
+                        getMvpView().numberDetailsNotFount(response.body());
                     }
                 }
 
@@ -87,7 +87,7 @@ public class UserLoginPresenter<V extends UserLoginMvpView> extends BasePresente
                 }
             });
         } else {
-            getMvpView().showMessage("Please Connect to Proper internet");
+            getMvpView().snackBarView();
         }
     }
 
@@ -118,7 +118,7 @@ public class UserLoginPresenter<V extends UserLoginMvpView> extends BasePresente
                         getMvpView().navigateToSurveyListActivity();
                         getMvpView().hideKeyboard();
                     } else {
-                        getMvpView().showMessage("" + response.body().getMessage());
+                        getMvpView().otpDetailsNotFound(response.body());
                     }
                 }
 
@@ -128,7 +128,7 @@ public class UserLoginPresenter<V extends UserLoginMvpView> extends BasePresente
                 }
             });
         } else {
-            getMvpView().showMessage("Please Connect to Proper internet");
+            getMvpView().snackBarView();
         }
     }
 
