@@ -3,20 +3,27 @@ package com.thresholdsoft.praanadhara.ui.userlogin;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.databinding.DataBindingUtil;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.mukesh.OnOtpCompletionListener;
 import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.databinding.ActivityUserLoginBinding;
 import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
 import com.thresholdsoft.praanadhara.ui.mainactivity.MainActiivty;
+import com.thresholdsoft.praanadhara.ui.userlogin.model.LoginResponse;
+import com.thresholdsoft.praanadhara.ui.userlogin.model.OtpVerifyRes;
 
 import javax.inject.Inject;
 
@@ -24,7 +31,7 @@ public class UserLoginActivity extends BaseActivity implements UserLoginMvpView,
     @Inject
     UserLoginMvpPresenter<UserLoginMvpView> mPresenter;
     private ActivityUserLoginBinding activityLoginBinding;
-
+    CoordinatorLayout coordinatorLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -110,6 +117,46 @@ public class UserLoginActivity extends BaseActivity implements UserLoginMvpView,
                 activityLoginBinding.setTimeView(0);
             }
         }.start();
+    }
+
+    @Override
+    public void snackBarView() {
+        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.mainLayout);
+        Snackbar snackbar = Snackbar
+                .make(relativeLayout, "Please Connect to proper network", Snackbar.LENGTH_LONG);
+        View snackBarView = snackbar.getView();
+        Typeface font = Typeface.createFromAsset(this.getAssets(), "font/roboto_regular.ttf");
+        TextView textView = (TextView) snackBarView.findViewById(com.google.android.material.R.id.snackbar_text);
+        textView.setTypeface(font);
+        snackBarView.setBackgroundColor(this.getResources().getColor(R.color.red));
+        snackbar.show();
+
+    }
+
+    @Override
+    public void numberDetailsNotFount(LoginResponse response) {
+        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.mainLayout);
+        Snackbar snackbar = Snackbar
+                .make(relativeLayout, "" + response.getMessage(), Snackbar.LENGTH_LONG);
+        View snackBarView = snackbar.getView();
+        Typeface font = Typeface.createFromAsset(this.getAssets(), "font/roboto_regular.ttf");
+        TextView textView = (TextView) snackBarView.findViewById(com.google.android.material.R.id.snackbar_text);
+        textView.setTypeface(font);
+        snackBarView.setBackgroundColor(this.getResources().getColor(R.color.red));
+        snackbar.show();
+    }
+
+    @Override
+    public void otpDetailsNotFound(OtpVerifyRes response) {
+        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.mainLayout);
+        Snackbar snackbar = Snackbar
+                .make(relativeLayout, "" + response.getMessage(), Snackbar.LENGTH_LONG);
+        View snackBarView = snackbar.getView();
+        Typeface font = Typeface.createFromAsset(this.getAssets(), "font/roboto_regular.ttf");
+        TextView textView = (TextView) snackBarView.findViewById(com.google.android.material.R.id.snackbar_text);
+        textView.setTypeface(font);
+        snackBarView.setBackgroundColor(this.getResources().getColor(R.color.red));
+        snackbar.show();
     }
 
     @Override
