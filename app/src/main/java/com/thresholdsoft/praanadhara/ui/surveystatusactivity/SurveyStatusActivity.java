@@ -132,13 +132,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
         imageInsideLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                bottomSheet = new SurveyStatusBottomSheet();
-                bottomSheet.setPresenterData(mpresenter);
-                Bundle bundle = new Bundle();
-                bundle.putString("surveyDataSheet", uid);
-                bundle.putString("landUidSheet", landUid);
-                bottomSheet.setArguments(bundle);
-                bottomSheet.show(getSupportFragmentManager(), bottomSheet.getTag());
+                openBottomSheet();
             }
         });
 
@@ -162,6 +156,16 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
             activitySurveyStatusBinding.setSurvey(surveyEntities.size() > 0);
             previewDisplay(surveyEntities);
         });
+    }
+
+    private void openBottomSheet(){
+        bottomSheet = new SurveyStatusBottomSheet();
+        bottomSheet.setPresenterData(mpresenter);
+        Bundle bundle = new Bundle();
+        bundle.putString("surveyDataSheet", uid);
+        bundle.putString("landUidSheet", landUid);
+        bottomSheet.setArguments(bundle);
+        bottomSheet.show(getSupportFragmentManager(), bottomSheet.getTag());
     }
 
     @Override
@@ -190,7 +194,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
             public void onClick(View v) {
                 LinearLayout.LayoutParams fullMapParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
                 activitySurveyStatusBinding.farmerdata.setVisibility(View.VISIBLE);
-                fullMapParams.height = 500;
+                fullMapParams.height = 900;
                 mapFrameLayout.setLayoutParams(fullMapParams);
                 activitySurveyStatusBinding.setExpandView(1);
                 activitySurveyStatusBinding.setCollapseView(0);
@@ -202,6 +206,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     @Override
     public void startSurveySuccess(String uid) {
         mpresenter.updateFarmerLandStatus(this.uid, landUid,uid);
+        openBottomSheet();
     }
 
     @Override
