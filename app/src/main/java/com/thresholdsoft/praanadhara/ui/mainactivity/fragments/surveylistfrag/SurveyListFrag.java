@@ -9,6 +9,7 @@ import android.content.IntentFilter;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.Uri;
@@ -64,7 +65,7 @@ import javax.inject.Inject;
 import static android.app.Activity.RESULT_OK;
 
 public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, LocationListener , ConnectivityReceiver.ConnectivityReceiverListener{
+        GoogleApiClient.OnConnectionFailedListener, LocationListener, ConnectivityReceiver.ConnectivityReceiverListener {
     @Inject
     SurveyListMvpPresenter<SurveyListMvpView> mpresenter;
     private ActivitySurveyListBinding activitySurveyListBinding;
@@ -82,6 +83,7 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
     private double mLatitude;
     private double mLongitude;
     private BroadcastReceiver MyReceiver = null;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -134,7 +136,6 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
             startActivityForResult(intent, REQUEST_CODE);
             getBaseActivity().overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         });
-
     }
 
     private void initScrollListener() {
@@ -212,6 +213,44 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
         activitySurveyListBinding.noDataFound.setVisibility(View.VISIBLE);
     }
 
+    @Override
+    public void onClickNew() {
+        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "font/roboto_bold.ttf");
+        Typeface fontreg = Typeface.createFromAsset(getActivity().getAssets(), "font/roboto_regular.ttf");
+
+        activitySurveyListBinding.newtext.setTypeface(font);
+        activitySurveyListBinding.itemblueCount.setTypeface(font);
+        activitySurveyListBinding.completedText.setTypeface(fontreg);
+        activitySurveyListBinding.itemGreenCount.setTypeface(fontreg);
+        activitySurveyListBinding.progressText.setTypeface(fontreg);
+        activitySurveyListBinding.itemOrangeCount.setTypeface(fontreg);
+    }
+
+    @Override
+    public void onClickInProgress() {
+        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "font/roboto_bold.ttf");
+        Typeface fontreg = Typeface.createFromAsset(getActivity().getAssets(), "font/roboto_regular.ttf");
+
+        activitySurveyListBinding.progressText.setTypeface(font);
+        activitySurveyListBinding.itemOrangeCount.setTypeface(font);
+        activitySurveyListBinding.newtext.setTypeface(fontreg);
+        activitySurveyListBinding.itemblueCount.setTypeface(fontreg);
+        activitySurveyListBinding.completedText.setTypeface(fontreg);
+        activitySurveyListBinding.itemGreenCount.setTypeface(fontreg);
+    }
+
+    @Override
+    public void onClickCompleted() {
+        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "font/roboto_bold.ttf");
+        Typeface fontreg = Typeface.createFromAsset(getActivity().getAssets(), "font/roboto_regular.ttf");
+
+        activitySurveyListBinding.completedText.setTypeface(font);
+        activitySurveyListBinding.itemGreenCount.setTypeface(font);
+        activitySurveyListBinding.progressText.setTypeface(fontreg);
+        activitySurveyListBinding.itemOrangeCount.setTypeface(fontreg);
+        activitySurveyListBinding.newtext.setTypeface(fontreg);
+        activitySurveyListBinding.itemblueCount.setTypeface(fontreg);
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -429,15 +468,15 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
     }
 
     private synchronized void setUpGClient() {
-        if (mGoogleApiClient == null || !mGoogleApiClient.isConnected()){
+        if (mGoogleApiClient == null || !mGoogleApiClient.isConnected()) {
             mGoogleApiClient = new GoogleApiClient.Builder(Objects.requireNonNull(getActivity()))
                     .enableAutoManage(getActivity(), 1, this)
                     .addConnectionCallbacks(this)
                     .addOnConnectionFailedListener(this)
                     .addApi(LocationServices.API)
                     .build();
-        mGoogleApiClient.connect();
-    }
+            mGoogleApiClient.connect();
+        }
     }
 
     @Override
@@ -501,6 +540,7 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
     }
 
     private boolean isOffline = false;
+
     // Showing the status in Snackbar
     private void showSnack(boolean isConnected) {
         String message;
@@ -515,7 +555,7 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
             sbView.setBackgroundColor(ContextCompat.getColor(getBaseActivity(), R.color.thickGreem));
             TextView textView = (TextView) sbView.findViewById(R.id.snackbar_text);
             textView.setTextColor(color);
-            if(isOffline) {
+            if (isOffline) {
                 snackbar.show();
                 isOffline = false;
             }
