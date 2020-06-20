@@ -109,7 +109,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_weight="0.9"
                                         android:fontFamily="@font/roboto_bold"
-                                        android:text="@{farmer_land.name}"
+                                        android:text="@{farmer_land.name +`, `+ farmer_land.village}"
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/text_dimen_13" />
 
@@ -133,7 +133,8 @@
                                     android:maxLines="1"
                                     android:text="@{farmer_land.village}"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/text_dimen_12" />
+                                    android:textSize="@dimen/text_dimen_12"
+                                    android:visibility="gone"/>
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
