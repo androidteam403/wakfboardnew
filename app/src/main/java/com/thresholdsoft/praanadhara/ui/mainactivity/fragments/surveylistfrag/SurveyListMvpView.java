@@ -22,4 +22,10 @@ public interface SurveyListMvpView extends MvpView {
     void onSuccessLoadMoreNodData();
 
     void displayNoData();
+
+    void onClickNew();
+
+    void onClickInProgress();
+
+    void onClickCompleted();
 }

@@ -59,7 +59,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMvpView, OnMapReadyCallback , ConnectivityReceiver.ConnectivityReceiverListener{
+public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMvpView, OnMapReadyCallback, ConnectivityReceiver.ConnectivityReceiverListener {
     @Inject
     SurveyStatusMvpPresenter<SurveyStatusMvpView> mpresenter;
     private ActivitySurveyStatusBinding activitySurveyStatusBinding;
@@ -182,7 +182,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
                 mapFrameLayout.setLayoutParams(fullMapParams);
                 activitySurveyStatusBinding.setExpandView(0);
                 activitySurveyStatusBinding.setCollapseView(1);
-              //  previewDisplay(surveyDetailsAdapter.getListData());
+                //  previewDisplay(surveyDetailsAdapter.getListData());
             }
         });
         activitySurveyStatusBinding.collapseView.setOnClickListener(new View.OnClickListener() {
@@ -194,7 +194,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
                 mapFrameLayout.setLayoutParams(fullMapParams);
                 activitySurveyStatusBinding.setExpandView(1);
                 activitySurveyStatusBinding.setCollapseView(0);
-              //  previewDisplay(surveyDetailsAdapter.getListData());
+                //  previewDisplay(surveyDetailsAdapter.getListData());
             }
         });
     }
@@ -241,7 +241,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
 
     @Override
     public void surveySubmitSuccess() {
-        mpresenter.updateLandSurveySubmit(uid,landUid);
+        mpresenter.updateLandSurveySubmit(uid, landUid);
         Intent intent = getIntent();
         intent.putExtra("surveySubmit", true);
         setResult(RESULT_OK, intent);
@@ -376,7 +376,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
                 map.animateCamera(cu);
             }
         } else {
-            LatLng location = new LatLng(getIntent().getDoubleExtra("currentLatitude",0), getIntent().getDoubleExtra("currentLongitude",0));
+            LatLng location = new LatLng(getIntent().getDoubleExtra("currentLatitude", 0), getIntent().getDoubleExtra("currentLongitude", 0));
             map.addMarker(new MarkerOptions().position(location));
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 21.0f));
         }
@@ -400,14 +400,16 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     @Override
     public void onPause() {
         super.onPause();
-       unregisterReceiver(MyReceiver);
+        unregisterReceiver(MyReceiver);
     }
 
     @Override
     public void onNetworkConnectionChanged(boolean isConnected) {
         showSnack(isConnected);
     }
+
     private boolean isOffline = false;
+
     // Showing the status in Snackbar
     private void showSnack(boolean isConnected) {
         String message;
@@ -422,7 +424,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
             sbView.setBackgroundColor(ContextCompat.getColor(this, R.color.thickGreem));
             TextView textView = (TextView) sbView.findViewById(R.id.snackbar_text);
             textView.setTextColor(color);
-            if(isOffline) {
+            if (isOffline) {
                 snackbar.show();
                 isOffline = false;
             }

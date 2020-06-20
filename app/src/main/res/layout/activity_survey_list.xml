@@ -3,9 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="survey"
             type="com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.SurveyStatusCountModelResponse" />
+
         <variable
             name="count"
             type="com.thresholdsoft.praanadhara.data.db.model.SurveyStatusEntity" />
@@ -22,9 +24,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="@dimen/ten_dp"
             android:background="@color/colorPrimaryDark"
             android:orientation="vertical"
+            android:paddingTop="@dimen/ten_dp"
             tools:ignore="UselessParent">
 
             <LinearLayout
@@ -43,14 +45,16 @@
                     android:weightSum="3">
 
                     <LinearLayout
+                        android:id="@+id/newLayout"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:orientation="vertical"
-                        android:onClick="@{()->callback.onClickNew()}">
+                        android:onClick="@{()->callback.onClickNew()}"
+                        android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/newtext"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_regular"
@@ -63,7 +67,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/two_dp"
-                            android:fontFamily="@font/roboto_bold"
+                            android:fontFamily="@font/roboto_regular"
                             android:text="@{String.valueOf(count.new)}"
                             android:textColor="@color/blue"
                             android:textSize="@dimen/text_dimen_22" />
@@ -76,14 +80,16 @@
                         android:background="@color/grey" />
 
                     <LinearLayout
+                        android:id="@+id/inProgressLayout"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:orientation="vertical"
-                        android:onClick="@{()->callback.onClickInProgress()}">
+                        android:onClick="@{()->callback.onClickInProgress()}"
+                        android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/progressText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_regular"
@@ -96,7 +102,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/two_dp"
-                            android:fontFamily="@font/roboto_bold"
+                            android:fontFamily="@font/roboto_regular"
                             android:text="@{String.valueOf(count.inProgress)}"
                             android:textColor="@color/pharmacy_circle_color"
                             android:textSize="@dimen/text_dimen_22" />
@@ -109,14 +115,16 @@
                         android:background="@color/grey" />
 
                     <LinearLayout
+                        android:id="@+id/completedLayout"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:orientation="vertical"
-                        android:onClick="@{()->callback.onClickCompleted()}">
+                        android:onClick="@{()->callback.onClickCompleted()}"
+                        android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/completedText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_regular"
@@ -129,18 +137,20 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/two_dp"
-                            android:fontFamily="@font/roboto_bold"
+                            android:fontFamily="@font/roboto_regular"
                             android:text="@{String.valueOf(count.completed)}"
                             android:textColor="@color/transaction_id_color"
                             android:textSize="@dimen/text_dimen_22" />
 
                     </LinearLayout>
                 </LinearLayout>
+
                 <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                     android:id="@+id/simpleSwipeRefreshLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     tools:context=".RecyclerMainActivity">
+
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
@@ -148,16 +158,16 @@
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recyclerSurveyList"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"/>
+                            android:layout_height="match_parent" />
 
                         <TextView
                             android:id="@+id/no_data_found"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
-                            android:textSize="@dimen/text_dimen_16"
                             android:text="No data found"
-                            android:visibility="gone"/>
+                            android:textSize="@dimen/text_dimen_16"
+                            android:visibility="gone" />
                     </RelativeLayout>
                 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
             </LinearLayout>
