@@ -54,6 +54,7 @@ import com.thresholdsoft.praanadhara.databinding.ActivitySurveyListBinding;
 import com.thresholdsoft.praanadhara.root.WaveApp;
 import com.thresholdsoft.praanadhara.services.ConnectivityReceiver;
 import com.thresholdsoft.praanadhara.ui.base.BaseFragment;
+import com.thresholdsoft.praanadhara.ui.mainactivity.MainActiivty;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.adapter.SurveyAdapter;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusActivity;
 import com.thresholdsoft.praanadhara.ui.userlogin.UserLoginActivity;
@@ -136,6 +137,9 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
             startActivityForResult(intent, REQUEST_CODE);
             getBaseActivity().overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         });
+
+        ((MainActiivty) getActivity()).setActionBarTitle("Survey List");
+
     }
 
     private void initScrollListener() {

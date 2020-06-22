@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -158,7 +159,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
         });
     }
 
-    private void openBottomSheet(){
+    private void openBottomSheet() {
         bottomSheet = new SurveyStatusBottomSheet();
         bottomSheet.setPresenterData(mpresenter);
         Bundle bundle = new Bundle();
@@ -205,7 +206,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
 
     @Override
     public void startSurveySuccess(String uid) {
-        mpresenter.updateFarmerLandStatus(this.uid, landUid,uid);
+        mpresenter.updateFarmerLandStatus(this.uid, landUid, uid);
         openBottomSheet();
     }
 
@@ -284,10 +285,14 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
                 surveyEntity.setDescription(customEditDialog.getPointDescription());
                 customEditDialog.dismiss();
                 mpresenter.editApiCal(surveyEntity);
+                Toast.makeText(this, "The details are updated successfully", Toast.LENGTH_SHORT).show();
             }
         });
         customEditDialog.setNegativeUpdateLabel("Cancel");
-        customEditDialog.setNegativeUpdateListener(v -> customEditDialog.dismiss());
+        customEditDialog.setNegativeUpdateListener(v -> {
+            customEditDialog.dismiss();
+            Toast.makeText(this, "The details are not updated", Toast.LENGTH_SHORT).show();
+        });
         customEditDialog.show();
     }
 
@@ -299,9 +304,13 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
         deleteDialog.setPositiveListener(v -> {
             mpresenter.deleteApiCall(surveyEntity);
             deleteDialog.dismiss();
+            Toast.makeText(this, "Item Deleted successfully", Toast.LENGTH_SHORT).show();
         });
         deleteDialog.setNegativeLabel("Cancel");
-        deleteDialog.setNegativeListener(v -> deleteDialog.dismiss());
+        deleteDialog.setNegativeListener(v -> {
+            deleteDialog.dismiss();
+            Toast.makeText(this, "Item is not deleted", Toast.LENGTH_SHORT).show();
+        });
         deleteDialog.show();
     }
 

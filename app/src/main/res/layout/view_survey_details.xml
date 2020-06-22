@@ -48,6 +48,7 @@
                 android:layout_below="@id/name_textview"
                 android:layout_marginStart="@dimen/five_dp"
                 android:layout_toEndOf="@id/image"
+                android:singleLine="true"
                 android:ellipsize="end"
                 android:fontFamily="@font/roboto_regular"
                 android:text="@{data.description}"

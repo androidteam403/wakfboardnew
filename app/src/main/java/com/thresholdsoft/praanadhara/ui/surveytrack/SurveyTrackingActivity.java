@@ -84,7 +84,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackMvpView, OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, LocationListener, GoogleMap.OnMarkerClickListener , ConnectivityReceiver.ConnectivityReceiverListener{
+        GoogleApiClient.OnConnectionFailedListener, LocationListener, GoogleMap.OnMarkerClickListener, ConnectivityReceiver.ConnectivityReceiverListener {
 
     private static final String TAG = SurveyTrackingActivity.class.getSimpleName();
 
@@ -123,6 +123,7 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
     private List<Marker> markerList = new ArrayList<>();
     private BroadcastReceiver MyReceiver = null;
     View mapView;
+
     public static Intent getIntent(Context context, FarmerLands surveyEntity, int mapType) {
         Intent intent = new Intent(context, SurveyTrackingActivity.class);
         intent.putExtra("surveyEntity", surveyEntity);
@@ -407,16 +408,20 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
             public void onMapClick(LatLng point) {
                 BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.new_point);
                 if (getSurveyType() == 0) {
-                    pointMarker = mMap.addMarker(new MarkerOptions()
-                            .position(point)
-                            .flat(true).icon(icon)
-                            .anchor(0.5f, 0.5f));
-                    showPointDialog(point);
+                    if (markerList.size() < 1) {
+//                    pointMarker = mMap.addMarker(new MarkerOptions()
+//                            .position(point)
+//                            .flat(true).icon(icon)
+//                            .anchor(0.5f, 0.5f));
+                        addPoint(point);
+                        //showPointDialog(point);
+                    }
                 } else if (getSurveyType() == 1) {
                     if (markerList.size() < 2) {
+                        BitmapDescriptor blueDot = BitmapDescriptorFactory.fromResource(R.drawable.blue_circle);
                         Marker myMarker = mMap.addMarker(new MarkerOptions()
                                 .position(point)
-                                .flat(true).icon(icon)
+                                .flat(true).icon(blueDot)
                                 .anchor(0.5f, 0.5f));
                         mMap.setOnMarkerClickListener(SurveyTrackingActivity.this);
                         markerList.add(myMarker);
@@ -791,7 +796,7 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
 //                dialogView.dismiss();
 //                if (currentLocation != null) {
 //                    LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-//                    addPoint(latLng, dialogView.getPointName(), dialogView.getPointDescription());
+//                    addPoint(latLng);
 //                }
 //            }
 //        });
@@ -808,10 +813,9 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
     @Override
     public void onClickSavePoints() {
         if (getSurveyType() == 0) {
-            Intent intent = getIntent();
-            intent.putExtra("surveySubmit", surveyModelArrayList);
-            setResult(RESULT_OK, intent);
-            finish();
+            LatLng latLng = new LatLng(markerList.get(0).getPosition().latitude, markerList.get(0).getPosition().longitude);
+            showPointDialog(latLng);
+
         } else if (getSurveyType() == 1) {
             if (markerList.size() == 2) {
                 SurveyPointDialog dialogView = new SurveyPointDialog(this);
@@ -842,6 +846,7 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
                             surveySaveReq.setDescription(dialogView.getPointDescription());
                             surveySaveReq.setName(dialogView.getPointName());
                             mpresenter.saveSurvey(surveySaveReq);
+                            Toast.makeText(SurveyTrackingActivity.this, "PolyLine Details are saved successfully", Toast.LENGTH_LONG).show();
 //                        Intent intent = getIntent();
 //                        intent.putExtra("surveySubmit", surveyModelArrayList);
 //                        setResult(RESULT_OK, intent);
@@ -854,6 +859,8 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
                     @Override
                     public void onClick(View v) {
                         dialogView.dismiss();
+                        Toast.makeText(SurveyTrackingActivity.this, "PolyLine Details are not saved", Toast.LENGTH_LONG).show();
+
                     }
                 });
                 dialogView.show();
@@ -915,6 +922,8 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
                     surveySaveReq.setDescription(dialogView.getPointDescription());
                     surveySaveReq.setName(dialogView.getPointName());
                     mpresenter.saveSurvey(surveySaveReq);
+
+                    Toast.makeText(SurveyTrackingActivity.this, "PolyGone Details are saved successfully", Toast.LENGTH_LONG).show();
 //                Intent intent = getIntent();
 //                intent.putExtra("surveySubmit", surveyModelArrayList);
 //                setResult(RESULT_OK, intent);
@@ -935,21 +944,26 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
             @Override
             public void onClick(View v) {
                 dialogView.dismiss();
+                Toast.makeText(SurveyTrackingActivity.this, "PolyGone Details are not saved", Toast.LENGTH_LONG).show();
+
             }
         });
         dialogView.show();
     }
 
-    private void addPoint(LatLng latLng, String name, String description) {
+    private void addPoint(LatLng latLng) {
         BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.new_point);
-        mMap.addMarker(new MarkerOptions()
+        pointMarker = mMap.addMarker(new MarkerOptions()
                 .position(latLng)
                 .flat(true).icon(icon)
                 .anchor(0.5f, 0.5f));
         SurveyModel.PointDetails pointDetails = new SurveyModel.PointDetails(latLng.latitude, latLng.longitude);
         Gson gson = new Gson();
         String json = gson.toJson(pointDetails);
-        //    surveyModelArrayList.add(new SurveyDetailsEntity(name, description, json, surveyModel.getMapTypeEntity(), surveyModel.getUid()));
+        surveyTrackingBinding.saveBtn.setVisibility(View.VISIBLE);
+        markerList.add(pointMarker);
+
+//            surveyModelArrayList.add(new SurveyDetailsEntity(name, description, json, surveyModel.getMapTypeEntity(), surveyModel.getUid()));
     }
 
     private void drawLine() {
@@ -974,7 +988,6 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
             public void onClick(View view) {
                 if (dialogView.validations()) {
                     dialogView.dismiss();
-                    surveyTrackingBinding.saveBtn.setVisibility(View.VISIBLE);
                     SurveySaveReq surveySaveReq = new SurveySaveReq();
                     surveySaveReq.setSurvey(new SurveySaveReq.SurveyEntity(surveyModel.getSurveyLandUid()));
                     MapTypeEntity mapTypeEntity = new MapTypeEntity();
@@ -988,7 +1001,11 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
                     surveySaveReq.setDescription(dialogView.getPointDescription());
                     surveySaveReq.setName(dialogView.getPointName());
                     mpresenter.saveSurvey(surveySaveReq);
-                    addPoint(latLng, dialogView.getPointName(), dialogView.getPointDescription());
+                    Toast.makeText(SurveyTrackingActivity.this, "PointDetails are saved successfully", Toast.LENGTH_LONG).show();
+                    Intent intent = getIntent();
+                    intent.putExtra("surveySubmit", surveyModelArrayList);
+                    setResult(RESULT_OK, intent);
+                    finish();
                 }
             }
         });
@@ -997,7 +1014,10 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
             @Override
             public void onClick(View v) {
                 dialogView.dismiss();
+                markerList.remove(pointMarker);
                 pointMarker.remove();
+                surveyTrackingBinding.saveBtn.setVisibility(View.GONE);
+                Toast.makeText(SurveyTrackingActivity.this, "PointDetails are not saved", Toast.LENGTH_LONG).show();
             }
         });
         dialogView.show();
@@ -1031,7 +1051,9 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
     public void onNetworkConnectionChanged(boolean isConnected) {
         showSnack(isConnected);
     }
+
     private boolean isOffline = false;
+
     // Showing the status in Snackbar
     private void showSnack(boolean isConnected) {
         String message;
@@ -1046,7 +1068,7 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
             sbView.setBackgroundColor(ContextCompat.getColor(this, R.color.thickGreem));
             TextView textView = (TextView) sbView.findViewById(R.id.snackbar_text);
             textView.setTextColor(color);
-            if(isOffline) {
+            if (isOffline) {
                 snackbar.show();
                 isOffline = false;
             }
