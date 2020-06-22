@@ -859,8 +859,6 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
                     @Override
                     public void onClick(View v) {
                         dialogView.dismiss();
-                        Toast.makeText(SurveyTrackingActivity.this, "PolyLine Details are not saved", Toast.LENGTH_LONG).show();
-
                     }
                 });
                 dialogView.show();
@@ -944,8 +942,6 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
             @Override
             public void onClick(View v) {
                 dialogView.dismiss();
-                Toast.makeText(SurveyTrackingActivity.this, "PolyGone Details are not saved", Toast.LENGTH_LONG).show();
-
             }
         });
         dialogView.show();

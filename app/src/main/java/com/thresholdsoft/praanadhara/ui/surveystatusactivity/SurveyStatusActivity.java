@@ -291,7 +291,6 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
         customEditDialog.setNegativeUpdateLabel("Cancel");
         customEditDialog.setNegativeUpdateListener(v -> {
             customEditDialog.dismiss();
-            Toast.makeText(this, "The details are not updated", Toast.LENGTH_SHORT).show();
         });
         customEditDialog.show();
     }
@@ -309,7 +308,6 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
         deleteDialog.setNegativeLabel("Cancel");
         deleteDialog.setNegativeListener(v -> {
             deleteDialog.dismiss();
-            Toast.makeText(this, "Item is not deleted", Toast.LENGTH_SHORT).show();
         });
         deleteDialog.show();
     }
