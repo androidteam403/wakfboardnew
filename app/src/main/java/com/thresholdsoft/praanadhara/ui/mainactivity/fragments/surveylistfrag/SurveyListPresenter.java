@@ -165,7 +165,7 @@ public class SurveyListPresenter<V extends SurveyListMvpView> extends BasePresen
                 getDataManager().insetSurveyEntity(surveyEntity);
             }
         }
-        main();
+        syncData();
     }
 
     private static int cores = Runtime.getRuntime().availableProcessors();
@@ -193,7 +193,8 @@ public class SurveyListPresenter<V extends SurveyListMvpView> extends BasePresen
         return surveyStartRes;
     }
 
-    public void main() {
+    @Override
+    public void syncData() {
         System.out.println("Program Started");
         if(offlineSurveyStartSync()) {
             AtomicBoolean processing = new AtomicBoolean(true);

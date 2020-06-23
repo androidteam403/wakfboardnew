@@ -17,7 +17,7 @@
             android:orientation="horizontal"
             android:paddingStart="@dimen/twenty_dp"
             android:paddingEnd="@dimen/twenty_dp"
-            android:gravity="center"
+            android:gravity="center_vertical"
             tools:ignore="RtlSymmetry">
 
             <ImageView
@@ -35,11 +35,9 @@
                 android:src="@drawable/praanadhaara_logo" />
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_gravity="end"
                 android:gravity="center_vertical"
-                android:layout_weight="1"
                 android:orientation="vertical"
                 android:layout_marginStart="@dimen/five_dp">
 
@@ -60,13 +58,16 @@
                     android:textSize="@dimen/text_dimen_13" />
             </LinearLayout>
 
-            <ImageView
-                android:layout_width="@dimen/twenty_five_dp"
-                android:layout_height="@dimen/twenty_five_dp"
-                android:visibility="gone"
-                android:layout_gravity="center"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/search_white" />
+
         </LinearLayout>
+        <ImageView
+            android:id="@+id/refresh_sync"
+            android:layout_width="@dimen/thirty_dp"
+            android:layout_height="@dimen/thirty_dp"
+            android:visibility="visible"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_refresh"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"/>
     </RelativeLayout>
 </layout>

@@ -107,14 +107,6 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_dimen_17" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/three_dp"
-                    android:fontFamily="@font/roboto_regular"
-                    android:text="OTP will be sent to above phone number"
-                    android:textColor="@color/white" />
 
             </LinearLayout>
 
@@ -258,14 +250,7 @@
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_dimen_17" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="@dimen/three_dp"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="OTP will be sent to above phone number"
-                        android:textColor="@color/white" />
+
 
                     <LinearLayout
                         android:id="@+id/timeLay"
@@ -313,6 +298,15 @@
 
 
         </LinearLayout>
-
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/three_dp"
+            android:fontFamily="@font/roboto_regular"
+            android:text="OTP will be sent to the above phone number"
+            android:textColor="@color/white"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/ten_dp"/>
     </RelativeLayout>
 </layout>

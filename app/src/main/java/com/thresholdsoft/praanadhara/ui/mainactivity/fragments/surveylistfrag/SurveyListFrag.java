@@ -512,7 +512,7 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
     public void onCreateOptionsMenu(@NonNull Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_main, menu); // Put your search menu in "menu_search" menu file.
         MenuItem mSearchItem = menu.findItem(R.id.action_search);
-        SearchView sv = (SearchView) MenuItemCompat.getActionView(mSearchItem);
+        SearchView sv = (SearchView) mSearchItem.getActionView();
         sv.setIconified(true);
 
         SearchManager searchManager = (SearchManager) getBaseActivity().getSystemService(Context.SEARCH_SERVICE);
