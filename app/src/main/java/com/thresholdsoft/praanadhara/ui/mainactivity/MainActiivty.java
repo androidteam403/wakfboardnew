@@ -154,9 +154,9 @@ public class MainActiivty extends BaseActivity implements MainActivityMvpView {
 
     @Override
     public void syncComplete() {
-         if(syncImage!= null){
-             syncImage.clearAnimation();
-             showMessage("Sync Completed successfully");
-         }
+        if (syncImage != null) {
+            syncImage.clearAnimation();
+            showMessage("Sync Completed successfully");
+        }
     }
 }

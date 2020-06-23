@@ -156,7 +156,10 @@ public class SurveyDetailsAdapter extends RecyclerView.Adapter<SurveyDetailsAdap
 
         @Override
         public boolean areContentsTheSame(@NonNull SurveyEntity oldItem, @NonNull SurveyEntity newItem) {
-            return oldItem.getName().equals(newItem.getName());
+            if (oldItem.getName() != null && newItem.getName() != null) {
+                return oldItem.getName().equals(newItem.getName());
+            } else
+                return false;
         }
 
     };

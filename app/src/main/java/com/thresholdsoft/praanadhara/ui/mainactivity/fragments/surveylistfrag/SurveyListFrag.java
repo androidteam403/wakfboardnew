@@ -567,7 +567,7 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
             message = "Your in Offline Mode";
             color = Color.WHITE;
             Snackbar snackbar = Snackbar
-                    .make(activitySurveyListBinding.simpleSwipeRefreshLayout, message, Snackbar.LENGTH_INDEFINITE);
+                    .make(activitySurveyListBinding.simpleSwipeRefreshLayout, message, Snackbar.LENGTH_LONG);
 
             View sbView = snackbar.getView();
             sbView.setBackgroundColor(ContextCompat.getColor(getBaseActivity(), R.color.red));

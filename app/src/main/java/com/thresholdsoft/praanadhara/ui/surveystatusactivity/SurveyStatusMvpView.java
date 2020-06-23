@@ -29,4 +29,8 @@ public interface SurveyStatusMvpView extends MvpView {
 
     void onClickDeleteSurvey(SurveyEntity surveyEntity);
 
+    void itemDeletedToast();
+
+    void itemUpdatedToast();
+
 }

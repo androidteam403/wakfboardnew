@@ -1072,7 +1072,7 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
             message = "Your in Offline Mode";
             color = Color.WHITE;
             Snackbar snackbar = Snackbar
-                    .make(surveyTrackingBinding.fullMap, message, Snackbar.LENGTH_INDEFINITE);
+                    .make(surveyTrackingBinding.fullMap, message, Snackbar.LENGTH_LONG);
 
             View sbView = snackbar.getView();
             sbView.setBackgroundColor(ContextCompat.getColor(this, R.color.red));
