@@ -50,6 +50,7 @@
                 android:layout_toEndOf="@id/image"
                 android:ellipsize="end"
                 android:fontFamily="@font/roboto_regular"
+                android:singleLine="true"
                 android:text="@{data.description}"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_dimen_12" />
