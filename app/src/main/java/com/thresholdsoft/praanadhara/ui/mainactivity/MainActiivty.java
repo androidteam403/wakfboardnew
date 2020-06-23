@@ -95,10 +95,13 @@ public class MainActiivty extends BaseActivity implements MainActivityMvpView {
                 if (menuItem.isChecked()) return false;
 
                 if (menuItem.getItemId() == R.id.nav_home) {
+                    syncImage.setVisibility(View.VISIBLE);
                     navController.navigate(R.id.nav_home);
                 } else if (menuItem.getItemId() == R.id.nav_profile) {
+                    syncImage.setVisibility(View.GONE);
                     navController.navigate(R.id.nav_profile);
                 } else if (menuItem.getItemId() == R.id.nav_enrollment) {
+                    syncImage.setVisibility(View.GONE);
                     navController.navigate(R.id.nav_enrollment);
                 }
                 return true;
