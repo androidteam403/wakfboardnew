@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -44,6 +46,7 @@ public class MainActiivty extends BaseActivity implements MainActivityMvpView {
     TextView count;
     DrawerLayout drawer;
     ToolbarBinding toolbarBinding;
+    private ImageView syncImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +70,17 @@ public class MainActiivty extends BaseActivity implements MainActivityMvpView {
             }
         });
 
+        syncImage = findViewById(R.id.refresh_sync);
+        syncImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Animation rotation = AnimationUtils.loadAnimation(MainActiivty.this, R.anim.rotate_refresh);
+                rotation.setRepeatCount(Animation.INFINITE);
+                syncImage.startAnimation(rotation);
+                mPresenter.syncData();
+            }
+        });
+
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(navigationView, navController);
         getActivityComponent().inject(this);
@@ -81,10 +95,13 @@ public class MainActiivty extends BaseActivity implements MainActivityMvpView {
                 if (menuItem.isChecked()) return false;
 
                 if (menuItem.getItemId() == R.id.nav_home) {
+                    syncImage.setVisibility(View.VISIBLE);
                     navController.navigate(R.id.nav_home);
                 } else if (menuItem.getItemId() == R.id.nav_profile) {
+                    syncImage.setVisibility(View.GONE);
                     navController.navigate(R.id.nav_profile);
                 } else if (menuItem.getItemId() == R.id.nav_enrollment) {
+                    syncImage.setVisibility(View.GONE);
                     navController.navigate(R.id.nav_enrollment);
                 }
                 return true;
@@ -133,5 +150,13 @@ public class MainActiivty extends BaseActivity implements MainActivityMvpView {
         Intent intent = new Intent(this, UserLoginActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+    }
+
+    @Override
+    public void syncComplete() {
+         if(syncImage!= null){
+             syncImage.clearAnimation();
+             showMessage("Sync Completed successfully");
+         }
     }
 }

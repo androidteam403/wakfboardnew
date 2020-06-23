@@ -29,4 +29,6 @@ public interface SurveyListMvpPresenter<V extends SurveyListMvpView> extends Mvp
     LiveData<List<FarmerLands>> getAllFarmersLands();
 
     LiveData<SurveyStatusEntity> getSurveyStatusCount();
+
+    void syncData();
 }
