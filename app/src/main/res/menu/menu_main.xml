@@ -10,5 +10,10 @@
         android:orderInCategory="100"
         app:showAsAction="ifRoom"
         app:actionViewClass="androidx.appcompat.widget.SearchView"/>
+<!--    <item-->
+<!--        android:id="@+id/refresh"-->
+<!--        android:icon="@drawable/refresh_icon"-->
+<!--        android:title="refresh"-->
+<!--        app:showAsAction="ifRoom"/>-->
 
 </menu>

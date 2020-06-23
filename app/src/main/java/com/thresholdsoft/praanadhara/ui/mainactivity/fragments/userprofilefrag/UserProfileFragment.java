@@ -14,6 +14,7 @@ import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.databinding.FragmentDashboardBinding;
 import com.thresholdsoft.praanadhara.databinding.ToolbarBinding;
 import com.thresholdsoft.praanadhara.ui.base.BaseFragment;
+import com.thresholdsoft.praanadhara.ui.mainactivity.MainActiivty;
 
 import javax.inject.Inject;
 
@@ -45,6 +46,8 @@ public class UserProfileFragment extends BaseFragment implements UserProfileMvpV
         fragmentDashboardBinding.firstName.setText(mpresenter.getUserName());
         fragmentDashboardBinding.email.setText(mpresenter.getUserEmail());
         fragmentDashboardBinding.contact.setText(mpresenter.getUserContactNum());
+
+        ((MainActiivty) getActivity()).setActionBarTitle("Profile");
     }
 
     @Override
@@ -69,7 +72,7 @@ public class UserProfileFragment extends BaseFragment implements UserProfileMvpV
 
     @Override
     public void onUpdateClick() {
-        if (validations()){
+        if (validations()) {
             Toast.makeText(getContext(), "Updated", Toast.LENGTH_SHORT).show();
         }
     }
@@ -78,4 +81,5 @@ public class UserProfileFragment extends BaseFragment implements UserProfileMvpV
     public void onCancelClick() {
         Toast.makeText(getContext(), "Canceled", Toast.LENGTH_SHORT).show();
     }
+
 }

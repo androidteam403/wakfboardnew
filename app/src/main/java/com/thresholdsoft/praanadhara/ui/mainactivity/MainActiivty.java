@@ -16,7 +16,6 @@ import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
-import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
@@ -25,6 +24,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.databinding.ActivityMainBinding;
 import com.thresholdsoft.praanadhara.databinding.NavHeaderMainBinding;
+import com.thresholdsoft.praanadhara.databinding.ToolbarBinding;
 import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
 import com.thresholdsoft.praanadhara.ui.mainactivity.dialog.LogoutDialog;
 import com.thresholdsoft.praanadhara.ui.userlogin.UserLoginActivity;
@@ -43,6 +43,7 @@ public class MainActiivty extends BaseActivity implements MainActivityMvpView {
     Toolbar mTopToolbar;
     TextView count;
     DrawerLayout drawer;
+    ToolbarBinding toolbarBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +91,11 @@ public class MainActiivty extends BaseActivity implements MainActivityMvpView {
             }
         });
         setUp();
+    }
+
+    public void setActionBarTitle(String title) {
+        TextView tittleName = findViewById(R.id.tittle);
+        tittleName.setText(title);
     }
 
     @Override
