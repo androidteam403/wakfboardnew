@@ -1,5 +1,7 @@
 package com.thresholdsoft.praanadhara.ui.mainactivity;
 
+import android.util.Log;
+
 import com.thresholdsoft.praanadhara.data.DataManager;
 import com.thresholdsoft.praanadhara.data.db.model.FarmerLands;
 import com.thresholdsoft.praanadhara.data.db.model.SurveyEntity;
@@ -81,7 +83,7 @@ public class MainActivityPresenter<V extends MainActivityMvpView> extends BasePr
         if(offlineSurveySubmitSync()){
             stop();
             getMvpView().syncComplete();
-            System.out.println("Program Terminated");
+            Log.e("","Program Terminated");
         }
     }
 

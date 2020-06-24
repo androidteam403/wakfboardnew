@@ -36,6 +36,7 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.loopeer.itemtouchhelperextension.ItemTouchHelperExtension;
 import com.thresholdsoft.praanadhara.R;
@@ -285,7 +286,6 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
                 surveyEntity.setDescription(customEditDialog.getPointDescription());
                 customEditDialog.dismiss();
                 mpresenter.editApiCal(surveyEntity);
-                Toast.makeText(this, "The details are updated successfully", Toast.LENGTH_SHORT).show();
             }
         });
         customEditDialog.setNegativeUpdateLabel("Cancel");
@@ -301,15 +301,24 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
         deleteDialog.setTitle("Are You Sure!");
         deleteDialog.setPositiveLabel("Ok");
         deleteDialog.setPositiveListener(v -> {
-            mpresenter.deleteApiCall(surveyEntity);
             deleteDialog.dismiss();
-            Toast.makeText(this, "Item Deleted successfully", Toast.LENGTH_SHORT).show();
+            mpresenter.deleteApiCall(surveyEntity);
         });
         deleteDialog.setNegativeLabel("Cancel");
         deleteDialog.setNegativeListener(v -> {
             deleteDialog.dismiss();
         });
         deleteDialog.show();
+    }
+
+    @Override
+    public void itemDeletedToast() {
+        Toast.makeText(this, "Item Deleted successfully", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void itemUpdatedToast() {
+        Toast.makeText(this, "The details are updated successfully", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -335,16 +344,20 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
                     if (detailsEntity.getMapType() != null) {
                         if (detailsEntity.getMapType().equalsIgnoreCase("point")) {
                             Gson gson = new Gson();
-                            SurveyModel.PointDetails pointDetails = gson.fromJson(detailsEntity.getLatLongs(), SurveyModel.PointDetails.class);
-                            if (pointDetails != null) {
-                                LatLng latLng = new LatLng(pointDetails.getLatitude(), pointDetails.getLongitude());
-                                BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.new_point);
-                                builder.include(latLng);
-                                map.addMarker(new MarkerOptions().title(detailsEntity.getName())
-                                        .position(latLng)
-                                        .flat(true).icon(icon)
-                                        .anchor(0.5f, 0.5f));
-                                isIncludeLatLong = true;
+                            try {
+                                SurveyModel.PointDetails pointDetails = gson.fromJson(detailsEntity.getLatLongs(), SurveyModel.PointDetails.class);
+                                if (pointDetails != null) {
+                                    LatLng latLng = new LatLng(pointDetails.getLatitude(), pointDetails.getLongitude());
+                                    BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.new_point);
+                                    builder.include(latLng);
+                                    map.addMarker(new MarkerOptions().title(detailsEntity.getName())
+                                            .position(latLng)
+                                            .flat(true).icon(icon)
+                                            .anchor(0.5f, 0.5f));
+                                    isIncludeLatLong = true;
+                                }
+                            }catch (JsonSyntaxException e){
+                                e.printStackTrace();
                             }
                         } else if (detailsEntity.getMapType().equalsIgnoreCase("line")) {
                             Gson gson = new Gson();
@@ -444,7 +457,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
             message = "Your in Offline Mode";
             color = Color.WHITE;
             Snackbar snackbar = Snackbar
-                    .make(activitySurveyStatusBinding.surveDetailsRecyclerview, message, Snackbar.LENGTH_INDEFINITE);
+                    .make(activitySurveyStatusBinding.surveDetailsRecyclerview, message, Snackbar.LENGTH_LONG);
 
             View sbView = snackbar.getView();
             sbView.setBackgroundColor(ContextCompat.getColor(this, R.color.red));

@@ -34,7 +34,7 @@ public class SurveyStatusPresenter<V extends SurveyStatusMvpView> extends BasePr
 
     @Override
     public void startSurvey(FarmerLands rowsEntity) {
-        if(getMvpView().isNetworkConnected()) {
+        if (getMvpView().isNetworkConnected()) {
             getMvpView().showLoading();
             getCompositeDisposable().add(getDataManager()
                     .startSurvey(new SurveyStartReq(new SurveyStartReq.LandLocationEntity(rowsEntity.getFarmerLandUid())))
@@ -49,7 +49,7 @@ public class SurveyStatusPresenter<V extends SurveyStatusMvpView> extends BasePr
                         getMvpView().hideLoading();
                         handleApiError(throwable);
                     }));
-        }else{
+        } else {
             getMvpView().startSurveySuccess("");
         }
 
@@ -63,7 +63,7 @@ public class SurveyStatusPresenter<V extends SurveyStatusMvpView> extends BasePr
 
     @Override
     public void submitSurvey(FarmerLands rowsEntity) {
-        if(getMvpView().isNetworkConnected()) {
+        if (getMvpView().isNetworkConnected()) {
             SurveySaveReq.SurveyEntity landLocationEntity = new SurveySaveReq.SurveyEntity(rowsEntity.getSurveyLandUid());
             getMvpView().showLoading();
             getCompositeDisposable().add(getDataManager()
@@ -79,7 +79,7 @@ public class SurveyStatusPresenter<V extends SurveyStatusMvpView> extends BasePr
                         getMvpView().hideLoading();
                         handleApiError(throwable);
                     }));
-        }else{
+        } else {
             getMvpView().surveySubmitSuccess();
         }
     }
@@ -123,6 +123,7 @@ public class SurveyStatusPresenter<V extends SurveyStatusMvpView> extends BasePr
                     .subscribe(blogResponse -> {
                         if (blogResponse != null && blogResponse.getData() != null && blogResponse.getSuccess()) {
                             getDataManager().deleteSurveyEntity(surveyEntity);
+                            getMvpView().itemDeletedToast();
                         }
                         getMvpView().hideLoading();
                     }, throwable -> {
@@ -131,11 +132,13 @@ public class SurveyStatusPresenter<V extends SurveyStatusMvpView> extends BasePr
                     }));
 
         } else {
-            if(TextUtils.isEmpty(surveyEntity.getUid())){
+            if (TextUtils.isEmpty(surveyEntity.getUid())) {
                 getDataManager().deleteSurveyEntity(surveyEntity);
-            }else {
+                getMvpView().itemDeletedToast();
+            } else {
                 surveyEntity.setDelete(true);
-                getDataManager().updateSurveyEntity(surveyEntity);
+                getDataManager().deleteSurveyEntity(surveyEntity);
+                getMvpView().itemDeletedToast();
             }
         }
     }
@@ -162,6 +165,7 @@ public class SurveyStatusPresenter<V extends SurveyStatusMvpView> extends BasePr
                     .subscribe(blogResponse -> {
                         if (blogResponse != null && blogResponse.getData() != null && blogResponse.getSuccess()) {
                             getDataManager().updateSurveyEntity(surveyEntity);
+                            getMvpView().itemUpdatedToast();
                         }
                         getMvpView().hideLoading();
                     }, throwable -> {
@@ -170,11 +174,13 @@ public class SurveyStatusPresenter<V extends SurveyStatusMvpView> extends BasePr
                     }));
 
         } else {
-            if(TextUtils.isEmpty(surveyEntity.getUid())){
+            if (TextUtils.isEmpty(surveyEntity.getUid())) {
                 getDataManager().updateSurveyEntity(surveyEntity);
-            }else {
+                getMvpView().itemUpdatedToast();
+            } else {
                 surveyEntity.setEdit(true);
                 getDataManager().updateSurveyEntity(surveyEntity);
+                getMvpView().itemUpdatedToast();
             }
         }
     }
@@ -185,13 +191,13 @@ public class SurveyStatusPresenter<V extends SurveyStatusMvpView> extends BasePr
     }
 
     @Override
-    public void updateFarmerLandStatus(String uid, String landUid,String surveyLandUid) {
+    public void updateFarmerLandStatus(String uid, String landUid, String surveyLandUid) {
         FarmerLands lands = getDataManager().getFarmerLandDetails(uid, landUid);
         if (lands != null) {
             lands.setStatus("No");
             lands.setSurveyLandUid(surveyLandUid);
             lands.setStartDate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date()));
-            if(!getMvpView().isNetworkConnected()) {
+            if (!getMvpView().isNetworkConnected()) {
                 lands.setStart(true);
             }
             getDataManager().updateFarmerLand(lands);
@@ -199,12 +205,12 @@ public class SurveyStatusPresenter<V extends SurveyStatusMvpView> extends BasePr
     }
 
     @Override
-    public void updateLandSurveySubmit(String uid, String landUid){
+    public void updateLandSurveySubmit(String uid, String landUid) {
         FarmerLands lands = getDataManager().getFarmerLandDetails(uid, landUid);
         if (lands != null) {
             lands.setStatus("Yes");
             lands.setSubmittedDate(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date()));
-            if(!getMvpView().isNetworkConnected()) {
+            if (!getMvpView().isNetworkConnected()) {
                 lands.setSubmit(true);
             }
             getDataManager().updateFarmerLand(lands);

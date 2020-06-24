@@ -25,20 +25,20 @@
                 android:id="@+id/view_list_repo_action_delete"
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
+                android:contentDescription="@string/app_name"
                 android:gravity="center"
                 android:padding="6dp"
-                android:src="@drawable/delete_icon_white"
-                android:contentDescription="@string/app_name"/>
+                android:src="@drawable/delete_icon_white" />
 
             <ImageView
                 android:id="@+id/view_list_repo_action_update"
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
                 android:background="#8BC34A"
+                android:contentDescription="@string/app_name"
                 android:gravity="center"
                 android:padding="6dp"
-                android:src="@drawable/edit_icon_white"
-                android:contentDescription="@string/app_name"/>
+                android:src="@drawable/edit_icon_white" />
 
         </LinearLayout>
 
