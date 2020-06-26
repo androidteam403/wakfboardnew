@@ -1,6 +1,7 @@
 package com.thresholdsoft.praanadhara.ui.surveystatusactivity;
 
 import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
@@ -98,7 +99,11 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
         Intent intent = getIntent();
         uid = intent.getStringExtra("surveyData");
         landUid = intent.getStringExtra("landUid");
-        mpresenter.getFarmerLand(uid, landUid).observe(this, farmerLands -> activitySurveyStatusBinding.setFarmerLand(farmerLands));
+        mpresenter.getFarmerLand(uid, landUid).observe(this, farmerLands -> {
+            activitySurveyStatusBinding.setFarmerLand(farmerLands);
+            activitySurveyStatusBinding.backArrow.setFarmerLand(farmerLands);
+            this.farmerLands = farmerLands;
+        });
 
         surveyDetailsAdapter = new SurveyDetailsAdapter(this);
         RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(this);
@@ -130,7 +135,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
 
         ImageView imageInsideLayout = includedLayout.findViewById(R.id.plusImage);
 //        imageInsideLayout.setVisibility(View.VISIBLE);
-        mpresenter.getFarmerLand(uid, landUid).observe(this, farmerLands -> activitySurveyStatusBinding.backArrow.setFarmerLand(farmerLands));
+//        mpresenter.getFarmerLand(uid, landUid).observe(this, farmerLands -> activitySurveyStatusBinding.backArrow.setFarmerLand(farmerLands));
         imageInsideLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -157,6 +162,9 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
             surveyDetailsAdapter.notifyDataSetChanged();
             activitySurveyStatusBinding.setSurvey(surveyEntities.size() > 0);
             previewDisplay(surveyEntities);
+            if(farmerLands != null && farmerLands.getStatus().equalsIgnoreCase("No") && surveyEntities.size() == 0){
+                openBottomSheet();
+            }
         });
     }
 
@@ -203,6 +211,11 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
                 //  previewDisplay(surveyDetailsAdapter.getListData());
             }
         });
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
     }
 
     @Override
@@ -467,4 +480,6 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
             isOffline = true;
         }
     }
+
+
 }

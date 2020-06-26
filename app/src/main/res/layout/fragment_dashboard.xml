@@ -38,15 +38,13 @@
                 android:text="First Name*"
                 android:textColor="@color/black" />
 
-            <EditText
+            <TextView
                 android:id="@+id/firstName"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/forty_five_dp"
-                android:background="@drawable/rectangular_light_round"
+                android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto_regular"
                 android:hint="first name"
                 android:inputType="text"
-                android:paddingStart="@dimen/ten_dp"
                 android:singleLine="true" />
 
             <TextView
@@ -55,7 +53,8 @@
                 android:layout_marginTop="@dimen/fifteen_dp"
                 android:fontFamily="@font/roboto_regular"
                 android:text="Last Name*"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:visibility="gone"/>
 
             <EditText
                 android:id="@+id/lastname"
@@ -66,7 +65,8 @@
                 android:hint="last name"
                 android:inputType="text"
                 android:paddingStart="@dimen/ten_dp"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:visibility="gone"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -91,7 +91,8 @@
                 android:layout_marginTop="@dimen/fifteen_dp"
                 android:fontFamily="@font/roboto_regular"
                 android:text="Country Code"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:visibility="gone"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -99,7 +100,8 @@
                 android:layout_marginTop="@dimen/three_dp"
                 android:fontFamily="@font/roboto_regular"
                 android:text="------"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:visibility="gone"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -124,7 +126,8 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/twenty_dp"
                 android:gravity="center_horizontal"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="@dimen/one_hundred_dp"

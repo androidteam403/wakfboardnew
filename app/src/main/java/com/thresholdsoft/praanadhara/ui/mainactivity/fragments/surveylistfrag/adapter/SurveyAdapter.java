@@ -129,6 +129,7 @@ public class SurveyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         fullList = new ArrayList<>(stores);
         adapterList.clear();
         adapterList.addAll(stores);
+        notifyDataSetChanged();
     }
 
     public void addItemData(FarmerLands farmerLands){

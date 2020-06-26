@@ -1,16 +1,19 @@
 package com.thresholdsoft.praanadhara.ui.surveystatusactivity;
 
 import android.text.TextUtils;
+import android.view.View;
 
 import androidx.lifecycle.LiveData;
 
 import com.thresholdsoft.praanadhara.data.DataManager;
 import com.thresholdsoft.praanadhara.data.db.model.FarmerLands;
 import com.thresholdsoft.praanadhara.data.db.model.SurveyEntity;
+import com.thresholdsoft.praanadhara.data.db.model.SurveyStatusEntity;
 import com.thresholdsoft.praanadhara.data.network.pojo.MapTypeEntity;
 import com.thresholdsoft.praanadhara.data.network.pojo.SurveySaveReq;
 import com.thresholdsoft.praanadhara.data.network.pojo.SurveyStartReq;
 import com.thresholdsoft.praanadhara.ui.base.BasePresenter;
+import com.thresholdsoft.praanadhara.ui.surveystatusactivity.dialog.AleartDialog;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.DeleteReq;
 import com.thresholdsoft.praanadhara.utils.rx.SchedulerProvider;
 
@@ -63,6 +66,30 @@ public class SurveyStatusPresenter<V extends SurveyStatusMvpView> extends BasePr
 
     @Override
     public void submitSurvey(FarmerLands rowsEntity) {
+        AleartDialog dialogView = new AleartDialog(getMvpView().getContext());
+        dialogView.setTitle("Are you Sure?");
+        dialogView.setPositiveLabel("Yes");
+        dialogView.setSubtitle("Do you want to Submit this Survey");
+        dialogView.setPositiveListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogView.dismiss();
+                submitSurv(rowsEntity);
+            }
+        });
+        dialogView.setNegativeLabel("No");
+        dialogView.setNegativeListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogView.dismiss();
+            }
+        });
+        dialogView.show();
+
+
+    }
+
+    private void submitSurv(FarmerLands rowsEntity){
         if (getMvpView().isNetworkConnected()) {
             SurveySaveReq.SurveyEntity landLocationEntity = new SurveySaveReq.SurveyEntity(rowsEntity.getSurveyLandUid());
             getMvpView().showLoading();
@@ -83,7 +110,6 @@ public class SurveyStatusPresenter<V extends SurveyStatusMvpView> extends BasePr
             getMvpView().surveySubmitSuccess();
         }
     }
-
 
     @Override
     public LiveData<FarmerLands> getFarmerLand(String uid, String landUid) {
@@ -201,6 +227,12 @@ public class SurveyStatusPresenter<V extends SurveyStatusMvpView> extends BasePr
                 lands.setStart(true);
             }
             getDataManager().updateFarmerLand(lands);
+            SurveyStatusEntity statusEntity = getDataManager().getSurveyCountData();
+            if(statusEntity != null) {
+                statusEntity.setNew(statusEntity.getNew()-1);
+                statusEntity.setInProgress(statusEntity.getInProgress()+1);
+                getDataManager().insertSurveyCount(statusEntity);
+            }
         }
     }
 
@@ -214,6 +246,12 @@ public class SurveyStatusPresenter<V extends SurveyStatusMvpView> extends BasePr
                 lands.setSubmit(true);
             }
             getDataManager().updateFarmerLand(lands);
+            SurveyStatusEntity statusEntity = getDataManager().getSurveyCountData();
+            if(statusEntity != null) {
+                statusEntity.setCompleted(statusEntity.getCompleted()+1);
+                statusEntity.setInProgress(statusEntity.getInProgress()-1);
+                getDataManager().insertSurveyCount(statusEntity);
+            }
         }
     }
 
