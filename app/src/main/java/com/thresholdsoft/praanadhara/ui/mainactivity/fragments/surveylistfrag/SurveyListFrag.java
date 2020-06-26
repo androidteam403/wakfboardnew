@@ -16,6 +16,7 @@ import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -51,6 +52,7 @@ import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.material.snackbar.Snackbar;
 import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.data.db.model.FarmerLands;
+import com.thresholdsoft.praanadhara.data.db.model.SurveyStatusEntity;
 import com.thresholdsoft.praanadhara.databinding.ActivitySurveyListBinding;
 import com.thresholdsoft.praanadhara.root.WaveApp;
 import com.thresholdsoft.praanadhara.services.ConnectivityReceiver;
@@ -86,6 +88,7 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
     private double mLatitude;
     private double mLongitude;
     private BroadcastReceiver MyReceiver = null;
+    private boolean isSearchFilter = false;
 
     @Nullable
     @Override
@@ -122,7 +125,11 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
         initScrollListener();
 
         activitySurveyListBinding.simpleSwipeRefreshLayout.setOnRefreshListener(() -> {
-            mpresenter.pullToRefreshApiCall();
+            if(!isSearchFilter) {
+                mpresenter.pullToRefreshApiCall();
+            }else{
+                activitySurveyListBinding.simpleSwipeRefreshLayout.setRefreshing(false);
+            }
         });
 
         mpresenter.getAllFarmersLands().observe(getBaseActivity(), notes -> {
@@ -557,6 +564,11 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
 
                 @Override
                 public boolean onQueryTextChange(String query) {
+                    if(TextUtils.isEmpty(query)){
+                        isSearchFilter = false;
+                    }else{
+                        isSearchFilter = true;
+                    }
                     surveyAdapter.getFilter().filter(query);
                     return true;
                 }
@@ -661,5 +673,9 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
                 }
             }
         }
+    }
+
+    public void updateStatusCount(int newRec, int inProgress, int done){
+        activitySurveyListBinding.setCount(new SurveyStatusEntity(inProgress,done,newRec,done));
     }
 }

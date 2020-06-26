@@ -57,7 +57,7 @@
     <string name="label_points">Points</string>
     <string name="label_lines">Lines</string>
     <string name="label_polygons">Polygons</string>
-    <string name="label_start_survey">START SURVEY</string>
+    <string name="label_start_survey">Take Survey</string>
 
     <string name="no_google_playservice_available">No Google Playservice found. Please install it.</string>
     <string name="permission_denied_explanation">You have not granted location permission. So the service cannot be started.</string>
