@@ -64,6 +64,11 @@ public interface SurveyDao {
     @Insert(onConflict = REPLACE)
     void insertSurveyCount(SurveyStatusEntity surveyStatusEntity);
 
+    @Update
+    void updateStatusCount(SurveyStatusEntity surveyStatusEntity);
+
+    @Query("SELECT * FROM survey_status_count")
+    SurveyStatusEntity getSurveyCountData();
 
     @Query("SELECT * FROM survey_status_count")
     LiveData<SurveyStatusEntity> getSurveyCount();

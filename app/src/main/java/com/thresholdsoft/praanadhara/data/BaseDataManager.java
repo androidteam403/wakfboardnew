@@ -157,6 +157,16 @@ public class BaseDataManager implements DataManager {
     }
 
     @Override
+    public void updateStatusCount(SurveyStatusEntity surveyStatusEntity) {
+        mDatabase.userDao().updateStatusCount(surveyStatusEntity);
+    }
+
+    @Override
+    public SurveyStatusEntity getSurveyCountData() {
+        return mDatabase.userDao().getSurveyCountData();
+    }
+
+    @Override
     public LiveData<SurveyStatusEntity> getSurveyCount() {
         return mDatabase.userDao().getSurveyCount();
     }
