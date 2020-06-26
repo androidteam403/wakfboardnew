@@ -185,7 +185,7 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
                 }, new IntentFilter(LocationMonitoringService.ACTION_LOCATION_BROADCAST)
         );
         setUpGClient();
-        isStartLogging = true;
+
 
         View includedLayout = findViewById(R.id.backArrow);
         ImageView insideTheIncludedLayout = (ImageView) includedLayout.findViewById(R.id.imageButton);
@@ -461,13 +461,14 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
 
         locationList.add(location);
         // surveyModelArrayList.add(new SurveyModel(location.getLatitude(),location.getLongitude(),location.getAccuracy()));
-        polygonPoints.add(new LatLng(location.getLatitude(), location.getLongitude()));
+
 
         if (getSurveyType() == 0) {
             //  dottedPolyline();
         } else if (getSurveyType() == 1) {
             //  planePolyline();
         } else if (getSurveyType() == 2) {
+            polygonPoints.add(new LatLng(location.getLatitude(), location.getLongitude()));
             surveyModelArrayList.add(new SurveyDetailsEntity(location.getLatitude(), location.getLongitude(), location.getAccuracy()));
             drawUserPositionMarker(location);
             polygonPolyline();
@@ -892,6 +893,7 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
 
     @Override
     public void onClickStartPolygon() {
+        isStartLogging = true;
         surveyTrackingBinding.setStart(true);
     }
 

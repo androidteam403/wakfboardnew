@@ -159,4 +159,13 @@ public class MainActiivty extends BaseActivity implements MainActivityMvpView {
             showMessage("Sync Completed successfully");
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        if(Navigation.findNavController(this,R.id.nav_host_fragment)
+                .getCurrentDestination().getId() == R.id.nav_profile){
+            syncImage.setVisibility(View.VISIBLE);
+        }
+        super.onBackPressed();
+    }
 }

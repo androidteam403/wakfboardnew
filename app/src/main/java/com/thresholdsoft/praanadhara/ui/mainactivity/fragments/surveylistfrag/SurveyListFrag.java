@@ -276,8 +276,8 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
     @Override
     public void onPause() {
         super.onPause();
-        mGoogleApiClient.stopAutoManage(getBaseActivity());
-        mGoogleApiClient.disconnect();
+//        mGoogleApiClient.stopAutoManage(getBaseActivity());
+//        mGoogleApiClient.disconnect();
         getBaseActivity().unregisterReceiver(MyReceiver);
     }
 
