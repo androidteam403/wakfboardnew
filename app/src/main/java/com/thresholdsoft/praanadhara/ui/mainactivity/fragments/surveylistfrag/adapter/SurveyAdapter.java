@@ -38,6 +38,7 @@ public class SurveyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private List<FarmerLands> fullList;
     private AsyncListDiffer<FarmerLands> differ = new AsyncListDiffer<>(this, DIFF_CALLBACK);
     private List<FarmerLands> adapterList = new ArrayList<>();
+    private List<FarmerLands> searchList = new ArrayList<>();
 
     private final int VIEW_TYPE_ITEM = 0;
     private OnItemClickListener listener;
@@ -159,8 +160,11 @@ public class SurveyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         protected FilterResults performFiltering(CharSequence constraint) {
             List<FarmerLands> filteredList = new ArrayList<>();
             if (constraint == null || constraint.length() == 0) {
+                isSearchFilter = false;
                 filteredList.addAll(fullList);
+                surveyListFrag.regularText();
             } else {
+                isSearchFilter = true;
                 String filterPattern = constraint.toString().toLowerCase().trim();
                 for (FarmerLands store : fullList) {
                     if (store.getName().toLowerCase().contains(filterPattern)) {
@@ -180,12 +184,29 @@ public class SurveyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             //differ.getCurrentList().clear();
             //differ.getCurrentList().addAll((List) results.values);
             adapterList = (List) results.values;
-            notifyDataSetChanged();
+            searchList = adapterList;
+            statusFilter("");
+          //  notifyDataSetChanged();
         }
     };
 
     public void statusFilter(String status) {
-        adapterList = fullList;
+        int newRes=0; int inProgress = 0, completed = 0;
+        if(isSearchFilter) {
+            adapterList = searchList;
+        }else{
+            adapterList = fullList;
+        }
+        for(FarmerLands lands : adapterList){
+            if(lands.getStatus().equalsIgnoreCase("New")){
+                newRes++;
+            }else if(lands.getStatus().equalsIgnoreCase("No")){
+                inProgress++;
+            }else if(lands.getStatus().equalsIgnoreCase("Yes")){
+                completed++;
+            }
+        }
+        surveyListFrag.updateStatusCount(newRes,inProgress,completed);
         if (!status.equalsIgnoreCase("")) {
             if (status.equalsIgnoreCase("InProgress")) {
                 status = "No";
@@ -193,7 +214,7 @@ public class SurveyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 status = "Yes";
             }
             List<FarmerLands> filteredList = new ArrayList<>();
-            for (FarmerLands store : fullList) {
+            for (FarmerLands store : adapterList) {
                 if (store.getStatus().equalsIgnoreCase(status)) {
                     filteredList.add(store);
                 }
@@ -201,5 +222,9 @@ public class SurveyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             adapterList = filteredList;
         }
         notifyDataSetChanged();
+    }
+    boolean isSearchFilter = false;
+    public void applyFilter(boolean isSearch){
+        isSearchFilter = isSearch;
     }
 }
