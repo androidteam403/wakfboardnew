@@ -1,6 +1,9 @@
 package com.thresholdsoft.praanadhara.ui.mainactivity;
 
+import android.content.BroadcastReceiver;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -27,6 +30,7 @@ import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.databinding.ActivityMainBinding;
 import com.thresholdsoft.praanadhara.databinding.NavHeaderMainBinding;
 import com.thresholdsoft.praanadhara.databinding.ToolbarBinding;
+import com.thresholdsoft.praanadhara.root.WaveApp;
 import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
 import com.thresholdsoft.praanadhara.ui.mainactivity.dialog.LogoutDialog;
 import com.thresholdsoft.praanadhara.ui.userlogin.UserLoginActivity;
@@ -47,6 +51,7 @@ public class MainActiivty extends BaseActivity implements MainActivityMvpView {
     DrawerLayout drawer;
     ToolbarBinding toolbarBinding;
     private ImageView syncImage;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -168,4 +173,6 @@ public class MainActiivty extends BaseActivity implements MainActivityMvpView {
         }
         super.onBackPressed();
     }
+
+
 }

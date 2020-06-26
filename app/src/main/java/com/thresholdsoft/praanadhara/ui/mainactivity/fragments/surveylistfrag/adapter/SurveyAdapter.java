@@ -15,6 +15,7 @@ import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.data.db.model.FarmerLands;
 import com.thresholdsoft.praanadhara.databinding.AdapterSurveyListBinding;
 import com.thresholdsoft.praanadhara.databinding.LmItemLoadingBinding;
+import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.SurveyListFrag;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +41,11 @@ public class SurveyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     private final int VIEW_TYPE_ITEM = 0;
     private OnItemClickListener listener;
+    private SurveyListFrag surveyListFrag;
 
+    public SurveyAdapter(SurveyListFrag surveyListFrag) {
+        this.surveyListFrag = surveyListFrag;
+    }
 
     public interface OnItemClickListener {
         void onItemClick(FarmerLands farmerLands);
@@ -132,16 +137,16 @@ public class SurveyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         notifyDataSetChanged();
     }
 
-    public void addItemData(FarmerLands farmerLands){
+    public void addItemData(FarmerLands farmerLands) {
         adapterList.add(null);
     }
 
-    public void removeItemData(int position){
+    public void removeItemData(int position) {
         adapterList.remove(position);
     }
 
-    public int loadMorePageNumber(){
-        return adapterList.get(adapterList.size()-2).getPageNo();
+    public int loadMorePageNumber() {
+        return adapterList.get(adapterList.size() - 2).getPageNo();
     }
 
     @Override
@@ -157,10 +162,10 @@ public class SurveyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 filteredList.addAll(fullList);
             } else {
                 String filterPattern = constraint.toString().toLowerCase().trim();
-
                 for (FarmerLands store : fullList) {
                     if (store.getName().toLowerCase().contains(filterPattern)) {
                         filteredList.add(store);
+                        surveyListFrag.regularText();
                     }
                 }
             }
@@ -174,17 +179,17 @@ public class SurveyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         protected void publishResults(CharSequence constraint, FilterResults results) {
             //differ.getCurrentList().clear();
             //differ.getCurrentList().addAll((List) results.values);
-            adapterList =(List) results.values;
+            adapterList = (List) results.values;
             notifyDataSetChanged();
         }
     };
 
-    public void statusFilter(String status){
+    public void statusFilter(String status) {
         adapterList = fullList;
-        if(!status.equalsIgnoreCase("")){
-            if(status.equalsIgnoreCase("InProgress")){
+        if (!status.equalsIgnoreCase("")) {
+            if (status.equalsIgnoreCase("InProgress")) {
                 status = "No";
-            }else if(status.equalsIgnoreCase("Completed")){
+            } else if (status.equalsIgnoreCase("Completed")) {
                 status = "Yes";
             }
             List<FarmerLands> filteredList = new ArrayList<>();
