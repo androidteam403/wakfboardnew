@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.location.Location;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -64,9 +65,10 @@ import java.util.Objects;
 import javax.inject.Inject;
 
 import static android.app.Activity.RESULT_OK;
+import static android.content.Context.LOCATION_SERVICE;
 
 public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, LocationListener, ConnectivityReceiver.ConnectivityReceiverListener {
+        GoogleApiClient.OnConnectionFailedListener, LocationListener, ConnectivityReceiver.ConnectivityReceiverListener,android.location.LocationListener {
     @Inject
     SurveyListMvpPresenter<SurveyListMvpView> mpresenter;
     private ActivitySurveyListBinding activitySurveyListBinding;
@@ -112,7 +114,8 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
         mpresenter.onStatusCountApiCall(false);
         activitySurveyListBinding.setCallback(mpresenter);
 
-        surveyAdapter = new SurveyAdapter();
+        surveyAdapter = new SurveyAdapter(this);
+        activitySurveyListBinding.recyclerSurveyList.setItemAnimator(null);
         RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(getContext());
         activitySurveyListBinding.recyclerSurveyList.setLayoutManager(mLayoutManager1);
         activitySurveyListBinding.recyclerSurveyList.setAdapter(surveyAdapter);
@@ -190,8 +193,17 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
     @Override
     public void onSuccessPullToRefresh() {
         activitySurveyListBinding.simpleSwipeRefreshLayout.setRefreshing(false);
+        regularText();
     }
-
+    public void regularText() {
+        Typeface fontreg = Typeface.createFromAsset(getActivity().getAssets(), "font/roboto_regular.ttf");
+        activitySurveyListBinding.newtext.setTypeface(fontreg);
+        activitySurveyListBinding.itemblueCount.setTypeface(fontreg);
+        activitySurveyListBinding.completedText.setTypeface(fontreg);
+        activitySurveyListBinding.itemGreenCount.setTypeface(fontreg);
+        activitySurveyListBinding.progressText.setTypeface(fontreg);
+        activitySurveyListBinding.itemOrangeCount.setTypeface(fontreg);
+    }
 
     @Override
     public void onSuccessLoadMore() {
@@ -276,8 +288,8 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
     @Override
     public void onPause() {
         super.onPause();
-//        mGoogleApiClient.stopAutoManage(getBaseActivity());
-//        mGoogleApiClient.disconnect();
+        mGoogleApiClient.stopAutoManage(getBaseActivity());
+        mGoogleApiClient.disconnect();
         getBaseActivity().unregisterReceiver(MyReceiver);
     }
 
@@ -442,7 +454,7 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
                             case LocationSettingsStatusCodes.SUCCESS:
                                 // All location settings are satisfied.
                                 // You can initialize location requests here.
-
+                                getLocation();
                                 break;
                             case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
                                 // Location settings are not satisfied.
@@ -502,6 +514,21 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
     public void onLocationChanged(Location location) {
         mLatitude = location.getLatitude();
         mLongitude = location.getLongitude();
+    }
+
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String s) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String s) {
+
     }
 
     @Override
@@ -575,6 +602,64 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
             textView.setTextColor(color);
             snackbar.show();
             isOffline = true;
+        }
+    }
+    private boolean canGetLocation = false;
+    private Location loc;
+    private void getLocation(){
+        LocationManager  locationManager = (LocationManager) getBaseActivity().getSystemService(LOCATION_SERVICE);
+
+        // getting GPS status
+        boolean   checkGPS = locationManager
+                .isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+        // getting network status
+        boolean  checkNetwork = locationManager
+                .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+        if (!checkGPS && !checkNetwork) {
+            Toast.makeText(getBaseActivity(), "No Service Provider Available", Toast.LENGTH_SHORT).show();
+        } else {
+            this.canGetLocation = true;
+            // First get location from Network Provider
+            if (checkNetwork) {
+                try {
+                    locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+                    if (locationManager != null) {
+                        loc = locationManager
+                                .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+                    }
+
+                    if (loc != null) {
+                        mLatitude = loc.getLatitude();
+                        mLongitude = loc.getLongitude();
+                    }
+                } catch (SecurityException e) {
+
+                }
+            }
+        }
+        // if GPS Enabled get lat/long using GPS Services
+        if (checkGPS) {
+            if (loc == null) {
+                try {
+                    locationManager.requestLocationUpdates(
+                            LocationManager.GPS_PROVIDER,
+                            1000,
+                            0,SurveyListFrag.this);
+                    if (locationManager != null) {
+                        loc = locationManager
+                                .getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                        if (loc != null) {
+                            mLatitude = loc.getLatitude();
+                            mLongitude = loc.getLongitude();
+                        }
+                    }
+                } catch (SecurityException e) {
+
+                }
+            }
         }
     }
 }
