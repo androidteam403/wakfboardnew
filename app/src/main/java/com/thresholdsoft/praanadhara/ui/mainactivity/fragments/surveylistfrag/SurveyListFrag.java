@@ -564,11 +564,7 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
 
                 @Override
                 public boolean onQueryTextChange(String query) {
-                    if(TextUtils.isEmpty(query)){
-                        isSearchFilter = false;
-                    }else{
-                        isSearchFilter = true;
-                    }
+                    isSearchFilter = !TextUtils.isEmpty(query);
                     surveyAdapter.getFilter().filter(query);
                     return true;
                 }
@@ -596,7 +592,7 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
 
             View sbView = snackbar.getView();
             sbView.setBackgroundColor(ContextCompat.getColor(getBaseActivity(), R.color.thickGreem));
-            TextView textView = (TextView) sbView.findViewById(R.id.snackbar_text);
+            TextView textView = sbView.findViewById(R.id.snackbar_text);
             textView.setTextColor(color);
             if (isOffline) {
                 snackbar.show();
@@ -610,7 +606,7 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
 
             View sbView = snackbar.getView();
             sbView.setBackgroundColor(ContextCompat.getColor(getBaseActivity(), R.color.red));
-            TextView textView = (TextView) sbView.findViewById(R.id.snackbar_text);
+            TextView textView = sbView.findViewById(R.id.snackbar_text);
             textView.setTextColor(color);
             snackbar.show();
             isOffline = true;
