@@ -71,8 +71,10 @@ import com.thresholdsoft.praanadhara.root.WaveApp;
 import com.thresholdsoft.praanadhara.services.ConnectivityReceiver;
 import com.thresholdsoft.praanadhara.services.LocationMonitoringService;
 import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
+import com.thresholdsoft.praanadhara.ui.dialog.PolygonDialog;
 import com.thresholdsoft.praanadhara.ui.dialog.SurveyPointDialog;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusActivity;
+import com.thresholdsoft.praanadhara.ui.surveystatusactivity.dialog.deletedialog.DeleteDialog;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.SurveyDetailsModel;
 import com.thresholdsoft.praanadhara.ui.surveytrack.model.SurveyModel;
 import com.thresholdsoft.praanadhara.ui.userlogin.UserLoginActivity;
@@ -123,6 +125,10 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
     private List<Marker> markerList = new ArrayList<>();
     private BroadcastReceiver MyReceiver = null;
     View mapView;
+    private Marker polygoneMarker;
+    private double lat;
+    private double lng;
+
 
     public static Intent getIntent(Context context, FarmerLands surveyEntity, int mapType) {
         Intent intent = new Intent(context, SurveyTrackingActivity.class);
@@ -419,12 +425,12 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
                 } else if (getSurveyType() == 1) {
                     if (markerList.size() < 2) {
                         BitmapDescriptor blueDot = BitmapDescriptorFactory.fromResource(R.drawable.blue_circle);
-                        Marker myMarker = mMap.addMarker(new MarkerOptions()
+                        polygoneMarker = mMap.addMarker(new MarkerOptions()
                                 .position(point)
                                 .flat(true).icon(blueDot)
                                 .anchor(0.5f, 0.5f));
                         mMap.setOnMarkerClickListener(SurveyTrackingActivity.this);
-                        markerList.add(myMarker);
+                        markerList.add(polygoneMarker);
                         drawLine();
 
                     }
@@ -587,9 +593,16 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
             PolygonOptions options = new PolygonOptions();
             if (runningPathPolygon != null)
                 runningPathPolygon.remove();
-
             this.runningPathPolygon = mMap.addPolygon(options
                     .addAll(polygonPoints));
+            BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.new_point);
+            pointMarker = mMap.addMarker(new MarkerOptions()
+                    .position(from).position(to)
+                    .flat(true).icon(icon)
+                    .anchor(0.5f, 0.5f));
+            mMap.setOnMarkerClickListener(SurveyTrackingActivity.this);
+            markerList.add(pointMarker);
+
             runningPathPolygon.setStrokeColor(Color.parseColor("#009919"));
             runningPathPolygon.setFillColor(Color.argb(20, 0, 255, 0));
         }
@@ -1023,10 +1036,71 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        if (marker != null) {
-            marker.remove();
-            markerList.remove(marker);
-            clearPolyline();
+        PolygonDialog dialogView = new PolygonDialog(this);
+        DeleteDialog deleteDialog = new DeleteDialog(this);
+        if (getSurveyType() == 2) {
+            dialogView.setTitle("Polygon Details");
+            dialogView.setPositiveLabel("Move");
+            dialogView.setEditTextDialogDetails(this);
+            dialogView.setPositiveListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialogView.dismiss();
+                    mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
+                        @Override
+                        public void onMarkerDragStart(Marker marker) {
+                            Toast.makeText(SurveyTrackingActivity.this, "DragStart", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onMarkerDrag(Marker marker) {
+                        }
+
+                        @Override
+                        public void onMarkerDragEnd(Marker marker) {
+                            Toast.makeText(SurveyTrackingActivity.this, "DragEnd", Toast.LENGTH_SHORT).show();
+                            lat = marker.getPosition().latitude;
+                            lng = marker.getPosition().longitude;
+                        }
+                    });
+                    mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).draggable(true));
+                }
+            });
+            dialogView.setNegativeLabel("Delete");
+            dialogView.setNegativeListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialogView.dismiss();
+                    deleteDialog.setTitle("Are You Sure!");
+                    deleteDialog.setPositiveLabel("Yes");
+                    deleteDialog.setEditTextDialogDetails(SurveyTrackingActivity.this);
+                    deleteDialog.setPositiveListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            deleteDialog.dismiss();
+                            if (marker != null) {
+                                marker.remove();
+                                markerList.remove(marker);
+                            }
+                        }
+                    });
+                    deleteDialog.setNegativeLabel("No");
+                    deleteDialog.setNegativeListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            deleteDialog.dismiss();
+                        }
+                    });
+                    deleteDialog.show();
+                }
+            });
+            dialogView.show();
+        } else {
+            if (marker != null) {
+                marker.remove();
+                markerList.remove(marker);
+                clearPolyline();
+            }
         }
         return true;
     }

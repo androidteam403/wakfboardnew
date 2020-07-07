@@ -1,9 +1,6 @@
 package com.thresholdsoft.praanadhara.ui.mainactivity;
 
-import android.content.BroadcastReceiver;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -16,7 +13,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -30,9 +26,7 @@ import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.databinding.ActivityMainBinding;
 import com.thresholdsoft.praanadhara.databinding.NavHeaderMainBinding;
 import com.thresholdsoft.praanadhara.databinding.ToolbarBinding;
-import com.thresholdsoft.praanadhara.root.WaveApp;
 import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
-import com.thresholdsoft.praanadhara.ui.mainactivity.dialog.LogoutDialog;
 import com.thresholdsoft.praanadhara.ui.userlogin.UserLoginActivity;
 
 import javax.inject.Inject;
@@ -122,15 +116,6 @@ public class MainActiivty extends BaseActivity implements MainActivityMvpView {
 
     @Override
     protected void setUp() {
-        activityMainBinding.logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                drawer.closeDrawer(GravityCompat.START);
-                LogoutDialog dialog = new LogoutDialog();
-                dialog.show(getSupportFragmentManager(), "logoutdialog");
-
-            }
-        });
         TextView userName = activityMainBinding.navView.getHeaderView(0).findViewById(R.id.user_name);
         userName.setText(mPresenter.getUserName());
     }
@@ -167,8 +152,8 @@ public class MainActiivty extends BaseActivity implements MainActivityMvpView {
 
     @Override
     public void onBackPressed() {
-        if(Navigation.findNavController(this,R.id.nav_host_fragment)
-                .getCurrentDestination().getId() == R.id.nav_profile){
+        if (Navigation.findNavController(this, R.id.nav_host_fragment)
+                .getCurrentDestination().getId() == R.id.nav_profile) {
             syncImage.setVisibility(View.VISIBLE);
         }
         super.onBackPressed();
