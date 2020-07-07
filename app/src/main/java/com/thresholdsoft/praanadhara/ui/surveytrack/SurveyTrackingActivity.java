@@ -459,7 +459,7 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
 //            return false;
 //        }
 
-        locationList.add(location);
+
         // surveyModelArrayList.add(new SurveyModel(location.getLatitude(),location.getLongitude(),location.getAccuracy()));
 
 
@@ -468,10 +468,23 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
         } else if (getSurveyType() == 1) {
             //  planePolyline();
         } else if (getSurveyType() == 2) {
-            polygonPoints.add(new LatLng(location.getLatitude(), location.getLongitude()));
-            surveyModelArrayList.add(new SurveyDetailsEntity(location.getLatitude(), location.getLongitude(), location.getAccuracy()));
-            drawUserPositionMarker(location);
-            polygonPolyline();
+            boolean updateLocation = true;
+            if(locationList.size() == 0) {
+                locationList.add(location);
+            }
+            if(locationList.size()>1) {
+                Location prevLocation = locationList.get(locationList.size() - 1);
+                if (prevLocation != null) {
+                    updateLocation = location.distanceTo(prevLocation) >= 1;
+                }
+            }
+            if(updateLocation) {
+                locationList.add(location);
+                polygonPoints.add(new LatLng(location.getLatitude(), location.getLongitude()));
+                surveyModelArrayList.add(new SurveyDetailsEntity(location.getLatitude(), location.getLongitude(), location.getAccuracy()));
+                // drawUserPositionMarker(location);
+                polygonPolyline();
+            }
         }
 
     }
@@ -574,6 +587,8 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
 //        }
     }
 
+    ArrayList<LatLng> polygonMarkers = new ArrayList<>();
+
     private void polygonPolyline() {
         if (polygonPoints.size() > 1) {
             Location fromLocation = locationList.get(locationList.size() - 2);
@@ -584,15 +599,54 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
 
             LatLng to = new LatLng(((toLocation.getLatitude())),
                     ((toLocation.getLongitude())));
-            PolygonOptions options = new PolygonOptions();
-            if (runningPathPolygon != null)
+            List<PatternItem> pattern = Arrays.asList(new Dot(), new Gap(20));
+            PolygonOptions options = new PolygonOptions();//.strokePattern(pattern)
+            if (runningPathPolygon != null) {
                 runningPathPolygon.remove();
+                mMap.clear();
+            }
 
             this.runningPathPolygon = mMap.addPolygon(options
                     .addAll(polygonPoints));
-            runningPathPolygon.setStrokeColor(Color.parseColor("#009919"));
+           // runningPathPolygon.setStrokeColor(Color.parseColor("#009919"));
             runningPathPolygon.setFillColor(Color.argb(20, 0, 255, 0));
+            for(LatLng latLng : polygonPoints) {
+                BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.blue_circle);
+                Marker marker = mMap.addMarker(new MarkerOptions()
+                        .position(latLng)
+                        .flat(true).icon(icon)
+                        .anchor(0.5f, 0.5f).draggable(true));
+                marker.setTag(latLng);
+                mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
+                    @Override
+                    public void onMarkerDragStart(Marker marker) {
+
+                    }
+
+                    @Override
+                    public void onMarkerDrag(Marker marker) {
+                        //  updateMarkerLocation(marker);
+                    }
+
+                    @Override
+                    public void onMarkerDragEnd(Marker marker) {
+                        updateMarkerLocation(marker);
+                    }
+                });
+            }
         }
+    }
+    private void updateMarkerLocation(Marker marker) {
+        LatLng latLng = (LatLng) marker.getTag();
+        int position = polygonPoints.indexOf(latLng);
+        if (position != -1) {
+            polygonPoints.set(position, marker.getPosition());
+            marker.setTag(marker.getPosition());
+        }else{
+            marker.remove();
+        }
+
+        polygonPolyline();
     }
 
     private void drawUserPositionMarker(Location location) {
