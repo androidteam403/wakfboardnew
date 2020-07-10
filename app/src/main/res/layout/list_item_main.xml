@@ -39,11 +39,12 @@
                 android:gravity="center"
                 android:padding="6dp"
                 android:src="@drawable/edit_icon_white" />
+
             <ImageView
                 android:id="@+id/map_edit_icon"
                 android:layout_width="80dp"
                 android:layout_height="match_parent"
-                android:background="#E6E6FA"
+                android:background="#234996"
                 android:contentDescription="@string/app_name"
                 android:gravity="center"
                 android:padding="6dp"

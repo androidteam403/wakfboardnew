@@ -200,7 +200,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
 
         mpresenter.getAllSurveyList(landUid).observe(this, surveyEntities -> {
             surveyDetailsAdapter.addItems(surveyEntities);
-//            surveyDetailsAdapter.notifyDataSetChanged();
+            surveyDetailsAdapter.notifyDataSetChanged();
             activitySurveyStatusBinding.setSurvey(surveyEntities.size() > 0);
             previewDisplay(surveyEntities);
             if (farmerLands != null && farmerLands.getStatus().equalsIgnoreCase("No") && surveyEntities.size() == 0) {
@@ -265,6 +265,8 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
         openBottomSheet();
     }
 
+
+
     @Override
     public void addSurvey(FarmerLands rowsEntity) {
 //        startActivityForResult(SurveyTrackingActivity.getIntent(this, rowsEntity, mapType), REQUEST_CODE);
@@ -290,13 +292,11 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
         boolean isCheckedStatus = surveyEntity.isUnchecked();
         if (!isCheckedStatus) {
             surveyEntity.setUnchecked(true);
-
         } else {
             surveyEntity.setUnchecked(false);
         }
-        mpresenter.updateSurveyCheck(surveyEntity);
-//        surveyDetailsAdapter.notifyDataSetChanged();
-//        previewDisplay(surveyDetailsAdapter.getListData());
+        surveyDetailsAdapter.notifyDataSetChanged();
+        previewDisplay(surveyDetailsAdapter.getListData());
     }
 
     @Override
