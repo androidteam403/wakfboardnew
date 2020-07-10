@@ -89,6 +89,13 @@ public class SurveyPointDialog {
     public String getPointDescription() {
         return editQuantityDialogBinding.editDescriptionEditText.getText().toString();
     }
+    public void setEditTextData(String editTextData) {
+        editQuantityDialogBinding.editNameEditText.setText(editTextData);
+    }
+
+    public void setEditTextDescriptionData(String editTextDescriptionData) {
+        editQuantityDialogBinding.editDescriptionEditText.setText(editTextDescriptionData);
+    }
 
     public boolean validations() {
         String name = editQuantityDialogBinding.editNameEditText.getText().toString();

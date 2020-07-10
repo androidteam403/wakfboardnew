@@ -117,21 +117,6 @@ public class SurveyStatusPresenter<V extends SurveyStatusMvpView> extends BasePr
     }
 
     @Override
-    public void onpolygonRadioClick() {
-        getMvpView().onpolygonRadioClick();
-    }
-
-    @Override
-    public void onLinesRadioClick() {
-        getMvpView().onLinesRadioClick();
-    }
-
-    @Override
-    public void onPointsRadioClick() {
-        getMvpView().onPointsRadioClick();
-    }
-
-    @Override
     public void deleteApiCall(SurveyEntity surveyEntity) {
 
         if (getMvpView().isNetworkConnected()) {
@@ -253,6 +238,11 @@ public class SurveyStatusPresenter<V extends SurveyStatusMvpView> extends BasePr
                 getDataManager().insertSurveyCount(statusEntity);
             }
         }
+    }
+
+    @Override
+    public void updateSurveyCheck(SurveyEntity surveyEntity) {
+        getDataManager().updateSurveyEntity(surveyEntity);
     }
 
 }
