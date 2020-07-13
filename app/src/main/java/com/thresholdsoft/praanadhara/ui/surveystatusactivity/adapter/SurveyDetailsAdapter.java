@@ -24,9 +24,6 @@ import java.util.List;
 public class SurveyDetailsAdapter extends RecyclerView.Adapter<SurveyDetailsAdapter.ItemBaseViewHolder> {
     private SurveyStatusMvpView statusMvpView;
     private ItemTouchHelperExtension mItemTouchHelperExtension;
-    public static final int ITEM_TYPE_NO_SWIPE = 100;
-    ListItemMainBinding listItemMainBinding;
-
 
     public SurveyDetailsAdapter(SurveyStatusMvpView statusMvpView) {
         this.statusMvpView = statusMvpView;
@@ -40,10 +37,8 @@ public class SurveyDetailsAdapter extends RecyclerView.Adapter<SurveyDetailsAdap
     @NonNull
     @Override
     public SurveyDetailsAdapter.ItemBaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        listItemMainBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+       ListItemMainBinding listItemMainBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
                 R.layout.list_item_main, parent, false);
-//        if (viewType == ITEM_TYPE_ACTION_WIDTH) return new ItemSwipeWithActionWidthViewHolder(listItemMainBinding);
-//        if (viewType == ITEM_TYPE_NO_SWIPE) return new ItemNoSwipeViewHolder(listItemMainBinding);
         return new ItemSwipeWithActionWidthViewHolder(listItemMainBinding);
     }
 
@@ -111,8 +106,6 @@ public class SurveyDetailsAdapter extends RecyclerView.Adapter<SurveyDetailsAdap
         return differ.getCurrentList().size();
     }
 
-    public static final int ITEM_TYPE_ACTION_WIDTH = 1001;
-
     @Override
     public int getItemViewType(int position) {
         return position;
@@ -136,13 +129,6 @@ public class SurveyDetailsAdapter extends RecyclerView.Adapter<SurveyDetailsAdap
     }
 
 
-//    public int setFarmerLands(FarmerLands farmerLands) {
-//        if (farmerLands.getStatus().equalsIgnoreCase("yes")) {
-//        return ITEM_TYPE_NO_SWIPE;
-//        }
-//        return ITEM_TYPE_ACTION_WIDTH;
-//    }
-
     class ItemSwipeWithActionWidthViewHolder extends ItemBaseViewHolder implements Extension {
 
         View mActionViewDelete;
@@ -165,12 +151,7 @@ public class SurveyDetailsAdapter extends RecyclerView.Adapter<SurveyDetailsAdap
         }
 
     }
-    public class ItemNoSwipeViewHolder extends ItemBaseViewHolder {
 
-        public ItemNoSwipeViewHolder(ListItemMainBinding itemView) {
-            super(itemView);
-        }
-    }
     private void postDelay() {
         Handler handler = new Handler();
         handler.postDelayed(this::notifyDataSetChanged, 100);

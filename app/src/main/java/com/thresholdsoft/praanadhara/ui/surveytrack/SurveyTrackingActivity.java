@@ -633,8 +633,22 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
                 yourMarkerTag.setLatLng(latLng);
                 yourMarkerTag.setPosition(position);
                 marker.setTag(yourMarkerTag);
+                mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                    @Override
+                    public void onMapClick(LatLng latLng) {
+                        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.blue_circle);
+                        Marker marker = mMap.addMarker(new MarkerOptions()
+                                .position(latLng)
+                                .flat(true).icon(icon)
+                                .anchor(0.5f, 0.5f).draggable(true));
 
-
+                        int position = polygonPoints.indexOf(latLng);
+                        MarkerTag yourMarkerTag = new MarkerTag();
+                        yourMarkerTag.setLatLng(latLng);
+                        yourMarkerTag.setPosition(position);
+                        marker.setTag(yourMarkerTag);
+                    }
+                });
 //                marker.setTag(latLng);
                 mMap.setOnMarkerClickListener(SurveyTrackingActivity.this);
                 mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
@@ -974,7 +988,6 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
                 .flat(true).icon(icon)
                 .anchor(0.5f, 0.5f).draggable(true));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17.5f));
-        mMap.setOnMarkerClickListener(SurveyTrackingActivity.this);
         mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
             @Override
             public void onMarkerDragStart(Marker marker) {

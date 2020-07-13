@@ -65,7 +65,6 @@ import com.loopeer.itemtouchhelperextension.ItemTouchHelperExtension;
 import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.data.db.model.FarmerLands;
 import com.thresholdsoft.praanadhara.data.db.model.SurveyEntity;
-import com.thresholdsoft.praanadhara.data.network.pojo.SurveyDetailsEntity;
 import com.thresholdsoft.praanadhara.databinding.ActivitySurveyStatusBinding;
 import com.thresholdsoft.praanadhara.root.WaveApp;
 import com.thresholdsoft.praanadhara.services.ConnectivityReceiver;
@@ -104,7 +103,6 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     public static final int REQUEST_CODE = 1;
     private static final String TAG = SurveyListFrag.class.getSimpleName();
     private GoogleApiClient mGoogleApiClient;
-    boolean editMode=true;
     /**
      * Code used in requesting runtime permissions.
      */
@@ -113,8 +111,6 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     private double mLatitude;
     private double mLongitude;
     private boolean isNewSurveyCurrentLocation = false;
-    private ArrayList<SurveyDetailsEntity> surveyModelArrayList = new ArrayList<>();
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -144,13 +140,6 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
             activitySurveyStatusBinding.setFarmerLand(farmerLands);
             activitySurveyStatusBinding.backArrow.setFarmerLand(farmerLands);
             this.farmerLands = farmerLands;
-            if(!farmerLands.getStatus().equalsIgnoreCase("Yes")) {
-                ItemTouchHelperCallback mCallback = new ItemTouchHelperCallback();
-                ItemTouchHelperExtension mItemTouchHelper = new ItemTouchHelperExtension(mCallback);
-                mItemTouchHelper.attachToRecyclerView(activitySurveyStatusBinding.surveDetailsRecyclerview);
-                surveyDetailsAdapter.setItemTouchHelperExtension(mItemTouchHelper);
-            }
-//            surveyDetailsAdapter.setFarmerLands(farmerLands);
         });
 
         surveyDetailsAdapter = new SurveyDetailsAdapter(this);
@@ -160,6 +149,10 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
         activitySurveyStatusBinding.surveDetailsRecyclerview.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         activitySurveyStatusBinding.surveDetailsRecyclerview.setAdapter(surveyDetailsAdapter);
 
+        ItemTouchHelperCallback mCallback = new ItemTouchHelperCallback();
+        ItemTouchHelperExtension mItemTouchHelper = new ItemTouchHelperExtension(mCallback);
+        mItemTouchHelper.attachToRecyclerView(activitySurveyStatusBinding.surveDetailsRecyclerview);
+        surveyDetailsAdapter.setItemTouchHelperExtension(mItemTouchHelper);
 
         activitySurveyStatusBinding.setPresenterCallback(mpresenter);
         activitySurveyStatusBinding.setExpandView(1);
@@ -210,7 +203,6 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
             previewDisplay(surveyEntities);
             if (farmerLands != null && farmerLands.getStatus().equalsIgnoreCase("No") && surveyEntities.size() == 0) {
                 openBottomSheet();
-
             }
         });
     }
@@ -296,12 +288,11 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
         boolean isCheckedStatus = surveyEntity.isUnchecked();
         if (!isCheckedStatus) {
             surveyEntity.setUnchecked(true);
-
         } else {
             surveyEntity.setUnchecked(false);
         }
-        mpresenter.updateSurveyCheck(surveyEntity);
 //        surveyDetailsAdapter.notifyDataSetChanged();
+        mpresenter.updateSurveyCheck(surveyEntity);
 //        previewDisplay(surveyDetailsAdapter.getListData());
     }
 
@@ -334,15 +325,15 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     }
 
     @Override
-    public void onClickPolygonMapEditSurvey(SurveyEntity surveyEntity,int position) {
+    public void onClickPolygonMapEditSurvey(SurveyEntity surveyEntity, int position) {
         if (surveyEntity.getMapType().equalsIgnoreCase("point")) {
-            mapType= 0;
+            mapType = 0;
         } else if (surveyEntity.getMapType().equalsIgnoreCase("line")) {
-            mapType= 1;
+            mapType = 1;
         } else if (surveyEntity.getMapType().equalsIgnoreCase("polygon")) {
-            mapType= 2;
+            mapType = 2;
         }
-        startActivityForResult(SurveyTrackingActivity.getIntent(getContext(), farmerLands, mapType,true,surveyEntity), REQUEST_CODE);
+        startActivityForResult(SurveyTrackingActivity.getIntent(getContext(), farmerLands, mapType, true, surveyEntity), REQUEST_CODE);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
@@ -406,7 +397,6 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
                                             .position(latLng)
                                             .flat(true).icon(icon)
                                             .anchor(0.5f, 0.5f));
-                                   // mpresenter.updateSurveyCheck(detailsEntity);
                                     isIncludeLatLong = true;
                                 }
                             } catch (JsonSyntaxException e) {
