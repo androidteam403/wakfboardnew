@@ -895,12 +895,10 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
 
     @Override
     public void surveySaveSuccess() {
-        if (getSurveyType() == 1 || getSurveyType() == 2) {
-            Intent intent = getIntent();
-            intent.putExtra("surveySubmit", surveyModelArrayList);
-            setResult(RESULT_OK, intent);
-            finish();
-        }
+        Intent intent = getIntent();
+        intent.putExtra("surveySubmit", surveyModelArrayList);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
     @Override
@@ -1042,10 +1040,10 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
                     surveySaveReq.setName(dialogView.getPointName());
                     mpresenter.saveSurvey(surveySaveReq);
                     Toast.makeText(SurveyTrackingActivity.this, "PointDetails are saved successfully", Toast.LENGTH_LONG).show();
-                    Intent intent = getIntent();
-                    intent.putExtra("surveySubmit", surveyModelArrayList);
-                    setResult(RESULT_OK, intent);
-                    finish();
+//                    Intent intent = getIntent();
+//                    intent.putExtra("surveySubmit", surveyModelArrayList);
+//                    setResult(RESULT_OK, intent);
+//                    finish();
 
                 }
             }

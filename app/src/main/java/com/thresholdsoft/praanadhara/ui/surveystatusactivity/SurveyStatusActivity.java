@@ -205,7 +205,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
 
         mpresenter.getAllSurveyList(landUid).observe(this, surveyEntities -> {
             surveyDetailsAdapter.addItems(surveyEntities);
-//            surveyDetailsAdapter.notifyDataSetChanged();
+            surveyDetailsAdapter.notifyDataSetChanged();
             activitySurveyStatusBinding.setSurvey(surveyEntities.size() > 0);
             previewDisplay(surveyEntities);
             if (farmerLands != null && farmerLands.getStatus().equalsIgnoreCase("No") && surveyEntities.size() == 0) {
