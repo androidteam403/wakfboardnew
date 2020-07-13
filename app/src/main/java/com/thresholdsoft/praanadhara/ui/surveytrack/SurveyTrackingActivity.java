@@ -1046,6 +1046,7 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
                     intent.putExtra("surveySubmit", surveyModelArrayList);
                     setResult(RESULT_OK, intent);
                     finish();
+
                 }
             }
         });
@@ -1075,12 +1076,14 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
                 public void onClick(View view) {
                     deleteDialog.dismiss();
                     if (marker != null) {
-                        polygonPoints.remove(marker.getPosition());
-                        if(marker.getTag() != null && marker.getTag() instanceof MarkerTag) {
-                            surveyModelArrayList.remove(((MarkerTag) marker.getTag()).getPosition());
+                        if (polygonPoints.size() > 2) {
+                            polygonPoints.remove(marker.getPosition());
+                            if (marker.getTag() != null && marker.getTag() instanceof MarkerTag) {
+                                surveyModelArrayList.remove(((MarkerTag) marker.getTag()).getPosition());
+                            }
+                            polygonPolyline();
+                            marker.remove();
                         }
-                        polygonPolyline();
-                        marker.remove();
                     }
                 }
             });

@@ -144,6 +144,13 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
             activitySurveyStatusBinding.setFarmerLand(farmerLands);
             activitySurveyStatusBinding.backArrow.setFarmerLand(farmerLands);
             this.farmerLands = farmerLands;
+            if(!farmerLands.getStatus().equalsIgnoreCase("Yes")) {
+                ItemTouchHelperCallback mCallback = new ItemTouchHelperCallback();
+                ItemTouchHelperExtension mItemTouchHelper = new ItemTouchHelperExtension(mCallback);
+                mItemTouchHelper.attachToRecyclerView(activitySurveyStatusBinding.surveDetailsRecyclerview);
+                surveyDetailsAdapter.setItemTouchHelperExtension(mItemTouchHelper);
+            }
+//            surveyDetailsAdapter.setFarmerLands(farmerLands);
         });
 
         surveyDetailsAdapter = new SurveyDetailsAdapter(this);
@@ -153,10 +160,6 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
         activitySurveyStatusBinding.surveDetailsRecyclerview.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         activitySurveyStatusBinding.surveDetailsRecyclerview.setAdapter(surveyDetailsAdapter);
 
-        ItemTouchHelperCallback mCallback = new ItemTouchHelperCallback();
-        ItemTouchHelperExtension mItemTouchHelper = new ItemTouchHelperExtension(mCallback);
-        mItemTouchHelper.attachToRecyclerView(activitySurveyStatusBinding.surveDetailsRecyclerview);
-        surveyDetailsAdapter.setItemTouchHelperExtension(mItemTouchHelper);
 
         activitySurveyStatusBinding.setPresenterCallback(mpresenter);
         activitySurveyStatusBinding.setExpandView(1);
@@ -188,10 +191,12 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
             if (activitySurveyStatusBinding.checkBoxHeader.isChecked()) {
                 for (SurveyEntity surveyEntity : surveyDetailsAdapter.getListData()) {
                     surveyEntity.setUnchecked(false);
+                    mpresenter.updateSurveyCheck(surveyEntity);
                 }
             } else {
                 for (SurveyEntity surveyEntity : surveyDetailsAdapter.getListData()) {
                     surveyEntity.setUnchecked(true);
+                    mpresenter.updateSurveyCheck(surveyEntity);
                 }
             }
             surveyDetailsAdapter.notifyDataSetChanged();
@@ -205,6 +210,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
             previewDisplay(surveyEntities);
             if (farmerLands != null && farmerLands.getStatus().equalsIgnoreCase("No") && surveyEntities.size() == 0) {
                 openBottomSheet();
+
             }
         });
     }
@@ -400,6 +406,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
                                             .position(latLng)
                                             .flat(true).icon(icon)
                                             .anchor(0.5f, 0.5f));
+                                   // mpresenter.updateSurveyCheck(detailsEntity);
                                     isIncludeLatLong = true;
                                 }
                             } catch (JsonSyntaxException e) {
