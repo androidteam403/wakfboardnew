@@ -210,6 +210,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
             previewDisplay(surveyEntities);
             if (farmerLands != null && farmerLands.getStatus().equalsIgnoreCase("No") && surveyEntities.size() == 0) {
                 openBottomSheet();
+
             }
         });
     }

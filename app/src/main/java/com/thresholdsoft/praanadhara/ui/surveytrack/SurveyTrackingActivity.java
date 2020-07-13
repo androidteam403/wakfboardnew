@@ -1046,6 +1046,7 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
                     intent.putExtra("surveySubmit", surveyModelArrayList);
                     setResult(RESULT_OK, intent);
                     finish();
+
                 }
             }
         });
