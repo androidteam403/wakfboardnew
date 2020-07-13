@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.loopeer.itemtouchhelperextension.Extension;
 import com.loopeer.itemtouchhelperextension.ItemTouchHelperExtension;
 import com.thresholdsoft.praanadhara.R;
+import com.thresholdsoft.praanadhara.data.db.model.FarmerLands;
 import com.thresholdsoft.praanadhara.data.db.model.SurveyEntity;
 import com.thresholdsoft.praanadhara.databinding.ListItemMainBinding;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusMvpView;
@@ -23,6 +24,9 @@ import java.util.List;
 public class SurveyDetailsAdapter extends RecyclerView.Adapter<SurveyDetailsAdapter.ItemBaseViewHolder> {
     private SurveyStatusMvpView statusMvpView;
     private ItemTouchHelperExtension mItemTouchHelperExtension;
+    public static final int ITEM_TYPE_NO_SWIPE = 100;
+    ListItemMainBinding listItemMainBinding;
+
 
     public SurveyDetailsAdapter(SurveyStatusMvpView statusMvpView) {
         this.statusMvpView = statusMvpView;
@@ -36,10 +40,13 @@ public class SurveyDetailsAdapter extends RecyclerView.Adapter<SurveyDetailsAdap
     @NonNull
     @Override
     public SurveyDetailsAdapter.ItemBaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ListItemMainBinding listItemMainBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+        listItemMainBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
                 R.layout.list_item_main, parent, false);
+//        if (viewType == ITEM_TYPE_ACTION_WIDTH) return new ItemSwipeWithActionWidthViewHolder(listItemMainBinding);
+//        if (viewType == ITEM_TYPE_NO_SWIPE) return new ItemNoSwipeViewHolder(listItemMainBinding);
         return new ItemSwipeWithActionWidthViewHolder(listItemMainBinding);
     }
+
 
     @Override
     public void onBindViewHolder(@NonNull final SurveyDetailsAdapter.ItemBaseViewHolder holder, int position) {
@@ -56,6 +63,7 @@ public class SurveyDetailsAdapter extends RecyclerView.Adapter<SurveyDetailsAdap
                 holder.listItemMainBinding.cartlayout.image.setBackgroundResource(R.drawable.new_polygon);
             }
         }
+
         if (!farmerModel.isUnchecked()) {
             holder.listItemMainBinding.cartlayout.checkBox.setChecked(true);
         } else {
@@ -86,7 +94,7 @@ public class SurveyDetailsAdapter extends RecyclerView.Adapter<SurveyDetailsAdap
             viewHolder.mActionViewMapEdit.setOnClickListener(view ->
             {
                 viewHolder.listItemMainBinding.viewListRepoActionContainer.setVisibility(View.GONE);
-                statusMvpView.onClickPolygonMapEditSurvey(farmerModel,position);
+                statusMvpView.onClickPolygonMapEditSurvey(farmerModel, position);
                 mItemTouchHelperExtension.closeOpened();
             });
         }
@@ -127,6 +135,14 @@ public class SurveyDetailsAdapter extends RecyclerView.Adapter<SurveyDetailsAdap
         }
     }
 
+
+//    public int setFarmerLands(FarmerLands farmerLands) {
+//        if (farmerLands.getStatus().equalsIgnoreCase("yes")) {
+//        return ITEM_TYPE_NO_SWIPE;
+//        }
+//        return ITEM_TYPE_ACTION_WIDTH;
+//    }
+
     class ItemSwipeWithActionWidthViewHolder extends ItemBaseViewHolder implements Extension {
 
         View mActionViewDelete;
@@ -149,7 +165,12 @@ public class SurveyDetailsAdapter extends RecyclerView.Adapter<SurveyDetailsAdap
         }
 
     }
+    public class ItemNoSwipeViewHolder extends ItemBaseViewHolder {
 
+        public ItemNoSwipeViewHolder(ListItemMainBinding itemView) {
+            super(itemView);
+        }
+    }
     private void postDelay() {
         Handler handler = new Handler();
         handler.postDelayed(this::notifyDataSetChanged, 100);
@@ -173,4 +194,6 @@ public class SurveyDetailsAdapter extends RecyclerView.Adapter<SurveyDetailsAdap
     };
 
     private AsyncListDiffer<SurveyEntity> differ = new AsyncListDiffer<>(this, DIFF_CALLBACK);
+
+
 }

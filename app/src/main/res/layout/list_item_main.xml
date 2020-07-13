@@ -3,10 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="android.view.View" />
 
         <variable
             name="data"
             type="com.thresholdsoft.praanadhara.data.db.model.SurveyEntity" />
+
+        <variable
+            name="farmer_land"
+            type="com.thresholdsoft.praanadhara.data.db.model.FarmerLands" />
+
     </data>
 
     <FrameLayout
@@ -19,7 +25,8 @@
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_gravity="start"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="@{farmer_land.status != null &amp; farmer_land.status.equalsIgnoreCase(`No`) ? View.VISIBLE : View.GONE}">
 
             <ImageView
                 android:id="@+id/view_list_repo_action_delete"
