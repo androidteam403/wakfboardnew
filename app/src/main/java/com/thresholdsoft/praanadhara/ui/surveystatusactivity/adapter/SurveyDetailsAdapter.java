@@ -19,11 +19,16 @@ import com.thresholdsoft.praanadhara.data.db.model.SurveyEntity;
 import com.thresholdsoft.praanadhara.databinding.ListItemMainBinding;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusMvpView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SurveyDetailsAdapter extends RecyclerView.Adapter<SurveyDetailsAdapter.ItemBaseViewHolder> {
     private SurveyStatusMvpView statusMvpView;
     private ItemTouchHelperExtension mItemTouchHelperExtension;
+    public static final int ITEM_TYPE_NO_SWIPE = 100;
+    ListItemMainBinding listItemMainBinding;
+
+    private ArrayList<SurveyEntity> surveyEntities = new ArrayList<>();
 
     public SurveyDetailsAdapter(SurveyStatusMvpView statusMvpView) {
         this.statusMvpView = statusMvpView;
@@ -45,7 +50,7 @@ public class SurveyDetailsAdapter extends RecyclerView.Adapter<SurveyDetailsAdap
 
     @Override
     public void onBindViewHolder(@NonNull final SurveyDetailsAdapter.ItemBaseViewHolder holder, int position) {
-        SurveyEntity farmerModel = differ.getCurrentList().get(position);
+        SurveyEntity farmerModel = surveyEntities.get(position);
         holder.listItemMainBinding.setData(farmerModel);
         // holder.listItemMainBinding.cartlayout.setData(farmerModel);
 
@@ -96,14 +101,14 @@ public class SurveyDetailsAdapter extends RecyclerView.Adapter<SurveyDetailsAdap
     }
 
     public void move(int from, int to) {
-        SurveyEntity prev = differ.getCurrentList().remove(from);
-        differ.getCurrentList().add(to > from ? to - 1 : to, prev);
+        SurveyEntity prev = surveyEntities.remove(from);
+        surveyEntities.add(to > from ? to - 1 : to, prev);
         notifyItemMoved(from, to);
     }
 
     @Override
     public int getItemCount() {
-        return differ.getCurrentList().size();
+        return surveyEntities.size();
     }
 
     @Override
@@ -112,11 +117,12 @@ public class SurveyDetailsAdapter extends RecyclerView.Adapter<SurveyDetailsAdap
     }
 
     public void addItems(List<SurveyEntity> blogList) {
-        differ.submitList(blogList);
+        surveyEntities.clear();
+        surveyEntities.addAll(blogList);
     }
 
     public List<SurveyEntity> getListData() {
-        return differ.getCurrentList();
+        return surveyEntities;
     }
 
     public static class ItemBaseViewHolder extends RecyclerView.ViewHolder {
@@ -158,23 +164,23 @@ public class SurveyDetailsAdapter extends RecyclerView.Adapter<SurveyDetailsAdap
     }
 
 
-    private static final DiffUtil.ItemCallback<SurveyEntity> DIFF_CALLBACK = new DiffUtil.ItemCallback<SurveyEntity>() {
-        @Override
-        public boolean areItemsTheSame(@NonNull SurveyEntity oldItem, @NonNull SurveyEntity newItem) {
-            return oldItem.getId() == newItem.getId();
-        }
-
-        @Override
-        public boolean areContentsTheSame(@NonNull SurveyEntity oldItem, @NonNull SurveyEntity newItem) {
-            if (oldItem.getName() != null && newItem.getName() != null) {
-                return oldItem.getName().equals(newItem.getName());
-            } else
-                return false;
-        }
-
-    };
-
-    private AsyncListDiffer<SurveyEntity> differ = new AsyncListDiffer<>(this, DIFF_CALLBACK);
-
+//    private static final DiffUtil.ItemCallback<SurveyEntity> DIFF_CALLBACK = new DiffUtil.ItemCallback<SurveyEntity>() {
+//        @Override
+//        public boolean areItemsTheSame(@NonNull SurveyEntity oldItem, @NonNull SurveyEntity newItem) {
+//            return oldItem.getId() == newItem.getId();
+//        }
+//
+//        @Override
+//        public boolean areContentsTheSame(@NonNull SurveyEntity oldItem, @NonNull SurveyEntity newItem) {
+//            if (oldItem.getName() != null && newItem.getName() != null) {
+//                return oldItem.getName().equals(newItem.getName());
+//            } else
+//                return false;
+//        }
+//
+//    };
+//
+//    private AsyncListDiffer<SurveyEntity> differ = new AsyncListDiffer<>(this, DIFF_CALLBACK);
+//
 
 }
