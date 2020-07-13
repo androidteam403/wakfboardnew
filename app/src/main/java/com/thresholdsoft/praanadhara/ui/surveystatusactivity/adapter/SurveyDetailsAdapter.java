@@ -83,6 +83,12 @@ public class SurveyDetailsAdapter extends RecyclerView.Adapter<SurveyDetailsAdap
                         mItemTouchHelperExtension.closeOpened();
                     }
             );
+            viewHolder.mActionViewMapEdit.setOnClickListener(view ->
+            {
+                viewHolder.listItemMainBinding.viewListRepoActionContainer.setVisibility(View.GONE);
+                statusMvpView.onClickPolygonMapEditSurvey(farmerModel,position);
+                mItemTouchHelperExtension.closeOpened();
+            });
         }
     }
 
@@ -125,12 +131,14 @@ public class SurveyDetailsAdapter extends RecyclerView.Adapter<SurveyDetailsAdap
 
         View mActionViewDelete;
         View mActionViewEdit;
+        View mActionViewMapEdit;
 
 
         public ItemSwipeWithActionWidthViewHolder(ListItemMainBinding itemView) {
             super(itemView);
             mActionViewDelete = itemView.getRoot().findViewById(R.id.view_list_repo_action_delete);
             mActionViewEdit = itemView.getRoot().findViewById(R.id.view_list_repo_action_update);
+            mActionViewMapEdit = itemView.getRoot().findViewById(R.id.map_edit_icon);
         }
 
         @Override

@@ -195,7 +195,7 @@
             android:fontFamily="@font/roboto_bold"
             android:textSize="@dimen/text_dimen_18"
             android:onClick="@{()-> view.savePolyGone()}"
-            android:visibility="@{type == 2 &amp; save ? View.VISIBLE : View.GONE}"
+            android:visibility="@{type == 4 || type == 2 &amp; save ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             android:background="@drawable/bg_rounde"
             app:layout_constraintStart_toStartOf="parent"

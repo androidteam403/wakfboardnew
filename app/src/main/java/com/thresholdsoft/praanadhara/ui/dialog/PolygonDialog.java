@@ -10,21 +10,19 @@ import android.view.View;
 import androidx.databinding.DataBindingUtil;
 
 import com.thresholdsoft.praanadhara.R;
-import com.thresholdsoft.praanadhara.databinding.SurveyPointDialogBinding;
+import com.thresholdsoft.praanadhara.databinding.DialogPolygoneBinding;
 import com.thresholdsoft.praanadhara.ui.surveytrack.SurveyTrackMvpView;
 
-
-public class SurveyPointDialog {
-
+public class PolygonDialog {
     private Dialog dialog;
-    private SurveyPointDialogBinding editQuantityDialogBinding;
+    private DialogPolygoneBinding editQuantityDialogBinding;
     private SurveyTrackMvpView surveyTrackMvpView;
 
     private boolean negativeExist = false;
 
-    public SurveyPointDialog(Context context) {
+    public PolygonDialog(Context context) {
         dialog = new Dialog(context);
-        editQuantityDialogBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.survey_point_dialog, null, false);
+        editQuantityDialogBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_polygone, null, false);
         dialog.setContentView(editQuantityDialogBinding.getRoot());
         if (dialog.getWindow() != null)
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -83,32 +81,12 @@ public class SurveyPointDialog {
     }
 
     public String getPointName() {
-        return editQuantityDialogBinding.editNameEditText.getText().toString();
+//        return editQuantityDialogBinding.editNameEditText.getText().toString();
+        return null;
     }
 
     public String getPointDescription() {
-        return editQuantityDialogBinding.editDescriptionEditText.getText().toString();
-    }
-    public void setEditTextData(String editTextData) {
-        editQuantityDialogBinding.editNameEditText.setText(editTextData);
-    }
-
-    public void setEditTextDescriptionData(String editTextDescriptionData) {
-        editQuantityDialogBinding.editDescriptionEditText.setText(editTextDescriptionData);
-    }
-
-    public boolean validations() {
-        String name = editQuantityDialogBinding.editNameEditText.getText().toString();
-        String description = editQuantityDialogBinding.editDescriptionEditText.getText().toString();
-        if (name.isEmpty()) {
-            editQuantityDialogBinding.editNameEditText.setError("please enter name");
-            editQuantityDialogBinding.editNameEditText.requestFocus();
-            return false;
-        }else if (description.isEmpty()){
-            editQuantityDialogBinding.editDescriptionEditText.setError("Please enter description");
-            editQuantityDialogBinding.editDescriptionEditText.requestFocus();
-            return false;
-        }
-        return true;
+//        return editQuantityDialogBinding.editDescriptionEditText.getText().toString();
+        return null;
     }
 }

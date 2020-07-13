@@ -12,6 +12,8 @@ public interface SurveyTrackMvpView extends MvpView {
 
     int getSurveyType();
 
+    int getPolygonEditType();
+
     void onClickPauseResumeBtn();
 
     void onClickStopBtn();

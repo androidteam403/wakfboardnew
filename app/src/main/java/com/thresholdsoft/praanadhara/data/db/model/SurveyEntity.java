@@ -10,9 +10,11 @@ import androidx.room.TypeConverters;
 import com.thresholdsoft.praanadhara.BR;
 import com.thresholdsoft.praanadhara.data.utils.DateConverter;
 
+import java.io.Serializable;
+
 @Entity(tableName = "survey_details")
 @TypeConverters({DateConverter.class})
-public class SurveyEntity extends BaseObservable {
+public class SurveyEntity extends BaseObservable implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     private int id;

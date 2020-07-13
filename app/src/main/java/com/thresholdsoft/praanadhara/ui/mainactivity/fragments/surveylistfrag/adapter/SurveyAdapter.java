@@ -158,6 +158,7 @@ public class SurveyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private Filter shopFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
+
             List<FarmerLands> filteredList = new ArrayList<>();
             if (constraint == null || constraint.length() == 0) {
                 isSearchFilter = false;
@@ -169,7 +170,6 @@ public class SurveyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 for (FarmerLands store : fullList) {
                     if (store.getName().toLowerCase().contains(filterPattern)) {
                         filteredList.add(store);
-                        surveyListFrag.regularText();
                     }
                 }
             }
@@ -186,27 +186,29 @@ public class SurveyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             adapterList = (List) results.values;
             searchList = adapterList;
             statusFilter("");
-          //  notifyDataSetChanged();
+            //  notifyDataSetChanged();
         }
     };
 
     public void statusFilter(String status) {
-        int newRes=0; int inProgress = 0, completed = 0;
-        if(isSearchFilter) {
+        int newRes = 0;
+        int inProgress = 0, completed = 0;
+        if (isSearchFilter) {
             adapterList = searchList;
-        }else{
+            surveyListFrag.regularText();
+        } else {
             adapterList = fullList;
         }
-        for(FarmerLands lands : adapterList){
-            if(lands.getStatus().equalsIgnoreCase("New")){
+        for (FarmerLands lands : adapterList) {
+            if (lands.getStatus().equalsIgnoreCase("New")) {
                 newRes++;
-            }else if(lands.getStatus().equalsIgnoreCase("No")){
+            } else if (lands.getStatus().equalsIgnoreCase("No")) {
                 inProgress++;
-            }else if(lands.getStatus().equalsIgnoreCase("Yes")){
+            } else if (lands.getStatus().equalsIgnoreCase("Yes")) {
                 completed++;
             }
         }
-        surveyListFrag.updateStatusCount(newRes,inProgress,completed);
+        surveyListFrag.updateStatusCount(newRes, inProgress, completed);
         if (!status.equalsIgnoreCase("")) {
             if (status.equalsIgnoreCase("InProgress")) {
                 status = "No";
@@ -223,8 +225,10 @@ public class SurveyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
         notifyDataSetChanged();
     }
+
     boolean isSearchFilter = false;
-    public void applyFilter(boolean isSearch){
+
+    public void applyFilter(boolean isSearch) {
         isSearchFilter = isSearch;
     }
 }

@@ -62,4 +62,5 @@
     <string name="no_google_playservice_available">No Google Playservice found. Please install it.</string>
     <string name="permission_denied_explanation">You have not granted location permission. So the service cannot be started.</string>
     <string name="settings">settings</string>
+    <item type="id" name="polygon_marker_position" />
 </resources>

@@ -15,12 +15,6 @@ public interface SurveyStatusMvpPresenter<V extends SurveyStatusMvpView> extends
 
     LiveData<FarmerLands> getFarmerLand(String uid, String landUid);
 
-    void onpolygonRadioClick();
-
-    void onLinesRadioClick();
-
-    void onPointsRadioClick();
-
     void startSurvey(FarmerLands rowsEntity);
 
     void addSurvey(FarmerLands rowsEntity);
@@ -36,4 +30,6 @@ public interface SurveyStatusMvpPresenter<V extends SurveyStatusMvpView> extends
     void updateFarmerLandStatus(String uid, String landUid,String surveyLandUid);
 
     void updateLandSurveySubmit(String uid, String landUid);
+
+    void updateSurveyCheck(SurveyEntity surveyEntity);
 }

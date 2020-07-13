@@ -13,12 +13,6 @@ public interface SurveyStatusMvpView extends MvpView {
 
     void startSurveySuccess(String uid);
 
-    void onpolygonRadioClick();
-
-    void onLinesRadioClick();
-
-    void onPointsRadioClick();
-
     void addSurvey(FarmerLands rowsEntity);
 
     void submitSurvey(FarmerLands rowsEntity);
@@ -30,6 +24,8 @@ public interface SurveyStatusMvpView extends MvpView {
     SurveyListModel getSurvey();
 
     void onClickEditSurvey(SurveyEntity surveyEntity);
+
+    void onClickPolygonMapEditSurvey(SurveyEntity surveyEntity,int position);
 
     void onClickDeleteSurvey(SurveyEntity surveyEntity);
 
