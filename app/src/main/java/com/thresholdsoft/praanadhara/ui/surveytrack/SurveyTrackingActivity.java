@@ -117,7 +117,8 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
     private List<Marker> markerList = new ArrayList<>();
     private BroadcastReceiver MyReceiver = null;
     View mapView;
-    private MarkerTag yourMarkerTag;
+    int newPolygonPosition;
+//    private Marker polygonMarker;
 
     public static Intent getIntent(Context context, FarmerLands surveyEntity, int mapType) {
         Intent intent = new Intent(context, SurveyTrackingActivity.class);
@@ -633,23 +634,7 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
                 yourMarkerTag.setLatLng(latLng);
                 yourMarkerTag.setPosition(position);
                 marker.setTag(yourMarkerTag);
-                mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                    @Override
-                    public void onMapClick(LatLng latLng) {
-                        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.blue_circle);
-                        Marker marker = mMap.addMarker(new MarkerOptions()
-                                .position(latLng)
-                                .flat(true).icon(icon)
-                                .anchor(0.5f, 0.5f).draggable(true));
 
-                        int position = polygonPoints.indexOf(latLng);
-                        MarkerTag yourMarkerTag = new MarkerTag();
-                        yourMarkerTag.setLatLng(latLng);
-                        yourMarkerTag.setPosition(position);
-                        marker.setTag(yourMarkerTag);
-                    }
-                });
-//                marker.setTag(latLng);
                 mMap.setOnMarkerClickListener(SurveyTrackingActivity.this);
                 mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
                     @Override
@@ -675,6 +660,8 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
         MarkerTag tag = (MarkerTag) marker.getTag();
 //        LatLng latLng=yourMarkerTag.getLatLng();
         int position = polygonPoints.indexOf(tag.getLatLng());
+//        newPolygonPosition=position;
+//        newPolygonPosition=polygonPoints.indexOf(tag.getLatLng());
         if (position != -1) {
             polygonPoints.set(position, marker.getPosition());
             surveyModelArrayList.get(position).setLatitude(marker.getPosition().latitude);
@@ -683,7 +670,18 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
             markerTag.setPosition(position);
             markerTag.setLatLng(marker.getPosition());
             marker.setTag(markerTag);
-        } else {
+        }
+//        if (newPolygonPosition ==-1){
+//            polygonPoints.set(newPolygonPosition, marker.getPosition());
+//            surveyModelArrayList.get(newPolygonPosition).setLatitude(marker.getPosition().latitude);
+//            surveyModelArrayList.get(newPolygonPosition).setLongitude(marker.getPosition().longitude);
+//            MarkerTag markerTag = new MarkerTag();
+//            markerTag.setPosition(newPolygonPosition);
+//            markerTag.setPosition(newPolygonPosition);
+//            markerTag.setLatLng(marker.getPosition());
+//            marker.setTag(markerTag);
+//        }
+        else {
             marker.remove();
         }
 
@@ -1079,12 +1077,41 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
     public boolean onMarkerClick(Marker marker) {
         DeleteDialog deleteDialog = new DeleteDialog(this);
         if (getSurveyType() == 2) {
-            deleteDialog.setTitle("Are You Sure!");
-            deleteDialog.setPositiveLabel("Yes");
+            deleteDialog.setTitle("Plygon Edit Details");
+            deleteDialog.setPositiveLabel("Add");
             deleteDialog.setEditTextDialogDetails(this);
             deleteDialog.setPositiveListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    deleteDialog.dismiss();
+                    mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                        @Override
+                        public void onMapClick(LatLng latLng) {
+                            BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.blue_circle);
+                            Marker polygonMarker = mMap.addMarker(new MarkerOptions()
+                                    .position(latLng)
+                                    .flat(true).icon(icon)
+                                    .anchor(0.5f, 0.5f).draggable(true));
+
+
+//                            MarkerTag tag = (MarkerTag) marker.getTag();
+                            newPolygonPosition = polygonPoints.indexOf(polygonMarker.getPosition());
+                            polygonPoints.indexOf(newPolygonPosition);
+                            polygonPoints.add(polygonMarker.getPosition());
+                            MarkerTag yourMarkerTag = new MarkerTag();
+                            yourMarkerTag.setLatLng(latLng);
+                            yourMarkerTag.setPosition(newPolygonPosition+1);
+                            marker.setTag(yourMarkerTag);
+
+                            polygonPolyline();
+                        }
+                    });
+                }
+            });
+            deleteDialog.setNegativeLabel("Delete");
+            deleteDialog.setNegativeListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
                     deleteDialog.dismiss();
                     if (marker != null) {
                         if (polygonPoints.size() > 2) {
@@ -1096,13 +1123,6 @@ public class SurveyTrackingActivity extends BaseActivity implements SurveyTrackM
                             marker.remove();
                         }
                     }
-                }
-            });
-            deleteDialog.setNegativeLabel("No");
-            deleteDialog.setNegativeListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    deleteDialog.dismiss();
                 }
             });
             deleteDialog.show();

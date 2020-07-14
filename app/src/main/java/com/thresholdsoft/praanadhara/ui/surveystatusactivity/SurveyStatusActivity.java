@@ -140,6 +140,12 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
             activitySurveyStatusBinding.setFarmerLand(farmerLands);
             activitySurveyStatusBinding.backArrow.setFarmerLand(farmerLands);
             this.farmerLands = farmerLands;
+            if (!farmerLands.getStatus().equalsIgnoreCase("yes")) {
+                ItemTouchHelperCallback mCallback = new ItemTouchHelperCallback();
+                ItemTouchHelperExtension mItemTouchHelper = new ItemTouchHelperExtension(mCallback);
+                mItemTouchHelper.attachToRecyclerView(activitySurveyStatusBinding.surveDetailsRecyclerview);
+                surveyDetailsAdapter.setItemTouchHelperExtension(mItemTouchHelper);
+            }
         });
 
         surveyDetailsAdapter = new SurveyDetailsAdapter(this);
@@ -149,10 +155,6 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
         activitySurveyStatusBinding.surveDetailsRecyclerview.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         activitySurveyStatusBinding.surveDetailsRecyclerview.setAdapter(surveyDetailsAdapter);
 
-        ItemTouchHelperCallback mCallback = new ItemTouchHelperCallback();
-        ItemTouchHelperExtension mItemTouchHelper = new ItemTouchHelperExtension(mCallback);
-        mItemTouchHelper.attachToRecyclerView(activitySurveyStatusBinding.surveDetailsRecyclerview);
-        surveyDetailsAdapter.setItemTouchHelperExtension(mItemTouchHelper);
 
         activitySurveyStatusBinding.setPresenterCallback(mpresenter);
         activitySurveyStatusBinding.setExpandView(1);
