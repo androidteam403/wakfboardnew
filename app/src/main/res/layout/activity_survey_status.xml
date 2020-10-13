@@ -112,6 +112,19 @@
                                         android:text="@{farmer_land.name +`, `+ farmer_land.village}"
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/text_dimen_13" />
+                                    <TextView
+                                        android:id="@+id/save_kml"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:background="@drawable/rectangular_light_round"
+                                        android:backgroundTint="@color/colorGrey"
+                                        android:fontFamily="@font/roboto_regular"
+                                        android:padding="@dimen/three_dp"
+                                        android:paddingStart="@dimen/fifteen_dp"
+                                        android:paddingEnd="@dimen/fifteen_dp"
+                                        android:text="SaveKML"
+                                        android:onClick="WriteBtn"
+                                        android:textColor="@color/colorPrimaryDarker" />
 
                                     <ImageView
                                         android:layout_width="@dimen/zero_dp"

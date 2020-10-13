@@ -2,6 +2,8 @@ package com.thresholdsoft.praanadhara.ui.userlogin;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.google.gson.Gson;
 import com.thresholdsoft.praanadhara.data.DataManager;
 import com.thresholdsoft.praanadhara.ui.ApiClient;
@@ -62,7 +64,7 @@ public class UserLoginPresenter<V extends UserLoginMvpView> extends BasePresente
             Call<LoginResponse> call = api.doPostListLoginResponse(request);
             call.enqueue(new Callback<LoginResponse>() {
                 @Override
-                public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                public void onResponse(@NonNull Call<LoginResponse> call, @NonNull Response<LoginResponse> response) {
                     getMvpView().hideLoading();
                     Log.e("TAG", response.code() + "");
                     if (response.body() != null && response.body().getSuccess()) {
@@ -82,7 +84,7 @@ public class UserLoginPresenter<V extends UserLoginMvpView> extends BasePresente
                 }
 
                 @Override
-                public void onFailure(Call<LoginResponse> call, Throwable t) {
+                public void onFailure(@NonNull Call<LoginResponse> call, @NonNull Throwable t) {
                     handleApiError(t);
                 }
             });
@@ -107,7 +109,7 @@ public class UserLoginPresenter<V extends UserLoginMvpView> extends BasePresente
             Call<OtpVerifyRes> call = api.doPostListOtpRes(request);
             call.enqueue(new Callback<OtpVerifyRes>() {
                 @Override
-                public void onResponse(Call<OtpVerifyRes> call, Response<OtpVerifyRes> response) {
+                public void onResponse(@NonNull Call<OtpVerifyRes> call, @NonNull Response<OtpVerifyRes> response) {
                     getMvpView().hideLoading();
                     Log.e("TAG", response.code() + "");
                     if (response.body() != null && response.body().getSuccess()) {
@@ -123,7 +125,7 @@ public class UserLoginPresenter<V extends UserLoginMvpView> extends BasePresente
                 }
 
                 @Override
-                public void onFailure(Call<OtpVerifyRes> call, Throwable t) {
+                public void onFailure(@NonNull Call<OtpVerifyRes> call, @NonNull Throwable t) {
                     handleApiError(t);
                 }
             });

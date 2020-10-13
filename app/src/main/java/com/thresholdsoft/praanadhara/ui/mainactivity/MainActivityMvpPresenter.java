@@ -7,4 +7,6 @@ public interface MainActivityMvpPresenter<V extends MainActivityMvpView> extends
     String getUserName();
 
     void syncData();
+
+    void clearSharedPreference();
 }

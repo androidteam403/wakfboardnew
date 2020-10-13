@@ -7,14 +7,11 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
-import androidx.recyclerview.widget.AsyncListDiffer;
-import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.loopeer.itemtouchhelperextension.Extension;
 import com.loopeer.itemtouchhelperextension.ItemTouchHelperExtension;
 import com.thresholdsoft.praanadhara.R;
-import com.thresholdsoft.praanadhara.data.db.model.FarmerLands;
 import com.thresholdsoft.praanadhara.data.db.model.SurveyEntity;
 import com.thresholdsoft.praanadhara.databinding.ListItemMainBinding;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusMvpView;
@@ -25,8 +22,6 @@ import java.util.List;
 public class SurveyDetailsAdapter extends RecyclerView.Adapter<SurveyDetailsAdapter.ItemBaseViewHolder> {
     private SurveyStatusMvpView statusMvpView;
     private ItemTouchHelperExtension mItemTouchHelperExtension;
-    public static final int ITEM_TYPE_NO_SWIPE = 100;
-    ListItemMainBinding listItemMainBinding;
 
     private ArrayList<SurveyEntity> surveyEntities = new ArrayList<>();
 
@@ -42,7 +37,7 @@ public class SurveyDetailsAdapter extends RecyclerView.Adapter<SurveyDetailsAdap
     @NonNull
     @Override
     public SurveyDetailsAdapter.ItemBaseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-       ListItemMainBinding listItemMainBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+        ListItemMainBinding listItemMainBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
                 R.layout.list_item_main, parent, false);
         return new ItemSwipeWithActionWidthViewHolder(listItemMainBinding);
     }

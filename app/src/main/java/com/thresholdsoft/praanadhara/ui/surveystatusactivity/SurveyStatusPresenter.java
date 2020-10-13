@@ -89,7 +89,7 @@ public class SurveyStatusPresenter<V extends SurveyStatusMvpView> extends BasePr
 
     }
 
-    private void submitSurv(FarmerLands rowsEntity){
+    private void submitSurv(FarmerLands rowsEntity) {
         if (getMvpView().isNetworkConnected()) {
             SurveySaveReq.SurveyEntity landLocationEntity = new SurveySaveReq.SurveyEntity(rowsEntity.getSurveyLandUid());
             getMvpView().showLoading();
@@ -213,9 +213,9 @@ public class SurveyStatusPresenter<V extends SurveyStatusMvpView> extends BasePr
             }
             getDataManager().updateFarmerLand(lands);
             SurveyStatusEntity statusEntity = getDataManager().getSurveyCountData();
-            if(statusEntity != null) {
-                statusEntity.setNew(statusEntity.getNew()-1);
-                statusEntity.setInProgress(statusEntity.getInProgress()+1);
+            if (statusEntity != null) {
+                statusEntity.setNew(statusEntity.getNew() - 1);
+                statusEntity.setInProgress(statusEntity.getInProgress() + 1);
                 getDataManager().insertSurveyCount(statusEntity);
             }
         }
@@ -232,9 +232,9 @@ public class SurveyStatusPresenter<V extends SurveyStatusMvpView> extends BasePr
             }
             getDataManager().updateFarmerLand(lands);
             SurveyStatusEntity statusEntity = getDataManager().getSurveyCountData();
-            if(statusEntity != null) {
-                statusEntity.setCompleted(statusEntity.getCompleted()+1);
-                statusEntity.setInProgress(statusEntity.getInProgress()-1);
+            if (statusEntity != null) {
+                statusEntity.setCompleted(statusEntity.getCompleted() + 1);
+                statusEntity.setInProgress(statusEntity.getInProgress() - 1);
                 getDataManager().insertSurveyCount(statusEntity);
             }
         }

@@ -69,15 +69,26 @@
                 android:id="@+id/distance_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/twenty_dp"
+                android:layout_marginStart="@dimen/one_hundred_dp"
                 android:background="@null"
                 android:gravity="center"
                 android:includeFontPadding="true"
                 android:text="Distance"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_dimen_12"
-                android:fontFamily="@font/roboto_regular"
-                android:layout_centerHorizontal="true"/>
+                android:fontFamily="@font/roboto_regular"/>
+            <TextView
+                android:id="@+id/polygon_area"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/one_hundred_eighty_dp"
+                android:background="@null"
+                android:gravity="center"
+                android:includeFontPadding="true"
+                android:text="Area"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_dimen_12"
+                android:fontFamily="@font/roboto_regular"/>
 
             <ImageView
                 android:id="@+id/type_textview"

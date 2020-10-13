@@ -87,6 +87,11 @@ public class MainActivityPresenter<V extends MainActivityMvpView> extends BasePr
         }
     }
 
+    @Override
+    public void clearSharedPreference() {
+            getDataManager().setUserLoggedOut();
+    }
+
     private void stop() {
         executorService.isShutdown();
     }
