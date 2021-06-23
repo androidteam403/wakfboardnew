@@ -9,6 +9,7 @@ import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.mo
 
 public interface SurveyStatusMvpView extends MvpView {
 
+
     Context getContext();
 
     void startSurveySuccess(String uid);

@@ -14,6 +14,7 @@ import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -65,7 +66,6 @@ import com.loopeer.itemtouchhelperextension.ItemTouchHelperExtension;
 import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.data.db.model.FarmerLands;
 import com.thresholdsoft.praanadhara.data.db.model.SurveyEntity;
-import com.thresholdsoft.praanadhara.data.network.pojo.SurveyDetailsEntity;
 import com.thresholdsoft.praanadhara.databinding.ActivitySurveyStatusBinding;
 import com.thresholdsoft.praanadhara.root.WaveApp;
 import com.thresholdsoft.praanadhara.services.ConnectivityReceiver;
@@ -81,6 +81,7 @@ import com.thresholdsoft.praanadhara.ui.surveytrack.SurveyTrackingActivity;
 import com.thresholdsoft.praanadhara.ui.surveytrack.model.SurveyModel;
 import com.thresholdsoft.praanadhara.ui.userlogin.UserLoginActivity;
 
+import java.io.FileOutputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -104,7 +105,6 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     public static final int REQUEST_CODE = 1;
     private static final String TAG = SurveyListFrag.class.getSimpleName();
     private GoogleApiClient mGoogleApiClient;
-    boolean editMode=true;
     /**
      * Code used in requesting runtime permissions.
      */
@@ -113,7 +113,6 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     private double mLatitude;
     private double mLongitude;
     private boolean isNewSurveyCurrentLocation = false;
-    private ArrayList<SurveyDetailsEntity> surveyModelArrayList = new ArrayList<>();
 
 
     @Override
@@ -142,15 +141,14 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
         landUid = intent.getStringExtra("landUid");
         mpresenter.getFarmerLand(uid, landUid).observe(this, farmerLands -> {
             activitySurveyStatusBinding.setFarmerLand(farmerLands);
-            activitySurveyStatusBinding.backArrow.setFarmerLand(farmerLands);
+             activitySurveyStatusBinding.backArrow.setFarmerLand(farmerLands);
             this.farmerLands = farmerLands;
-            if(!farmerLands.getStatus().equalsIgnoreCase("Yes")) {
+            if (!(farmerLands.getStatus().equalsIgnoreCase("yes"))) {
                 ItemTouchHelperCallback mCallback = new ItemTouchHelperCallback();
                 ItemTouchHelperExtension mItemTouchHelper = new ItemTouchHelperExtension(mCallback);
                 mItemTouchHelper.attachToRecyclerView(activitySurveyStatusBinding.surveDetailsRecyclerview);
                 surveyDetailsAdapter.setItemTouchHelperExtension(mItemTouchHelper);
             }
-//            surveyDetailsAdapter.setFarmerLands(farmerLands);
         });
 
         surveyDetailsAdapter = new SurveyDetailsAdapter(this);
@@ -205,14 +203,165 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
 
         mpresenter.getAllSurveyList(landUid).observe(this, surveyEntities -> {
             surveyDetailsAdapter.addItems(surveyEntities);
-//            surveyDetailsAdapter.notifyDataSetChanged();
+            surveyDetailsAdapter.notifyDataSetChanged();
             activitySurveyStatusBinding.setSurvey(surveyEntities.size() > 0);
             previewDisplay(surveyEntities);
             if (farmerLands != null && farmerLands.getStatus().equalsIgnoreCase("No") && surveyEntities.size() == 0) {
                 openBottomSheet();
-
             }
         });
+    }
+
+    public void fileSavings() {
+        String strs[] = {"Arshad", "Althamas", "Johar", "Javed", "Raju", "Krishna"};
+
+    }
+
+    public void WriteBtn(View v) {
+
+        try {
+            FileOutputStream fileout = openFileOutput("mytextfile.kml", MODE_PRIVATE);
+
+            fileout.write(kmlFileDate().getBytes());
+            fileout.close();
+
+            Toast.makeText(this, "File saved successfully!",
+                    Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    private String kmlFileDate() {
+        String kmlData = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+                "<kml xmlns=\"http://www.opengis.net/kml/2.2\" \n" +
+                "xmlns:gx=\"http://www.google.com/kml/ext/2.2\"\n" +
+                " xmlns:kml=\"http://www.opengis.net/kml/2.2\" \n" +
+                " xmlns:atom=\"http://www.w3.org/2005/Atom\">\n" +
+                "<Document>\n" +
+                "\t<name>polygon.kml</name>\n" +
+                "\t<Style id=\"transGreenPoly\">\n" +
+                "      <LineStyle>\n" +
+                "        <width>1.5</width>\n" +
+                "      </LineStyle>\n" +
+                "      <PolyStyle>\n" +
+                "        <color>7d00ff00</color>\n" +
+                "      </PolyStyle>\n" +
+                "    </Style>"+pointData()+lineData()+polygonData()+ "\n" +
+                "</Document>\n" +
+                "</kml>";
+        return kmlData;
+    }
+
+    private String polygonData() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (SurveyEntity surveyEntity : surveyDetailsAdapter.getListData()) {
+            if (surveyEntity.getMapType().equalsIgnoreCase("polygon")) {
+                String strs = "\n" +
+                        "\t<Placemark>\n" +
+                        "\t\t<name>" + surveyEntity.getName() + "</name>\n" +
+                        "\t\t<description>" + surveyEntity.getDescription() + "</description>\n" +
+                        "\t\t<styleUrl>#transGreenPoly</styleUrl>\n" +
+                        "\t\t<LineString>\n" +
+                        "\t\t\t<tessellate>1</tessellate>\n" +
+                        "\t\t\t<altitudeMode>relativeToGround</altitudeMode>\n" +
+                        "\t\t\t<coordinates>\n" + polygonCoordinates(surveyEntity.getLatLongs()) +
+                        "</coordinates>\n" +
+                        "\t\t</LineString>\n" +
+                        "\t</Placemark>\n";
+                stringBuilder.append(strs);
+            }
+        }
+        return stringBuilder.toString();
+    }
+    private String lineData() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (SurveyEntity surveyEntity : surveyDetailsAdapter.getListData()) {
+            if (surveyEntity.getMapType().equalsIgnoreCase("line")) {
+                String str = "\n" +
+                        "<Placemark>\n" +
+                        "\t   \t\t<name>"+surveyEntity.getName()+"</name>\n" +
+                        "\t   \t\t<description>"+surveyEntity.getDescription()+"</description>\n"+
+                        "\t   \t\t<styleUrl>#orange-5px</styleUrl>\n" +
+                        "\t   \t\t<LineString>\n" +
+                        "\t   \t\t\t<tessellate>1</tessellate>\n" +
+                        "\t   \t\t\t<coordinates>\n" + lineCoordinates(surveyEntity.getLatLongs())+
+                        "\t   \t\t\t</coordinates>\n" +
+                        "\t   \t\t</LineString>\n" +
+                        "\t   \t</Placemark>\n";
+                stringBuilder.append(str);
+            }
+        }
+        return stringBuilder.toString();
+    }
+    private String pointData() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (SurveyEntity surveyEntity : surveyDetailsAdapter.getListData()) {
+            if (surveyEntity.getMapType().equalsIgnoreCase("point")) {
+                String str = "\n" +
+                        "  <Placemark>\n" +
+                        "    <name>" + surveyEntity.getName() + "</name>\n" +
+                        "    <description>" + surveyEntity.getDescription() + "</description>\n" +
+                        "    <Point>\n" +
+                        "      <coordinates>" + pointCoordinates(surveyEntity.getLatLongs()) + "</coordinates>\n" +
+                        "    </Point>\n" +
+                        "  </Placemark>\n";
+                stringBuilder.append(str);
+            }
+        }
+        return stringBuilder.toString();
+    }
+
+    private String polygonCoordinates(String latLongs) {
+        StringBuilder coordinates = new StringBuilder();
+        Gson gson = new Gson();
+        Type listType = new TypeToken<List<SurveyModel>>() {
+        }.getType();
+        List<SurveyModel> posts = gson.fromJson(latLongs, listType);
+        String firstLatLong = "";
+        for (SurveyModel model : posts) {
+            if (TextUtils.isEmpty(coordinates)) {
+                firstLatLong = "," + model.getLongitude() + "," + model.getLatitude() + ",0\n";
+                coordinates.append(model.getLongitude() + "," + model.getLatitude() + ",0\n");
+            } else {
+                coordinates.append("," + model.getLongitude() + "," + model.getLatitude() + ",0\n");
+            }
+        }
+        coordinates.append(firstLatLong);
+        return coordinates.toString();
+    }
+
+    private String pointCoordinates(String latLongs) {
+        StringBuilder coordinates = new StringBuilder();
+        Gson gson = new Gson();
+        SurveyModel.PointDetails pointDetails = gson.fromJson(latLongs, SurveyModel.PointDetails.class);
+        String firstLatLong = "";
+        if (pointDetails != null) {
+            if (TextUtils.isEmpty(coordinates)) {
+                firstLatLong = "," + pointDetails.getLatitude() + "," + pointDetails.getLatitude() + ",0\n";
+                coordinates.append(pointDetails.getLongitude() + "," + pointDetails.getLatitude() + ",0\n");
+            } else {
+                coordinates.append("," + pointDetails.getLongitude() + "," + pointDetails.getLatitude() + ",0\n");
+            }
+        }
+        coordinates.append(firstLatLong);
+        return coordinates.toString();
+    }
+
+    private String lineCoordinates(String latLongs) {
+        StringBuilder coordinates = new StringBuilder();
+        Gson gson = new Gson();
+        SurveyModel.PolyLineDetails polyLineDetails = gson.fromJson(latLongs, SurveyModel.PolyLineDetails.class);
+        if (polyLineDetails != null) {
+            if (TextUtils.isEmpty(coordinates)) {
+                coordinates.append(polyLineDetails.getFromLongitude() + "," + polyLineDetails.getFromLatitude() + ","+0+" "+ polyLineDetails.getToLongitude() + "," + polyLineDetails.getToLatitude() +","+0+"\n");
+            } else {
+                coordinates.append("," + polyLineDetails.getFromLatitude() + "," + polyLineDetails.getFromLongitude() + ","+0+" "+ polyLineDetails.getToLatitude() + "," + polyLineDetails.getToLongitude() +","+ " "+0+"\n");
+            }
+        }
+        return coordinates.toString();
     }
 
     private void openBottomSheet() {
@@ -296,12 +445,11 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
         boolean isCheckedStatus = surveyEntity.isUnchecked();
         if (!isCheckedStatus) {
             surveyEntity.setUnchecked(true);
-
         } else {
             surveyEntity.setUnchecked(false);
         }
-        mpresenter.updateSurveyCheck(surveyEntity);
 //        surveyDetailsAdapter.notifyDataSetChanged();
+        mpresenter.updateSurveyCheck(surveyEntity);
 //        previewDisplay(surveyDetailsAdapter.getListData());
     }
 
@@ -334,15 +482,15 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
     }
 
     @Override
-    public void onClickPolygonMapEditSurvey(SurveyEntity surveyEntity,int position) {
+    public void onClickPolygonMapEditSurvey(SurveyEntity surveyEntity, int position) {
         if (surveyEntity.getMapType().equalsIgnoreCase("point")) {
-            mapType= 0;
+            mapType = 0;
         } else if (surveyEntity.getMapType().equalsIgnoreCase("line")) {
-            mapType= 1;
+            mapType = 1;
         } else if (surveyEntity.getMapType().equalsIgnoreCase("polygon")) {
-            mapType= 2;
+            mapType = 2;
         }
-        startActivityForResult(SurveyTrackingActivity.getIntent(getContext(), farmerLands, mapType,true,surveyEntity), REQUEST_CODE);
+        startActivityForResult(SurveyTrackingActivity.getIntent(getContext(), farmerLands, mapType, true, surveyEntity), REQUEST_CODE);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
@@ -406,7 +554,6 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
                                             .position(latLng)
                                             .flat(true).icon(icon)
                                             .anchor(0.5f, 0.5f));
-                                   // mpresenter.updateSurveyCheck(detailsEntity);
                                     isIncludeLatLong = true;
                                 }
                             } catch (JsonSyntaxException e) {

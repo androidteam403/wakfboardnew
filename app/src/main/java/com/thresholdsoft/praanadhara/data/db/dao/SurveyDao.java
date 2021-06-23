@@ -51,7 +51,6 @@ public interface SurveyDao {
     SurveyEntity getSurveyLandEntity(String landUid);
 
 
-
     @Update
     void updateSurveyEntity(SurveyEntity surveyEntity);
 
