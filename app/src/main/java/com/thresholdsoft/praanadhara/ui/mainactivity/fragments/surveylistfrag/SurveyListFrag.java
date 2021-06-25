@@ -32,7 +32,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.view.MenuItemCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.library.baseAdapters.BuildConfig;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -70,7 +69,7 @@ import static android.app.Activity.RESULT_OK;
 import static android.content.Context.LOCATION_SERVICE;
 
 public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, LocationListener, ConnectivityReceiver.ConnectivityReceiverListener,android.location.LocationListener {
+        GoogleApiClient.OnConnectionFailedListener, LocationListener, ConnectivityReceiver.ConnectivityReceiverListener, android.location.LocationListener {
     @Inject
     SurveyListMvpPresenter<SurveyListMvpView> mpresenter;
     private ActivitySurveyListBinding activitySurveyListBinding;
@@ -125,9 +124,9 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
         initScrollListener();
 
         activitySurveyListBinding.simpleSwipeRefreshLayout.setOnRefreshListener(() -> {
-            if(!isSearchFilter) {
+            if (!isSearchFilter) {
                 mpresenter.pullToRefreshApiCall();
-            }else{
+            } else {
                 activitySurveyListBinding.simpleSwipeRefreshLayout.setRefreshing(false);
             }
         });
@@ -148,7 +147,7 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
             getBaseActivity().overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         });
 
-        ((MainActiivty) getActivity()).setActionBarTitle("Survey List");
+        ((MainActiivty) Objects.requireNonNull(getActivity())).setActionBarTitle("Survey List");
 
     }
 
@@ -174,13 +173,6 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
         });
     }
 
-
-    private void loadMore() {
-        surveyAdapter.addItemData(null);
-        surveyAdapter.notifyItemInserted(surveyAdapter.getItemCount() - 1);
-        mpresenter.loadMoreApiCall(surveyAdapter.loadMorePageNumber());
-    }
-
     @Override
     public void statusBaseListFilter(String status) {
         surveyAdapter.statusFilter(status);
@@ -202,8 +194,9 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
         activitySurveyListBinding.simpleSwipeRefreshLayout.setRefreshing(false);
         regularText();
     }
+
     public void regularText() {
-        Typeface fontreg = Typeface.createFromAsset(getActivity().getAssets(), "font/roboto_regular.ttf");
+        Typeface fontreg = Typeface.createFromAsset(Objects.requireNonNull(getActivity()).getAssets(), "font/roboto_regular.ttf");
         activitySurveyListBinding.newtext.setTypeface(fontreg);
         activitySurveyListBinding.itemblueCount.setTypeface(fontreg);
         activitySurveyListBinding.completedText.setTypeface(fontreg);
@@ -238,7 +231,7 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
 
     @Override
     public void onClickNew() {
-        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "font/roboto_bold.ttf");
+        Typeface font = Typeface.createFromAsset(Objects.requireNonNull(getActivity()).getAssets(), "font/roboto_bold.ttf");
         Typeface fontreg = Typeface.createFromAsset(getActivity().getAssets(), "font/roboto_regular.ttf");
 
         activitySurveyListBinding.newtext.setTypeface(font);
@@ -612,17 +605,19 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
             isOffline = true;
         }
     }
+
     private boolean canGetLocation = false;
     private Location loc;
-    private void getLocation(){
-        LocationManager  locationManager = (LocationManager) getBaseActivity().getSystemService(LOCATION_SERVICE);
+
+    private void getLocation() {
+        LocationManager locationManager = (LocationManager) getBaseActivity().getSystemService(LOCATION_SERVICE);
 
         // getting GPS status
-        boolean   checkGPS = locationManager
+        boolean checkGPS = locationManager
                 .isProviderEnabled(LocationManager.GPS_PROVIDER);
 
         // getting network status
-        boolean  checkNetwork = locationManager
+        boolean checkNetwork = locationManager
                 .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
         if (!checkGPS && !checkNetwork) {
@@ -655,7 +650,7 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
                     locationManager.requestLocationUpdates(
                             LocationManager.GPS_PROVIDER,
                             1000,
-                            0,SurveyListFrag.this);
+                            0, SurveyListFrag.this);
                     if (locationManager != null) {
                         loc = locationManager
                                 .getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -671,7 +666,7 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
         }
     }
 
-    public void updateStatusCount(int newRec, int inProgress, int done){
-        activitySurveyListBinding.setCount(new SurveyStatusEntity(inProgress,done,newRec,done));
+    public void updateStatusCount(int newRec, int inProgress, int done) {
+        activitySurveyListBinding.setCount(new SurveyStatusEntity(inProgress, done, newRec, done));
     }
 }

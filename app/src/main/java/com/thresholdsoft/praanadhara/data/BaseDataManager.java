@@ -118,6 +118,7 @@ public class BaseDataManager implements DataManager {
             SurveyEntity lands = getSurveyEntity(surveyEntity.getUid());
             if (lands != null) {
                 surveyEntity.setId(lands.getId());
+                surveyEntity.setUnchecked(lands.isUnchecked());
                 updateSurveyEntity(surveyEntity);
             } else
                 mDatabase.userDao().insetSurveyEntity(surveyEntity);

@@ -13,7 +13,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.databinding.DataBindingUtil;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -25,13 +24,15 @@ import com.thresholdsoft.praanadhara.ui.mainactivity.MainActiivty;
 import com.thresholdsoft.praanadhara.ui.userlogin.model.LoginResponse;
 import com.thresholdsoft.praanadhara.ui.userlogin.model.OtpVerifyRes;
 
+import java.util.Objects;
+
 import javax.inject.Inject;
 
 public class UserLoginActivity extends BaseActivity implements UserLoginMvpView, OnOtpCompletionListener {
     @Inject
     UserLoginMvpPresenter<UserLoginMvpView> mPresenter;
     private ActivityUserLoginBinding activityLoginBinding;
-    CoordinatorLayout coordinatorLayout;
+    private CountDownTimer countDownTimer;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,13 +49,10 @@ public class UserLoginActivity extends BaseActivity implements UserLoginMvpView,
         activityLoginBinding.setPresenter(mPresenter);
         activityLoginBinding.phoneNo.requestFocus();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        activityLoginBinding.mainLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                if (getCurrentFocus() != null)
-                    imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-            }
+        activityLoginBinding.mainLayout.setOnClickListener(v -> {
+            InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            if (getCurrentFocus() != null)
+                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         });
 
         activityLoginBinding.otpView.setOtpCompletionListener(this);
@@ -73,12 +71,15 @@ public class UserLoginActivity extends BaseActivity implements UserLoginMvpView,
         activityLoginBinding.setOtpView(1);
         activityLoginBinding.setTimeView(1);
         activityLoginBinding.number.setText(activityLoginBinding.phoneNo.getText().toString());
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
         backCountTimer();
     }
 
     @Override
     public String getOtp() {
-        return activityLoginBinding.otpView.getText().toString();
+        return Objects.requireNonNull(activityLoginBinding.otpView.getText()).toString();
     }
 
     @Override
@@ -86,6 +87,9 @@ public class UserLoginActivity extends BaseActivity implements UserLoginMvpView,
         mPresenter.onLiginApiCall();
         activityLoginBinding.setResendView(0);
         activityLoginBinding.setTimeView(1);
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
         backCountTimer();
     }
 
@@ -98,7 +102,7 @@ public class UserLoginActivity extends BaseActivity implements UserLoginMvpView,
 
     @Override
     public void backCountTimer() {
-        new CountDownTimer(120000, 1000) {
+        countDownTimer = new CountDownTimer(120000, 1000) {
 
             @SuppressLint({"SetTextI18n", "DefaultLocale"})
             @Override
@@ -163,6 +167,9 @@ public class UserLoginActivity extends BaseActivity implements UserLoginMvpView,
     public void onCrossClick() {
         activityLoginBinding.setOtpView(0);
         activityLoginBinding.setLogonView(1);
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
 //        InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
 //        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
     }

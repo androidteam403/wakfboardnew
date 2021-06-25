@@ -9,6 +9,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,6 +28,7 @@ import com.thresholdsoft.praanadhara.databinding.ActivityMainBinding;
 import com.thresholdsoft.praanadhara.databinding.NavHeaderMainBinding;
 import com.thresholdsoft.praanadhara.databinding.ToolbarBinding;
 import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
+import com.thresholdsoft.praanadhara.ui.mainactivity.dialog.LogoutDialog;
 import com.thresholdsoft.praanadhara.ui.userlogin.UserLoginActivity;
 
 import javax.inject.Inject;
@@ -45,6 +47,7 @@ public class MainActiivty extends BaseActivity implements MainActivityMvpView {
     DrawerLayout drawer;
     ToolbarBinding toolbarBinding;
     private ImageView syncImage;
+    TextView logout;
 
 
     @Override
@@ -60,6 +63,8 @@ public class MainActiivty extends BaseActivity implements MainActivityMvpView {
 
         Toolbar toolbar = findViewById(R.id.toolBar);
         setSupportActionBar(toolbar);
+
+        activityMainBinding.setLogout(mPresenter);
 
         ImageView imageView = findViewById(R.id.menulines);
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -118,6 +123,17 @@ public class MainActiivty extends BaseActivity implements MainActivityMvpView {
     protected void setUp() {
         TextView userName = activityMainBinding.navView.getHeaderView(0).findViewById(R.id.user_name);
         userName.setText(mPresenter.getUserName());
+
+        logout = findViewById(R.id.logout);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawer.closeDrawers();
+                LogoutDialog logoutDialog = new LogoutDialog();
+                logoutDialog.show(getSupportFragmentManager(), "logout");
+                Toast.makeText(getApplicationContext(), "logout", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -149,6 +165,7 @@ public class MainActiivty extends BaseActivity implements MainActivityMvpView {
             showMessage("Sync Completed successfully");
         }
     }
+
 
     @Override
     public void onBackPressed() {

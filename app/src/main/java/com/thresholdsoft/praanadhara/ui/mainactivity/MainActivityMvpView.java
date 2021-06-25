@@ -5,4 +5,5 @@ import com.thresholdsoft.praanadhara.ui.base.MvpView;
 public interface MainActivityMvpView extends MvpView {
 
     void syncComplete();
+
 }
