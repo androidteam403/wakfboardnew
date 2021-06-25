@@ -28,4 +28,7 @@ public interface SurveyListMvpView extends MvpView {
     void onClickInProgress();
 
     void onClickCompleted();
+
+    void onPropertyClick();
+
 }

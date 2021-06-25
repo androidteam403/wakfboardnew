@@ -58,6 +58,7 @@ import com.thresholdsoft.praanadhara.services.ConnectivityReceiver;
 import com.thresholdsoft.praanadhara.ui.base.BaseFragment;
 import com.thresholdsoft.praanadhara.ui.mainactivity.MainActiivty;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.adapter.SurveyAdapter;
+import com.thresholdsoft.praanadhara.ui.propertycreation.PropertyCreation;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusActivity;
 import com.thresholdsoft.praanadhara.ui.userlogin.UserLoginActivity;
 
@@ -266,6 +267,13 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView, G
         activitySurveyListBinding.itemOrangeCount.setTypeface(fontreg);
         activitySurveyListBinding.newtext.setTypeface(fontreg);
         activitySurveyListBinding.itemblueCount.setTypeface(fontreg);
+    }
+
+    @Override
+    public void onPropertyClick() {
+        Intent intent = new Intent(getContext(), PropertyCreation.class);
+        getBaseActivity().overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+        startActivity(intent);
     }
 
     @Override

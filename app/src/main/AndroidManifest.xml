@@ -44,6 +44,7 @@
         <activity android:name=".ui.selectingformactivity.SelectingFormActivity">
 
         </activity>
+        <activity android:name=".ui.propertycreation.PropertyCreation"/>
         <activity
             android:name=".ui.mainactivity.MainActiivty"
             android:theme="@style/AppTheme.NoActionBar"></activity>

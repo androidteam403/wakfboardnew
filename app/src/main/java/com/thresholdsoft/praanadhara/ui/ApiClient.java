@@ -15,7 +15,7 @@ public class ApiClient {
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
         retrofit = new Retrofit.Builder()
-                .baseUrl("https://fc-test.zeroco.de/zc-v3.1-user-svc/2.0/praanadhara/")
+                .baseUrl("https://dev-apis.zeroco.de/zc-v3.1-user-svc/2.0/praanadhara/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();
