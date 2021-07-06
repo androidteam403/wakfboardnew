@@ -25,7 +25,10 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.thresholdsoft.praanadhara.R;
@@ -33,6 +36,10 @@ import com.thresholdsoft.praanadhara.databinding.ActivityPropertySurveyStatusBin
 import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
 import com.thresholdsoft.praanadhara.ui.propertysurvey.PropertySurvey;
 import com.thresholdsoft.praanadhara.ui.propertysurvey.bottomsheet.PropertySurveyBottomSheet;
+import com.thresholdsoft.praanadhara.ui.propertysurvey.model.PolylineDataTable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -72,6 +79,7 @@ public class PropertySurveyStatus extends BaseActivity implements PropertySurvey
                 openBottomSheet();
             }
         });
+
         fullMap();
     }
 
@@ -156,16 +164,42 @@ public class PropertySurveyStatus extends BaseActivity implements PropertySurvey
         });
     }
 
+    private List<LatLng> getPolyLineLatlangList = new ArrayList<>();
+    private LatLng latLngLine;
+    Polyline polyline = null;
+    List<Polyline> polylineList = new ArrayList<>();
+    List<LatLng> latLngList = new ArrayList<>();
+    List<Marker> markerList = new ArrayList<>();
+    Marker polyLineMarker;
+    private void getPolyLineList(GoogleMap googleMap) {
+        mMap = googleMap;
+        if (mpresenter.getPolylinelist() != null && mpresenter.getPolylinelist().size() > 0) {
+            for (PolylineDataTable polylineDataTable : mpresenter.getPolylinelist()) {
+                latLngLine = new LatLng(polylineDataTable.getLatitude(), polylineDataTable.getLongitude());
+                MarkerOptions markerOptions = new MarkerOptions().position(latLngLine).draggable(true);
+                polyLineMarker = mMap.addMarker(markerOptions);
+                latLngList.add(latLngLine);
+                markerList.add(polyLineMarker);
+                getPolyLineLatlangList.add(latLngLine);
+            }
+
+            PolylineOptions polylineOptions = new PolylineOptions().addAll(getPolyLineLatlangList).color(Color.BLUE).width(10).clickable(true);
+            polyline = mMap.addPolyline(polylineOptions);
+            googleMap.animateCamera(CameraUpdateFactory.newLatLng(getPolyLineLatlangList.get(0)));
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(getPolyLineLatlangList.get(0), 7));
+
+        } else {
+            BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.blue_circle);
+            LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+            MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("I am here!").icon(icon);
+            googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 7));
+            googleMap.addMarker(markerOptions);
+        }
+    }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.blue_circle);
-
-        LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-        MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("I am here!").icon(icon);
-        googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 7));
-        googleMap.addMarker(markerOptions);
-
+        getPolyLineList(googleMap);
     }
 }

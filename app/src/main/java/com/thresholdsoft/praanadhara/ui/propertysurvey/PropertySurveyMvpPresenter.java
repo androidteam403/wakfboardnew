@@ -2,6 +2,7 @@ package com.thresholdsoft.praanadhara.ui.propertysurvey;
 
 import com.thresholdsoft.praanadhara.ui.base.MvpPresenter;
 import com.thresholdsoft.praanadhara.ui.propertysurvey.model.PointDataTable;
+import com.thresholdsoft.praanadhara.ui.propertysurvey.model.PolylineDataTable;
 
 public interface PropertySurveyMvpPresenter<V extends PropertySurveyMvpView> extends MvpPresenter<V> {
     void insertPointDataTable(PointDataTable pointDataTable);
@@ -24,4 +25,5 @@ public interface PropertySurveyMvpPresenter<V extends PropertySurveyMvpView> ext
 
     void pointSaveClick();
 
+    void insertPolyLineData(PolylineDataTable polylineDataTable);
 }

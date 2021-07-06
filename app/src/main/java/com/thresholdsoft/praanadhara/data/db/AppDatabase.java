@@ -14,13 +14,14 @@ import com.thresholdsoft.praanadhara.data.db.model.SurveyStatusEntity;
 import com.thresholdsoft.praanadhara.root.AppConstant;
 import com.thresholdsoft.praanadhara.ui.propertycreation.model.PropertyData;
 import com.thresholdsoft.praanadhara.ui.propertysurvey.model.PointDataTable;
+import com.thresholdsoft.praanadhara.ui.propertysurvey.model.PolylineDataTable;
 
 
 /**
  * Created on : March 30, 2020
  * Author     : JAGADEESH
  */
-@Database(entities = {SurveyStatusEntity.class, FarmerLands.class, SurveyEntity.class, PropertyData.class, PointDataTable.class}, version = 1, exportSchema = false)
+@Database(entities = {SurveyStatusEntity.class, FarmerLands.class, SurveyEntity.class, PropertyData.class, PointDataTable.class, PolylineDataTable.class}, version = 1, exportSchema = false)
 @TypeConverters({PointDataTable.ImageUploadTypeConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase mInstance;

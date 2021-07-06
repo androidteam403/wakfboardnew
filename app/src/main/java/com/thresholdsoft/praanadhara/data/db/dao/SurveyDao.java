@@ -12,6 +12,7 @@ import com.thresholdsoft.praanadhara.data.db.model.SurveyEntity;
 import com.thresholdsoft.praanadhara.data.db.model.SurveyStatusEntity;
 import com.thresholdsoft.praanadhara.ui.propertycreation.model.PropertyData;
 import com.thresholdsoft.praanadhara.ui.propertysurvey.model.PointDataTable;
+import com.thresholdsoft.praanadhara.ui.propertysurvey.model.PolylineDataTable;
 
 import java.util.List;
 
@@ -95,5 +96,10 @@ public interface SurveyDao {
     @Insert
     void insertPointRelatedData(PointDataTable pointDataTable);
 
+    @Insert
+    void insertPolylineData(PolylineDataTable polylineDataTable);
+
+    @Query("SELECT * FROM POLYLINE_DATA_TABLE WHERE name=:name")
+    List<PolylineDataTable> getAllPolylineDataListByName(String name);
 }
 

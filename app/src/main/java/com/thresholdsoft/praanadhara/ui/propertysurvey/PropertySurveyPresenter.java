@@ -3,6 +3,7 @@ package com.thresholdsoft.praanadhara.ui.propertysurvey;
 import com.thresholdsoft.praanadhara.data.DataManager;
 import com.thresholdsoft.praanadhara.ui.base.BasePresenter;
 import com.thresholdsoft.praanadhara.ui.propertysurvey.model.PointDataTable;
+import com.thresholdsoft.praanadhara.ui.propertysurvey.model.PolylineDataTable;
 import com.thresholdsoft.praanadhara.utils.rx.SchedulerProvider;
 
 import javax.inject.Inject;
@@ -65,5 +66,10 @@ public class PropertySurveyPresenter<V extends PropertySurveyMvpView> extends Ba
     @Override
     public void pointSaveClick() {
         getMvpView().pointSaveClick();
+    }
+
+    @Override
+    public void insertPolyLineData(PolylineDataTable polylineDataTable) {
+        getDataManager().insertPolylineData(polylineDataTable);
     }
 }
