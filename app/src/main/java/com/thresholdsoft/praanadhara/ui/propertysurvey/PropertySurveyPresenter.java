@@ -7,6 +7,7 @@ import com.google.maps.android.SphericalUtil;
 import com.thresholdsoft.praanadhara.data.DataManager;
 import com.thresholdsoft.praanadhara.ui.base.BasePresenter;
 import com.thresholdsoft.praanadhara.ui.propertysurvey.model.PointDataTable;
+import com.thresholdsoft.praanadhara.ui.propertysurvey.model.PolylineDataTable;
 import com.thresholdsoft.praanadhara.utils.rx.SchedulerProvider;
 
 import java.util.List;
@@ -97,5 +98,10 @@ public class PropertySurveyPresenter<V extends PropertySurveyMvpView> extends Ba
             area = area * 0.3048 * 0.3048;
         }
         return String.format("%.2f", area) + "m²";
+    }
+
+    @Override
+    public void insertPolyLineData(PolylineDataTable polylineDataTable) {
+        getDataManager().insertPolylineData(polylineDataTable);
     }
 }

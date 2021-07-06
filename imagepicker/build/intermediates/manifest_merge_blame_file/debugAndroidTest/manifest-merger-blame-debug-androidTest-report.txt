@@ -1,0 +1,73 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.esafirm.imagepicker.test" >
+4
+5    <uses-sdk
+5-->F:\kt\updatedapollosugar\apolloSugarApp\imagepicker\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger7926188807147316783.xml:5:5-74
+6        android:minSdkVersion="24"
+6-->F:\kt\updatedapollosugar\apolloSugarApp\imagepicker\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger7926188807147316783.xml:5:15-41
+7        android:targetSdkVersion="29" />
+7-->F:\kt\updatedapollosugar\apolloSugarApp\imagepicker\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger7926188807147316783.xml:5:42-71
+8
+9    <instrumentation
+9-->F:\kt\updatedapollosugar\apolloSugarApp\imagepicker\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger7926188807147316783.xml:11:5-15:78
+10        android:name="android.test.InstrumentationTestRunner"
+10-->F:\kt\updatedapollosugar\apolloSugarApp\imagepicker\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger7926188807147316783.xml:11:22-75
+11        android:functionalTest="false"
+11-->F:\kt\updatedapollosugar\apolloSugarApp\imagepicker\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger7926188807147316783.xml:14:22-52
+12        android:handleProfiling="false"
+12-->F:\kt\updatedapollosugar\apolloSugarApp\imagepicker\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger7926188807147316783.xml:13:22-53
+13        android:label="Tests for com.esafirm.imagepicker.test"
+13-->F:\kt\updatedapollosugar\apolloSugarApp\imagepicker\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger7926188807147316783.xml:15:22-76
+14        android:targetPackage="com.esafirm.imagepicker.test" />
+14-->F:\kt\updatedapollosugar\apolloSugarApp\imagepicker\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger7926188807147316783.xml:12:22-74
+15
+16    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+16-->[__tested_artifact__::imagepicker] F:\kt\updatedapollosugar\apolloSugarApp\imagepicker\build\intermediates\library_manifest\debug\AndroidManifest.xml:11:5-80
+16-->[__tested_artifact__::imagepicker] F:\kt\updatedapollosugar\apolloSugarApp\imagepicker\build\intermediates\library_manifest\debug\AndroidManifest.xml:11:22-77
+17    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+17-->[__tested_artifact__::imagepicker] F:\kt\updatedapollosugar\apolloSugarApp\imagepicker\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:5-81
+17-->[__tested_artifact__::imagepicker] F:\kt\updatedapollosugar\apolloSugarApp\imagepicker\build\intermediates\library_manifest\debug\AndroidManifest.xml:12:22-78
+18    <uses-permission android:name="android.permission.CAMERA" />
+18-->[__tested_artifact__::imagepicker] F:\kt\updatedapollosugar\apolloSugarApp\imagepicker\build\intermediates\library_manifest\debug\AndroidManifest.xml:13:5-65
+18-->[__tested_artifact__::imagepicker] F:\kt\updatedapollosugar\apolloSugarApp\imagepicker\build\intermediates\library_manifest\debug\AndroidManifest.xml:13:22-62
+19
+20    <application
+20-->F:\kt\updatedapollosugar\apolloSugarApp\imagepicker\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger7926188807147316783.xml:7:5-9:19
+21        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+21-->[androidx.core:core:1.1.0] C:\Users\pc\.gradle\caches\transforms-2\files-2.1\478e2bdf0ad33aa883245e8f5a9e2124\core-1.1.0\AndroidManifest.xml:24:18-86
+22        android:debuggable="true" >
+22-->F:\kt\updatedapollosugar\apolloSugarApp\imagepicker\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger7926188807147316783.xml:7:18-43
+23        <uses-library android:name="android.test.runner" />
+23-->F:\kt\updatedapollosugar\apolloSugarApp\imagepicker\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger7926188807147316783.xml:8:9-60
+23-->F:\kt\updatedapollosugar\apolloSugarApp\imagepicker\build\intermediates\tmp\manifest\androidTest\debug\manifestMerger7926188807147316783.xml:8:23-57
+24
+25        <activity
+25-->[__tested_artifact__::imagepicker] F:\kt\updatedapollosugar\apolloSugarApp\imagepicker\build\intermediates\library_manifest\debug\AndroidManifest.xml:16:9-19:50
+26            android:name="com.esafirm.imagepicker.features.ImagePickerActivity"
+26-->[__tested_artifact__::imagepicker] F:\kt\updatedapollosugar\apolloSugarApp\imagepicker\build\intermediates\library_manifest\debug\AndroidManifest.xml:17:13-80
+27            android:configChanges="orientation|screenSize"
+27-->[__tested_artifact__::imagepicker] F:\kt\updatedapollosugar\apolloSugarApp\imagepicker\build\intermediates\library_manifest\debug\AndroidManifest.xml:18:13-59
+28            android:theme="@style/ef_AppTheme" />
+28-->[__tested_artifact__::imagepicker] F:\kt\updatedapollosugar\apolloSugarApp\imagepicker\build\intermediates\library_manifest\debug\AndroidManifest.xml:19:13-47
+29
+30        <provider
+30-->[__tested_artifact__::imagepicker] F:\kt\updatedapollosugar\apolloSugarApp\imagepicker\build\intermediates\library_manifest\debug\AndroidManifest.xml:21:9-29:20
+31            android:name="com.esafirm.imagepicker.helper.ImagePickerFileProvider"
+31-->[__tested_artifact__::imagepicker] F:\kt\updatedapollosugar\apolloSugarApp\imagepicker\build\intermediates\library_manifest\debug\AndroidManifest.xml:22:13-82
+32            android:authorities="com.esafirm.imagepicker.test.imagepicker.provider"
+32-->[__tested_artifact__::imagepicker] F:\kt\updatedapollosugar\apolloSugarApp\imagepicker\build\intermediates\library_manifest\debug\AndroidManifest.xml:23:13-72
+33            android:exported="false"
+33-->[__tested_artifact__::imagepicker] F:\kt\updatedapollosugar\apolloSugarApp\imagepicker\build\intermediates\library_manifest\debug\AndroidManifest.xml:24:13-37
+34            android:grantUriPermissions="true" >
+34-->[__tested_artifact__::imagepicker] F:\kt\updatedapollosugar\apolloSugarApp\imagepicker\build\intermediates\library_manifest\debug\AndroidManifest.xml:25:13-47
+35            <meta-data
+35-->[__tested_artifact__::imagepicker] F:\kt\updatedapollosugar\apolloSugarApp\imagepicker\build\intermediates\library_manifest\debug\AndroidManifest.xml:26:13-28:71
+36                android:name="android.support.FILE_PROVIDER_PATHS"
+36-->[__tested_artifact__::imagepicker] F:\kt\updatedapollosugar\apolloSugarApp\imagepicker\build\intermediates\library_manifest\debug\AndroidManifest.xml:27:17-67
+37                android:resource="@xml/image_picker_provider_paths" />
+37-->[__tested_artifact__::imagepicker] F:\kt\updatedapollosugar\apolloSugarApp\imagepicker\build\intermediates\library_manifest\debug\AndroidManifest.xml:28:17-68
+38        </provider>
+39    </application>
+40
+41</manifest>

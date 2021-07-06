@@ -24,6 +24,7 @@ import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.mo
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.SurveyStatusCountModelResponse;
 import com.thresholdsoft.praanadhara.ui.propertycreation.model.PropertyData;
 import com.thresholdsoft.praanadhara.ui.propertysurvey.model.PointDataTable;
+import com.thresholdsoft.praanadhara.ui.propertysurvey.model.PolylineDataTable;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.DeleteReq;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.DeleteRes;
 import com.thresholdsoft.praanadhara.ui.userlogin.model.LoginResponse;
@@ -207,6 +208,16 @@ public class BaseDataManager implements DataManager {
     @Override
     public void insertPointRelatedData(PointDataTable pointDataTable) {
         mDatabase.userDao().insertPointRelatedData(pointDataTable);
+    }
+
+    @Override
+    public void insertPolylineData(PolylineDataTable polylineDataTable) {
+        mDatabase.userDao().insertPolylineData(polylineDataTable);
+    }
+
+    @Override
+    public List<PolylineDataTable> getAllPolylineDataListByName(String name) {
+        return mDatabase.userDao().getAllPolylineDataListByName(name);
     }
 
 //    @Override

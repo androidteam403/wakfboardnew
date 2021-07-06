@@ -4,7 +4,10 @@ import com.thresholdsoft.praanadhara.data.DataManager;
 import com.thresholdsoft.praanadhara.ui.base.BasePresenter;
 import com.thresholdsoft.praanadhara.ui.propertysurvey.PropertySurveyMvpPresenter;
 import com.thresholdsoft.praanadhara.ui.propertysurvey.PropertySurveyMvpView;
+import com.thresholdsoft.praanadhara.ui.propertysurvey.model.PolylineDataTable;
 import com.thresholdsoft.praanadhara.utils.rx.SchedulerProvider;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -16,5 +19,10 @@ public class PropertySurveyStatusPresenter <V extends PropertySurveyStatusMvpVie
     @Inject
     public PropertySurveyStatusPresenter(DataManager manager, SchedulerProvider schedulerProvider, CompositeDisposable compositeDisposable) {
         super(manager, schedulerProvider, compositeDisposable);
+    }
+
+    @Override
+    public List<PolylineDataTable> getPolylinelist() {
+        return getDataManager().getAllPolylineDataListByName("naveen");
     }
 }

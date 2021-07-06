@@ -41,6 +41,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.Gson;
 import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.databinding.ActivityPropertySurveyBinding;
 import com.thresholdsoft.praanadhara.services.LocationMonitoringService;
@@ -48,6 +49,7 @@ import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
 import com.thresholdsoft.praanadhara.ui.dialog.PropertyCreationDialog;
 import com.thresholdsoft.praanadhara.ui.photouploadactivity.PhotoUpload;
 import com.thresholdsoft.praanadhara.ui.propertysurvey.model.PointDataTable;
+import com.thresholdsoft.praanadhara.ui.propertysurvey.model.PolylineDataTable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -645,6 +647,15 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
         dialogView.setPositiveListener(view -> {
             if (dialogView.validations()) {
                 dialogView.dismiss();
+                if (latLngList != null && latLngList.size() > 0) {
+                    if (latLngList.size() == markerList.size()) {
+                        for (int i = 0; i < latLngList.size(); i++) {
+                            PolylineDataTable polylineDataTable = new PolylineDataTable(latLngList.get(i).latitude, latLngList.get(i).longitude, dialogView.getPointName(), dialogView.getPointDescription(), imagesUploadedList);
+                            mpresenter.insertPolyLineData(polylineDataTable);
+
+                        }
+                    }
+                }
                 Toast toast = Toast.makeText(PropertySurvey.this, "Polyline Details are saved successfully", Toast.LENGTH_SHORT);
                 toast.getView().setBackground(getResources().getDrawable(R.drawable.toast_bg));
                 TextView text = (TextView) toast.getView().findViewById(android.R.id.message);
@@ -655,6 +666,8 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
                     text.setTextSize(14);
                 }
                 toast.show();
+
+
             }
         });
         dialogView.setPositiveUploadImageListener(view -> {
