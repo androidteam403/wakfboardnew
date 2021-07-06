@@ -116,35 +116,13 @@
                 <!--                android:textColor="@color/black"-->
                 <!--                android:textSize="@dimen/text_dimen_12" />-->
 
-                <!--            <TextView-->
-                <!--                android:id="@+id/polygon_area"-->
-                <!--                android:layout_width="wrap_content"-->
-                <!--                android:layout_height="wrap_content"-->
-                <!--                android:layout_marginStart="@dimen/one_hundred_eighty_dp"-->
-                <!--                android:background="@null"-->
-                <!--                android:fontFamily="@font/roboto_regular"-->
-                <!--                android:gravity="center"-->
-                <!--                android:includeFontPadding="true"-->
-                <!--                android:text="Area"-->
-                <!--                android:textColor="@color/black"-->
-                <!--                android:textSize="@dimen/text_dimen_12" />-->
-
-
                 <TextView
-                    android:id="@+id/selected_map"
+                    android:id="@+id/polygon_area"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="@dimen/twenty_dp"
-                    android:background="@null"
-                    android:fontFamily="@font/roboto_bold"
-                    android:gravity="center"
-                    android:includeFontPadding="true"
-                    android:text="Selected Map Type : "
+                    android:text="Area"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_dimen_14"
-                    android:visibility="gone" />
-
+                    android:fontFamily="@font/roboto_regular"/>
 
                 <ImageView
                     android:id="@+id/type_textview"
@@ -218,6 +196,55 @@
                 android:layout_marginEnd="30dp"
                 android:fontFamily="@font/roboto_bold"
                 android:onClick="@{()->callbacks.polylineClearClick()}"
+                android:text="Clear"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_dimen_18" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/polygon_manual_lay"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:visibility="gone"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="@dimen/text_dimen_20"
+            android:background="@drawable/bg_rounde"
+            android:clickable="true">
+
+            <TextView
+                android:id="@+id/polygon_maual_undo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="30dp"
+                android:fontFamily="@font/roboto_bold"
+                android:onClick="@{()->callbacks.polygonManualUndo()}"
+                android:text="Undo"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_dimen_18" />
+
+            <TextView
+                android:id="@+id/polygon_maual_save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/roboto_bold"
+                android:onClick="@{()->callbacks.polygonManualSave()}"
+                android:text="Save"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_dimen_18" />
+
+            <TextView
+                android:id="@+id/polygone_manual_clear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="30dp"
+                android:fontFamily="@font/roboto_bold"
+                android:onClick="@{()->callbacks.polygonManualClear()}"
                 android:text="Clear"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_dimen_18" />

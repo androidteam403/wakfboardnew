@@ -23,4 +23,10 @@ public interface PropertySurveyMvpView extends MvpView {
     void polylineSaveClick();
 
     void pointSaveClick();
+
+    void polygonManualClear();
+
+    void polygonManualUndo();
+
+    void polygonManualSave();
 }
