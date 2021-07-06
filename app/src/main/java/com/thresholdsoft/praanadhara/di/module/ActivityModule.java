@@ -21,6 +21,15 @@ import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.Su
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.userprofilefrag.UserProfileMvpPresenter;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.userprofilefrag.UserProfileMvpView;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.userprofilefrag.UserProfilePresenter;
+import com.thresholdsoft.praanadhara.ui.photouploadactivity.PhotoUploadMvpPresenter;
+import com.thresholdsoft.praanadhara.ui.photouploadactivity.PhotoUploadMvpView;
+import com.thresholdsoft.praanadhara.ui.photouploadactivity.PhotoUploadPresenter;
+import com.thresholdsoft.praanadhara.ui.propertycreation.PropertyMvpPresenter;
+import com.thresholdsoft.praanadhara.ui.propertycreation.PropertyMvpView;
+import com.thresholdsoft.praanadhara.ui.propertycreation.PropertyPresenter;
+import com.thresholdsoft.praanadhara.ui.propertysurvey.PropertySurveyMvpPresenter;
+import com.thresholdsoft.praanadhara.ui.propertysurvey.PropertySurveyMvpView;
+import com.thresholdsoft.praanadhara.ui.propertysurvey.PropertySurveyPresenter;
 import com.thresholdsoft.praanadhara.ui.selectingformactivity.SelectingFormMvpPresenter;
 import com.thresholdsoft.praanadhara.ui.selectingformactivity.SelectingFormMvpView;
 import com.thresholdsoft.praanadhara.ui.selectingformactivity.SelectingFormPresenter;
@@ -153,6 +162,24 @@ public class ActivityModule {
     @Provides
     @PerActivity
     DeleteMvpPresenter<DeleteMvpView> deletePresenter(DeletePresenter<DeleteMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    PropertyMvpPresenter<PropertyMvpView> propertyMvpViewPropertyMvpPresenter(PropertyPresenter<PropertyMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    PropertySurveyMvpPresenter<PropertySurveyMvpView> propertySurveyMvpPresenter(PropertySurveyPresenter<PropertySurveyMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    PhotoUploadMvpPresenter<PhotoUploadMvpView> photoUploadMvpViewPhotoUploadMvpPresenter(PhotoUploadPresenter<PhotoUploadMvpView> presenter) {
         return presenter;
     }
 

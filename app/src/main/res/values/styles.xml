@@ -154,4 +154,24 @@
         <!--This line changes the color of icons in toolbar (back, overflow menu icons)-->
         <item name="android:textColorSecondary">@color/grey</item>
     </style>
+
+    <style name="TextLabelEdit" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="android:textColorHint">@color/base</item>
+        <item name="colorControlNormal">@color/colorPrimary</item>
+        <item name="colorControlActivated">@color/colorPrimary</item>
+    </style>
+
+    <style name="LoginEditTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/base</item>
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxBackgroundColor">@android:color/transparent</item>
+        <item name="errorTextAppearance">@style/ErrorText</item>
+        <item name="colorAccent">@color/base</item>
+        <item name="colorControlNormal">@color/base</item>
+        <item name="colorControlActivated">@color/base</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="editTextStyle">@style/TextInputEditText.OutlinedBox.CustomFont</item>
+        <!--        <item name="android:theme">@style/ThemeOverlay.TextInputEditText.OutlinedBox.CustomFont-->
+        <!--        </item>-->
+    </style>
 </resources>

@@ -249,7 +249,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
                 "      <PolyStyle>\n" +
                 "        <color>7d00ff00</color>\n" +
                 "      </PolyStyle>\n" +
-                "    </Style>"+pointData()+lineData()+polygonData()+ "\n" +
+                "    </Style>" + pointData() + lineData() + polygonData() + "\n" +
                 "</Document>\n" +
                 "</kml>";
         return kmlData;
@@ -276,18 +276,19 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
         }
         return stringBuilder.toString();
     }
+
     private String lineData() {
         StringBuilder stringBuilder = new StringBuilder();
         for (SurveyEntity surveyEntity : surveyDetailsAdapter.getListData()) {
             if (surveyEntity.getMapType().equalsIgnoreCase("line")) {
                 String str = "\n" +
                         "<Placemark>\n" +
-                        "\t   \t\t<name>"+surveyEntity.getName()+"</name>\n" +
-                        "\t   \t\t<description>"+surveyEntity.getDescription()+"</description>\n"+
+                        "\t   \t\t<name>" + surveyEntity.getName() + "</name>\n" +
+                        "\t   \t\t<description>" + surveyEntity.getDescription() + "</description>\n" +
                         "\t   \t\t<styleUrl>#orange-5px</styleUrl>\n" +
                         "\t   \t\t<LineString>\n" +
                         "\t   \t\t\t<tessellate>1</tessellate>\n" +
-                        "\t   \t\t\t<coordinates>\n" + lineCoordinates(surveyEntity.getLatLongs())+
+                        "\t   \t\t\t<coordinates>\n" + lineCoordinates(surveyEntity.getLatLongs()) +
                         "\t   \t\t\t</coordinates>\n" +
                         "\t   \t\t</LineString>\n" +
                         "\t   \t</Placemark>\n";
@@ -296,6 +297,7 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
         }
         return stringBuilder.toString();
     }
+
     private String pointData() {
         StringBuilder stringBuilder = new StringBuilder();
         for (SurveyEntity surveyEntity : surveyDetailsAdapter.getListData()) {
@@ -356,9 +358,9 @@ public class SurveyStatusActivity extends BaseActivity implements SurveyStatusMv
         SurveyModel.PolyLineDetails polyLineDetails = gson.fromJson(latLongs, SurveyModel.PolyLineDetails.class);
         if (polyLineDetails != null) {
             if (TextUtils.isEmpty(coordinates)) {
-                coordinates.append(polyLineDetails.getFromLongitude() + "," + polyLineDetails.getFromLatitude() + ","+0+" "+ polyLineDetails.getToLongitude() + "," + polyLineDetails.getToLatitude() +","+0+"\n");
+                coordinates.append(polyLineDetails.getFromLongitude() + "," + polyLineDetails.getFromLatitude() + "," + 0 + " " + polyLineDetails.getToLongitude() + "," + polyLineDetails.getToLatitude() + "," + 0 + "\n");
             } else {
-                coordinates.append("," + polyLineDetails.getFromLatitude() + "," + polyLineDetails.getFromLongitude() + ","+0+" "+ polyLineDetails.getToLatitude() + "," + polyLineDetails.getToLongitude() +","+ " "+0+"\n");
+                coordinates.append("," + polyLineDetails.getFromLatitude() + "," + polyLineDetails.getFromLongitude() + "," + 0 + " " + polyLineDetails.getToLatitude() + "," + polyLineDetails.getToLongitude() + "," + " " + 0 + "\n");
             }
         }
         return coordinates.toString();

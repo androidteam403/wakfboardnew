@@ -31,4 +31,6 @@ public interface SurveyListMvpPresenter<V extends SurveyListMvpView> extends Mvp
     LiveData<SurveyStatusEntity> getSurveyStatusCount();
 
     void syncData();
+
+    void onPropertyClick();
 }

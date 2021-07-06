@@ -10,6 +10,8 @@ import androidx.room.Update;
 import com.thresholdsoft.praanadhara.data.db.model.FarmerLands;
 import com.thresholdsoft.praanadhara.data.db.model.SurveyEntity;
 import com.thresholdsoft.praanadhara.data.db.model.SurveyStatusEntity;
+import com.thresholdsoft.praanadhara.ui.propertycreation.model.PropertyData;
+import com.thresholdsoft.praanadhara.ui.propertysurvey.model.PointDataTable;
 
 import java.util.List;
 
@@ -87,6 +89,11 @@ public interface SurveyDao {
     @Query("SELECT * FROM farmer_land where is_submit = :isSubmit")
     List<FarmerLands> getAllSurveySubmitList(boolean isSubmit);
 
+    @Insert
+    void insertPropertyData(PropertyData propertyData);
+
+    @Insert
+    void insertPointRelatedData(PointDataTable pointDataTable);
 
 }
 

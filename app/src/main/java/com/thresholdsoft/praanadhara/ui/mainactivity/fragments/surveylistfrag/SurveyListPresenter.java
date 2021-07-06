@@ -70,6 +70,8 @@ public class SurveyListPresenter<V extends SurveyListMvpView> extends BasePresen
         getMvpView().onClickCompleted();
     }
 
+
+
     @Override
     public void pullToRefreshApiCall() {
         onStatusCountApiCall(true);
@@ -211,6 +213,11 @@ public class SurveyListPresenter<V extends SurveyListMvpView> extends BasePresen
             stop();
             System.out.println("Program Terminated");
         }
+    }
+
+    @Override
+    public void onPropertyClick() {
+        getMvpView().onPropertyClick();
     }
 
     private void stop() {

@@ -113,4 +113,5 @@
     <dimen name="twenty_four_dp">24dp</dimen>
     <dimen name="six_dp">6dp</dimen>
     <dimen name="dimen_ten">10dp</dimen>
+    <dimen name="grid_expected_size">120dp</dimen>
 </resources>
