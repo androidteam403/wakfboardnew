@@ -173,23 +173,24 @@ public class PropertySurveyStatus extends BaseActivity implements PropertySurvey
     Marker polyLineMarker;
     private void getPolyLineList(GoogleMap googleMap) {
         mMap = googleMap;
+        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.blue_circle);
+
         if (mpresenter.getPolylinelist() != null && mpresenter.getPolylinelist().size() > 0) {
             for (PolylineDataTable polylineDataTable : mpresenter.getPolylinelist()) {
                 latLngLine = new LatLng(polylineDataTable.getLatitude(), polylineDataTable.getLongitude());
-                MarkerOptions markerOptions = new MarkerOptions().position(latLngLine).draggable(true);
+                MarkerOptions markerOptions = new MarkerOptions().position(latLngLine).draggable(true).icon(icon);
                 polyLineMarker = mMap.addMarker(markerOptions);
                 latLngList.add(latLngLine);
                 markerList.add(polyLineMarker);
                 getPolyLineLatlangList.add(latLngLine);
             }
 
-            PolylineOptions polylineOptions = new PolylineOptions().addAll(getPolyLineLatlangList).color(Color.BLUE).width(10).clickable(true);
+            PolylineOptions polylineOptions = new PolylineOptions().addAll(getPolyLineLatlangList).color(Color.BLUE).width(5).clickable(true);
             polyline = mMap.addPolyline(polylineOptions);
             googleMap.animateCamera(CameraUpdateFactory.newLatLng(getPolyLineLatlangList.get(0)));
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(getPolyLineLatlangList.get(0), 7));
 
         } else {
-            BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.blue_circle);
             LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
             MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("I am here!").icon(icon);
             googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
