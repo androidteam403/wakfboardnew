@@ -1,6 +1,7 @@
 package com.thresholdsoft.praanadhara.ui.propertysurveystatus;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -202,5 +203,27 @@ public class PropertySurveyStatus extends BaseActivity implements PropertySurvey
     @Override
     public void onMapReady(GoogleMap googleMap) {
         getPolyLineList(googleMap);
+    }
+
+    String name;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case PROPERTY_SURVEY:
+                    if (data != null) {
+                        String dialogName = (String) data.getSerializableExtra("dialogName");
+                        name = dialogName;
+                        mpresenter.getPolylinelist(dialogName);
+                        getPolyLineList(mMap);
+                    }
+                    break;
+                default:
+            }
+        }
+
     }
 }
