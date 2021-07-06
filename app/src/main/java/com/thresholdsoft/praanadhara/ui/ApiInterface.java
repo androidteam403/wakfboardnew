@@ -11,10 +11,10 @@ import retrofit2.http.POST;
 
 public interface ApiInterface {
 
-    @POST("https://fc-test.zeroco.de/zc-v3.1-user-svc/2.0/praanadhara/sendOtp")
+    @POST("https://dev-apis.zeroco.de/zc-v3.1-user-svc/2.0/praanadhara/sendOtp")
     Call<LoginResponse> doPostListLoginResponse(@Body LoginRequest loginRequest);
 
-    @POST("https://fc-test.zeroco.de/zc-v3.1-user-svc/2.0/praanadhara/login")
+    @POST("https://dev-apis.zeroco.de/zc-v3.1-user-svc/2.0/praanadhara/login")
     Call<OtpVerifyRes> doPostListOtpRes(@Body OtpVerifyReq otpVerifyReq);
 
 //    @POST("https://fc-test.zeroco.de/zc-v3.1-user-svc/2.0/praanadhara/api/farmer/list/demographic-list")
