@@ -11,6 +11,7 @@ import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.userprofilefrag.U
 import com.thresholdsoft.praanadhara.ui.photouploadactivity.PhotoUpload;
 import com.thresholdsoft.praanadhara.ui.propertycreation.PropertyCreation;
 import com.thresholdsoft.praanadhara.ui.propertysurvey.PropertySurvey;
+import com.thresholdsoft.praanadhara.ui.propertysurveystatus.PropertySurveyStatus;
 import com.thresholdsoft.praanadhara.ui.selectingformactivity.SelectingFormActivity;
 import com.thresholdsoft.praanadhara.ui.splash.SplashActivity;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusActivity;
@@ -58,4 +59,7 @@ public interface ActivityComponent {
     void inject(PropertySurvey propertySurvey);
 
     void inject(PhotoUpload photoUpload);
+
+    void inject(PropertySurveyStatus propertySurveyStatus);
+
 }

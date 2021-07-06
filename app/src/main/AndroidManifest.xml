@@ -69,6 +69,9 @@
 
         </activity>
         <activity android:name=".ui.propertysurvey.PropertySurvey">
+
+        </activity>
+        <activity android:name=".ui.propertysurveystatus.PropertySurveyStatus">
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.MAIN" />-->
 

@@ -21,6 +21,7 @@ import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
 import com.thresholdsoft.praanadhara.ui.propertycreation.adapter.PhotosUploadAdapter;
 import com.thresholdsoft.praanadhara.ui.propertycreation.model.PropertyData;
 import com.thresholdsoft.praanadhara.ui.propertysurvey.PropertySurvey;
+import com.thresholdsoft.praanadhara.ui.propertysurveystatus.PropertySurveyStatus;
 
 import net.alhazmy13.mediapicker.Image.ImagePicker;
 
@@ -89,7 +90,7 @@ public class PropertyCreation extends BaseActivity implements PropertyMvpView {
 //                    }
                     mpresenter.insertPropertyData(propertyData);
 
-                    Intent intent = new Intent(PropertyCreation.this, PropertySurvey.class);
+                    Intent intent = new Intent(PropertyCreation.this, PropertySurveyStatus.class);
                     intent.putExtra("propertyName", propertyCreationBinding.propertyName.getText().toString());
                     intent.putExtra("village", propertyCreationBinding.propertyName.getText().toString());
                     startActivity(intent);

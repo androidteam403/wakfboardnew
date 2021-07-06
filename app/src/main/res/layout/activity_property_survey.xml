@@ -6,19 +6,10 @@
 
     <data>
 
-        <import type="android.view.View" />
-
         <variable
-            name="type"
-            type="Integer" />
+            name="callbacks"
+            type="com.thresholdsoft.praanadhara.ui.propertysurvey.PropertySurveyMvpPresenter" />
 
-        <variable
-            name="start"
-            type="Boolean" />
-
-        <variable
-            name="save"
-            type="Boolean" />
 
     </data>
 
@@ -73,18 +64,6 @@
                     android:src="@drawable/praanadhaara_title"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/imageView2"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/plusImage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/fifteen_dp"
-                    android:paddingTop="@dimen/fifteen_dp"
-                    android:paddingBottom="@dimen/fifteen_dp"
-                    android:src="@drawable/plus_icon"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -198,13 +177,14 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <RelativeLayout
+            android:id="@+id/polyline_lay"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_alignParentBottom="true"
             android:layout_margin="@dimen/text_dimen_20"
             android:background="@drawable/bg_rounde"
             android:clickable="true"
-            android:visibility="@{type == 2 ? View.VISIBLE : View.GONE}">
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/polyline_undo"
@@ -213,6 +193,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="30dp"
                 android:fontFamily="@font/roboto_bold"
+                android:onClick="@{()->callbacks.polylineUndoClick()}"
                 android:text="Undo"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_dimen_18" />
@@ -223,6 +204,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:fontFamily="@font/roboto_bold"
+                android:onClick="@{()->callbacks.polylineSaveClick()}"
                 android:text="Save"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_dimen_18" />
@@ -235,6 +217,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="30dp"
                 android:fontFamily="@font/roboto_bold"
+                android:onClick="@{()->callbacks.polylineClearClick()}"
                 android:text="Clear"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_dimen_18" />
@@ -251,8 +234,9 @@
             android:layout_centerHorizontal="true"
             android:layout_margin="@dimen/twenty_dp"
             android:background="@drawable/bg_rounde"
-            android:fontFamily="@font/roboto_bold"
             android:clickable="true"
+            android:fontFamily="@font/roboto_bold"
+            android:onClick="@{()->callbacks.pointSaveClick()}"
             android:paddingLeft="@dimen/fifteen_dp"
             android:paddingTop="@dimen/five_dp"
             android:paddingRight="@dimen/fifteen_dp"
@@ -260,7 +244,107 @@
             android:text="Save"
             android:textColor="@color/white"
             android:textSize="@dimen/text_dimen_18"
-            android:visibility="@{type == 1 ? View.VISIBLE : View.GONE}" />
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/polygon_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="@dimen/twenty_dp"
+            android:background="@drawable/bg_rounde"
+            android:clickable="true"
+            android:fontFamily="@font/roboto_bold"
+            android:onClick="@{()->callbacks.polygonStartClick()}"
+            android:paddingLeft="@dimen/fifteen_dp"
+            android:paddingTop="@dimen/five_dp"
+            android:paddingRight="@dimen/fifteen_dp"
+            android:paddingBottom="@dimen/five_dp"
+            android:text="Start"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_dimen_18"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/polygon_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="@dimen/twenty_dp"
+            android:background="@drawable/bg_rounde"
+            android:clickable="true"
+            android:fontFamily="@font/roboto_bold"
+            android:onClick="@{()->callbacks.polygonSaveClick()}"
+            android:paddingLeft="@dimen/fifteen_dp"
+            android:paddingTop="@dimen/five_dp"
+            android:paddingRight="@dimen/fifteen_dp"
+            android:paddingBottom="@dimen/five_dp"
+            android:text="Save"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_dimen_18"
+            android:visibility="gone" />
+
+        <RelativeLayout
+            android:id="@+id/polygon_lay"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="@dimen/thirty_dp"
+            android:layout_marginEnd="@dimen/thirty_dp"
+            android:layout_marginBottom="@dimen/twenty_dp"
+            android:background="@drawable/bg_rounde"
+            android:clickable="true"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/polygon_pause"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="40dp"
+                android:fontFamily="@font/roboto_bold"
+                android:onClick="@{()->callbacks.polygonPauseClick()}"
+                android:text="Pause"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_dimen_18" />
+
+            <TextView
+                android:id="@+id/polygon_resume"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="40dp"
+                android:fontFamily="@font/roboto_bold"
+                android:onClick="@{()->callbacks.polygonResumeClick()}"
+                android:text="Resume"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_dimen_18"
+                android:visibility="gone" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_margin="@dimen/five_dp"
+                android:background="@color/black" />
+
+            <TextView
+                android:id="@+id/polygon_stop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="40dp"
+                android:fontFamily="@font/roboto_bold"
+                android:onClick="@{()->callbacks.polygonStopClick()}"
+                android:text="Stop"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_dimen_18" />
+
+
+        </RelativeLayout>
 
 
     </RelativeLayout>

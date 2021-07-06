@@ -30,6 +30,9 @@ import com.thresholdsoft.praanadhara.ui.propertycreation.PropertyPresenter;
 import com.thresholdsoft.praanadhara.ui.propertysurvey.PropertySurveyMvpPresenter;
 import com.thresholdsoft.praanadhara.ui.propertysurvey.PropertySurveyMvpView;
 import com.thresholdsoft.praanadhara.ui.propertysurvey.PropertySurveyPresenter;
+import com.thresholdsoft.praanadhara.ui.propertysurveystatus.PropertySurveyStatusMvpPresenter;
+import com.thresholdsoft.praanadhara.ui.propertysurveystatus.PropertySurveyStatusMvpView;
+import com.thresholdsoft.praanadhara.ui.propertysurveystatus.PropertySurveyStatusPresenter;
 import com.thresholdsoft.praanadhara.ui.selectingformactivity.SelectingFormMvpPresenter;
 import com.thresholdsoft.praanadhara.ui.selectingformactivity.SelectingFormMvpView;
 import com.thresholdsoft.praanadhara.ui.selectingformactivity.SelectingFormPresenter;
@@ -180,6 +183,12 @@ public class ActivityModule {
     @Provides
     @PerActivity
     PhotoUploadMvpPresenter<PhotoUploadMvpView> photoUploadMvpViewPhotoUploadMvpPresenter(PhotoUploadPresenter<PhotoUploadMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    PropertySurveyStatusMvpPresenter<PropertySurveyStatusMvpView> propertySurveyStatusMvpPresenter(PropertySurveyStatusPresenter<PropertySurveyStatusMvpView> presenter) {
         return presenter;
     }
 

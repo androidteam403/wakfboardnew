@@ -21,4 +21,49 @@ public class PropertySurveyPresenter<V extends PropertySurveyMvpView> extends Ba
     public void insertPointDataTable(PointDataTable pointDataTable) {
         getDataManager().insertPointRelatedData(pointDataTable);
     }
+
+    @Override
+    public void polygonStartClick() {
+        getMvpView().polygonStartClick();
+    }
+
+    @Override
+    public void polygonSaveClick() {
+        getMvpView().polygonSaveClick();
+    }
+
+    @Override
+    public void polygonPauseClick() {
+        getMvpView().polygonPauseClick();
+    }
+
+    @Override
+    public void polygonResumeClick() {
+        getMvpView().polygonResumeClick();
+    }
+
+    @Override
+    public void polygonStopClick() {
+        getMvpView().polygonStopClick();
+    }
+
+    @Override
+    public void polylineUndoClick() {
+        getMvpView().polylineUndoClick();
+    }
+
+    @Override
+    public void polylineClearClick() {
+        getMvpView().polylineClearClick();
+    }
+
+    @Override
+    public void polylineSaveClick() {
+        getMvpView().polylineSaveClick();
+    }
+
+    @Override
+    public void pointSaveClick() {
+        getMvpView().pointSaveClick();
+    }
 }
