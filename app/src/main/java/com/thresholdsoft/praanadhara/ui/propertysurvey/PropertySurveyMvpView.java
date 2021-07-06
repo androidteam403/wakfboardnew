@@ -4,7 +4,23 @@ import com.thresholdsoft.praanadhara.ui.base.MvpView;
 
 public interface PropertySurveyMvpView extends MvpView {
 
-    void mapTypeData(int mapData);
-
     void getSnackBarView(String msg);
+
+    void polygonStartClick();
+
+    void polygonSaveClick();
+
+    void polygonPauseClick();
+
+    void polygonResumeClick();
+
+    void polygonStopClick();
+
+    void polylineUndoClick();
+
+    void polylineClearClick();
+
+    void polylineSaveClick();
+
+    void pointSaveClick();
 }

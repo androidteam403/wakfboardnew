@@ -11,11 +11,12 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.databinding.BottomSheetPropertySurveyBinding;
 import com.thresholdsoft.praanadhara.ui.propertysurvey.PropertySurveyMvpView;
+import com.thresholdsoft.praanadhara.ui.propertysurveystatus.PropertySurveyStatusMvpView;
 
 public class PropertySurveyBottomSheet extends BottomSheetDialogFragment implements PropertySurveyListener {
     BottomSheetPropertySurveyBinding bottomSheetPropertySurveyBinding;
     private int mapTypeData;
-    PropertySurveyMvpView propertySurveyMvpView;
+    PropertySurveyStatusMvpView propertySurveyStatusMvpView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -75,11 +76,11 @@ public class PropertySurveyBottomSheet extends BottomSheetDialogFragment impleme
     @Override
     public void onTakeSurveyClick() {
         dismiss();
-        propertySurveyMvpView.mapTypeData(mapTypeData);
+        propertySurveyStatusMvpView.mapTypeData(mapTypeData);
     }
 
-    public void setPresenterData(PropertySurveyMvpView propertySurveyMvpView) {
-        this.propertySurveyMvpView = propertySurveyMvpView;
+    public void setPresenterData(PropertySurveyStatusMvpView propertySurveyStatusMvpView) {
+        this.propertySurveyStatusMvpView = propertySurveyStatusMvpView;
     }
 
 //    public int mapTypeData() {

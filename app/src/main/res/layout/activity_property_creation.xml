@@ -6,9 +6,9 @@
         android:layout_height="match_parent">
 
         <ScrollView
-            android:layout_above="@id/save"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_above="@id/save">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -141,11 +141,11 @@
                                 android:id="@+id/property_value"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:digits="0123456789"
                                 android:fontFamily="@font/roboto_regular"
                                 android:hint="Property Value*"
                                 android:imeOptions="actionDone"
                                 android:inputType="number"
-                                android:digits="0123456789"
                                 android:singleLine="true"
                                 android:textColor="@color/black"
                                 android:textColorHint="@color/black"
@@ -219,26 +219,6 @@
                         android:orientation="horizontal"
                         android:weightSum="2">
 
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/three_dp"
-                            android:layout_weight="1"
-                            android:theme="@style/TextLabelEdit">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/state"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/roboto_regular"
-                                android:hint="State*"
-                                android:imeOptions="actionNext"
-                                android:inputType="text|textNoSuggestions"
-                                android:singleLine="true"
-                                android:textColor="@color/black"
-                                android:textColorHint="@color/black"
-                                android:textSize="@dimen/text_dimen_14" />
-                        </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="0dp"
@@ -254,6 +234,27 @@
                                 android:fontFamily="@font/roboto_regular"
                                 android:hint="District*"
                                 android:imeOptions="actionDone"
+                                android:inputType="text|textNoSuggestions"
+                                android:singleLine="true"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/black"
+                                android:textSize="@dimen/text_dimen_14" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/three_dp"
+                            android:layout_weight="1"
+                            android:theme="@style/TextLabelEdit">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/state"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_regular"
+                                android:hint="State*"
+                                android:imeOptions="actionNext"
                                 android:inputType="text|textNoSuggestions"
                                 android:singleLine="true"
                                 android:textColor="@color/black"
@@ -334,10 +335,10 @@
             android:id="@+id/save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="save"
             android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
             android:fontFamily="@font/roboto_regular"
+            android:text="save"
             android:textColor="@color/black" />
 
     </RelativeLayout>
