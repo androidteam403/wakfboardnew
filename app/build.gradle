@@ -17,7 +17,7 @@ android {
         vectorDrawables.useSupportLibrary = true
         buildConfigField("String", "BASE_URL", "\"https://dev-apis.zeroco.de/zc-v3.1-user-svc/2.0/praanadhara/\"")
         buildConfigField("String", "API_KEY", "\"REPLACE YOUR API_KEY\"")
-        buildConfigField("String", "IMAGE_URL","\"https://dev-apis.zeroco.de/zc-v3.1-fs-svc/2.0/praanadhara/get/\"")
+        buildConfigField("String", "IMAGE_URL", "\"https://dev-apis.zeroco.de/zc-v3.1-fs-svc/2.0/praanadhara/get/\"")
     }
     buildTypes {
         release {
@@ -98,4 +98,8 @@ dependencies {
 
     //Dropdown Spinner
     implementation 'com.github.tiper:MaterialSpinner:1.4.1'
+
+    implementation 'net.alhazmy13.MediaPicker:libary:2.4.4'
+
+    implementation "com.squareup.picasso:picasso:2.4.0"
 }

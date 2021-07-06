@@ -5,19 +5,23 @@ import android.content.Context;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 
 import com.thresholdsoft.praanadhara.data.db.dao.SurveyDao;
 import com.thresholdsoft.praanadhara.data.db.model.FarmerLands;
 import com.thresholdsoft.praanadhara.data.db.model.SurveyEntity;
 import com.thresholdsoft.praanadhara.data.db.model.SurveyStatusEntity;
 import com.thresholdsoft.praanadhara.root.AppConstant;
+import com.thresholdsoft.praanadhara.ui.propertycreation.model.PropertyData;
+import com.thresholdsoft.praanadhara.ui.propertysurvey.model.PointDataTable;
 
 
 /**
  * Created on : March 30, 2020
  * Author     : JAGADEESH
  */
-@Database(entities = {SurveyStatusEntity.class, FarmerLands.class, SurveyEntity.class}, version = 1, exportSchema = false)
+@Database(entities = {SurveyStatusEntity.class, FarmerLands.class, SurveyEntity.class, PropertyData.class, PointDataTable.class}, version = 1, exportSchema = false)
+@TypeConverters({PointDataTable.ImageUploadTypeConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase mInstance;
 

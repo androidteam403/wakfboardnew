@@ -1,0 +1,96 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<!--
+3  Copyright 2017 Zhihu Inc.
+4
+5  Licensed under the Apache License, Version 2.0 (the "License");
+6  you may not use this file except in compliance with the License.
+7  You may obtain a copy of the License at
+8
+9  http://www.apache.org/licenses/LICENSE-2.0
+10
+11  Unless required by applicable law or agreed to in writing, software
+12  distributed under the License is distributed on an "AS IS" BASIS,
+13  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+14  See the License for the specific language governing permissions and
+15  limitations under the License.
+16-->
+17<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+18    package="com.zhihu.matisse.sample"
+19    android:versionCode="1"
+20    android:versionName="1.0" >
+21
+22    <uses-sdk
+23        android:minSdkVersion="14"
+23-->E:\Matisse-master\sample\src\main\AndroidManifest.xml
+24        android:targetSdkVersion="29" />
+24-->E:\Matisse-master\sample\src\main\AndroidManifest.xml
+25
+26    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+26-->[:matisse] E:\Matisse-master\matisse\build\intermediates\library_manifest\debug\AndroidManifest.xml:24:5-81
+26-->[:matisse] E:\Matisse-master\matisse\build\intermediates\library_manifest\debug\AndroidManifest.xml:24:22-78
+27    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+27-->[:matisse] E:\Matisse-master\matisse\build\intermediates\library_manifest\debug\AndroidManifest.xml:25:5-80
+27-->[:matisse] E:\Matisse-master\matisse\build\intermediates\library_manifest\debug\AndroidManifest.xml:25:22-77
+28
+29    <application
+29-->E:\Matisse-master\sample\src\main\AndroidManifest.xml:20:5-43:19
+30        android:allowBackup="true"
+30-->E:\Matisse-master\sample\src\main\AndroidManifest.xml:21:9-35
+31        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+31-->[androidx.core:core:1.1.0] C:\Users\HP\.gradle\caches\transforms-2\files-2.1\a38168c820951cc220c36ed0f8635853\core-1.1.0\AndroidManifest.xml:24:18-86
+32        android:debuggable="true"
+33        android:icon="@mipmap/ic_launcher"
+33-->E:\Matisse-master\sample\src\main\AndroidManifest.xml:22:9-43
+34        android:label="@string/app_name"
+34-->E:\Matisse-master\sample\src\main\AndroidManifest.xml:23:9-41
+35        android:testOnly="true"
+36        android:theme="@style/AppTheme" >
+36-->E:\Matisse-master\sample\src\main\AndroidManifest.xml:24:9-40
+37        <activity
+37-->E:\Matisse-master\sample\src\main\AndroidManifest.xml:25:9-33:20
+38            android:name="com.zhihu.matisse.sample.SampleActivity"
+38-->E:\Matisse-master\sample\src\main\AndroidManifest.xml:26:13-67
+39            android:configChanges="orientation|screenSize|keyboardHidden" >
+39-->E:\Matisse-master\sample\src\main\AndroidManifest.xml:27:13-74
+40            <intent-filter>
+40-->E:\Matisse-master\sample\src\main\AndroidManifest.xml:28:13-32:29
+41                <action android:name="android.intent.action.MAIN" />
+41-->E:\Matisse-master\sample\src\main\AndroidManifest.xml:29:17-68
+41-->E:\Matisse-master\sample\src\main\AndroidManifest.xml:29:25-66
+42
+43                <category android:name="android.intent.category.LAUNCHER" />
+43-->E:\Matisse-master\sample\src\main\AndroidManifest.xml:31:17-76
+43-->E:\Matisse-master\sample\src\main\AndroidManifest.xml:31:27-74
+44            </intent-filter>
+45        </activity>
+46
+47        <provider
+47-->E:\Matisse-master\sample\src\main\AndroidManifest.xml:34:9-42:20
+48            android:name="androidx.core.content.FileProvider"
+48-->E:\Matisse-master\sample\src\main\AndroidManifest.xml:35:13-62
+49            android:authorities="com.zhihu.matisse.sample.fileprovider"
+49-->E:\Matisse-master\sample\src\main\AndroidManifest.xml:36:13-72
+50            android:exported="false"
+50-->E:\Matisse-master\sample\src\main\AndroidManifest.xml:37:13-37
+51            android:grantUriPermissions="true" >
+51-->E:\Matisse-master\sample\src\main\AndroidManifest.xml:38:13-47
+52            <meta-data
+52-->E:\Matisse-master\sample\src\main\AndroidManifest.xml:39:13-41:71
+53                android:name="android.support.FILE_PROVIDER_PATHS"
+53-->E:\Matisse-master\sample\src\main\AndroidManifest.xml:40:17-67
+54                android:resource="@xml/file_paths_public" />
+54-->E:\Matisse-master\sample\src\main\AndroidManifest.xml:41:17-58
+55        </provider>
+56
+57        <activity android:name="com.zhihu.matisse.ui.MatisseActivity" />
+57-->[:matisse] E:\Matisse-master\matisse\build\intermediates\library_manifest\debug\AndroidManifest.xml:28:9-73
+57-->[:matisse] E:\Matisse-master\matisse\build\intermediates\library_manifest\debug\AndroidManifest.xml:28:19-70
+58        <activity android:name="com.zhihu.matisse.internal.ui.AlbumPreviewActivity" />
+58-->[:matisse] E:\Matisse-master\matisse\build\intermediates\library_manifest\debug\AndroidManifest.xml:29:9-87
+58-->[:matisse] E:\Matisse-master\matisse\build\intermediates\library_manifest\debug\AndroidManifest.xml:29:19-84
+59        <activity android:name="com.zhihu.matisse.internal.ui.SelectedPreviewActivity" />
+59-->[:matisse] E:\Matisse-master\matisse\build\intermediates\library_manifest\debug\AndroidManifest.xml:30:9-90
+59-->[:matisse] E:\Matisse-master\matisse\build\intermediates\library_manifest\debug\AndroidManifest.xml:30:19-87
+60    </application>
+61
+62</manifest>

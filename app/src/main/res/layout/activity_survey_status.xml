@@ -112,6 +112,7 @@
                                         android:text="@{farmer_land.name +`, `+ farmer_land.village}"
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/text_dimen_13" />
+
                                     <TextView
                                         android:id="@+id/save_kml"
                                         android:layout_width="wrap_content"
@@ -119,11 +120,11 @@
                                         android:background="@drawable/rectangular_light_round"
                                         android:backgroundTint="@color/colorGrey"
                                         android:fontFamily="@font/roboto_regular"
+                                        android:onClick="WriteBtn"
                                         android:padding="@dimen/three_dp"
                                         android:paddingStart="@dimen/fifteen_dp"
                                         android:paddingEnd="@dimen/fifteen_dp"
                                         android:text="SaveKML"
-                                        android:onClick="WriteBtn"
                                         android:textColor="@color/colorPrimaryDarker" />
 
                                     <ImageView
@@ -147,7 +148,7 @@
                                     android:text="@{farmer_land.village}"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/text_dimen_12"
-                                    android:visibility="gone"/>
+                                    android:visibility="gone" />
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -376,19 +377,19 @@
                     <!--                        </LinearLayout>-->
                     <!--                    </LinearLayout>-->
 
-                                        <TextView
-                                            android:layout_width="@dimen/one_hundred_forty_dp"
-                                            android:layout_height="@dimen/thirty_five_dp"
-                                            android:layout_gravity="center"
-                                            android:layout_marginTop="@dimen/thirty_five_dp"
-                                            android:background="@drawable/button_rounded_blue"
-                                            android:backgroundTint="@color/complaint_btn_color"
-                                            android:fontFamily="@font/roboto_bold"
-                                            android:gravity="center"
-                                            android:onClick="@{()-> presenterCallback.startSurvey(farmer_land)}"
-                                            android:text="@string/label_start_survey"
-                                            android:textColor="@color/white"
-                                            android:visibility="@{farmer_land.status.equals(`New`)? View.VISIBLE : View.GONE}" />
+                    <TextView
+                        android:layout_width="@dimen/one_hundred_forty_dp"
+                        android:layout_height="@dimen/thirty_five_dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/thirty_five_dp"
+                        android:background="@drawable/button_rounded_blue"
+                        android:backgroundTint="@color/complaint_btn_color"
+                        android:fontFamily="@font/roboto_bold"
+                        android:gravity="center"
+                        android:onClick="@{()-> presenterCallback.startSurvey(farmer_land)}"
+                        android:text="@string/label_start_survey"
+                        android:textColor="@color/white"
+                        android:visibility="@{farmer_land.status.equals(`New`)? View.VISIBLE : View.GONE}" />
 
                     <!--                    <LinearLayout-->
                     <!--                        android:layout_width="match_parent"-->

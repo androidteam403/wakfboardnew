@@ -22,6 +22,8 @@ import com.thresholdsoft.praanadhara.di.ApplicationContext;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.FarmerLandReq;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.SurveyStatusCountModelRequest;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.SurveyStatusCountModelResponse;
+import com.thresholdsoft.praanadhara.ui.propertycreation.model.PropertyData;
+import com.thresholdsoft.praanadhara.ui.propertysurvey.model.PointDataTable;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.DeleteReq;
 import com.thresholdsoft.praanadhara.ui.surveystatusactivity.model.DeleteRes;
 import com.thresholdsoft.praanadhara.ui.userlogin.model.LoginResponse;
@@ -195,6 +197,16 @@ public class BaseDataManager implements DataManager {
     @Override
     public List<FarmerLands> getAllSurveySubmitList(boolean isSubmit) {
         return mDatabase.userDao().getAllSurveySubmitList(isSubmit);
+    }
+
+    @Override
+    public void insertPropertyData(PropertyData propertyData) {
+        mDatabase.userDao().insertPropertyData(propertyData);
+    }
+
+    @Override
+    public void insertPointRelatedData(PointDataTable pointDataTable) {
+        mDatabase.userDao().insertPointRelatedData(pointDataTable);
     }
 
 //    @Override

@@ -1,5 +1,7 @@
 package com.thresholdsoft.praanadhara.ui.propertycreation;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
@@ -9,21 +11,34 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.databinding.ActivityPropertyCreationBinding;
 import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
+import com.thresholdsoft.praanadhara.ui.propertycreation.adapter.PhotosUploadAdapter;
+import com.thresholdsoft.praanadhara.ui.propertycreation.model.PropertyData;
+import com.thresholdsoft.praanadhara.ui.propertysurvey.PropertySurvey;
+
+import net.alhazmy13.mediapicker.Image.ImagePicker;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
+
+import static android.text.TextUtils.isEmpty;
 
 public class PropertyCreation extends BaseActivity implements PropertyMvpView {
     @Inject
     PropertyMvpPresenter<PropertyMvpView> mpresenter;
     ActivityPropertyCreationBinding propertyCreationBinding;
+    private int PICK_IMAGES = 1;
+    private PhotosUploadAdapter photosUploadAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,11 +49,90 @@ public class PropertyCreation extends BaseActivity implements PropertyMvpView {
         setUp();
     }
 
-
     @Override
     protected void setUp() {
         getAddAddressTypes();
+        propertyCreationBinding.upload.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("CheckResult")
+            @Override
+            public void onClick(View v) {
+                new ImagePicker.Builder(PropertyCreation.this)
+                        .mode(ImagePicker.Mode.CAMERA_AND_GALLERY)
+                        .compressLevel(ImagePicker.ComperesLevel.MEDIUM)
+                        .directory(ImagePicker.Directory.DEFAULT)
+                        .extension(ImagePicker.Extension.PNG)
+                        .scale(600, 600)
+                        .allowMultipleImages(true)
+                        .enableDebuggingMode(true)
+                        .build();
+            }
+        });
+
+        propertyCreationBinding.save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (validate()) {
+                    PropertyData propertyData = new PropertyData(propertyCreationBinding.propertyName.getText().toString(),
+                            propertyCreationBinding.propertyType.getText().toString(),
+                            Double.parseDouble(propertyCreationBinding.propertyValue.getText().toString()),
+                            propertyCreationBinding.village.getText().toString(),
+                            propertyCreationBinding.mandal.getText().toString(),
+                            propertyCreationBinding.state.getText().toString(),
+                            propertyCreationBinding.district.getText().toString(),
+                            propertyCreationBinding.areaType.getSelectedItem().toString(),mPaths);
+//                    List<PhotoUploadedData> photoUploadedDataList = new ArrayList<>();
+//                    if (mPaths != null && mPaths.size() > 0) {
+//                        for (String pathList : mPaths) {
+//                            PhotoUploadedData photoUploadedData = new PhotoUploadedData(pathList);
+//                            photoUploadedDataList.add(photoUploadedData);
+//                        }
+//                    }
+                    mpresenter.insertPropertyData(propertyData);
+
+                    Intent intent = new Intent(PropertyCreation.this, PropertySurvey.class);
+                    intent.putExtra("propertyName", propertyCreationBinding.propertyName.getText().toString());
+                    intent.putExtra("village", propertyCreationBinding.propertyName.getText().toString());
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+                }
+            }
+        });
     }
+
+    private List<String> mPaths = new ArrayList<>();
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == ImagePicker.IMAGE_PICKER_REQUEST_CODE && resultCode == RESULT_OK) {
+            List<String> mPathsDummy = data.getStringArrayListExtra(ImagePicker.EXTRA_IMAGE_PATH);
+            if (mPaths != null) {
+                if (mPathsDummy != null && mPathsDummy.size() > 0) {
+                    for (String path : mPathsDummy) {
+                        mPaths.add(path);
+                    }
+                }
+            } else {
+                mPaths = new ArrayList<>();
+                if (mPathsDummy != null && mPathsDummy.size() > 0) {
+                    for (String path : mPathsDummy) {
+                        mPaths.add(path);
+                    }
+                }
+            }
+
+            //Your Code
+
+            photosUploadAdapter = new PhotosUploadAdapter(this, mPaths, this);
+            RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(this);
+            propertyCreationBinding.photoRecycles.setLayoutManager(new GridLayoutManager(this, 3));
+            propertyCreationBinding.photoRecycles.setAdapter(photosUploadAdapter);
+
+
+        }
+    }
+
 
     public void getAddAddressTypes() {
         propertyCreationBinding.areaType.getEditText().setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "font/roboto_regular.ttf"));
@@ -86,6 +180,12 @@ public class PropertyCreation extends BaseActivity implements PropertyMvpView {
 
     }
 
+    @Override
+    public void onRemovePhoto(int position) {
+        mPaths.remove(position);
+        photosUploadAdapter.notifyDataSetChanged();
+    }
+
     private class AreaModel {
         public String areaType;
 
@@ -101,5 +201,67 @@ public class PropertyCreation extends BaseActivity implements PropertyMvpView {
         public String toString() {
             return areaType;
         }
+    }
+
+    private boolean validate() {
+        String proName = propertyCreationBinding.propertyName.getText().toString().trim();
+        String proType = propertyCreationBinding.propertyType.getText().toString().trim();
+        String proValue = propertyCreationBinding.propertyValue.getText().toString().trim();
+        String village = propertyCreationBinding.village.getText().toString().trim();
+        String mandal = propertyCreationBinding.mandal.getText().toString().trim();
+        String state = propertyCreationBinding.state.getText().toString().trim();
+        String district = propertyCreationBinding.district.getText().toString().trim();
+
+        if (isEmpty(proName)) {
+            propertyCreationBinding.propertyName.setError("Please Enter Property Name!");
+            propertyCreationBinding.propertyName.requestFocus();
+            return false;
+        } else if (proName.length() < 3) {
+            propertyCreationBinding.propertyName.setError("Please enter above 3 characters!");
+            propertyCreationBinding.propertyName.requestFocus();
+            return false;
+        } else if (isEmpty(proType)) {
+            propertyCreationBinding.propertyType.setError("Please Property Type!");
+            propertyCreationBinding.propertyType.requestFocus();
+            return false;
+        } else if (isEmpty(proValue)) {
+            propertyCreationBinding.propertyValue.setError("Please Enter Property Value!");
+            propertyCreationBinding.propertyValue.requestFocus();
+            return false;
+        } else if (isEmpty(village)) {
+            propertyCreationBinding.village.setError("Please Enter Village Name!");
+            propertyCreationBinding.village.requestFocus();
+            return false;
+        } else if (village.length() < 3) {
+            propertyCreationBinding.village.setError("Please enter above 3 characters!");
+            propertyCreationBinding.village.requestFocus();
+            return false;
+        } else if (isEmpty(mandal)) {
+            propertyCreationBinding.mandal.setError("Please Enter Mandal Name!");
+            propertyCreationBinding.mandal.requestFocus();
+            return false;
+        } else if (mandal.length() < 3) {
+            propertyCreationBinding.mandal.setError("Please enter above 3 characters!");
+            propertyCreationBinding.mandal.requestFocus();
+            return false;
+        } else if (isEmpty(state)) {
+            propertyCreationBinding.state.setError("Please Enter State Name!");
+            propertyCreationBinding.state.requestFocus();
+            return false;
+        } else if (state.length() < 3) {
+            propertyCreationBinding.state.setError("Please enter above 3 characters!");
+            propertyCreationBinding.state.requestFocus();
+            return false;
+        } else if (isEmpty(district)) {
+            propertyCreationBinding.district.setError("Please Enter District Name!");
+            propertyCreationBinding.district.requestFocus();
+            return false;
+        } else if (district.length() < 3) {
+            propertyCreationBinding.district.setError("Please enter above 3 characters!");
+            propertyCreationBinding.district.requestFocus();
+            return false;
+        }
+
+        return true;
     }
 }
