@@ -41,7 +41,6 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.gson.Gson;
 import com.thresholdsoft.praanadhara.R;
 import com.thresholdsoft.praanadhara.databinding.ActivityPropertySurveyBinding;
 import com.thresholdsoft.praanadhara.services.LocationMonitoringService;
@@ -652,7 +651,6 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
                         for (int i = 0; i < latLngList.size(); i++) {
                             PolylineDataTable polylineDataTable = new PolylineDataTable(latLngList.get(i).latitude, latLngList.get(i).longitude, dialogView.getPointName(), dialogView.getPointDescription(), imagesUploadedList);
                             mpresenter.insertPolyLineData(polylineDataTable);
-
                         }
                     }
                 }
@@ -666,8 +664,10 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
                     text.setTextSize(14);
                 }
                 toast.show();
-
-
+                Intent intent = new Intent();
+                intent.putExtra("dialogName", dialogView.getPointName());
+                setResult(RESULT_OK, intent);
+                finish();
             }
         });
         dialogView.setPositiveUploadImageListener(view -> {

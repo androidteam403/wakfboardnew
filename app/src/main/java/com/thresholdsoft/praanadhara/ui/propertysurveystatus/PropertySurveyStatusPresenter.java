@@ -22,7 +22,7 @@ public class PropertySurveyStatusPresenter <V extends PropertySurveyStatusMvpVie
     }
 
     @Override
-    public List<PolylineDataTable> getPolylinelist() {
-        return getDataManager().getAllPolylineDataListByName("naveen");
+    public List<PolylineDataTable> getPolylinelist(String name) {
+        return getDataManager().getAllPolylineDataListByName(name);
     }
 }

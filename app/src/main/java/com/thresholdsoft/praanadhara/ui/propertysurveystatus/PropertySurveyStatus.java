@@ -1,6 +1,7 @@
 package com.thresholdsoft.praanadhara.ui.propertysurveystatus;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -171,12 +172,13 @@ public class PropertySurveyStatus extends BaseActivity implements PropertySurvey
     List<LatLng> latLngList = new ArrayList<>();
     List<Marker> markerList = new ArrayList<>();
     Marker polyLineMarker;
+
     private void getPolyLineList(GoogleMap googleMap) {
         mMap = googleMap;
-        if (mpresenter.getPolylinelist() != null && mpresenter.getPolylinelist().size() > 0) {
-            for (PolylineDataTable polylineDataTable : mpresenter.getPolylinelist()) {
+        if (mpresenter.getPolylinelist(name) != null && mpresenter.getPolylinelist(name).size() > 0) {
+            for (PolylineDataTable polylineDataTable : mpresenter.getPolylinelist(name)) {
                 latLngLine = new LatLng(polylineDataTable.getLatitude(), polylineDataTable.getLongitude());
-                MarkerOptions markerOptions = new MarkerOptions().position(latLngLine).draggable(true);
+                MarkerOptions markerOptions = new MarkerOptions().position(latLngLine);
                 polyLineMarker = mMap.addMarker(markerOptions);
                 latLngList.add(latLngLine);
                 markerList.add(polyLineMarker);
@@ -201,5 +203,27 @@ public class PropertySurveyStatus extends BaseActivity implements PropertySurvey
     @Override
     public void onMapReady(GoogleMap googleMap) {
         getPolyLineList(googleMap);
+    }
+
+    String name;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case PROPERTY_SURVEY:
+                    if (data != null) {
+                        String dialogName = (String) data.getSerializableExtra("dialogName");
+                        name = dialogName;
+                        mpresenter.getPolylinelist(dialogName);
+                        getPolyLineList(mMap);
+                    }
+                    break;
+                default:
+            }
+        }
+
     }
 }

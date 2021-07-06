@@ -6,5 +6,5 @@ import com.thresholdsoft.praanadhara.ui.propertysurvey.model.PolylineDataTable;
 import java.util.List;
 
 public interface PropertySurveyStatusMvpPresenter<V extends PropertySurveyStatusMvpView> extends MvpPresenter<V> {
-    List<PolylineDataTable> getPolylinelist();
+    List<PolylineDataTable> getPolylinelist(String name);
 }
