@@ -11,8 +11,7 @@ import com.thresholdsoft.praanadhara.data.db.model.FarmerLands;
 import com.thresholdsoft.praanadhara.data.db.model.SurveyEntity;
 import com.thresholdsoft.praanadhara.data.db.model.SurveyStatusEntity;
 import com.thresholdsoft.praanadhara.ui.propertycreation.model.PropertyData;
-import com.thresholdsoft.praanadhara.ui.propertysurvey.model.PointDataTable;
-import com.thresholdsoft.praanadhara.ui.propertysurvey.model.PolylineDataTable;
+import com.thresholdsoft.praanadhara.ui.propertysurvey.model.MapDataTable;
 
 import java.util.List;
 
@@ -93,13 +92,13 @@ public interface SurveyDao {
     @Insert
     void insertPropertyData(PropertyData propertyData);
 
-    @Insert
-    void insertPointRelatedData(PointDataTable pointDataTable);
+    @Query("SELECT * FROM PROPERTY_DATA")
+    List<PropertyData> getAllPropertyCreationDataList();
 
     @Insert
-    void insertPolylineData(PolylineDataTable polylineDataTable);
+    void insertMapData(MapDataTable mapDataTable);
 
-    @Query("SELECT * FROM POLYLINE_DATA_TABLE WHERE name=:name")
-    List<PolylineDataTable> getAllPolylineDataListByName(String name);
+    @Query("SELECT * FROM MAP_DATA_TABLE WHERE propertyId=:propertyId")
+    List<MapDataTable> getAllMapDtaListByPropertyId(int propertyId);
 }
 

@@ -89,93 +89,30 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginTop="?actionBarSize"
             android:orientation="vertical"
             tools:ignore="UselessParent">
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:elevation="@dimen/ten_dp"
-                app:cardCornerRadius="@dimen/twenty_dp">
+                android:layout_height="match_parent">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/adapter_survey_background"
+                    android:layout_height="match_parent"
                     android:orientation="vertical"
                     tools:ignore="UselessParent">
 
                     <LinearLayout
-                        android:id="@+id/farmerdata"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/ten_dp"
-                        android:layout_marginBottom="@dimen/five_dp"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/ten_dp"
-                            android:layout_marginEnd="@dimen/ten_dp"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:id="@+id/image"
-                                android:layout_width="@dimen/one_hundred_dp"
-                                android:layout_height="match_parent"
-                                android:contentDescription="@string/app_name"
-                                android:src="@drawable/placeholder"
-                                android:visibility="gone" />
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/five_dp"
-                                android:orientation="vertical">
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:weightSum="1">
-
-                                    <TextView
-                                        android:id="@+id/property_name"
-                                        android:layout_width="@dimen/zero_dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="0.9"
-                                        android:fontFamily="@font/roboto_bold"
-                                        android:text="PropertyName"
-                                        android:textColor="@color/black"
-                                        android:textSize="@dimen/text_dimen_13" />
-
-                                </LinearLayout>
-
-
-                            </LinearLayout>
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/one_dp"
-                            android:layout_marginStart="@dimen/fifteen_dp"
-                            android:layout_marginTop="@dimen/two_dp"
-                            android:layout_marginEnd="@dimen/fifteen_dp"
-                            android:background="@color/grey" />
-                    </LinearLayout>
-
-                    <LinearLayout
                         android:id="@+id/mapFrameLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/three_hundred_dp"
+                        android:layout_height="match_parent"
                         android:orientation="horizontal">
 
                         <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="match_parent">
 
                             <androidx.fragment.app.FragmentContainerView
                                 android:id="@+id/preview_map"
@@ -184,26 +121,12 @@
                                 android:layout_height="match_parent" />
 
                             <ImageView
-                                android:id="@+id/expandView"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentEnd="true"
-                                android:layout_alignParentBottom="true"
-                                android:contentDescription="@string/app_name"
-                                android:padding="@dimen/fifteen_dp"
-                                android:src="@drawable/full_screen_view_small"
-                                android:visibility="gone" />
+                                android:id="@+id/map_view_list_icon"
+                                android:layout_margin="@dimen/twenty_dp"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:src="@drawable/map_list_icon" />
 
-                            <ImageView
-                                android:id="@+id/collapseView"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentEnd="true"
-                                android:layout_alignParentBottom="true"
-                                android:contentDescription="@string/app_name"
-                                android:padding="@dimen/fifteen_dp"
-                                android:src="@drawable/collapse_view"
-                                android:visibility="gone" />
                         </RelativeLayout>
 
                     </LinearLayout>
@@ -213,51 +136,6 @@
 
             </androidx.cardview.widget.CardView>
 
-            <RelativeLayout
-                android:visibility="invisible"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_margin="@dimen/ten_dp"
-                android:gravity="end">
-
-
-                <TextView
-                    android:id="@+id/text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:fontFamily="@font/roboto_regular"
-                    android:text="Select All"
-                    android:textColor="@color/black" />
-
-                <CheckBox
-                    android:id="@+id/checkBoxHeader"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/text"
-                    android:checked="true"
-                    android:fontFamily="@font/roboto_regular" />
-
-            </RelativeLayout>
-
-            <ScrollView
-                android:id="@+id/listdata"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/surve_details_recyclerview"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-            </ScrollView>
         </LinearLayout>
     </RelativeLayout>
 

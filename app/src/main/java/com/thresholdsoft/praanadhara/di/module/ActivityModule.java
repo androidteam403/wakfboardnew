@@ -21,6 +21,9 @@ import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.Su
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.userprofilefrag.UserProfileMvpPresenter;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.userprofilefrag.UserProfileMvpView;
 import com.thresholdsoft.praanadhara.ui.mainactivity.fragments.userprofilefrag.UserProfilePresenter;
+import com.thresholdsoft.praanadhara.ui.mapdataliastactivity.MapDataListActivityMvpPresenter;
+import com.thresholdsoft.praanadhara.ui.mapdataliastactivity.MapDataListActivityMvpView;
+import com.thresholdsoft.praanadhara.ui.mapdataliastactivity.MapDataListActivityPresenter;
 import com.thresholdsoft.praanadhara.ui.photouploadactivity.PhotoUploadMvpPresenter;
 import com.thresholdsoft.praanadhara.ui.photouploadactivity.PhotoUploadMvpView;
 import com.thresholdsoft.praanadhara.ui.photouploadactivity.PhotoUploadPresenter;
@@ -189,6 +192,12 @@ public class ActivityModule {
     @Provides
     @PerActivity
     PropertySurveyStatusMvpPresenter<PropertySurveyStatusMvpView> propertySurveyStatusMvpPresenter(PropertySurveyStatusPresenter<PropertySurveyStatusMvpView> presenter) {
+        return presenter;
+    }
+
+    @Provides
+    @PerActivity
+    MapDataListActivityMvpPresenter<MapDataListActivityMvpView> mapDataListActivityMvpViewMainActivityMvpPresenter(MapDataListActivityPresenter<MapDataListActivityMvpView> presenter) {
         return presenter;
     }
 

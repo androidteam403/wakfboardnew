@@ -6,8 +6,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.SphericalUtil;
 import com.thresholdsoft.praanadhara.data.DataManager;
 import com.thresholdsoft.praanadhara.ui.base.BasePresenter;
-import com.thresholdsoft.praanadhara.ui.propertysurvey.model.PointDataTable;
-import com.thresholdsoft.praanadhara.ui.propertysurvey.model.PolylineDataTable;
+import com.thresholdsoft.praanadhara.ui.propertysurvey.model.MapDataTable;
 import com.thresholdsoft.praanadhara.utils.rx.SchedulerProvider;
 
 import java.util.List;
@@ -22,11 +21,6 @@ public class PropertySurveyPresenter<V extends PropertySurveyMvpView> extends Ba
     @Inject
     public PropertySurveyPresenter(DataManager manager, SchedulerProvider schedulerProvider, CompositeDisposable compositeDisposable) {
         super(manager, schedulerProvider, compositeDisposable);
-    }
-
-    @Override
-    public void insertPointDataTable(PointDataTable pointDataTable) {
-        getDataManager().insertPointRelatedData(pointDataTable);
     }
 
     @Override
@@ -101,7 +95,7 @@ public class PropertySurveyPresenter<V extends PropertySurveyMvpView> extends Ba
     }
 
     @Override
-    public void insertPolyLineData(PolylineDataTable polylineDataTable) {
-        getDataManager().insertPolylineData(polylineDataTable);
+    public void insertMapTypeDataTable(MapDataTable mapDataTable) {
+        getDataManager().insertMapData(mapDataTable);
     }
 }
