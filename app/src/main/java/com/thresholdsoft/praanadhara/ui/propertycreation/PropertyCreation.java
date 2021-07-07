@@ -20,7 +20,6 @@ import com.thresholdsoft.praanadhara.databinding.ActivityPropertyCreationBinding
 import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
 import com.thresholdsoft.praanadhara.ui.propertycreation.adapter.PhotosUploadAdapter;
 import com.thresholdsoft.praanadhara.ui.propertycreation.model.PropertyData;
-import com.thresholdsoft.praanadhara.ui.propertysurveystatus.PropertySurveyStatus;
 import com.thresholdsoft.praanadhara.ui.propertysurveystatus.PropertyPreview;
 
 import net.alhazmy13.mediapicker.Image.ImagePicker;
