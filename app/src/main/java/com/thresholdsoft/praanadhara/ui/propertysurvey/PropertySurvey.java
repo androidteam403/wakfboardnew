@@ -202,7 +202,6 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.blue_circle);
-
         LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
         MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("I am here!").icon(icon);
         googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));

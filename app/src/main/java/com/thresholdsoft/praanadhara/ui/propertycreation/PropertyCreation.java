@@ -20,7 +20,6 @@ import com.thresholdsoft.praanadhara.databinding.ActivityPropertyCreationBinding
 import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
 import com.thresholdsoft.praanadhara.ui.propertycreation.adapter.PhotosUploadAdapter;
 import com.thresholdsoft.praanadhara.ui.propertycreation.model.PropertyData;
-import com.thresholdsoft.praanadhara.ui.propertysurvey.PropertySurvey;
 import com.thresholdsoft.praanadhara.ui.propertysurveystatus.PropertySurveyStatus;
 
 import net.alhazmy13.mediapicker.Image.ImagePicker;
@@ -53,6 +52,8 @@ public class PropertyCreation extends BaseActivity implements PropertyMvpView {
     @Override
     protected void setUp() {
         getAddAddressTypes();
+        getStateList();
+        getPropertryList();
         propertyCreationBinding.upload.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("CheckResult")
             @Override
@@ -74,13 +75,13 @@ public class PropertyCreation extends BaseActivity implements PropertyMvpView {
             public void onClick(View v) {
                 if (validate()) {
                     PropertyData propertyData = new PropertyData(propertyCreationBinding.propertyName.getText().toString(),
-                            propertyCreationBinding.propertyType.getText().toString(),
+                            propertyCreationBinding.propertyType.getSelectedItem().toString(),
                             Double.parseDouble(propertyCreationBinding.propertyValue.getText().toString()),
                             propertyCreationBinding.village.getText().toString(),
                             propertyCreationBinding.mandal.getText().toString(),
-                            propertyCreationBinding.state.getText().toString(),
+                            propertyCreationBinding.state.getSelectedItem().toString(),
                             propertyCreationBinding.district.getText().toString(),
-                            propertyCreationBinding.areaType.getSelectedItem().toString(),mPaths);
+                            propertyCreationBinding.areaType.getSelectedItem().toString(), mPaths);
 //                    List<PhotoUploadedData> photoUploadedDataList = new ArrayList<>();
 //                    if (mPaths != null && mPaths.size() > 0) {
 //                        for (String pathList : mPaths) {
@@ -176,6 +177,85 @@ public class PropertyCreation extends BaseActivity implements PropertyMvpView {
         return addresModelArrayList;
     }
 
+    public void getStateList() {
+        propertyCreationBinding.state.getEditText().setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "font/roboto_regular.ttf"));
+        propertyCreationBinding.state.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "font/roboto_regular.ttf"));
+        ArrayAdapter<StateModel> addresModelArrayAdapter = new ArrayAdapter<StateModel>(getApplicationContext(), android.R.layout.simple_spinner_item, getStateListData()) {
+            @NotNull
+            public View getView(int position, View convertView, @NotNull ViewGroup parent) {
+                View v = super.getView(position, convertView, parent);
+                Typeface externalFont = Typeface.createFromAsset(getContext().getAssets(), "font/roboto_regular.ttf");
+                ((TextView) v).setTypeface(externalFont);
+                return v;
+            }
+
+            public View getDropDownView(int position, View convertView, @NotNull ViewGroup parent) {
+                View v = super.getDropDownView(position, convertView, parent);
+                Typeface externalFont = Typeface.createFromAsset(getContext().getAssets(), "font/roboto_regular.ttf");
+                ((TextView) v).setTypeface(externalFont);
+                return v;
+            }
+        };
+        addresModelArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        propertyCreationBinding.state.setAdapter(addresModelArrayAdapter);
+        propertyCreationBinding.state.setSelection(0);
+    }
+
+    private ArrayList<StateModel> getStateListData() {
+        ArrayList<StateModel> stateModelArrayList = new ArrayList<>();
+        StateModel stateModel = new StateModel();
+        stateModel.setState("Telangana");
+        stateModelArrayList.add(stateModel);
+        stateModel = new StateModel();
+        stateModel.setState("Andhrapradesh");
+        stateModelArrayList.add(stateModel);
+        stateModel = new StateModel();
+        stateModel.setState("Karnataka");
+        stateModelArrayList.add(stateModel);
+        stateModel = new StateModel();
+        stateModel.setState("Tamilanadu");
+        stateModelArrayList.add(stateModel);
+        return stateModelArrayList;
+    }
+
+    public void getPropertryList() {
+        propertyCreationBinding.propertyType.getEditText().setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "font/roboto_regular.ttf"));
+        propertyCreationBinding.propertyType.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "font/roboto_regular.ttf"));
+        ArrayAdapter<PropertyTypeModel> addresModelArrayAdapter = new ArrayAdapter<PropertyTypeModel>(getApplicationContext(), android.R.layout.simple_spinner_item, getPropertyTypeListData()) {
+            @NotNull
+            public View getView(int position, View convertView, @NotNull ViewGroup parent) {
+                View v = super.getView(position, convertView, parent);
+                Typeface externalFont = Typeface.createFromAsset(getContext().getAssets(), "font/roboto_regular.ttf");
+                ((TextView) v).setTypeface(externalFont);
+                return v;
+            }
+
+            public View getDropDownView(int position, View convertView, @NotNull ViewGroup parent) {
+                View v = super.getDropDownView(position, convertView, parent);
+                Typeface externalFont = Typeface.createFromAsset(getContext().getAssets(), "font/roboto_regular.ttf");
+                ((TextView) v).setTypeface(externalFont);
+                return v;
+            }
+        };
+        addresModelArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        propertyCreationBinding.propertyType.setAdapter(addresModelArrayAdapter);
+        propertyCreationBinding.propertyType.setSelection(0);
+    }
+
+    private ArrayList<PropertyTypeModel> getPropertyTypeListData() {
+        ArrayList<PropertyTypeModel> propertyTypeModelArrayList = new ArrayList<>();
+        PropertyTypeModel propertyTypeModel = new PropertyTypeModel();
+        propertyTypeModel.setPropertyType("Real Estate");
+        propertyTypeModelArrayList.add(propertyTypeModel);
+        propertyTypeModel = new PropertyTypeModel();
+        propertyTypeModel.setPropertyType("House");
+        propertyTypeModelArrayList.add(propertyTypeModel);
+        propertyTypeModel = new PropertyTypeModel();
+        propertyTypeModel.setPropertyType("Agriculture Land");
+        propertyTypeModelArrayList.add(propertyTypeModel);
+        return propertyTypeModelArrayList;
+    }
+
     @Override
     public void anotherizedToken() {
 
@@ -204,13 +284,47 @@ public class PropertyCreation extends BaseActivity implements PropertyMvpView {
         }
     }
 
+    private class StateModel {
+        public String state;
+
+        public String getState() {
+            return state;
+        }
+
+        public void setState(String areaType) {
+            this.state = areaType;
+        }
+
+        @Override
+        public String toString() {
+            return state;
+        }
+    }
+
+    private class PropertyTypeModel {
+        public String propertyType;
+
+        public String getPropertyType() {
+            return propertyType;
+        }
+
+        public void setPropertyType(String propertyType) {
+            this.propertyType = propertyType;
+        }
+
+        @Override
+        public String toString() {
+            return propertyType;
+        }
+    }
+
     private boolean validate() {
         String proName = propertyCreationBinding.propertyName.getText().toString().trim();
-        String proType = propertyCreationBinding.propertyType.getText().toString().trim();
+        String proType = propertyCreationBinding.propertyType.getSelectedItem().toString().trim();
         String proValue = propertyCreationBinding.propertyValue.getText().toString().trim();
         String village = propertyCreationBinding.village.getText().toString().trim();
         String mandal = propertyCreationBinding.mandal.getText().toString().trim();
-        String state = propertyCreationBinding.state.getText().toString().trim();
+        String state = propertyCreationBinding.state.getSelectedItem().toString().trim();
         String district = propertyCreationBinding.district.getText().toString().trim();
 
         if (isEmpty(proName)) {

@@ -175,9 +175,8 @@ public class PropertySurveyStatus extends BaseActivity implements PropertySurvey
     private void getPolyLineList(GoogleMap googleMap) {
         mMap = googleMap;
         BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.blue_circle);
-
-        if (mpresenter.getPolylinelist() != null && mpresenter.getPolylinelist().size() > 0) {
-            for (PolylineDataTable polylineDataTable : mpresenter.getPolylinelist()) {
+        if (mpresenter.getPolylinelist(name) != null && mpresenter.getPolylinelist(name).size() > 0) {
+            for (PolylineDataTable polylineDataTable : mpresenter.getPolylinelist(name)) {
                 latLngLine = new LatLng(polylineDataTable.getLatitude(), polylineDataTable.getLongitude());
                 MarkerOptions markerOptions = new MarkerOptions().position(latLngLine).draggable(true).icon(icon);
                 polyLineMarker = mMap.addMarker(markerOptions);
