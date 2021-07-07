@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="mapData"
+            type="com.thresholdsoft.praanadhara.ui.propertysurvey.model.MapDataTable" />
+
+    </data>
+
+    <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/view_list_main_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        tools:showIn="@layout/list_item_main">
+
+        <RelativeLayout
+            android:id="@+id/parent_item_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/ten_dp"
+            android:layout_marginEnd="@dimen/ten_dp">
+
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="@dimen/twenty_five_dp"
+                android:layout_height="@dimen/twenty_five_dp"
+                android:src="@drawable/placeholder"
+                android:layout_centerVertical="true"
+                android:contentDescription="@string/app_name" />
+
+            <TextView
+                android:id="@+id/name_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/five_dp"
+                android:layout_toEndOf="@+id/image"
+                android:ellipsize="end"
+                android:fontFamily="@font/roboto_bold"
+                android:singleLine="true"
+                android:text="@{mapData.name}"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/name_textview"
+                android:layout_marginStart="@dimen/five_dp"
+                android:layout_toEndOf="@id/image"
+                android:ellipsize="end"
+                android:fontFamily="@font/roboto_regular"
+                android:singleLine="true"
+                android:text="@{mapData.description}"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_dimen_12" />
+
+            <CheckBox
+                android:id="@+id/checkBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:checked="@{mapData.checked?true:false}"
+                android:contentDescription="@string/app_name" />
+
+        </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/images_recycle_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/parent_item_layout"
+            android:nestedScrollingEnabled="true" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/five_dp"
+            android:layout_marginBottom="@dimen/five_dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/jumbo"/>
+    </RelativeLayout>
+</layout>

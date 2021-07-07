@@ -20,8 +20,7 @@ import com.thresholdsoft.praanadhara.databinding.ActivityPropertyCreationBinding
 import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
 import com.thresholdsoft.praanadhara.ui.propertycreation.adapter.PhotosUploadAdapter;
 import com.thresholdsoft.praanadhara.ui.propertycreation.model.PropertyData;
-import com.thresholdsoft.praanadhara.ui.propertysurvey.PropertySurvey;
-import com.thresholdsoft.praanadhara.ui.propertysurveystatus.PropertySurveyStatus;
+import com.thresholdsoft.praanadhara.ui.propertysurveystatus.PropertyPreview;
 
 import net.alhazmy13.mediapicker.Image.ImagePicker;
 
@@ -80,7 +79,7 @@ public class PropertyCreation extends BaseActivity implements PropertyMvpView {
                             propertyCreationBinding.mandal.getText().toString(),
                             propertyCreationBinding.state.getText().toString(),
                             propertyCreationBinding.district.getText().toString(),
-                            propertyCreationBinding.areaType.getSelectedItem().toString(),mPaths);
+                            propertyCreationBinding.areaType.getSelectedItem().toString(), mPaths);
 //                    List<PhotoUploadedData> photoUploadedDataList = new ArrayList<>();
 //                    if (mPaths != null && mPaths.size() > 0) {
 //                        for (String pathList : mPaths) {
@@ -90,9 +89,10 @@ public class PropertyCreation extends BaseActivity implements PropertyMvpView {
 //                    }
                     mpresenter.insertPropertyData(propertyData);
 
-                    Intent intent = new Intent(PropertyCreation.this, PropertySurveyStatus.class);
+                    Intent intent = new Intent(PropertyCreation.this, PropertyPreview.class);
                     intent.putExtra("propertyName", propertyCreationBinding.propertyName.getText().toString());
                     intent.putExtra("village", propertyCreationBinding.propertyName.getText().toString());
+                    intent.putExtra("propertyId", mpresenter.propertyID());
                     startActivity(intent);
                     overridePendingTransition(R.anim.fadein, R.anim.fadeout);
                 }

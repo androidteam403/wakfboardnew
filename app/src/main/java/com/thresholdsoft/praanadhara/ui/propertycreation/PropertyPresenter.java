@@ -5,6 +5,8 @@ import com.thresholdsoft.praanadhara.ui.base.BasePresenter;
 import com.thresholdsoft.praanadhara.ui.propertycreation.model.PropertyData;
 import com.thresholdsoft.praanadhara.utils.rx.SchedulerProvider;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import io.reactivex.disposables.CompositeDisposable;
@@ -25,5 +27,11 @@ public class PropertyPresenter<V extends PropertyMvpView> extends BasePresenter<
 //                getDataManager().insertPhotoUploadData(photoUploadedData1);
 //            }
 //        }
+    }
+
+    @Override
+    public int propertyID() {
+        List<PropertyData> propertyDataList = getDataManager().getAllPropertyCreationDataList();
+        return propertyDataList.get(propertyDataList.size()-1).getId();
     }
 }

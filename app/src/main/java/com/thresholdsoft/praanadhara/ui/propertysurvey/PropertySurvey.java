@@ -47,8 +47,7 @@ import com.thresholdsoft.praanadhara.services.LocationMonitoringService;
 import com.thresholdsoft.praanadhara.ui.base.BaseActivity;
 import com.thresholdsoft.praanadhara.ui.dialog.PropertyCreationDialog;
 import com.thresholdsoft.praanadhara.ui.photouploadactivity.PhotoUpload;
-import com.thresholdsoft.praanadhara.ui.propertysurvey.model.PointDataTable;
-import com.thresholdsoft.praanadhara.ui.propertysurvey.model.PolylineDataTable;
+import com.thresholdsoft.praanadhara.ui.propertysurvey.model.MapDataTable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -74,10 +73,12 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
     List<Marker> markerList = new ArrayList<>();
     Marker marker;
     private int mapTypeData;
+    private int propertyId;
 
-    public static Intent getStartIntent(Context context, int mapType) {
+    public static Intent getStartIntent(Context context, int mapType, int propertyId) {
         Intent intent = new Intent(context, PropertySurvey.class);
         intent.putExtra("maptype", mapType);
+        intent.putExtra("propertyId", propertyId);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         return intent;
     }
@@ -99,6 +100,7 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
 
         if (getIntent() != null) {
             mapTypeData = (int) getIntent().getIntExtra("maptype", 0);
+            propertyId = (int) getIntent().getIntExtra("propertyId", 0);
         }
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
@@ -218,6 +220,7 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
                 } else if (mapTypeData == 1) {
                     if (markerList.size() < 1) {
                         addPoint(latLng);
+                        latLngList.add(latLng);
                         mMap.setOnMarkerClickListener(PropertySurvey.this);
                     }
                 } else if (mapTypeData == 2) {
@@ -272,10 +275,8 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
                     markerList.add(marker);
 
                     if (polygon != null) polygon.remove();
-                    PolygonOptions polygonOptions = new PolygonOptions().addAll(latLngList).clickable(true);
+                    PolygonOptions polygonOptions = new PolygonOptions().addAll(latLngList).strokeColor(Color.RED).fillColor(getResources().getColor(R.color.alpha_ripple_effect_btn_color)).clickable(true);
                     polygon = mMap.addPolygon(polygonOptions);
-                    polygon.setStrokeColor(Color.RED);
-                    polygon.setFillColor(Color.YELLOW);
                     polygonList.add(polygon);
 
                     for (LatLng latLngPol : latLngList) {
@@ -327,10 +328,8 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
         }
 
         if (polygon != null) polygon.remove();
-        PolygonOptions polygonOptions = new PolygonOptions().addAll(latLngList).clickable(true);
+        PolygonOptions polygonOptions = new PolygonOptions().addAll(latLngList).strokeColor(Color.RED).fillColor(getResources().getColor(R.color.alpha_ripple_effect_btn_color)).clickable(true);
         polygon = mMap.addPolygon(polygonOptions);
-        polygon.setStrokeColor(Color.RED);
-        polygon.setFillColor(Color.YELLOW);
         polygonList.add(polygon);
     }
 
@@ -580,10 +579,8 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
                     polygonList.remove(polygonList.size() - 1);
                     polygonList.remove(polygon);
                     if (polygon != null) polygon.remove();
-                    PolygonOptions polygonOptions = new PolygonOptions().addAll(latLngList).clickable(true);
+                    PolygonOptions polygonOptions = new PolygonOptions().addAll(latLngList).strokeColor(Color.RED).fillColor(getResources().getColor(R.color.alpha_ripple_effect_btn_color)).clickable(true);
                     polygon = mMap.addPolygon(polygonOptions);
-                    polygon.setStrokeColor(Color.RED);
-                    polygon.setFillColor(Color.YELLOW);
                     i--;
                 }
             }
@@ -605,6 +602,14 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
         dialogView.setPositiveListener(view -> {
             if (dialogView.validations()) {
                 dialogView.dismiss();
+                if (latLngList != null && latLngList.size() > 0) {
+//                    if (latLngList.size() == markerList.size()) {
+//                        for (int i = 0; i < latLngList.size(); i++) {
+                            MapDataTable mapDataTable = new MapDataTable(propertyId, mapTypeData, latLngList, dialogView.getPointName(), dialogView.getPointDescription(), imagesUploadedList);
+                            mpresenter.insertMapTypeDataTable(mapDataTable);
+//                        }
+//                    }
+                }
                 Toast toast = Toast.makeText(PropertySurvey.this, "Polygon Details are saved successfully", Toast.LENGTH_SHORT);
                 toast.getView().setBackground(getResources().getDrawable(R.drawable.toast_bg));
                 TextView text = (TextView) toast.getView().findViewById(android.R.id.message);
@@ -615,6 +620,10 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
                     text.setTextSize(14);
                 }
                 toast.show();
+                Intent intent = new Intent();
+                intent.putExtra("dialogName", dialogView.getPointName());
+                setResult(RESULT_OK, intent);
+                finish();
             }
         });
         dialogView.setPositiveUploadImageListener(view -> {
@@ -647,12 +656,12 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
             if (dialogView.validations()) {
                 dialogView.dismiss();
                 if (latLngList != null && latLngList.size() > 0) {
-                    if (latLngList.size() == markerList.size()) {
-                        for (int i = 0; i < latLngList.size(); i++) {
-                            PolylineDataTable polylineDataTable = new PolylineDataTable(latLngList.get(i).latitude, latLngList.get(i).longitude, dialogView.getPointName(), dialogView.getPointDescription(), imagesUploadedList);
-                            mpresenter.insertPolyLineData(polylineDataTable);
-                        }
-                    }
+//                    if (latLngList.size() == markerList.size()) {
+//                        for (int i = 0; i < latLngList.size(); i++) {
+                    MapDataTable polylineDataTable = new MapDataTable(propertyId, mapTypeData, latLngList, dialogView.getPointName(), dialogView.getPointDescription(), imagesUploadedList);
+                    mpresenter.insertMapTypeDataTable(polylineDataTable);
+//                        }
+//                    }
                 }
                 Toast toast = Toast.makeText(PropertySurvey.this, "Polyline Details are saved successfully", Toast.LENGTH_SHORT);
                 toast.getView().setBackground(getResources().getDrawable(R.drawable.toast_bg));
@@ -699,8 +708,8 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
         dialogView.setPositiveListener(view -> {
             if (dialogView.validations()) {
                 dialogView.dismiss();
-                PointDataTable pointDataTable = new PointDataTable(latLng.latitude, latLng.longitude, dialogView.getPointName(), dialogView.getPointDescription(), imagesUploadedList);
-                mpresenter.insertPointDataTable(pointDataTable);
+                MapDataTable pointDataTable = new MapDataTable(propertyId, mapTypeData, latLngList, dialogView.getPointName(), dialogView.getPointDescription(), imagesUploadedList);
+                mpresenter.insertMapTypeDataTable(pointDataTable);
 //                Toast.makeText(PropertySurvey.this, "PointDetails are saved successfully", Toast.LENGTH_LONG).show();
                 Toast toast = Toast.makeText(PropertySurvey.this, "Point Details are saved successfully", Toast.LENGTH_SHORT);
                 toast.getView().setBackground(getResources().getDrawable(R.drawable.toast_bg));
@@ -712,6 +721,10 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
                     text.setTextSize(14);
                 }
                 toast.show();
+                Intent intent = new Intent();
+                intent.putExtra("dialogName", dialogView.getPointName());
+                setResult(RESULT_OK, intent);
+                finish();
             }
         });
         dialogView.setPositiveUploadImageListener(view -> {

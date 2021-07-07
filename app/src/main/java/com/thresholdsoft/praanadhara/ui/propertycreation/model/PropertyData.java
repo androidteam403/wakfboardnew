@@ -9,7 +9,6 @@ import androidx.room.TypeConverters;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.thresholdsoft.praanadhara.data.utils.DateConverter;
-import com.thresholdsoft.praanadhara.ui.propertysurvey.model.PointDataTable;
 
 import java.io.Serializable;
 import java.lang.reflect.Type;
@@ -45,7 +44,7 @@ public class PropertyData implements Serializable {
     @ColumnInfo(name = "measuredunit")
     private String measuredunit;
 
-    @TypeConverters(PointDataTable.ImageUploadTypeConverter.class)
+    @TypeConverters(ImageUploadTypeConverter.class)
     @ColumnInfo(name = "photosList")
     private List<String> photosList;
 
@@ -141,19 +140,19 @@ public class PropertyData implements Serializable {
         this.photosList = photosList;
     }
 
-//    public static class PhotosListTypeConverter {
-//        @TypeConverter
-//        public List<String> fromPhotoString(String valuep) {
-//            Type listType = new TypeToken<List<String>>() {
-//            }.getType();
-//            return new Gson().fromJson(valuep, listType);
-//        }
-//
-//        @TypeConverter
-//        public String fromPhotoArrayList(List<String> listp) {
-//            Gson gson = new Gson();
-//            String json = gson.toJson(listp);
-//            return json;
-//        }
-//    }
+    public static class ImageUploadTypeConverter {
+        @TypeConverter
+        public List<String> fromString(String value) {
+            Type listType = new TypeToken<List<String>>() {
+            }.getType();
+            return new Gson().fromJson(value, listType);
+        }
+
+        @TypeConverter
+        public String fromArrayList(List<String> list) {
+            Gson gson = new Gson();
+            String json = gson.toJson(list);
+            return json;
+        }
+    }
 }

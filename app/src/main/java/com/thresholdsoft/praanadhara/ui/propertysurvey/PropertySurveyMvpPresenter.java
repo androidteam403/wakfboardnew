@@ -2,13 +2,11 @@ package com.thresholdsoft.praanadhara.ui.propertysurvey;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.thresholdsoft.praanadhara.ui.base.MvpPresenter;
-import com.thresholdsoft.praanadhara.ui.propertysurvey.model.PointDataTable;
-import com.thresholdsoft.praanadhara.ui.propertysurvey.model.PolylineDataTable;
+import com.thresholdsoft.praanadhara.ui.propertysurvey.model.MapDataTable;
 
 import java.util.List;
 
 public interface PropertySurveyMvpPresenter<V extends PropertySurveyMvpView> extends MvpPresenter<V> {
-    void insertPointDataTable(PointDataTable pointDataTable);
 
     void polygonStartClick();
 
@@ -35,5 +33,6 @@ public interface PropertySurveyMvpPresenter<V extends PropertySurveyMvpView> ext
     void polygonManualSave();
 
     String getPolygonArea(List<LatLng> polygonPoints);
-    void insertPolyLineData(PolylineDataTable polylineDataTable);
+
+    void insertMapTypeDataTable(MapDataTable mapDataTable);
 }
