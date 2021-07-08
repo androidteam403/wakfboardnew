@@ -1,6 +1,7 @@
 package com.thresholdsoft.wakfboard.ui.propertycreation;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -18,6 +19,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.thresholdsoft.wakfboard.R;
 import com.thresholdsoft.wakfboard.databinding.ActivityPropertyCreationBinding;
 import com.thresholdsoft.wakfboard.ui.base.BaseActivity;
+import com.thresholdsoft.wakfboard.ui.mainactivity.fragments.surveylistfrag.SurveyListFrag;
+import com.thresholdsoft.wakfboard.ui.photouploadactivity.PhotoUpload;
 import com.thresholdsoft.wakfboard.ui.propertycreation.adapter.PhotosUploadAdapter;
 import com.thresholdsoft.wakfboard.ui.propertycreation.model.PropertyData;
 import com.thresholdsoft.wakfboard.ui.propertysurveystatus.PropertyPreview;
@@ -26,7 +29,9 @@ import net.alhazmy13.mediapicker.Image.ImagePicker;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -39,6 +44,12 @@ public class PropertyCreation extends BaseActivity implements PropertyMvpView {
     ActivityPropertyCreationBinding propertyCreationBinding;
     private int PICK_IMAGES = 1;
     private PhotosUploadAdapter photosUploadAdapter;
+
+    public static Intent getStartIntent(Context context) {
+        Intent intent = new Intent(context, PropertyCreation.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        return intent;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,6 +85,11 @@ public class PropertyCreation extends BaseActivity implements PropertyMvpView {
             @Override
             public void onClick(View v) {
                 if (validate()) {
+
+                    SimpleDateFormat currentDate = new SimpleDateFormat("dd/MM/yyyy");
+                    Date todayDate = new Date();
+                    String thisDate = currentDate.format(todayDate);
+
                     PropertyData propertyData = new PropertyData(propertyCreationBinding.propertyName.getText().toString(),
                             propertyCreationBinding.propertyType.getSelectedItem().toString(),
                             Double.parseDouble(propertyCreationBinding.propertyValue.getText().toString()),
@@ -81,7 +97,7 @@ public class PropertyCreation extends BaseActivity implements PropertyMvpView {
                             propertyCreationBinding.mandal.getText().toString(),
                             propertyCreationBinding.state.getSelectedItem().toString(),
                             propertyCreationBinding.district.getText().toString(),
-                            propertyCreationBinding.areaType.getSelectedItem().toString(), mPaths);
+                            propertyCreationBinding.areaType.getSelectedItem().toString(), mPaths, propertyCreationBinding.mobile.getText().toString(), thisDate);
 //                    List<PhotoUploadedData> photoUploadedDataList = new ArrayList<>();
 //                    if (mPaths != null && mPaths.size() > 0) {
 //                        for (String pathList : mPaths) {
@@ -321,6 +337,7 @@ public class PropertyCreation extends BaseActivity implements PropertyMvpView {
 
     private boolean validate() {
         String proName = propertyCreationBinding.propertyName.getText().toString().trim();
+        String num = propertyCreationBinding.mobile.getText().toString().trim();
         String proType = propertyCreationBinding.propertyType.getSelectedItem().toString().trim();
         String proValue = propertyCreationBinding.propertyValue.getText().toString().trim();
         String village = propertyCreationBinding.village.getText().toString().trim();
@@ -335,6 +352,14 @@ public class PropertyCreation extends BaseActivity implements PropertyMvpView {
         } else if (proName.length() < 3) {
             propertyCreationBinding.propertyName.setError("Please enter above 3 characters!");
             propertyCreationBinding.propertyName.requestFocus();
+            return false;
+        } else if (isEmpty(num)) {
+            propertyCreationBinding.mobile.setError("Please enter Mobile Number!");
+            propertyCreationBinding.mobile.requestFocus();
+            return false;
+        } else if (num.length() < 10) {
+            propertyCreationBinding.mobile.setError("Please enter 10 digiits Mobile Number!");
+            propertyCreationBinding.mobile.requestFocus();
             return false;
         } else if (isEmpty(proType)) {
             propertyCreationBinding.propertyType.setError("Please Property Type!");

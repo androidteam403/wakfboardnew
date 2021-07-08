@@ -44,6 +44,7 @@ import com.thresholdsoft.wakfboard.ui.propertysurvey.bottomsheet.PropertySurveyB
 import com.thresholdsoft.wakfboard.ui.propertysurvey.model.MapDataTable;
 
 import java.lang.reflect.Type;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,12 +77,12 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
 
     @Override
     protected void setUp() {
-
-        mpresenter.getMapTypelist(propertyId);
-
         if (getIntent() != null) {
             propertyId = (Integer) getIntent().getIntExtra("propertyId", 0);
         }
+
+        mpresenter.getMapTypelist(propertyId);
+
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         fetchLocation();
@@ -95,8 +96,10 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
 
         if (mapDataTableList != null && mapDataTableList.size() > 0) {
             activityPropertySurveyStatusBinding.mapViewListIcon.setVisibility(View.VISIBLE);
+            activityPropertySurveyStatusBinding.areaCalLay.setVisibility(View.VISIBLE);
         } else {
             activityPropertySurveyStatusBinding.mapViewListIcon.setVisibility(View.GONE);
+            activityPropertySurveyStatusBinding.areaCalLay.setVisibility(View.GONE);
         }
 
         activityPropertySurveyStatusBinding.mapViewListIcon.setOnClickListener(new View.OnClickListener() {
@@ -219,7 +222,6 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
     Marker polyLineMarker;
 
     private void getPolyLineList(GoogleMap googleMap) {
-        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.marker_yellow_icon);
         mMap = googleMap;
         googleMap.clear();
         if (mapDataTableList != null && mapDataTableList.size() > 0) {
@@ -229,32 +231,49 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
                     getPointLatlngList.addAll(mapDataTable.getLatLngList());
                     for (int i = 0; i < getPointLatlngList.size(); i++) {
                         latLngLine = new LatLng(getPointLatlngList.get(i).latitude, getPointLatlngList.get(i).longitude);
-                        MarkerOptions markerOptions = new MarkerOptions().position(latLngLine).icon(icon).title(name);
+                        MarkerOptions markerOptions = new MarkerOptions().position(latLngLine).title(name);
                         polyLineMarker = mMap.addMarker(markerOptions);
                         googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLngLine));
                         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLngLine, 7));
                     }
                 } else if (mapDataTable.getMapType() == 2 && mapDataTable.isChecked()) {
+                    BitmapDescriptor icon2 = BitmapDescriptorFactory.fromResource(R.drawable.marker_yellow_icon);
                     getPolylineLatlngList.clear();
                     getPolylineLatlngList.addAll(mapDataTable.getLatLngList());
                     for (int i = 0; i < getPolylineLatlngList.size(); i++) {
                         latLngLine = new LatLng(getPolylineLatlngList.get(i).latitude, getPolylineLatlngList.get(i).longitude);
-                        MarkerOptions markerOptions = new MarkerOptions().position(latLngLine).icon(icon);
+                        MarkerOptions markerOptions = new MarkerOptions().position(latLngLine).icon(icon2);
                         polyLineMarker = mMap.addMarker(markerOptions);
                     }
+                    LatLng from = new LatLng(((getPolylineLatlngList.get(0).latitude)), ((getPolylineLatlngList.get(0).longitude)));
+                    LatLng to = new LatLng(((getPolylineLatlngList.get(getPolylineLatlngList.size() - 1).latitude)), ((getPolylineLatlngList.get(getPolylineLatlngList.size() - 1).longitude)));
+
+                    double amount = Double.parseDouble(mpresenter.getLineLength(from, to));
+                    DecimalFormat formatter = new DecimalFormat("#,###");
+                    String formatted = formatter.format(amount);
+
+                    activityPropertySurveyStatusBinding.distanceTextView.setText("Length :" + formatted+"m");
+
                     PolylineOptions polylineOptions = new PolylineOptions().addAll(getPolylineLatlngList).color(Color.BLUE).width(5).clickable(true);
                     polyline = mMap.addPolyline(polylineOptions);
                     googleMap.animateCamera(CameraUpdateFactory.newLatLng(getPolylineLatlngList.get(0)));
                     googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(getPolylineLatlngList.get(0), 7));
 
                 } else if (mapDataTable.getMapType() == 3 && mapDataTable.isChecked()) {
+                    BitmapDescriptor icon1 = BitmapDescriptorFactory.fromResource(R.drawable.marker_yellow_icon);
                     getPolygontLatlngList.clear();
                     getPolygontLatlngList.addAll(mapDataTable.getLatLngList());
                     for (int i = 0; i < getPolygontLatlngList.size(); i++) {
                         latLngLine = new LatLng(getPolygontLatlngList.get(i).latitude, getPolygontLatlngList.get(i).longitude);
-                        MarkerOptions markerOptions = new MarkerOptions().position(latLngLine).icon(icon);
+                        MarkerOptions markerOptions = new MarkerOptions().position(latLngLine).icon(icon1);
                         polyLineMarker = mMap.addMarker(markerOptions);
                     }
+
+                    double amount = Double.parseDouble(mpresenter.getPolygonArea(getPolygontLatlngList));
+                    DecimalFormat formatter = new DecimalFormat("#,###");
+                    String formatted = formatter.format(amount);
+
+                    activityPropertySurveyStatusBinding.polygonArea.setText("Area :" + formatted + "m²");
                     PolygonOptions polygonOptions = new PolygonOptions().addAll(getPolygontLatlngList).strokeWidth(5).fillColor(getResources().getColor(R.color.alpha_ripple_effect_btn_color)).strokeColor(Color.RED).clickable(true);
                     polygon = mMap.addPolygon(polygonOptions);
                     googleMap.animateCamera(CameraUpdateFactory.newLatLng(getPolygontLatlngList.get(0)));
