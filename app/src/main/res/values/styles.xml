@@ -161,7 +161,7 @@
         <item name="colorControlActivated">@color/colorPrimary</item>
     </style>
 
-    <style name="LoginEditTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+    <style name="LoginEditTextInputLayoutStyle" >
         <item name="boxStrokeColor">@color/base</item>
         <item name="boxStrokeWidth">0dp</item>
         <item name="boxBackgroundColor">@android:color/transparent</item>
