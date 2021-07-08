@@ -8,7 +8,7 @@ android {
     }
     compileSdkVersion 29
     defaultConfig {
-        applicationId 'com.thresholdsoft.praanadhara'
+        applicationId 'com.thresholdsoft.wakfboard'
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1

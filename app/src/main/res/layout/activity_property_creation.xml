@@ -46,12 +46,20 @@
                         android:gravity="center_vertical"
                         android:orientation="vertical">
 
-                        <ImageView
-                            android:layout_width="@dimen/one_hundred_seventy_dp"
-                            android:layout_height="@dimen/seventeen_dp"
-                            android:layout_marginTop="@dimen/five_dp"
+                        <!--                        <ImageView-->
+                        <!--                            android:layout_width="@dimen/one_hundred_seventy_dp"-->
+                        <!--                            android:layout_height="@dimen/seventeen_dp"-->
+                        <!--                            android:layout_marginTop="@dimen/five_dp"-->
+                        <!--                            android:contentDescription="@string/app_name"-->
+                        <!--                            android:src="@drawable/praanadhaara_title" />-->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:contentDescription="@string/app_name"
-                            android:src="@drawable/praanadhaara_title" />
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="@string/label_wakf_board"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_dimen_18" />
 
                         <TextView
                             android:id="@+id/tittle"
@@ -84,24 +92,55 @@
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_dimen_14" />
 
-                    <com.google.android.material.textfield.TextInputLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:theme="@style/TextLabelEdit">
+                        android:layout_weight="2">
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/property_name"
-                            android:layout_width="match_parent"
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_regular"
-                            android:hint="Property Name*"
-                            android:imeOptions="actionNext"
-                            android:inputType="text|textNoSuggestions"
-                            android:singleLine="true"
-                            android:textColor="@color/black"
-                            android:textColorHint="@color/black"
-                            android:textSize="@dimen/text_dimen_14" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                            android:layout_weight="1"
+                            android:theme="@style/TextLabelEdit">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/property_name"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_regular"
+                                android:hint="Property Name*"
+                                android:imeOptions="actionNext"
+                                android:inputType="text|textNoSuggestions"
+                                android:singleLine="true"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/black"
+                                android:textSize="@dimen/text_dimen_14" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:theme="@style/TextLabelEdit">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/mobile"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/roboto_regular"
+                                android:hint="Mobile Number*"
+                                android:imeOptions="actionNext"
+                                android:inputType="number"
+                                android:digits="0123456789"
+                                android:maxLength="10"
+                                android:singleLine="true"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/black"
+                                android:textSize="@dimen/text_dimen_14" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -362,15 +401,25 @@
 
         </ScrollView>
 
-        <Button
+        <TextView
             android:id="@+id/save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:fontFamily="@font/roboto_regular"
+            android:fontFamily="@font/roboto_medium"
             android:text="save"
-            android:textColor="@color/black" />
+            android:paddingTop="@dimen/five_dp"
+            android:paddingBottom="@dimen/five_dp"
+            android:paddingLeft="@dimen/fifteen_dp"
+            android:paddingRight="@dimen/fifteen_dp"
+            android:textAllCaps="true"
+            android:gravity="center"
+            android:textSize="@dimen/text_dimen_18"
+            android:layout_marginBottom="@dimen/five_dp"
+            android:background="@drawable/rounded_cornerers_background"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:textColor="@color/white" />
 
     </RelativeLayout>
 </layout>
