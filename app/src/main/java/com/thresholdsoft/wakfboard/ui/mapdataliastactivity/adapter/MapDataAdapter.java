@@ -13,7 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.thresholdsoft.wakfboard.R;
 import com.thresholdsoft.wakfboard.databinding.AdapterMapDataListBinding;
+import com.thresholdsoft.wakfboard.ui.mainactivity.fragments.surveylistfrag.SurveyListFrag;
 import com.thresholdsoft.wakfboard.ui.mapdataliastactivity.MapDataListActivityMvpView;
+import com.thresholdsoft.wakfboard.ui.propertycreation.model.PropertyData;
 import com.thresholdsoft.wakfboard.ui.propertysurvey.model.MapDataTable;
 
 import java.util.List;

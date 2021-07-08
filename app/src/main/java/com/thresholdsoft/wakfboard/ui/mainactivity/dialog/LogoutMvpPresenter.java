@@ -8,4 +8,6 @@ public interface LogoutMvpPresenter<V extends LogoutMvpView> extends MvpPresente
     void onYesClick();
 
     void clearSharedPreference();
+
+    void clearLocalDb();
 }
