@@ -5,7 +5,7 @@
 
         <variable
             name="callbacks"
-            type="com.thresholdsoft.praanadhara.ui.mainactivity.dialog.LogoutMvpPresenter" />
+            type="com.thresholdsoft.wakfboard.ui.mainactivity.dialog.LogoutMvpPresenter" />
     </data>
 
     <RelativeLayout

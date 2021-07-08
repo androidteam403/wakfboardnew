@@ -7,7 +7,7 @@
 
         <variable
             name="clicklisteners"
-            type="com.thresholdsoft.praanadhara.ui.propertysurvey.bottomsheet.PropertySurveyListener" />
+            type="com.thresholdsoft.wakfboard.ui.propertysurvey.bottomsheet.PropertySurveyListener" />
     </data>
 
     <RelativeLayout

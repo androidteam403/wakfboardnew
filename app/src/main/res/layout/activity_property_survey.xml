@@ -8,7 +8,7 @@
 
         <variable
             name="callbacks"
-            type="com.thresholdsoft.praanadhara.ui.propertysurvey.PropertySurveyMvpPresenter" />
+            type="com.thresholdsoft.wakfboard.ui.propertysurvey.PropertySurveyMvpPresenter" />
 
 
     </data>

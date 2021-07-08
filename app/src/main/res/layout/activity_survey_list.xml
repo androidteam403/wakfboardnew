@@ -6,15 +6,15 @@
 
         <variable
             name="survey"
-            type="com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.model.SurveyStatusCountModelResponse" />
+            type="com.thresholdsoft.wakfboard.ui.mainactivity.fragments.surveylistfrag.model.SurveyStatusCountModelResponse" />
 
         <variable
             name="count"
-            type="com.thresholdsoft.praanadhara.data.db.model.SurveyStatusEntity" />
+            type="com.thresholdsoft.wakfboard.data.db.model.SurveyStatusEntity" />
 
         <variable
             name="callback"
-            type="com.thresholdsoft.praanadhara.ui.mainactivity.fragments.surveylistfrag.SurveyListMvpPresenter" />
+            type="com.thresholdsoft.wakfboard.ui.mainactivity.fragments.surveylistfrag.SurveyListMvpPresenter" />
     </data>
 
     <RelativeLayout

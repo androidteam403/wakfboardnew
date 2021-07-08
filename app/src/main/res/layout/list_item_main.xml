@@ -7,11 +7,11 @@
 
         <variable
             name="data"
-            type="com.thresholdsoft.praanadhara.data.db.model.SurveyEntity" />
+            type="com.thresholdsoft.wakfboard.data.db.model.SurveyEntity" />
 
         <variable
             name="farmer_land"
-            type="com.thresholdsoft.praanadhara.data.db.model.FarmerLands" />
+            type="com.thresholdsoft.wakfboard.data.db.model.FarmerLands" />
 
     </data>
 

@@ -5,7 +5,7 @@
 
         <variable
             name="callBack"
-            type="com.thresholdsoft.praanadhara.ui.photouploadactivity.PhotoUploadMvpPresenter" />
+            type="com.thresholdsoft.wakfboard.ui.photouploadactivity.PhotoUploadMvpPresenter" />
 
     </data>
 

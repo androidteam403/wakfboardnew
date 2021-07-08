@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.thresholdsoft.praanadhara">
+    package="com.thresholdsoft.wakfboard">
 
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
@@ -22,7 +22,7 @@
         android:name="android.hardware.location.gps"
         android:required="true" />
     <application
-        android:name="com.thresholdsoft.praanadhara.root.WaveApp"
+        android:name="com.thresholdsoft.wakfboard.root.WaveApp"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher_wakf_board"
@@ -35,7 +35,7 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity
-            android:name=".ui.splash.SplashActivity"
+            android:name="com.thresholdsoft.wakfboard.ui.splash.SplashActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -43,46 +43,46 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.userlogin.UserLoginActivity">
+        <activity android:name="com.thresholdsoft.wakfboard.ui.userlogin.UserLoginActivity">
 
         </activity>
-        <activity android:name=".ui.selectingformactivity.SelectingFormActivity">
+        <activity android:name="com.thresholdsoft.wakfboard.ui.selectingformactivity.SelectingFormActivity">
 
         </activity>
-        <activity android:name=".ui.propertycreation.PropertyCreation" />
+        <activity android:name="com.thresholdsoft.wakfboard.ui.propertycreation.PropertyCreation" />
         <activity
-            android:name=".ui.mainactivity.MainActiivty"
+            android:name="com.thresholdsoft.wakfboard.ui.mainactivity.MainActiivty"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".ui.surveytrack.SurveyTrackingActivity">
+        <activity android:name="com.thresholdsoft.wakfboard.ui.surveytrack.SurveyTrackingActivity">
 
         </activity>
 
-        <service android:name=".services.LocationMonitoringService" />
+        <service android:name="com.thresholdsoft.wakfboard.services.LocationMonitoringService" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".ui.surveystatusactivity.SurveyStatusActivity"
+            android:name="com.thresholdsoft.wakfboard.ui.surveystatusactivity.SurveyStatusActivity"
             android:hardwareAccelerated="true">
 
         </activity>
-        <activity android:name=".ui.propertysurvey.PropertySurvey">
+        <activity android:name="com.thresholdsoft.wakfboard.ui.propertysurvey.PropertySurvey">
 
         </activity>
-        <activity android:name=".ui.propertysurveystatus.PropertyPreview">
+        <activity android:name="com.thresholdsoft.wakfboard.ui.propertysurveystatus.PropertyPreview">
             <!--            <intent-filter>-->
             <!--                <action android:name="android.intent.action.MAIN" />-->
 
             <!--                <category android:name="android.intent.category.LAUNCHER" />-->
             <!--            </intent-filter>-->
         </activity>
-        <activity android:name=".ui.photouploadactivity.PhotoUpload" />
-        <activity android:name=".ui.mapdataliastactivity.MapDataListActivity" />
+        <activity android:name="com.thresholdsoft.wakfboard.ui.photouploadactivity.PhotoUpload" />
+        <activity android:name="com.thresholdsoft.wakfboard.ui.mapdataliastactivity.MapDataListActivity" />
 
         <receiver
-            android:name=".services.ConnectivityReceiver"
+            android:name="com.thresholdsoft.wakfboard.services.ConnectivityReceiver"
             android:enabled="true">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />

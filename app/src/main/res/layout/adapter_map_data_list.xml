@@ -5,7 +5,7 @@
 
         <variable
             name="mapData"
-            type="com.thresholdsoft.praanadhara.ui.propertysurvey.model.MapDataTable" />
+            type="com.thresholdsoft.wakfboard.ui.propertysurvey.model.MapDataTable" />
 
     </data>
 

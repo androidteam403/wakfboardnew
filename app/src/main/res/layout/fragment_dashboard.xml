@@ -5,7 +5,7 @@
 
         <variable
             name="presenter"
-            type="com.thresholdsoft.praanadhara.ui.mainactivity.fragments.userprofilefrag.UserProfileMvpPresenter" />
+            type="com.thresholdsoft.wakfboard.ui.mainactivity.fragments.userprofilefrag.UserProfileMvpPresenter" />
     </data>
 
     <RelativeLayout

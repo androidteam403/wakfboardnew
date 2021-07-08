@@ -25,7 +25,7 @@
 
         <variable
             name="presenter"
-            type="com.thresholdsoft.praanadhara.ui.userlogin.UserLoginMvpPresenter" />
+            type="com.thresholdsoft.wakfboard.ui.userlogin.UserLoginMvpPresenter" />
     </data>
 
     <RelativeLayout

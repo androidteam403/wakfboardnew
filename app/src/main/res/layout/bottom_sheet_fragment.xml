@@ -11,15 +11,15 @@
 
         <variable
             name="farmer_land"
-            type="com.thresholdsoft.praanadhara.data.db.model.FarmerLands" />
+            type="com.thresholdsoft.wakfboard.data.db.model.FarmerLands" />
 
         <variable
             name="presenterCallback"
-            type="com.thresholdsoft.praanadhara.ui.surveystatusactivity.SurveyStatusMvpPresenter" />
+            type="com.thresholdsoft.wakfboard.ui.surveystatusactivity.SurveyStatusMvpPresenter" />
 
         <variable
             name="clicklisteners"
-            type="com.thresholdsoft.praanadhara.ui.surveystatusactivity.bottomsheet.ClickListener" />
+            type="com.thresholdsoft.wakfboard.ui.surveystatusactivity.bottomsheet.ClickListener" />
     </data>
 
     <RelativeLayout
