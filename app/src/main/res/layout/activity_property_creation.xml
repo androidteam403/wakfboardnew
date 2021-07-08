@@ -46,12 +46,20 @@
                         android:gravity="center_vertical"
                         android:orientation="vertical">
 
-                        <ImageView
-                            android:layout_width="@dimen/one_hundred_seventy_dp"
-                            android:layout_height="@dimen/seventeen_dp"
-                            android:layout_marginTop="@dimen/five_dp"
+                        <!--                        <ImageView-->
+                        <!--                            android:layout_width="@dimen/one_hundred_seventy_dp"-->
+                        <!--                            android:layout_height="@dimen/seventeen_dp"-->
+                        <!--                            android:layout_marginTop="@dimen/five_dp"-->
+                        <!--                            android:contentDescription="@string/app_name"-->
+                        <!--                            android:src="@drawable/praanadhaara_title" />-->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:contentDescription="@string/app_name"
-                            android:src="@drawable/praanadhaara_title" />
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="@string/label_wakf_board"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_dimen_18" />
 
                         <TextView
                             android:id="@+id/tittle"
@@ -393,15 +401,25 @@
 
         </ScrollView>
 
-        <Button
+        <TextView
             android:id="@+id/save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:fontFamily="@font/roboto_regular"
+            android:fontFamily="@font/roboto_medium"
             android:text="save"
-            android:textColor="@color/black" />
+            android:paddingTop="@dimen/five_dp"
+            android:paddingBottom="@dimen/five_dp"
+            android:paddingLeft="@dimen/fifteen_dp"
+            android:paddingRight="@dimen/fifteen_dp"
+            android:textAllCaps="true"
+            android:gravity="center"
+            android:textSize="@dimen/text_dimen_18"
+            android:layout_marginBottom="@dimen/five_dp"
+            android:background="@drawable/rounded_cornerers_background"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:textColor="@color/white" />
 
     </RelativeLayout>
 </layout>
