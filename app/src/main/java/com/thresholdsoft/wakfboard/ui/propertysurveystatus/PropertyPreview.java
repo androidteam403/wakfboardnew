@@ -223,7 +223,9 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
 
     private void getPolyLineList(GoogleMap googleMap) {
         mMap = googleMap;
-        googleMap.clear();
+        if (googleMap!=null) {
+            googleMap.clear();
+        }
         if (mapDataTableList != null && mapDataTableList.size() > 0) {
             for (MapDataTable mapDataTable : mapDataTableList) {
                 if (mapDataTable.getMapType() == 1 && mapDataTable.isChecked()) {
