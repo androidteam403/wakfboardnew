@@ -24,7 +24,17 @@
                 android:layout_height="@dimen/one_hundred_twenty_dp"
                 android:layout_gravity="center_horizontal"
                 android:contentDescription="@string/app_name"
-                android:src="@drawable/splash_full_logo" />
+                android:src="@drawable/splash_wakfboard_rounded" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_wakf_board"
+                android:layout_marginTop="@dimen/five_dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:fontFamily="@font/roboto_medium"
+                android:textSize="@dimen/text_dimen_18" />
+
         </LinearLayout>
 
     </RelativeLayout>
