@@ -193,7 +193,7 @@
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recyclerSurveyList"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                            android:layout_height="wrap_content" />
 
                         <LinearLayout
                             android:id="@+id/no_data_found"

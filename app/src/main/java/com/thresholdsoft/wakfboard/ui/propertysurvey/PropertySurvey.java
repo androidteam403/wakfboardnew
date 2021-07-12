@@ -272,10 +272,11 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
 
                     latLngList.add(latLng);
                     for (LatLng latLngs : latLngList) {
-                        MarkerOptions markerOptions = new MarkerOptions().position(latLngs).draggable(true);
+                        MarkerOptions markerOptions = new MarkerOptions().position(latLngs).zIndex(-2).snippet(latLngList.indexOf(latLngs) + "").draggable(true);
                         marker = mMap.addMarker(markerOptions);
                         markerList.add(marker);
                     }
+
                     if (latLngList.size() > 1) {
                         for (int i = 0; i < latLngList.size(); i++) {
                             if (i == latLngList.size() - 1) {
@@ -329,9 +330,11 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
     }
 
     private void updatePolygonMarkerLocation(Marker marker) {
-        MarkerTag tag = (MarkerTag) marker.getTag();
-        if (tag != null) {
-            int position = latLngList.indexOf(tag.getLatLng());
+//        MarkerTag tag = (MarkerTag) marker.getTag();
+        if (marker.getZIndex() == -2) {
+//            LatLng latLng = new LatLng(marker.getPosition().latitude, marker.getPosition().longitude);
+            int position = Integer.parseInt(marker.getSnippet());
+            //latLngList.indexOf(latLng);
             if (position != -1) {
                 latLngList.set(position, marker.getPosition());
                 MarkerTag markerTag = new MarkerTag();
@@ -358,7 +361,7 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
             mMap.clear();
         }
         for (LatLng latLngs : latLngList) {
-            MarkerOptions markerOptions = new MarkerOptions().position(latLngs).draggable(true);
+            MarkerOptions markerOptions = new MarkerOptions().position(latLngs).zIndex(-2).snippet(latLngList.indexOf(latLngs) + "").draggable(true);
             marker = mMap.addMarker(markerOptions);
             markerList.add(marker);
         }
@@ -367,11 +370,11 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
             for (int i = 0; i < latLngList.size(); i++) {
                 if (i == latLngList.size() - 1) {
                     LatLng latLng1 = new LatLng((latLngList.get(i).latitude + latLngList.get(0).latitude) / 2, (latLngList.get(i).longitude + latLngList.get(0).longitude) / 2);
-                    MarkerOptions markerOptions1 = new MarkerOptions().position(latLng1).icon(icon2).draggable(true);
+                    MarkerOptions markerOptions1 = new MarkerOptions().position(latLng1).zIndex(-1).icon(icon2).draggable(true);
                     mMap.addMarker(markerOptions1);
                 } else {
                     LatLng latLng1 = new LatLng((latLngList.get(i).latitude + latLngList.get(i + 1).latitude) / 2, (latLngList.get(i).longitude + latLngList.get(i + 1).longitude) / 2);
-                    MarkerOptions markerOptions1 = new MarkerOptions().position(latLng1).icon(icon2).draggable(true);
+                    MarkerOptions markerOptions1 = new MarkerOptions().position(latLng1).zIndex(i + 1).icon(icon2).draggable(true);
                     mMap.addMarker(markerOptions1);
                 }
             }
@@ -408,6 +411,30 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
             if (mapTypeData == 1) {
                 marker.remove();
                 markerList.remove(marker);
+            } else if (mapTypeData == 3) {
+                if (marker.getZIndex() == -2) {
+                    PropertyCreationDialog dialogView = new PropertyCreationDialog(this);
+                    dialogView.setEditTextVisible(false);
+                    dialogView.setTitle("Delete Marker?");
+                    dialogView.setPositiveLabel("Ok");
+                    dialogView.setPositiveListener(view -> {
+                        if (latLngList.size() > 0) {
+                            latLngList.remove(marker.getPosition());
+                            if (latLngList != null && latLngList.size() > 0) {
+                                setPolygoneView();
+                            } else {
+                                if (mMap != null)
+                                    mMap.clear();
+                            }
+                        }
+                        dialogView.dismiss();
+                    });
+                    dialogView.setNegativeLabel("Cancel");
+                    dialogView.setNegativeListener(v -> {
+                        dialogView.dismiss();
+                    });
+                    dialogView.show();
+                }
             }
         }
         return true;
@@ -605,38 +632,78 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
             marker.remove();
         latLngList.clear();
         markerList.clear();
+        if (mMap != null) {
+            mMap.clear();
+        }
         propertySurveyBinding.polygonArea.setText("Area :" + mpresenter.getPolygonArea(latLngList));
     }
 
     @Override
     public void polygonManualUndo() {
-        if (markerList.size() > 0) {
-
+        if (latLngList != null && latLngList.size() > 0) {
             latLngList.remove(latLngList.size() - 1);
+        } else {
+            if (mMap != null)
+                mMap.clear();
+        }
+        if (latLngList.size() > 0) {
+            setPolygoneView();
+        }
+//        if (markerList.size() > 0) {
+//
+//            latLngList.remove(latLngList.size() - 1);
+//
+//            Marker marker1 = markerList.get(markerList.size() - 1);
+//            marker1.remove();
+//            markerList.remove(markerList.size() - 1);
+//
+//            for (int i = 0; i < polygonList.size(); i++) {
+//                if (polygonList.size() == 1 || markerList.size() == 0) {
+//                    polygonManualClear();
+//                    polygonList.clear();
+//                }
+//                if (i == polygonList.size() - 1) {
+//                    polygonList.remove(polygonList.size() - 1);
+//                    polygonList.remove(polygon);
+//                    if (polygon != null) polygon.remove();
+//                    PolygonOptions polygonOptions = new PolygonOptions().addAll(latLngList).strokeWidth(5).strokeColor(Color.RED).fillColor(getResources().getColor(R.color.alpha_ripple_effect_btn_color)).clickable(true);
+//                    polygon = mMap.addPolygon(polygonOptions);
+//                    i--;
+//                }
+//            }
+//
+//            propertySurveyBinding.polygonArea.setText("Area :" + mpresenter.getPolygonArea(latLngList));
+//
+//        }
+    }
 
-
-            Marker marker1 = markerList.get(markerList.size() - 1);
-            marker1.remove();
-            markerList.remove(markerList.size() - 1);
-
-            for (int i = 0; i < polygonList.size(); i++) {
-                if (polygonList.size() == 1 || markerList.size() == 0) {
-                    polygonManualClear();
-                    polygonList.clear();
-                }
-                if (i == polygonList.size() - 1) {
-                    polygonList.remove(polygonList.size() - 1);
-                    polygonList.remove(polygon);
-                    if (polygon != null) polygon.remove();
-                    PolygonOptions polygonOptions = new PolygonOptions().addAll(latLngList).strokeColor(Color.RED).fillColor(getResources().getColor(R.color.alpha_ripple_effect_btn_color)).clickable(true);
-                    polygon = mMap.addPolygon(polygonOptions);
-                    i--;
+    private void setPolygoneView() {
+        if (mMap != null) {
+            mMap.clear();
+        }
+        for (LatLng latLngs : latLngList) {
+            MarkerOptions markerOptions = new MarkerOptions().position(latLngs).zIndex(-2).snippet(latLngList.indexOf(latLngs) + "").draggable(true);
+            marker = mMap.addMarker(markerOptions);
+            markerList.add(marker);
+        }
+        BitmapDescriptor icon2 = BitmapDescriptorFactory.fromResource(R.drawable.marker_yellow_icon);
+        if (latLngList.size() > 1) {
+            for (int i = 0; i < latLngList.size(); i++) {
+                if (i == latLngList.size() - 1) {
+                    LatLng latLng1 = new LatLng((latLngList.get(i).latitude + latLngList.get(0).latitude) / 2, (latLngList.get(i).longitude + latLngList.get(0).longitude) / 2);
+                    MarkerOptions markerOptions1 = new MarkerOptions().position(latLng1).zIndex(-1).icon(icon2).draggable(true);
+                    mMap.addMarker(markerOptions1);
+                } else {
+                    LatLng latLng1 = new LatLng((latLngList.get(i).latitude + latLngList.get(i + 1).latitude) / 2, (latLngList.get(i).longitude + latLngList.get(i + 1).longitude) / 2);
+                    MarkerOptions markerOptions1 = new MarkerOptions().position(latLng1).zIndex(i + 1).icon(icon2).draggable(true);
+                    mMap.addMarker(markerOptions1);
                 }
             }
-
-            propertySurveyBinding.polygonArea.setText("Area :" + mpresenter.getPolygonArea(latLngList));
-
         }
+        if (polygon != null) polygon.remove();
+        PolygonOptions polygonOptions = new PolygonOptions().addAll(latLngList).strokeWidth(5).strokeColor(Color.RED).fillColor(getResources().getColor(R.color.alpha_ripple_effect_btn_color)).clickable(true);
+        polygon = mMap.addPolygon(polygonOptions);
+        polygonList.add(polygon);
     }
 
     @Override
