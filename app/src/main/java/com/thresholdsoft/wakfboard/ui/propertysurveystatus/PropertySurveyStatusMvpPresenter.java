@@ -13,5 +13,6 @@ public interface PropertySurveyStatusMvpPresenter<V extends PropertySurveyStatus
 
     String getLineLength(LatLng fromPolyLineLatLng, LatLng toPolyLineLatLng);
 
+    void onClickBack();
 
 }
