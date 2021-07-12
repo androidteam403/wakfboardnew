@@ -605,8 +605,8 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
                 if (latLngList != null && latLngList.size() > 0) {
 //                    if (latLngList.size() == markerList.size()) {
 //                        for (int i = 0; i < latLngList.size(); i++) {
-                            MapDataTable mapDataTable = new MapDataTable(propertyId, mapTypeData, latLngList, dialogView.getPointName(), dialogView.getPointDescription(), imagesUploadedList);
-                            mpresenter.insertMapTypeDataTable(mapDataTable);
+                    MapDataTable mapDataTable = new MapDataTable(propertyId, mapTypeData, latLngList, dialogView.getPointName(), dialogView.getPointDescription(), imagesUploadedList);
+                    mpresenter.insertMapTypeDataTable(mapDataTable);
 //                        }
 //                    }
                 }

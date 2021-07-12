@@ -107,8 +107,30 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView {
             @Override
             public void onClick(View v) {
                 if (surveyAdapter != null) {
-                    mpresenter.getPropertylist();
-                    surveyAdapter.notifyDataSetChanged();
+                    propertyDataList = mpresenter.getPropertylist();
+
+                    activitySurveyListBinding.recyclerSurveyList.setVisibility(View.VISIBLE);
+                    activitySurveyListBinding.noDataFound.setVisibility(View.GONE);
+
+                    surveyAdapter = new SurveyAdapter(getContext(), propertyDataList, SurveyListFrag.this);
+                    RecyclerView.LayoutManager mLayoutManager2 = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+                    activitySurveyListBinding.recyclerSurveyList.setLayoutManager(mLayoutManager2);
+                    activitySurveyListBinding.recyclerSurveyList.setItemAnimator(new DefaultItemAnimator());
+                    activitySurveyListBinding.recyclerSurveyList.setAdapter(surveyAdapter);
+                    activitySurveyListBinding.recyclerSurveyList.setNestedScrollingEnabled(false);
+                } else {
+                    propertyDataList = mpresenter.getPropertylist();
+
+                    activitySurveyListBinding.recyclerSurveyList.setVisibility(View.VISIBLE);
+                    activitySurveyListBinding.noDataFound.setVisibility(View.GONE);
+
+                    surveyAdapter = new SurveyAdapter(getContext(), propertyDataList, SurveyListFrag.this);
+                    RecyclerView.LayoutManager mLayoutManager2 = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+                    activitySurveyListBinding.recyclerSurveyList.setLayoutManager(mLayoutManager2);
+                    activitySurveyListBinding.recyclerSurveyList.setItemAnimator(new DefaultItemAnimator());
+                    activitySurveyListBinding.recyclerSurveyList.setAdapter(surveyAdapter);
+                    activitySurveyListBinding.recyclerSurveyList.setNestedScrollingEnabled(false);
+
                 }
             }
         });

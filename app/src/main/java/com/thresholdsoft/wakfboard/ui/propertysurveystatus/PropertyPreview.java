@@ -77,6 +77,11 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
 
     @Override
     protected void setUp() {
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.preview_map);
+        mapFragment.getMapAsync(PropertyPreview.this);
+
         if (getIntent() != null) {
             propertyId = (Integer) getIntent().getIntExtra("propertyId", 0);
         }
@@ -285,11 +290,13 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
             }
 
         } else {
-            LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-            MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("I am here!");
-            googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 7));
-            googleMap.addMarker(markerOptions);
+            if (currentLocation != null) {
+                LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+                MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("I am here!");
+                googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 7));
+                googleMap.addMarker(markerOptions);
+            }
         }
     }
 
