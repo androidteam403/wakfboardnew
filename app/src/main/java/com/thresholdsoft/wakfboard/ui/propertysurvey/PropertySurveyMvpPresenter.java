@@ -35,4 +35,6 @@ public interface PropertySurveyMvpPresenter<V extends PropertySurveyMvpView> ext
     String getPolygonArea(List<LatLng> polygonPoints);
 
     void insertMapTypeDataTable(MapDataTable mapDataTable);
+
+    String getLineLength(LatLng fromPolyLineLatLng, LatLng toPolyLineLatLng);
 }
