@@ -3,7 +3,6 @@ package com.thresholdsoft.wakfboard.ui.mapdataliastactivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
@@ -51,7 +50,7 @@ public class MapDataListActivity extends BaseActivity implements MapDataListActi
 
     @Override
     protected void setUp() {
-
+        activityMapDataListBinding.setCallback(mpresenter);
         if (getIntent() != null) {
             propertyId = (int) getIntent().getIntExtra("propertyId", 0);
             Gson gson = new Gson();
@@ -70,18 +69,6 @@ public class MapDataListActivity extends BaseActivity implements MapDataListActi
         activityMapDataListBinding.mapDataRecycle.setItemAnimator(new DefaultItemAnimator());
         activityMapDataListBinding.mapDataRecycle.setAdapter(mapDataAdapter);
         activityMapDataListBinding.mapDataRecycle.setNestedScrollingEnabled(false);
-
-        activityMapDataListBinding.submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Gson gson = new Gson();
-                String myJson = gson.toJson(mapDataTableList);
-                Intent intent = new Intent();
-                intent.putExtra("mapDataTableListUnchecked", myJson);
-                setResult(RESULT_OK, intent);
-                finish();
-            }
-        });
     }
 
     @Override
@@ -100,5 +87,15 @@ public class MapDataListActivity extends BaseActivity implements MapDataListActi
         }
         mapDataAdapter.notifyDataSetChanged();
 
+    }
+
+    @Override
+    public void onClickSubmit() {
+        Gson gson = new Gson();
+        String myJson = gson.toJson(mapDataTableList);
+        Intent intent = new Intent();
+        intent.putExtra("mapDataTableListUnchecked", myJson);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 }

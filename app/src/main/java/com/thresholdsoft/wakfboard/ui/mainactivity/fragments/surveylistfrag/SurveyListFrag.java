@@ -1,6 +1,9 @@
 package com.thresholdsoft.wakfboard.ui.mainactivity.fragments.surveylistfrag;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +12,8 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -95,10 +100,7 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView {
 
     @Override
     public void onItemClickTakeSurveyLister(int position) {
-        Intent intent = new Intent(getContext(), PropertyPreview.class);
-        intent.putExtra("propertyId", propertyDataList.get(position).getId());
-        startActivity(intent);
-        getActivity().overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+        getLocationPermmision(position);
     }
 
     private void onSyncClick() {
@@ -106,33 +108,69 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (surveyAdapter != null) {
-                    propertyDataList = mpresenter.getPropertylist();
-
-                    activitySurveyListBinding.recyclerSurveyList.setVisibility(View.VISIBLE);
-                    activitySurveyListBinding.noDataFound.setVisibility(View.GONE);
-
-                    surveyAdapter = new SurveyAdapter(getContext(), propertyDataList, SurveyListFrag.this);
-                    RecyclerView.LayoutManager mLayoutManager2 = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-                    activitySurveyListBinding.recyclerSurveyList.setLayoutManager(mLayoutManager2);
-                    activitySurveyListBinding.recyclerSurveyList.setItemAnimator(new DefaultItemAnimator());
-                    activitySurveyListBinding.recyclerSurveyList.setAdapter(surveyAdapter);
-                    activitySurveyListBinding.recyclerSurveyList.setNestedScrollingEnabled(false);
-                } else {
-                    propertyDataList = mpresenter.getPropertylist();
-
-                    activitySurveyListBinding.recyclerSurveyList.setVisibility(View.VISIBLE);
-                    activitySurveyListBinding.noDataFound.setVisibility(View.GONE);
-
-                    surveyAdapter = new SurveyAdapter(getContext(), propertyDataList, SurveyListFrag.this);
-                    RecyclerView.LayoutManager mLayoutManager2 = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-                    activitySurveyListBinding.recyclerSurveyList.setLayoutManager(mLayoutManager2);
-                    activitySurveyListBinding.recyclerSurveyList.setItemAnimator(new DefaultItemAnimator());
-                    activitySurveyListBinding.recyclerSurveyList.setAdapter(surveyAdapter);
-                    activitySurveyListBinding.recyclerSurveyList.setNestedScrollingEnabled(false);
-
-                }
+                sync();
             }
         });
+    }
+
+    private void sync() {
+        if (surveyAdapter != null) {
+            propertyDataList = mpresenter.getPropertylist();
+            activitySurveyListBinding.recyclerSurveyList.setVisibility(View.VISIBLE);
+            activitySurveyListBinding.noDataFound.setVisibility(View.GONE);
+            surveyAdapter = new SurveyAdapter(getContext(), propertyDataList, SurveyListFrag.this);
+            RecyclerView.LayoutManager mLayoutManager2 = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+            activitySurveyListBinding.recyclerSurveyList.setLayoutManager(mLayoutManager2);
+            activitySurveyListBinding.recyclerSurveyList.setItemAnimator(new DefaultItemAnimator());
+            activitySurveyListBinding.recyclerSurveyList.setAdapter(surveyAdapter);
+            activitySurveyListBinding.recyclerSurveyList.setNestedScrollingEnabled(false);
+        } else {
+            propertyDataList = mpresenter.getPropertylist();
+            activitySurveyListBinding.recyclerSurveyList.setVisibility(View.VISIBLE);
+            activitySurveyListBinding.noDataFound.setVisibility(View.GONE);
+            surveyAdapter = new SurveyAdapter(getContext(), propertyDataList, SurveyListFrag.this);
+            RecyclerView.LayoutManager mLayoutManager2 = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+            activitySurveyListBinding.recyclerSurveyList.setLayoutManager(mLayoutManager2);
+            activitySurveyListBinding.recyclerSurveyList.setItemAnimator(new DefaultItemAnimator());
+            activitySurveyListBinding.recyclerSurveyList.setAdapter(surveyAdapter);
+            activitySurveyListBinding.recyclerSurveyList.setNestedScrollingEnabled(false);
+        }
+    }
+
+    private static final int REQUEST_PERMISSION_LOCATION = 255; // int should be between 0 and 255
+    int itemPosition = -1;
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void getLocationPermmision(int position) {
+        if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_PERMISSION_LOCATION);
+            this.itemPosition = position;
+        } else {
+            Intent intent = new Intent(getContext(), PropertyPreview.class);
+            intent.putExtra("propertyId", propertyDataList.get(position).getId());
+            startActivity(intent);
+            getActivity().overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        sync();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_PERMISSION_LOCATION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // We now have permission to use the location
+                Intent intent = new Intent(getContext(), PropertyPreview.class);
+                intent.putExtra("propertyId", propertyDataList.get(itemPosition).getId());
+                startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+            }
+        }
     }
 }

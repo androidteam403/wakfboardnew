@@ -47,4 +47,9 @@ public class PropertySurveyStatusPresenter<V extends PropertySurveyStatusMvpView
         double length = SphericalUtil.computeDistanceBetween(from, to);
         return String.format("%.2f", length);
     }
+
+    @Override
+    public void onClickBack() {
+        getMvpView().onClickBack();
+    }
 }
