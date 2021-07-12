@@ -53,15 +53,18 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/imageButton"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/praanadhaara_logo" />
+                    app:srcCompat="@drawable/wakfboard_rounded" />
 
-
-                <ImageView
+                <TextView
                     android:id="@+id/textView"
-                    android:layout_width="@dimen/one_hundred_seventy_dp"
-                    android:layout_height="@dimen/fifteen_dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:src="@drawable/praanadhaara_title"
+                    android:text="@string/label_wakf_board"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/roboto_medium"
+                    android:textSize="@dimen/text_dimen_18"
+                    android:layout_marginStart="@dimen/five_dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/imageView2"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -120,7 +123,7 @@
                     android:id="@+id/polygon_area"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Area"
+                    android:text="Area : 0.0m²"
                     android:textColor="@color/black"
                     android:fontFamily="@font/roboto_regular"/>
 

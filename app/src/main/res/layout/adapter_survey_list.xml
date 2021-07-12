@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <variable
-            name="commonUtils"
-            type="com.thresholdsoft.wakfboard.utils.CommonUtils" />
-        <variable
-            name="survey"
-            type="com.thresholdsoft.wakfboard.data.db.model.FarmerLands" />
 
+        <variable
+            name="propertyData"
+            type="com.thresholdsoft.wakfboard.ui.propertycreation.model.PropertyData" />
     </data>
 
 
@@ -22,167 +19,152 @@
         android:layout_marginEnd="@dimen/eight_dp"
         android:layout_marginBottom="@dimen/five_dp"
         android:orientation="vertical"
-        app:backgroundbox="@{survey.status}"
         tools:ignore="UselessParent">
 
-        <LinearLayout
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/ten_dp"
-            android:layout_marginTop="@dimen/ten_dp"
-            android:layout_marginEnd="@dimen/ten_dp"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/image"
-                android:layout_width="@dimen/one_hundred_dp"
-                android:layout_height="match_parent"
-                android:contentDescription="@string/app_name"
-                android:src="@drawable/placeholder"
-                app:imageUrl="@{survey.picPath}" />
+            android:background="@color/white"
+            app:cardCornerRadius="@dimen/five_dp"
+            android:elevation="@dimen/five_dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/ten_dp"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_bold"
-                    android:text="@{survey.name}"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_dimen_13" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:fontFamily="@font/roboto_bold"
-                    android:maxLines="1"
-                    android:text="@{survey.village}"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_dimen_12" />
-
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/three_dp"
-                    android:baselineAligned="false"
+                    android:layout_marginStart="@dimen/ten_dp"
+                    android:layout_marginTop="@dimen/ten_dp"
+                    android:layout_marginEnd="@dimen/ten_dp"
                     android:orientation="horizontal">
 
+                    <ImageView
+                        android:id="@+id/image"
+                        android:layout_width="@dimen/one_hundred_dp"
+                        android:layout_height="match_parent"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/placeholder" />
+
                     <LinearLayout
-                        android:id="@+id/mobile_number_layout"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="@dimen/ten_dp"
                         android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_regular"
-                            android:text="@string/label_mobile_number"
-                            android:textSize="@dimen/text_dimen_11" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_regular"
-                            android:text="@{String.valueOf(survey.mobile)}"
+                            android:fontFamily="@font/roboto_bold"
+                            android:text="@{propertyData.propertyName}"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/text_dimen_12" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/twenty_dp"
-                        android:layout_toEndOf="@+id/mobile_number_layout"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/roboto_regular"
-                            android:text="Email"
-                            android:textSize="@dimen/text_dimen_11"
-                            tools:ignore="HardcodedText" />
+                            android:textSize="@dimen/text_dimen_13" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
-                            android:fontFamily="@font/roboto_regular"
+                            android:fontFamily="@font/roboto_bold"
                             android:maxLines="1"
-                            android:text="@{survey.email}"
+                            android:text="@{propertyData.village}"
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_dimen_12" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/three_dp"
+                            android:baselineAligned="false"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:id="@+id/mobile_number_layout"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:text="@string/label_mobile_number"
+                                    android:textSize="@dimen/text_dimen_11" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:text="@{propertyData.mobileNumber}"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_dimen_12" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/twenty_dp"
+                                android:layout_toEndOf="@+id/mobile_number_layout"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:text="Date"
+                                    android:textSize="@dimen/text_dimen_11"
+                                    tools:ignore="HardcodedText" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:ellipsize="end"
+                                    android:fontFamily="@font/roboto_regular"
+                                    android:maxLines="1"
+                                    android:text="@{propertyData.propertDate}"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_dimen_12" />
+                            </LinearLayout>
+                        </RelativeLayout>
+
                     </LinearLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/one_dp"
+                    android:layout_marginStart="@dimen/fifteen_dp"
+                    android:layout_marginTop="@dimen/five_dp"
+                    android:layout_marginEnd="@dimen/fifteen_dp"
+                    android:background="@color/grey" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/eighteen_dp"
+                    android:layout_marginTop="@dimen/ten_dp"
+                    android:layout_marginEnd="@dimen/ten_dp"
+                    android:layout_marginBottom="@dimen/five_dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/takeSurveyText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:background="@drawable/rectangular_light_round"
+                        android:backgroundTint="@color/colorPrimaryDark"
+                        android:fontFamily="@font/roboto_medium"
+                        android:padding="@dimen/five_dp"
+                        android:text="Survey Status"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_dimen_12" />
+
                 </RelativeLayout>
-
             </LinearLayout>
-        </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/one_dp"
-            android:layout_marginStart="@dimen/fifteen_dp"
-            android:layout_marginTop="@dimen/five_dp"
-            android:layout_marginEnd="@dimen/fifteen_dp"
-            android:background="@color/grey" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/eighteen_dp"
-            android:layout_marginTop="@dimen/ten_dp"
-            android:layout_marginEnd="@dimen/ten_dp"
-            android:layout_marginBottom="@dimen/five_dp"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/status"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_regular"
-                    android:textColor="@color/blue"
-                    android:textSize="@dimen/text_dimen_13"
-                    app:statustext="@{survey.status}" />
-
-                <TextView
-                    android:id="@+id/date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/roboto_regular"
-                    app:surveyStatus="@{survey.status}"
-                    app:surveyStartDate="@{survey.startDate}"
-                    app:surveySubmitDate="@{survey.submittedDate}"
-                    android:textSize="@dimen/text_dimen_12"
-                    android:visibility="visible" />
-
-            </LinearLayout>
-
-
-            <TextView
-                android:id="@+id/takeSurveyText"
-                android:layout_width="@dimen/one_hundred_dp"
-                android:layout_height="@dimen/forty_dp"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="@dimen/fifteen_dp"
-                android:fontFamily="@font/roboto_medium"
-                android:gravity="center"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_dimen_12"
-                app:surveyMode="@{survey.status}" />
-
-        </RelativeLayout>
     </LinearLayout>
 </layout>
