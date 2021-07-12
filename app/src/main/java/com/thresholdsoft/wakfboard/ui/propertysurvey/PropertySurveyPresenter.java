@@ -98,4 +98,13 @@ public class PropertySurveyPresenter<V extends PropertySurveyMvpView> extends Ba
     public void insertMapTypeDataTable(MapDataTable mapDataTable) {
         getDataManager().insertMapData(mapDataTable);
     }
+
+    @SuppressLint("DefaultLocale")
+    @Override
+    public String getLineLength(LatLng fromPolyLineLatLng, LatLng toPolyLineLatLng) {
+        LatLng from = new LatLng(((fromPolyLineLatLng.latitude)), ((fromPolyLineLatLng.longitude)));
+        LatLng to = new LatLng(((toPolyLineLatLng.latitude)), ((toPolyLineLatLng.longitude)));
+        double length = SphericalUtil.computeDistanceBetween(from, to);
+        return String.format("%.2f", length);
+    }
 }
