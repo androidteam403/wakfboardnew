@@ -9,4 +9,5 @@ public interface MapDataListActivityMvpPresenter<V extends MapDataListActivityMv
 
     List<MapDataTable> getMapTypelist(int name);
 
+    void onClickSubmit();
 }
