@@ -42,8 +42,25 @@ public class MapDataTable implements Serializable {
     @ColumnInfo(name = "pointPhotoData")
     private List<String> pointPhotoData;
 
+    @ColumnInfo(name = "mapDate")
+    private String mapDate;
+
+    @ColumnInfo(name = "areaDistance")
+    private String areaDistance;
+
     @Ignore
     private boolean isChecked = true;
+
+    @Ignore
+    private boolean isEditable;
+
+    public boolean isEditable() {
+        return isEditable;
+    }
+
+    public void setEditable(boolean editable) {
+        isEditable = editable;
+    }
 
     public boolean isChecked() {
         return isChecked;
@@ -53,13 +70,31 @@ public class MapDataTable implements Serializable {
         isChecked = checked;
     }
 
-    public MapDataTable(int propertyID, int mapType, List<LatLng> latLngList, String name, String description, List<String> pointPhotoData) {
+    public MapDataTable(int propertyID, int mapType, List<LatLng> latLngList, String name, String description, List<String> pointPhotoData, String mapDate, String areaDistance) {
         this.propertyID = propertyID;
         this.mapType = mapType;
         this.latLngList = latLngList;
         this.name = name;
         this.description = description;
         this.pointPhotoData = pointPhotoData;
+        this.mapDate = mapDate;
+        this.areaDistance = areaDistance;
+    }
+
+    public String getAreaDistance() {
+        return areaDistance;
+    }
+
+    public void setAreaDistance(String areaDistance) {
+        this.areaDistance = areaDistance;
+    }
+
+    public String getMapDate() {
+        return mapDate;
+    }
+
+    public void setMapDate(String mapDate) {
+        this.mapDate = mapDate;
     }
 
     public int getPropertyID() {

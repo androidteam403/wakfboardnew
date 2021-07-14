@@ -13,9 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.thresholdsoft.wakfboard.R;
 import com.thresholdsoft.wakfboard.databinding.AdapterMapDataListBinding;
-import com.thresholdsoft.wakfboard.ui.mainactivity.fragments.surveylistfrag.SurveyListFrag;
 import com.thresholdsoft.wakfboard.ui.mapdataliastactivity.MapDataListActivityMvpView;
-import com.thresholdsoft.wakfboard.ui.propertycreation.model.PropertyData;
 import com.thresholdsoft.wakfboard.ui.propertysurvey.model.MapDataTable;
 
 import java.util.List;
@@ -43,19 +41,28 @@ public class MapDataAdapter extends RecyclerView.Adapter<MapDataAdapter.ViewHold
     public void onBindViewHolder(@NonNull MapDataAdapter.ViewHolder holder, int position) {
         MapDataTable mapDataTable = mapDataTableList.get(position);
         holder.adapterMapDataListBinding.setMapData(mapDataTable);
+        if (mapDataTable.getMapType() == 1) {
+            holder.adapterMapDataListBinding.image.setImageResource(R.drawable.points);
+        } else if (mapDataTable.getMapType() == 2) {
+            holder.adapterMapDataListBinding.image.setImageResource(R.drawable.lines);
+        } else if (mapDataTable.getMapType() == 3) {
+            holder.adapterMapDataListBinding.image.setImageResource(R.drawable.polygon);
+        }
 
         holder.adapterMapDataListBinding.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if (mapDataTable.isChecked()) {
-//                    mapDataTable.setChecked(false);
-//                } else {
-//                    mapDataTable.setChecked(true);
-//
-//                }
-//                notifyItemChanged(position);
                 if (mapDataListActivityMvpView != null) {
                     mapDataListActivityMvpView.uncheckableData(position, mapDataTableList);
+                }
+            }
+        });
+
+        holder.adapterMapDataListBinding.editMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mapDataListActivityMvpView != null) {
+                    mapDataListActivityMvpView.onClickEditMapView(position,mapDataTableList);
                 }
             }
         });

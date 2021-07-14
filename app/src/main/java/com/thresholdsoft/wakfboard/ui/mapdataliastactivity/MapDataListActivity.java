@@ -16,6 +16,7 @@ import com.thresholdsoft.wakfboard.R;
 import com.thresholdsoft.wakfboard.databinding.ActivityMapDataListBinding;
 import com.thresholdsoft.wakfboard.ui.base.BaseActivity;
 import com.thresholdsoft.wakfboard.ui.mapdataliastactivity.adapter.MapDataAdapter;
+import com.thresholdsoft.wakfboard.ui.propertysurvey.PropertySurvey;
 import com.thresholdsoft.wakfboard.ui.propertysurvey.model.MapDataTable;
 
 import java.lang.reflect.Type;
@@ -30,6 +31,8 @@ public class MapDataListActivity extends BaseActivity implements MapDataListActi
     List<MapDataTable> mapDataTableList;
     int propertyId;
     MapDataAdapter mapDataAdapter;
+    private static final int PROPERTY_SURVEY = 5435;
+
 
     public static Intent getStartIntent(Context context, int propertyId, String myJson) {
         Intent intent = new Intent(context, MapDataListActivity.class);
@@ -86,7 +89,6 @@ public class MapDataListActivity extends BaseActivity implements MapDataListActi
             mapDataTableList.get(pos).setChecked(true);
         }
         mapDataAdapter.notifyDataSetChanged();
-
     }
 
     @Override
@@ -98,4 +100,66 @@ public class MapDataListActivity extends BaseActivity implements MapDataListActi
         setResult(RESULT_OK, intent);
         finish();
     }
+
+    @Override
+    public void onBackPressed() {
+        onClickSubmit();
+    }
+
+    private boolean isEditMode;
+
+    @Override
+    public void onClickEditMapView(int pos, List<MapDataTable> mapDataTable) {
+
+        for (int i = 0; i < mapDataTableList.size(); i++) {
+            if (i == pos) {
+                mapDataTableList.get(pos).setEditable(true);
+            } else {
+                mapDataTableList.get(i).setEditable(false);
+            }
+        }
+
+        isEditMode = true;
+
+        Gson gson = new Gson();
+
+        String myJson = gson.toJson(mapDataTableList);
+
+        startActivityForResult(PropertySurvey.getStartIntent(MapDataListActivity.this, mapDataTable.get(pos).getMapType(), propertyId, myJson, pos, isEditMode), PROPERTY_SURVEY);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+    }
+
+    String name;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case PROPERTY_SURVEY:
+                    if (data != null) {
+                        String dialogName = (String) data.getSerializableExtra("dialogName");
+                        name = dialogName;
+                        Gson gson = new Gson();
+                        String json = data.getStringExtra("mapDataTableListUnchecked");
+                        Type type = new TypeToken<List<MapDataTable>>() {
+                        }.getType();
+                        mapDataTableList = gson.fromJson(json, type);
+
+                        mpresenter.getMapTypelist(propertyId);
+
+                        Gson gson1 = new Gson();
+                        String myJson = gson1.toJson(mapDataTableList);
+                        Intent intent = new Intent();
+                        intent.putExtra("mapDataTableListUnchecked", myJson);
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    }
+                    break;
+                default:
+            }
+        }
+    }
+
 }

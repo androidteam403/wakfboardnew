@@ -106,5 +106,8 @@ public interface SurveyDao {
 
     @Query("DELETE FROM PROPERTY_DATA")
     void deletePropertyDataTable();
+
+    @Update
+    void updateMapEditData(MapDataTable mapDataTable);
 }
 

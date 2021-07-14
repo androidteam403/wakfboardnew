@@ -91,12 +91,17 @@ public class PropertySurveyPresenter<V extends PropertySurveyMvpView> extends Ba
             area = SphericalUtil.computeArea(polygonPoints);
             area = area * 0.3048 * 0.3048;
         }
-        return String.format("%.2f", area) + "m²";
+        return String.format("%.2f", area);
     }
 
     @Override
     public void insertMapTypeDataTable(MapDataTable mapDataTable) {
         getDataManager().insertMapData(mapDataTable);
+    }
+
+    @Override
+    public void updateMapDataList(MapDataTable mapDataTable) {
+        getDataManager().updateMapEditData(mapDataTable);
     }
 
     @SuppressLint("DefaultLocale")
