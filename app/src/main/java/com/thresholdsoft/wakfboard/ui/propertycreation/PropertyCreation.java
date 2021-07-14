@@ -67,6 +67,7 @@ public class PropertyCreation extends BaseActivity implements PropertyMvpView {
 
     @Override
     protected void setUp() {
+        propertyCreationBinding.setCallback(mpresenter);
         getAddAddressTypes();
         getStateList();
         getPropertryList();
@@ -148,7 +149,7 @@ public class PropertyCreation extends BaseActivity implements PropertyMvpView {
                 startActivity(intent);
                 overridePendingTransition(R.anim.fadein, R.anim.fadeout);
                 finish();
-            }else{
+            } else {
                 finish();
             }
         }
@@ -318,6 +319,11 @@ public class PropertyCreation extends BaseActivity implements PropertyMvpView {
     public void onRemovePhoto(int position) {
         mPaths.remove(position);
         photosUploadAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onClickBack() {
+        onBackPressed();
     }
 
     private class AreaModel {

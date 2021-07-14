@@ -21,21 +21,21 @@
                     android:background="@color/colorPrimaryDark"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:paddingStart="@dimen/twenty_dp"
                     android:paddingEnd="@dimen/twenty_dp"
                     tools:ignore="RtlSymmetry,UselessParent">
 
                     <ImageView
-                        android:id="@+id/menulines"
-                        android:layout_width="@dimen/thirty_dp"
-                        android:layout_height="@dimen/forty_dp"
+                        android:id="@+id/back_arrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:contentDescription="@string/app_name"
-                        android:src="@drawable/menuhdpi" />
+                        android:padding="@dimen/fifteen_dp"
+                        android:onClick="@{()-> callback.onClickBack()}"
+                        android:src="@drawable/ic_back" />
 
                     <ImageView
                         android:layout_width="@dimen/forty_five_dp"
                         android:layout_height="@dimen/forty_five_dp"
-                        android:layout_marginStart="@dimen/ten_dp"
                         android:contentDescription="@string/app_name"
                         android:src="@drawable/wakfboard_rounded" />
 
@@ -127,11 +127,11 @@
                                 android:id="@+id/mobile"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:digits="0123456789"
                                 android:fontFamily="@font/roboto_regular"
                                 android:hint="Mobile Number*"
                                 android:imeOptions="actionNext"
                                 android:inputType="number"
-                                android:digits="0123456789"
                                 android:maxLength="10"
                                 android:singleLine="true"
                                 android:textColor="@color/black"
@@ -407,19 +407,26 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:fontFamily="@font/roboto_medium"
-            android:text="save"
-            android:paddingTop="@dimen/five_dp"
-            android:paddingBottom="@dimen/five_dp"
-            android:paddingLeft="@dimen/fifteen_dp"
-            android:paddingRight="@dimen/fifteen_dp"
-            android:textAllCaps="true"
-            android:gravity="center"
-            android:textSize="@dimen/text_dimen_18"
             android:layout_marginBottom="@dimen/five_dp"
             android:background="@drawable/rounded_cornerers_background"
             android:backgroundTint="@color/colorPrimaryDark"
-            android:textColor="@color/white" />
+            android:fontFamily="@font/roboto_medium"
+            android:gravity="center"
+            android:paddingLeft="@dimen/fifteen_dp"
+            android:paddingTop="@dimen/five_dp"
+            android:paddingRight="@dimen/fifteen_dp"
+            android:paddingBottom="@dimen/five_dp"
+            android:text="save"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_dimen_18" />
 
     </RelativeLayout>
+
+    <data>
+
+        <variable
+            name="callback"
+            type="com.thresholdsoft.wakfboard.ui.propertycreation.PropertyMvpPresenter" />
+    </data>
 </layout>

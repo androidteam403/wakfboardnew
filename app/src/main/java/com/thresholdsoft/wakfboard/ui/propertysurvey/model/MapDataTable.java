@@ -118,7 +118,7 @@ public class MapDataTable implements Serializable {
         this.pointPhotoData = pointPhotoData;
     }
 
-    public static class LatLngTypeConverter implements Serializable{
+    public static class LatLngTypeConverter implements Serializable {
         @TypeConverter
         public List<LatLng> fromString(String value) {
             Type listType = new TypeToken<List<LatLng>>() {
@@ -135,7 +135,7 @@ public class MapDataTable implements Serializable {
     }
 
 
-    public static class ImageUploadTypeConverter implements Serializable{
+    public static class ImageUploadTypeConverter implements Serializable {
         @TypeConverter
         public List<String> fromString(String value) {
             Type listType = new TypeToken<List<String>>() {

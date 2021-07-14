@@ -107,4 +107,11 @@ public class PropertySurveyPresenter<V extends PropertySurveyMvpView> extends Ba
         double length = SphericalUtil.computeDistanceBetween(from, to);
         return String.format("%.2f", length);
     }
+
+    @Override
+    public List<MapDataTable> getMapTypelist(int propertyId) {
+        return getDataManager().getAllMapDtaListByPropertyId(propertyId);
+    }
+
+
 }

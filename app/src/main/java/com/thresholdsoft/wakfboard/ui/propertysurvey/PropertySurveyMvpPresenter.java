@@ -37,4 +37,7 @@ public interface PropertySurveyMvpPresenter<V extends PropertySurveyMvpView> ext
     void insertMapTypeDataTable(MapDataTable mapDataTable);
 
     String getLineLength(LatLng fromPolyLineLatLng, LatLng toPolyLineLatLng);
+
+    List<MapDataTable> getMapTypelist(int propertyId);
+
 }

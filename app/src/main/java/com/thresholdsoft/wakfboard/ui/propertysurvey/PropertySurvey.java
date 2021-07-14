@@ -257,7 +257,7 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
                         mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
                             @Override
                             public void onMarkerDragStart(Marker marker) {
-
+                                marker.setTag(marker.getPosition());
                             }
 
                             @Override
@@ -317,7 +317,6 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
                         mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
                             @Override
                             public void onMarkerDragStart(Marker marker) {
-
                             }
 
                             @Override
@@ -473,22 +472,24 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
 
     private void updateMarkerLocation(Marker marker) {
         MarkerTag tag = (MarkerTag) marker.getTag();
-        assert tag != null;
-        int position = latLngList.indexOf(tag.getLatLng());
-        if (position != -1) {
-            latLngList.set(position, marker.getPosition());
-            MarkerTag markerTag = new MarkerTag();
-            markerTag.setPosition(position);
-            markerTag.setLatLng(marker.getPosition());
-            marker.setTag(markerTag);
-        } else {
-            marker.remove();
-        }
+//        assert tag != null;
+        if (tag != null) {
+            int position = latLngList.indexOf(tag.getLatLng());
+            if (position != -1) {
+                latLngList.set(position, marker.getPosition());
+                MarkerTag markerTag = new MarkerTag();
+                markerTag.setPosition(position);
+                markerTag.setLatLng(marker.getPosition());
+                marker.setTag(markerTag);
+            } else {
+                marker.remove();
+            }
 
-        if (polyline != null) polyline.remove();
-        PolylineOptions polylineOptions = new PolylineOptions().addAll(latLngList).color(Color.BLUE).width(5).clickable(true);
-        polyline = mMap.addPolyline(polylineOptions);
-        polylineList.add(polyline);
+            if (polyline != null) polyline.remove();
+            PolylineOptions polylineOptions = new PolylineOptions().addAll(latLngList).color(Color.BLUE).width(5).clickable(true);
+            polyline = mMap.addPolyline(polylineOptions);
+            polylineList.add(polyline);
+        }
     }
 
     @Override
@@ -875,8 +876,6 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
             if (dialogView.validations()) {
                 dialogView.dismiss();
                 if (latLngList != null && latLngList.size() > 0) {
-//                    if (latLngList.size() == markerList.size()) {
-//                        for (int i = 0; i < latLngList.size(); i++) {
                     MapDataTable mapDataTable = new MapDataTable(propertyId, mapTypeData, latLngList, dialogView.getPointName(), dialogView.getPointDescription(), imagesUploadedList);
                     mpresenter.insertMapTypeDataTable(mapDataTable);
 //                        }
@@ -1041,5 +1040,25 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
 
     }
 
+    public class ColorModel {
+        private int color;
+        private boolean isColor;
+
+        public int getColor() {
+            return color;
+        }
+
+        public void setColor(int color) {
+            this.color = color;
+        }
+
+        public boolean isColor() {
+            return isColor;
+        }
+
+        public void setColor(boolean color) {
+            isColor = color;
+        }
+    }
 
 }

@@ -51,11 +51,13 @@ import com.thresholdsoft.wakfboard.ui.mapdataliastactivity.MapDataListActivity;
 import com.thresholdsoft.wakfboard.ui.propertysurvey.PropertySurvey;
 import com.thresholdsoft.wakfboard.ui.propertysurvey.bottomsheet.PropertySurveyBottomSheet;
 import com.thresholdsoft.wakfboard.ui.propertysurvey.model.MapDataTable;
+import com.thresholdsoft.wakfboard.utils.CommonUtils;
 
 import java.lang.reflect.Type;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.inject.Inject;
 
@@ -194,16 +196,16 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
             public void onSuccess(Location location) {
                 if (location != null) {
                     currentLocation = location;
-                    Toast toast = Toast.makeText(PropertyPreview.this, currentLocation.getLatitude() + "" + currentLocation.getLongitude(), Toast.LENGTH_SHORT);
-                    toast.getView().setBackground(getResources().getDrawable(R.drawable.toast_bg));
-                    TextView text = (TextView) toast.getView().findViewById(android.R.id.message);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        Typeface typeface = Typeface.createFromAsset(getApplication().getAssets(), "font/roboto_bold.ttf");
-                        text.setTypeface(typeface);
-                        text.setTextColor(Color.WHITE);
-                        text.setTextSize(14);
-                    }
-                    toast.show();
+//                    Toast toast = Toast.makeText(PropertyPreview.this, currentLocation.getLatitude() + "" + currentLocation.getLongitude(), Toast.LENGTH_SHORT);
+//                    toast.getView().setBackground(getResources().getDrawable(R.drawable.toast_bg));
+//                    TextView text = (TextView) toast.getView().findViewById(android.R.id.message);
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                        Typeface typeface = Typeface.createFromAsset(getApplication().getAssets(), "font/roboto_bold.ttf");
+//                        text.setTypeface(typeface);
+//                        text.setTextColor(Color.WHITE);
+//                        text.setTextSize(14);
+//                    }
+//                    toast.show();
 
                     SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                             .findFragmentById(R.id.preview_map);
@@ -281,10 +283,9 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
                             activityPropertySurveyStatusBinding.distanceTextView.setText("Length :" + formatted1 + "m");
 
                         }
-
-                        latLngLine = new LatLng(getPolylineLatlngList.get(i).latitude, getPolylineLatlngList.get(i).longitude);
-                        MarkerOptions markerOptions = new MarkerOptions().position(latLngLine).icon(icon2);
-                        polyLineMarker = mMap.addMarker(markerOptions);
+//                        latLngLine = new LatLng(getPolylineLatlngList.get(i).latitude, getPolylineLatlngList.get(i).longitude);
+//                        MarkerOptions markerOptions = new MarkerOptions().position(latLngLine).icon(icon2);
+//                        polyLineMarker = mMap.addMarker(markerOptions);
                     }
 
                     PolylineOptions polylineOptions = new PolylineOptions().addAll(getPolylineLatlngList).color(Color.BLUE).width(5).clickable(true);
@@ -320,9 +321,9 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
 
                             addText(getApplicationContext(), mMap, latLng1, formatted, 3, 16, Color.RED);
                         }
-                        latLngLine = new LatLng(getPolygontLatlngList.get(i).latitude, getPolygontLatlngList.get(i).longitude);
-                        MarkerOptions markerOptions = new MarkerOptions().position(latLngLine).icon(icon1);
-                        polyLineMarker = mMap.addMarker(markerOptions);
+//                        latLngLine = new LatLng(getPolygontLatlngList.get(i).latitude, getPolygontLatlngList.get(i).longitude);
+//                        MarkerOptions markerOptions = new MarkerOptions().position(latLngLine).icon(icon1);
+//                        polyLineMarker = mMap.addMarker(markerOptions);
                     }
 
                     double amount = Double.parseDouble(mpresenter.getPolygonArea(getPolygontLatlngList));
@@ -330,12 +331,28 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
                     String formatted = formatter.format(amount);
 
                     activityPropertySurveyStatusBinding.polygonArea.setText("Area :" + formatted + "m²");
-                    PolygonOptions polygonOptions = new PolygonOptions().addAll(getPolygontLatlngList).strokeWidth(5).fillColor(getResources().getColor(R.color.alpha_ripple_effect_btn_color)).strokeColor(Color.RED).clickable(true);
+                    PolygonOptions polygonOptions=null;
+                    if (mapDataTable.getId()==1){
+                        polygonOptions = new PolygonOptions().addAll(getPolygontLatlngList).strokeWidth(5).fillColor(getResources().getColor(R.color.yellow_transparent)).strokeColor(Color.RED).clickable(true);
+                    } else if (mapDataTable.getId()==2) {
+                        polygonOptions = new PolygonOptions().addAll(getPolygontLatlngList).strokeWidth(5).fillColor(getResources().getColor(R.color.red_transparent)).strokeColor(Color.RED).clickable(true);
+                    }else if (mapDataTable.getId()==3) {
+                        polygonOptions = new PolygonOptions().addAll(getPolygontLatlngList).strokeWidth(5).fillColor(getResources().getColor(R.color.green_transparent)).strokeColor(Color.RED).clickable(true);
+                    }else if (mapDataTable.getId()==4) {
+                        polygonOptions = new PolygonOptions().addAll(getPolygontLatlngList).strokeWidth(5).fillColor(getResources().getColor(R.color.blue_transparent)).strokeColor(Color.RED).clickable(true);
+                    }else if (mapDataTable.getId()==5) {
+                        polygonOptions = new PolygonOptions().addAll(getPolygontLatlngList).strokeWidth(5).fillColor(getResources().getColor(R.color.black_transparent)).strokeColor(Color.RED).clickable(true);
+                    }else if (mapDataTable.getId()==6) {
+                        polygonOptions = new PolygonOptions().addAll(getPolygontLatlngList).strokeWidth(5).fillColor(getResources().getColor(R.color.pink_transparent)).strokeColor(Color.RED).clickable(true);
+                    }else{
+                        Random rand = new Random();
+//                       int randomElement = CommonUtils.getColorList().get(rand.nextInt(CommonUtils.getColorList().size()));
+                        polygonOptions = new PolygonOptions().addAll(getPolygontLatlngList).strokeWidth(5).fillColor(CommonUtils.getColorList().get(rand.nextInt(CommonUtils.getColorList().size()))).strokeColor(Color.RED).clickable(true);
+                    }
                     polygon = mMap.addPolygon(polygonOptions);
                     googleMap.animateCamera(CameraUpdateFactory.newLatLng(getPolygontLatlngList.get(0)));
                     googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(getPolygontLatlngList.get(0), 15));
                 }
-
             }
 
         } else {
