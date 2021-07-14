@@ -127,6 +127,19 @@
                     android:textColor="@color/black"
                     android:fontFamily="@font/roboto_regular"/>
 
+                <TextView
+                    android:id="@+id/distance_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/twenty_dp"
+                    android:layout_toEndOf="@id/polygon_area"
+                    android:background="@null"
+                    android:fontFamily="@font/roboto_regular"
+                    android:gravity="center"
+                    android:text="Distance : 0.0m"
+                    android:textColor="@color/black" />
+
+
                 <ImageView
                     android:id="@+id/type_textview"
                     android:layout_width="wrap_content"

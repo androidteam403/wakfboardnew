@@ -220,11 +220,7 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
     private LatLng latLngLine;
     Polyline polyline = null;
     Polygon polygon = null;
-    List<Polyline> polylineList = new ArrayList<>();
-    List<LatLng> latLngList = new ArrayList<>();
-    List<Marker> markerList = new ArrayList<>();
     Marker polyLineMarker;
-    int lengthFormatted = 0;
 
     private void getPolyLineList(GoogleMap googleMap) {
         double i1 = 0.0;

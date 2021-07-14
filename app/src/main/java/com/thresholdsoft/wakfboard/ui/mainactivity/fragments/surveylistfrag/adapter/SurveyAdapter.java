@@ -50,6 +50,15 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
             }
         });
 
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (surveyListMvpView!=null){
+                    surveyListMvpView.onItemClickTakeSurveyLister(position);
+                }
+            }
+        });
+
     }
 
     @Override
