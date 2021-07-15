@@ -27,9 +27,9 @@
                 android:id="@+id/image"
                 android:layout_width="@dimen/twenty_five_dp"
                 android:layout_height="@dimen/twenty_five_dp"
-                android:src="@drawable/placeholder"
                 android:layout_centerVertical="true"
-                android:contentDescription="@string/app_name" />
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/placeholder" />
 
             <TextView
                 android:id="@+id/name_textview"
@@ -57,20 +57,74 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_dimen_12" />
 
-            <CheckBox
-                android:id="@+id/checkBox"
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/thirty_dp"
+                android:layout_toEndOf="@+id/name_textview"
+                android:ellipsize="end"
+                android:fontFamily="@font/roboto_bold"
+                android:singleLine="true"
+                android:text="@{mapData.mapDate}"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/length_area"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/date"
+                android:layout_marginStart="@dimen/thirty_dp"
+                android:layout_toEndOf="@id/description"
+                android:ellipsize="end"
+                android:fontFamily="@font/roboto_regular"
+                android:singleLine="true"
+                android:text="@{mapData.areaDistance}"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_dimen_12" />
+
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:checked="@{mapData.checked?true:false}"
-                android:contentDescription="@string/app_name" />
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/images_icon"
+                    android:layout_width="@dimen/thirty_dp"
+                    android:layout_height="@dimen/thirty_dp"
+                    android:layout_marginRight="@dimen/eight_dp"
+                    android:layout_marginTop="@dimen/three_dp"
+                    android:src="@drawable/ic_gallery" />
+
+                <ImageView
+                    android:id="@+id/edit_map"
+                    android:layout_width="@dimen/twenty_dp"
+                    android:layout_height="@dimen/twenty_dp"
+                    android:layout_marginRight="@dimen/eight_dp"
+                    android:layout_marginTop="@dimen/six_dp"
+                    android:layout_marginEnd="@dimen/eight_dp"
+                    android:src="@drawable/edit_ic"
+                    android:contentDescription="@string/app_name" />
+
+                <CheckBox
+                    android:id="@+id/checkBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="@{mapData.checked?true:false}"
+                    android:contentDescription="@string/app_name" />
+
+            </LinearLayout>
 
         </RelativeLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/images_recycle_list"
             android:layout_width="match_parent"
+            android:visibility="gone"
             android:layout_height="wrap_content"
             android:layout_below="@id/parent_item_layout"
             android:nestedScrollingEnabled="true" />
@@ -78,9 +132,9 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
             android:layout_marginTop="@dimen/five_dp"
             android:layout_marginBottom="@dimen/five_dp"
-            android:layout_alignParentBottom="true"
-            android:background="@color/jumbo"/>
+            android:background="@color/jumbo" />
     </RelativeLayout>
 </layout>
