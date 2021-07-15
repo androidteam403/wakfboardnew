@@ -11,5 +11,7 @@ public interface MapDataListActivityMvpView extends MvpView {
 
     void onClickSubmit();
 
-    void onClickEditMapView(int position,List<MapDataTable> mapDataTable);
+    void onClickEditMapView(int position, List<MapDataTable> mapDataTable);
+
+    void onClickImageShow(int pos, List<MapDataTable> mapDataTables);
 }

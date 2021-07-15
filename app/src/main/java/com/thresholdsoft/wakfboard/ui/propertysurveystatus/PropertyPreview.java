@@ -10,7 +10,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Build;
@@ -18,7 +17,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -76,6 +74,7 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
     private GoogleMap mMap;
     private int propertyId;
     List<MapDataTable> mapDataTableList;
+    private String measurements;
 
 
     @Override
@@ -95,6 +94,7 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
         mapFragment.getMapAsync(PropertyPreview.this);
         if (getIntent() != null) {
             propertyId = (Integer) getIntent().getIntExtra("propertyId", 0);
+            measurements = (String) getIntent().getStringExtra("measurements");
         }
         mpresenter.getMapTypelist(propertyId);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
@@ -322,25 +322,45 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
 //                        polyLineMarker = mMap.addMarker(markerOptions);
                     }
 
-                    double amount = Double.parseDouble(mpresenter.getPolygonArea(getPolygontLatlngList));
-                    DecimalFormat formatter = new DecimalFormat("#,###");
-                    String formatted = formatter.format(amount);
+                    if (measurements.equalsIgnoreCase("Square Meters")) {
+                        double amount = Double.parseDouble(mpresenter.getPolygonAreainMeters(getPolygontLatlngList));
+                        DecimalFormat formatter = new DecimalFormat("#,###");
+                        String formatted = formatter.format(amount);
 
-                    activityPropertySurveyStatusBinding.polygonArea.setText("Area :" + formatted + "m²");
-                    PolygonOptions polygonOptions=null;
-                    if (mapDataTable.getId()==1){
+                        activityPropertySurveyStatusBinding.polygonArea.setText("Area :" + formatted + "m²");
+                    } else if (measurements.equalsIgnoreCase("Square Feet")) {
+                        double amount = Double.parseDouble(mpresenter.getPolygonAreainSquareFeet(getPolygontLatlngList));
+                        DecimalFormat formatter = new DecimalFormat("#,###");
+                        String formatted = formatter.format(amount);
+
+                        activityPropertySurveyStatusBinding.polygonArea.setText("Area :" + formatted + "sq ft²");
+                    } else if (measurements.equalsIgnoreCase("Square yards")) {
+                        double amount = Double.parseDouble(mpresenter.getPolygonAreainSquareYards(getPolygontLatlngList));
+                        DecimalFormat formatter = new DecimalFormat("#,###");
+                        String formatted = formatter.format(amount);
+
+                        activityPropertySurveyStatusBinding.polygonArea.setText("Area :" + formatted + "sq yd²");
+                    } else if (measurements.equalsIgnoreCase("Acres")) {
+                        double amount = Double.parseDouble(mpresenter.getPolygonAreainAcers(getPolygontLatlngList));
+                        DecimalFormat formatter = new DecimalFormat("#,###");
+                        String formatted = formatter.format(amount);
+
+                        activityPropertySurveyStatusBinding.polygonArea.setText("Area :" + formatted + "acers");
+                    }
+                    PolygonOptions polygonOptions = null;
+                    if (mapDataTable.getId() == 1) {
                         polygonOptions = new PolygonOptions().addAll(getPolygontLatlngList).strokeWidth(5).fillColor(getResources().getColor(R.color.yellow_transparent)).strokeColor(Color.RED).clickable(true);
-                    } else if (mapDataTable.getId()==2) {
+                    } else if (mapDataTable.getId() == 2) {
                         polygonOptions = new PolygonOptions().addAll(getPolygontLatlngList).strokeWidth(5).fillColor(getResources().getColor(R.color.red_transparent)).strokeColor(Color.RED).clickable(true);
-                    }else if (mapDataTable.getId()==3) {
+                    } else if (mapDataTable.getId() == 3) {
                         polygonOptions = new PolygonOptions().addAll(getPolygontLatlngList).strokeWidth(5).fillColor(getResources().getColor(R.color.green_transparent)).strokeColor(Color.RED).clickable(true);
-                    }else if (mapDataTable.getId()==4) {
+                    } else if (mapDataTable.getId() == 4) {
                         polygonOptions = new PolygonOptions().addAll(getPolygontLatlngList).strokeWidth(5).fillColor(getResources().getColor(R.color.blue_transparent)).strokeColor(Color.RED).clickable(true);
-                    }else if (mapDataTable.getId()==5) {
+                    } else if (mapDataTable.getId() == 5) {
                         polygonOptions = new PolygonOptions().addAll(getPolygontLatlngList).strokeWidth(5).fillColor(getResources().getColor(R.color.black_transparent)).strokeColor(Color.RED).clickable(true);
-                    }else if (mapDataTable.getId()==6) {
+                    } else if (mapDataTable.getId() == 6) {
                         polygonOptions = new PolygonOptions().addAll(getPolygontLatlngList).strokeWidth(5).fillColor(getResources().getColor(R.color.pink_transparent)).strokeColor(Color.RED).clickable(true);
-                    }else{
+                    } else {
                         Random rand = new Random();
 //                       int randomElement = CommonUtils.getColorList().get(rand.nextInt(CommonUtils.getColorList().size()));
                         polygonOptions = new PolygonOptions().addAll(getPolygontLatlngList).strokeWidth(5).fillColor(CommonUtils.getColorList().get(rand.nextInt(CommonUtils.getColorList().size()))).strokeColor(Color.RED).clickable(true);

@@ -129,6 +129,11 @@ public class MapDataListActivity extends BaseActivity implements MapDataListActi
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
+    @Override
+    public void onClickImageShow(int pos, List<MapDataTable> mapDataTables) {
+
+    }
+
     String name;
 
     @Override

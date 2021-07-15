@@ -62,7 +62,16 @@ public class MapDataAdapter extends RecyclerView.Adapter<MapDataAdapter.ViewHold
             @Override
             public void onClick(View v) {
                 if (mapDataListActivityMvpView != null) {
-                    mapDataListActivityMvpView.onClickEditMapView(position,mapDataTableList);
+                    mapDataListActivityMvpView.onClickEditMapView(position, mapDataTableList);
+                }
+            }
+        });
+
+        holder.adapterMapDataListBinding.imagesIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mapDataListActivityMvpView != null) {
+                    mapDataListActivityMvpView.onClickImageShow(position, mapDataTableList);
                 }
             }
         });

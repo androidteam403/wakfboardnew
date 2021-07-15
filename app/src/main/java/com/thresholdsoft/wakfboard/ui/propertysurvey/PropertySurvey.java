@@ -191,16 +191,16 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
             public void onSuccess(Location location) {
                 if (location != null) {
                     currentLocation = location;
-                    Toast toast = Toast.makeText(PropertySurvey.this, currentLocation.getLatitude() + "" + currentLocation.getLongitude(), Toast.LENGTH_SHORT);
-                    toast.getView().setBackground(getResources().getDrawable(R.drawable.toast_bg));
-                    TextView text = (TextView) toast.getView().findViewById(android.R.id.message);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        Typeface typeface = Typeface.createFromAsset(getApplication().getAssets(), "font/roboto_bold.ttf");
-                        text.setTypeface(typeface);
-                        text.setTextColor(Color.WHITE);
-                        text.setTextSize(14);
-                    }
-                    toast.show();
+//                    Toast toast = Toast.makeText(PropertySurvey.this, currentLocation.getLatitude() + "" + currentLocation.getLongitude(), Toast.LENGTH_SHORT);
+//                    toast.getView().setBackground(getResources().getDrawable(R.drawable.toast_bg));
+//                    TextView text = (TextView) toast.getView().findViewById(android.R.id.message);
+//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                        Typeface typeface = Typeface.createFromAsset(getApplication().getAssets(), "font/roboto_bold.ttf");
+//                        text.setTypeface(typeface);
+//                        text.setTextColor(Color.WHITE);
+//                        text.setTextSize(14);
+//                    }
+//                    toast.show();
 
                     SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                             .findFragmentById(R.id.map);
@@ -299,6 +299,22 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
                             @Override
                             public void onMarkerDragEnd(Marker marker) {
                                 updateMarkerLocation(marker);
+                                double j = 0.0;
+                                if (latLngList.size() > 2) {
+                                    for (int i = 0; i < latLngList.size(); i++) {
+                                        if (i != latLngList.size() - 1) {
+                                            LatLng from = new LatLng(((latLngList.get(i).latitude)), ((latLngList.get(i).longitude)));
+                                            LatLng to = new LatLng(((latLngList.get(i + 1).latitude)), ((latLngList.get(i + 1).longitude)));
+
+                                            j += Double.parseDouble(mpresenter.getLineLength(from, to));
+                                            double amount1 = (j);
+                                            DecimalFormat formatter1 = new DecimalFormat("#,###.00");
+                                            String formatted1 = formatter1.format(amount1);
+
+                                            propertySurveyBinding.distanceTextView.setText("Length :" + formatted1 + "m");
+                                        }
+                                    }
+                                }
                             }
                         });
                     }
@@ -453,19 +469,41 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
 
                             @Override
                             public void onMarkerDragEnd(Marker marker) {
+                                double j=0.0;
                                 updateMarkerLocation(marker);
+                                if (latLngList.size() > 2) {
+                                    for (int i = 0; i < latLngList.size(); i++) {
+                                        if (i != latLngList.size() - 1) {
+                                            LatLng from = new LatLng(((latLngList.get(i).latitude)), ((latLngList.get(i).longitude)));
+                                            LatLng to = new LatLng(((latLngList.get(i + 1).latitude)), ((latLngList.get(i + 1).longitude)));
+
+                                            j += Double.parseDouble(mpresenter.getLineLength(from, to));
+                                            double amount1 = (j);
+                                            DecimalFormat formatter1 = new DecimalFormat("#,###.00");
+                                            String formatted1 = formatter1.format(amount1);
+
+                                            propertySurveyBinding.distanceTextView.setText("Length :" + formatted1 + "m");
+                                        }
+                                    }
+                                }
+
                             }
                         });
                     }
-                    for (int i = 0; i < latLngList.size(); i++) {
-                        LatLng from = new LatLng(((latLngList.get(i).latitude)), ((latLngList.get(i).longitude)));
-                        LatLng to = new LatLng(((latLngList.get(i + 1).latitude)), ((latLngList.get(i + 1).longitude)));
+                    if (latLngList.size() > 2) {
+                        for (int i = 0; i < latLngList.size(); i++) {
+                            if (i != latLngList.size() - 1) {
+                                LatLng from = new LatLng(((latLngList.get(i).latitude)), ((latLngList.get(i).longitude)));
+                                LatLng to = new LatLng(((latLngList.get(i + 1).latitude)), ((latLngList.get(i + 1).longitude)));
 
-                        double amount = Double.parseDouble(mpresenter.getLineLength(from, to));
-                        DecimalFormat formatter = new DecimalFormat("#,###");
-                        String formatted = formatter.format(amount);
+                                i1 += Double.parseDouble(mpresenter.getLineLength(from, to));
+                                double amount1 = (i1);
+                                DecimalFormat formatter1 = new DecimalFormat("#,###.00");
+                                String formatted1 = formatter1.format(amount1);
 
-                        propertySurveyBinding.distanceTextView.setText(formatted);
+                                propertySurveyBinding.distanceTextView.setText("Length :" + formatted1 + "m");
+                            }
+                        }
                     }
 
 
@@ -994,6 +1032,22 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
                 @Override
                 public void onMarkerDragEnd(Marker marker) {
                     updateMarkerLocation(marker);
+                    double j = 0.0;
+                    if (latLngList.size() > 2) {
+                        for (int i = 0; i < latLngList.size(); i++) {
+                            if (i != latLngList.size() - 1) {
+                                LatLng from = new LatLng(((latLngList.get(i).latitude)), ((latLngList.get(i).longitude)));
+                                LatLng to = new LatLng(((latLngList.get(i + 1).latitude)), ((latLngList.get(i + 1).longitude)));
+
+                                j += Double.parseDouble(mpresenter.getLineLength(from, to));
+                                double amount1 = (j);
+                                DecimalFormat formatter1 = new DecimalFormat("#,###.00");
+                                String formatted1 = formatter1.format(amount1);
+
+                                propertySurveyBinding.distanceTextView.setText("Length :" + formatted1 + "m");
+                            }
+                        }
+                    }
                 }
             });
         }
@@ -1029,7 +1083,7 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
 //                        mapDataTable.setName(mapDataTableList.get(pos).getName());
 //                        mapDataTable.setDescription(mapDataTableList.get(pos).getDescription());
 //                        mapDataTable.setPointPhotoData(mapDataTableList.get(pos).getPointPhotoData());
-
+                        mapDataTableList.get(pos).setAreaDistance(propertySurveyBinding.polygonArea.getText().toString());
                         mpresenter.updateMapDataList(mapDataTableList.get(pos));
                     } else {
 
@@ -1109,7 +1163,7 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
 //                        mapDataTable.setName(mapDataTableList.get(pos).getName());
 //                        mapDataTable.setDescription(mapDataTableList.get(pos).getDescription());
 //                        mapDataTable.setPointPhotoData(mapDataTableList.get(pos).getPointPhotoData());
-
+                        mapDataTableList.get(pos).setAreaDistance(propertySurveyBinding.distanceTextView.getText().toString());
                         mpresenter.updateMapDataList(mapDataTableList.get(pos));
                     } else {
                         SimpleDateFormat currentDate = new SimpleDateFormat("dd/MM/yyyy");
