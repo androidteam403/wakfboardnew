@@ -15,6 +15,7 @@ import com.google.gson.reflect.TypeToken;
 import com.thresholdsoft.wakfboard.R;
 import com.thresholdsoft.wakfboard.databinding.ActivityMapDataListBinding;
 import com.thresholdsoft.wakfboard.ui.base.BaseActivity;
+import com.thresholdsoft.wakfboard.ui.gallery.GalleryActivity;
 import com.thresholdsoft.wakfboard.ui.mapdataliastactivity.adapter.MapDataAdapter;
 import com.thresholdsoft.wakfboard.ui.propertysurvey.PropertySurvey;
 import com.thresholdsoft.wakfboard.ui.propertysurvey.model.MapDataTable;
@@ -129,9 +130,13 @@ public class MapDataListActivity extends BaseActivity implements MapDataListActi
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
+    boolean individualGallery;
+
     @Override
     public void onClickImageShow(int pos, List<MapDataTable> mapDataTables) {
-
+        individualGallery = true;
+        startActivity(GalleryActivity.getStartIntent(this, propertyId, pos,individualGallery));
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
     String name;

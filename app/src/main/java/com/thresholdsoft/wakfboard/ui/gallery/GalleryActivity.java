@@ -27,10 +27,21 @@ public class GalleryActivity extends BaseActivity implements GalleryMvpView {
     private List<MapDataTable> mapDataTableList;
     private List<String> imagePathList = new ArrayList<>();
     private GalleryAdapter galleryAdapter;
+    private int position;
+    private boolean individual;
 
     public static Intent getStartIntent(Context context, int propertyId) {
         Intent intent = new Intent(context, GalleryActivity.class);
         intent.putExtra("propertyId", propertyId);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        return intent;
+    }
+
+    public static Intent getStartIntent(Context context, int propertyId, int pos, boolean individualGallery) {
+        Intent intent = new Intent(context, GalleryActivity.class);
+        intent.putExtra("propertyId", propertyId);
+        intent.putExtra("pos", pos);
+        intent.putExtra("individual", individualGallery);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         return intent;
     }
@@ -47,21 +58,36 @@ public class GalleryActivity extends BaseActivity implements GalleryMvpView {
     @Override
     protected void setUp() {
         galleryBinding.setCallback(mPresenter);
-        if (getIntent() != null)
+        if (getIntent() != null) {
             propertyId = (int) getIntent().getIntExtra("propertyId", 0);
-        this.mapDataTableList = mPresenter.getAllMapDataTableListByPropertyid(propertyId);
-        if (mapDataTableList != null && mapDataTableList.size() > 0) {
-            for (MapDataTable mapDataTable : mapDataTableList) {
-                imagePathList.addAll(mapDataTable.getPointPhotoData());
-            }
+            position = (int) getIntent().getIntExtra("pos", 0);
+            individual = (boolean) getIntent().getBooleanExtra("individual", false);
         }
-        if (imagePathList != null && imagePathList.size() > 0) {
-            galleryAdapter = new GalleryAdapter(this, imagePathList);
-            galleryBinding.galleryListRecycler.setLayoutManager(new GridLayoutManager(this, 3));
-            galleryBinding.galleryListRecycler.setAdapter(galleryAdapter);
-            galleryBinding.setIsGallery(true);
+        this.mapDataTableList = mPresenter.getAllMapDataTableListByPropertyid(propertyId);
+        imagePathList = mapDataTableList.get(position).getPointPhotoData();
+        if (individual) {
+            if (imagePathList != null && imagePathList.size() > 0) {
+                galleryAdapter = new GalleryAdapter(this, imagePathList);
+                galleryBinding.galleryListRecycler.setLayoutManager(new GridLayoutManager(this, 3));
+                galleryBinding.galleryListRecycler.setAdapter(galleryAdapter);
+                galleryBinding.setIsGallery(true);
+            } else {
+                galleryBinding.setIsGallery(false);
+            }
         } else {
-            galleryBinding.setIsGallery(false);
+            if (mapDataTableList != null && mapDataTableList.size() > 0) {
+                for (MapDataTable mapDataTable : mapDataTableList) {
+                    imagePathList.addAll(mapDataTable.getPointPhotoData());
+                }
+            }
+            if (imagePathList != null && imagePathList.size() > 0) {
+                galleryAdapter = new GalleryAdapter(this, imagePathList);
+                galleryBinding.galleryListRecycler.setLayoutManager(new GridLayoutManager(this, 3));
+                galleryBinding.galleryListRecycler.setAdapter(galleryAdapter);
+                galleryBinding.setIsGallery(true);
+            } else {
+                galleryBinding.setIsGallery(false);
+            }
         }
     }
 
