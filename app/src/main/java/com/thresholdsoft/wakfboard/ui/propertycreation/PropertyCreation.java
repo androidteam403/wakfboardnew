@@ -71,6 +71,7 @@ public class PropertyCreation extends BaseActivity implements PropertyMvpView {
         getAddAddressTypes();
         getStateList();
         getPropertryList();
+
         propertyCreationBinding.upload.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("CheckResult")
             @Override
