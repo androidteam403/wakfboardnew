@@ -21,4 +21,6 @@ public interface PropertySurveyStatusMvpPresenter<V extends PropertySurveyStatus
 
     void onClickBack();
 
+    void onClickGallery();
+
 }

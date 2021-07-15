@@ -82,6 +82,7 @@
         </activity>
         <activity android:name="com.thresholdsoft.wakfboard.ui.photouploadactivity.PhotoUpload" />
         <activity android:name="com.thresholdsoft.wakfboard.ui.mapdataliastactivity.MapDataListActivity" />
+        <activity android:name=".ui.gallery.GalleryActivity" />
 
         <receiver
             android:name="com.thresholdsoft.wakfboard.services.ConnectivityReceiver"

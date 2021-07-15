@@ -45,6 +45,7 @@ import com.google.gson.reflect.TypeToken;
 import com.thresholdsoft.wakfboard.R;
 import com.thresholdsoft.wakfboard.databinding.ActivityPropertySurveyStatusBinding;
 import com.thresholdsoft.wakfboard.ui.base.BaseActivity;
+import com.thresholdsoft.wakfboard.ui.gallery.GalleryActivity;
 import com.thresholdsoft.wakfboard.ui.mapdataliastactivity.MapDataListActivity;
 import com.thresholdsoft.wakfboard.ui.propertysurvey.PropertySurvey;
 import com.thresholdsoft.wakfboard.ui.propertysurvey.bottomsheet.PropertySurveyBottomSheet;
@@ -181,6 +182,13 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
     @Override
     public void onClickBack() {
         onBackPressed();
+    }
+
+    @Override
+    public void onClickGallery() {
+        startActivity(GalleryActivity.getStartIntent(this, propertyId));
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+
     }
 
     private void fetchLocation() {

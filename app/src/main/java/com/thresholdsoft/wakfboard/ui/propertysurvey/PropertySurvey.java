@@ -534,7 +534,6 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
                                 mMap.addMarker(markerOptions1);
 
                             }
-
                         }
                     }
                     if (polygon != null) polygon.remove();
