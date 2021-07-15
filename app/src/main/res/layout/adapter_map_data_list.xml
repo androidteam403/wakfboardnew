@@ -97,7 +97,9 @@
                     android:layout_width="@dimen/twenty_dp"
                     android:layout_height="@dimen/twenty_dp"
                     android:layout_marginTop="@dimen/six_dp"
-                    android:src="@drawable/edit_ic" />
+                    android:layout_marginEnd="@dimen/eight_dp"
+                    android:src="@drawable/edit_ic"
+                    android:contentDescription="@string/app_name" />
 
                 <CheckBox
                     android:id="@+id/checkBox"

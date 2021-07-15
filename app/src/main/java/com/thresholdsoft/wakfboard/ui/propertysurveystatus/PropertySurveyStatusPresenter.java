@@ -52,4 +52,9 @@ public class PropertySurveyStatusPresenter<V extends PropertySurveyStatusMvpView
     public void onClickBack() {
         getMvpView().onClickBack();
     }
+
+    @Override
+    public void onClickGallery() {
+        getMvpView().onClickGallery();
+    }
 }

@@ -10,7 +10,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Build;
@@ -18,7 +17,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -47,6 +45,7 @@ import com.google.gson.reflect.TypeToken;
 import com.thresholdsoft.wakfboard.R;
 import com.thresholdsoft.wakfboard.databinding.ActivityPropertySurveyStatusBinding;
 import com.thresholdsoft.wakfboard.ui.base.BaseActivity;
+import com.thresholdsoft.wakfboard.ui.gallery.GalleryActivity;
 import com.thresholdsoft.wakfboard.ui.mapdataliastactivity.MapDataListActivity;
 import com.thresholdsoft.wakfboard.ui.propertysurvey.PropertySurvey;
 import com.thresholdsoft.wakfboard.ui.propertysurvey.bottomsheet.PropertySurveyBottomSheet;
@@ -181,6 +180,13 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
     @Override
     public void onClickBack() {
         onBackPressed();
+    }
+
+    @Override
+    public void onClickGallery() {
+        startActivity(GalleryActivity.getStartIntent(this, propertyId));
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+
     }
 
     private void fetchLocation() {
@@ -327,20 +333,20 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
                     String formatted = formatter.format(amount);
 
                     activityPropertySurveyStatusBinding.polygonArea.setText("Area :" + formatted + "m²");
-                    PolygonOptions polygonOptions=null;
-                    if (mapDataTable.getId()==1){
+                    PolygonOptions polygonOptions = null;
+                    if (mapDataTable.getId() == 1) {
                         polygonOptions = new PolygonOptions().addAll(getPolygontLatlngList).strokeWidth(5).fillColor(getResources().getColor(R.color.yellow_transparent)).strokeColor(Color.RED).clickable(true);
-                    } else if (mapDataTable.getId()==2) {
+                    } else if (mapDataTable.getId() == 2) {
                         polygonOptions = new PolygonOptions().addAll(getPolygontLatlngList).strokeWidth(5).fillColor(getResources().getColor(R.color.red_transparent)).strokeColor(Color.RED).clickable(true);
-                    }else if (mapDataTable.getId()==3) {
+                    } else if (mapDataTable.getId() == 3) {
                         polygonOptions = new PolygonOptions().addAll(getPolygontLatlngList).strokeWidth(5).fillColor(getResources().getColor(R.color.green_transparent)).strokeColor(Color.RED).clickable(true);
-                    }else if (mapDataTable.getId()==4) {
+                    } else if (mapDataTable.getId() == 4) {
                         polygonOptions = new PolygonOptions().addAll(getPolygontLatlngList).strokeWidth(5).fillColor(getResources().getColor(R.color.blue_transparent)).strokeColor(Color.RED).clickable(true);
-                    }else if (mapDataTable.getId()==5) {
+                    } else if (mapDataTable.getId() == 5) {
                         polygonOptions = new PolygonOptions().addAll(getPolygontLatlngList).strokeWidth(5).fillColor(getResources().getColor(R.color.black_transparent)).strokeColor(Color.RED).clickable(true);
-                    }else if (mapDataTable.getId()==6) {
+                    } else if (mapDataTable.getId() == 6) {
                         polygonOptions = new PolygonOptions().addAll(getPolygontLatlngList).strokeWidth(5).fillColor(getResources().getColor(R.color.pink_transparent)).strokeColor(Color.RED).clickable(true);
-                    }else{
+                    } else {
                         Random rand = new Random();
 //                       int randomElement = CommonUtils.getColorList().get(rand.nextInt(CommonUtils.getColorList().size()));
                         polygonOptions = new PolygonOptions().addAll(getPolygontLatlngList).strokeWidth(5).fillColor(CommonUtils.getColorList().get(rand.nextInt(CommonUtils.getColorList().size()))).strokeColor(Color.RED).clickable(true);

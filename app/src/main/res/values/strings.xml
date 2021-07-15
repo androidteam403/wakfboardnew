@@ -66,5 +66,8 @@
     <string name="permission_request_denied">Permission request denied</string>
     <string name="label_wakf_board">Wakf Board</string>
     <string name="label_submit">Submit</string>
+    <string name="label_gallery">Gallery</string>
+    <string name="label_no_items_found">No items found</string>
+    <string name="label_distance">Distance</string>
     <item type="id" name="polygon_marker_position" />
 </resources>
