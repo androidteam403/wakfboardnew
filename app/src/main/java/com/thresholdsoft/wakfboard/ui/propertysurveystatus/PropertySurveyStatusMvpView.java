@@ -10,4 +10,7 @@ public interface PropertySurveyStatusMvpView extends MvpView {
 
     void getMapDataTable(List<MapDataTable> mapDataTableList);
 
+    void onClickBack();
+
+    void onClickGallery();
 }

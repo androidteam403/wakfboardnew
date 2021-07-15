@@ -9,4 +9,6 @@ public interface PropertyMvpPresenter<V extends PropertyMvpView> extends MvpPres
 
     int propertyID();
 
+    void onClickBack();
+
 }

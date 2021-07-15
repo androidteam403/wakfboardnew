@@ -1,15 +1,22 @@
 package com.thresholdsoft.wakfboard.ui.propertycreation;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -26,19 +33,28 @@ import net.alhazmy13.mediapicker.Image.ImagePicker;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import static android.text.TextUtils.isEmpty;
 
+@RequiresApi(api = Build.VERSION_CODES.M)
 public class PropertyCreation extends BaseActivity implements PropertyMvpView {
     @Inject
     PropertyMvpPresenter<PropertyMvpView> mpresenter;
     ActivityPropertyCreationBinding propertyCreationBinding;
     private int PICK_IMAGES = 1;
     private PhotosUploadAdapter photosUploadAdapter;
+
+    public static Intent getStartIntent(Context context) {
+        Intent intent = new Intent(context, PropertyCreation.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        return intent;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,6 +67,7 @@ public class PropertyCreation extends BaseActivity implements PropertyMvpView {
 
     @Override
     protected void setUp() {
+        propertyCreationBinding.setCallback(mpresenter);
         getAddAddressTypes();
         getStateList();
         getPropertryList();
@@ -74,6 +91,11 @@ public class PropertyCreation extends BaseActivity implements PropertyMvpView {
             @Override
             public void onClick(View v) {
                 if (validate()) {
+
+                    SimpleDateFormat currentDate = new SimpleDateFormat("dd/MM/yyyy");
+                    Date todayDate = new Date();
+                    String thisDate = currentDate.format(todayDate);
+
                     PropertyData propertyData = new PropertyData(propertyCreationBinding.propertyName.getText().toString(),
                             propertyCreationBinding.propertyType.getSelectedItem().toString(),
                             Double.parseDouble(propertyCreationBinding.propertyValue.getText().toString()),
@@ -81,7 +103,7 @@ public class PropertyCreation extends BaseActivity implements PropertyMvpView {
                             propertyCreationBinding.mandal.getText().toString(),
                             propertyCreationBinding.state.getSelectedItem().toString(),
                             propertyCreationBinding.district.getText().toString(),
-                            propertyCreationBinding.areaType.getSelectedItem().toString(), mPaths);
+                            propertyCreationBinding.areaType.getSelectedItem().toString(), mPaths, propertyCreationBinding.mobile.getText().toString(), thisDate);
 //                    List<PhotoUploadedData> photoUploadedDataList = new ArrayList<>();
 //                    if (mPaths != null && mPaths.size() > 0) {
 //                        for (String pathList : mPaths) {
@@ -90,16 +112,47 @@ public class PropertyCreation extends BaseActivity implements PropertyMvpView {
 //                        }
 //                    }
                     mpresenter.insertPropertyData(propertyData);
-
-                    Intent intent = new Intent(PropertyCreation.this, PropertyPreview.class);
-                    intent.putExtra("propertyName", propertyCreationBinding.propertyName.getText().toString());
-                    intent.putExtra("village", propertyCreationBinding.propertyName.getText().toString());
-                    intent.putExtra("propertyId", mpresenter.propertyID());
-                    startActivity(intent);
-                    overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+                    getLocationPermmision();
                 }
             }
         });
+    }
+
+    private static final int REQUEST_PERMISSION_LOCATION = 255; // int should be between 0 and 255
+
+    private void getLocationPermmision() {
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(
+                this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_PERMISSION_LOCATION);
+        } else {
+            Intent intent = new Intent(PropertyCreation.this, PropertyPreview.class);
+            intent.putExtra("propertyName", propertyCreationBinding.propertyName.getText().toString());
+            intent.putExtra("village", propertyCreationBinding.propertyName.getText().toString());
+            intent.putExtra("propertyId", mpresenter.propertyID());
+            startActivity(intent);
+            overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+            finish();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_PERMISSION_LOCATION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // We now have permission to use the location
+                Intent intent = new Intent(PropertyCreation.this, PropertyPreview.class);
+                intent.putExtra("propertyName", propertyCreationBinding.propertyName.getText().toString());
+                intent.putExtra("village", propertyCreationBinding.propertyName.getText().toString());
+                intent.putExtra("propertyId", mpresenter.propertyID());
+                startActivity(intent);
+                overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+                finish();
+            } else {
+                finish();
+            }
+        }
     }
 
     private List<String> mPaths = new ArrayList<>();
@@ -268,6 +321,11 @@ public class PropertyCreation extends BaseActivity implements PropertyMvpView {
         photosUploadAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void onClickBack() {
+        onBackPressed();
+    }
+
     private class AreaModel {
         public String areaType;
 
@@ -321,6 +379,7 @@ public class PropertyCreation extends BaseActivity implements PropertyMvpView {
 
     private boolean validate() {
         String proName = propertyCreationBinding.propertyName.getText().toString().trim();
+        String num = propertyCreationBinding.mobile.getText().toString().trim();
         String proType = propertyCreationBinding.propertyType.getSelectedItem().toString().trim();
         String proValue = propertyCreationBinding.propertyValue.getText().toString().trim();
         String village = propertyCreationBinding.village.getText().toString().trim();
@@ -335,6 +394,14 @@ public class PropertyCreation extends BaseActivity implements PropertyMvpView {
         } else if (proName.length() < 3) {
             propertyCreationBinding.propertyName.setError("Please enter above 3 characters!");
             propertyCreationBinding.propertyName.requestFocus();
+            return false;
+        } else if (isEmpty(num)) {
+            propertyCreationBinding.mobile.setError("Please enter Mobile Number!");
+            propertyCreationBinding.mobile.requestFocus();
+            return false;
+        } else if (num.length() < 10) {
+            propertyCreationBinding.mobile.setError("Please enter 10 digiits Mobile Number!");
+            propertyCreationBinding.mobile.requestFocus();
             return false;
         } else if (isEmpty(proType)) {
             propertyCreationBinding.propertyType.setError("Please Property Type!");

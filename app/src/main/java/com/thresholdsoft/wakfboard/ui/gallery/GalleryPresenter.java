@@ -1,4 +1,4 @@
-package com.thresholdsoft.wakfboard.ui.mapdataliastactivity;
+package com.thresholdsoft.wakfboard.ui.gallery;
 
 import com.thresholdsoft.wakfboard.data.DataManager;
 import com.thresholdsoft.wakfboard.ui.base.BasePresenter;
@@ -11,21 +11,20 @@ import javax.inject.Inject;
 
 import io.reactivex.disposables.CompositeDisposable;
 
-public class MapDataListActivityPresenter<V extends MapDataListActivityMvpView> extends BasePresenter<V>
-        implements MapDataListActivityMvpPresenter<V> {
-
+public class GalleryPresenter<V extends GalleryMvpView> extends BasePresenter<V>
+        implements GalleryMvpPresenter<V> {
     @Inject
-    public MapDataListActivityPresenter(DataManager manager, SchedulerProvider schedulerProvider, CompositeDisposable compositeDisposable) {
+    public GalleryPresenter(DataManager manager, SchedulerProvider schedulerProvider, CompositeDisposable compositeDisposable) {
         super(manager, schedulerProvider, compositeDisposable);
     }
 
     @Override
-    public List<MapDataTable> getMapTypelist(int propertyId) {
+    public List<MapDataTable> getAllMapDataTableListByPropertyid(int propertyId) {
         return getDataManager().getAllMapDtaListByPropertyId(propertyId);
     }
 
     @Override
-    public void onClickSubmit() {
-        getMvpView().onClickSubmit();
+    public void onClickBack() {
+        getMvpView().onClickBack();
     }
 }
