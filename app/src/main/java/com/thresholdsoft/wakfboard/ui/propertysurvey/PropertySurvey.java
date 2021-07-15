@@ -469,7 +469,24 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
 
                             @Override
                             public void onMarkerDragEnd(Marker marker) {
+                                double j=0.0;
                                 updateMarkerLocation(marker);
+                                if (latLngList.size() > 2) {
+                                    for (int i = 0; i < latLngList.size(); i++) {
+                                        if (i != latLngList.size() - 1) {
+                                            LatLng from = new LatLng(((latLngList.get(i).latitude)), ((latLngList.get(i).longitude)));
+                                            LatLng to = new LatLng(((latLngList.get(i + 1).latitude)), ((latLngList.get(i + 1).longitude)));
+
+                                            j += Double.parseDouble(mpresenter.getLineLength(from, to));
+                                            double amount1 = (j);
+                                            DecimalFormat formatter1 = new DecimalFormat("#,###.00");
+                                            String formatted1 = formatter1.format(amount1);
+
+                                            propertySurveyBinding.distanceTextView.setText("Length :" + formatted1 + "m");
+                                        }
+                                    }
+                                }
+
                             }
                         });
                     }

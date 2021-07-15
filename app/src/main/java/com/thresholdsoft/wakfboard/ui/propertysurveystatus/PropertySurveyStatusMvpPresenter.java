@@ -9,7 +9,13 @@ public interface PropertySurveyStatusMvpPresenter<V extends PropertySurveyStatus
 
     void getMapTypelist(int name);
 
-    String getPolygonArea(List<LatLng> polygonPoints);
+    String getPolygonAreainMeters(List<LatLng> polygonPoints);
+
+    String getPolygonAreainSquareFeet(List<LatLng> polygonPoints);
+
+    String getPolygonAreainSquareYards(List<LatLng> polygonPoints);
+
+    String getPolygonAreainAcers(List<LatLng> polygonPoints);
 
     String getLineLength(LatLng fromPolyLineLatLng, LatLng toPolyLineLatLng);
 

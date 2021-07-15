@@ -131,6 +131,7 @@ public class PropertyCreation extends BaseActivity implements PropertyMvpView {
             intent.putExtra("propertyName", propertyCreationBinding.propertyName.getText().toString());
             intent.putExtra("village", propertyCreationBinding.propertyName.getText().toString());
             intent.putExtra("propertyId", mpresenter.propertyID());
+            intent.putExtra("measurements", propertyCreationBinding.areaType.getSelectedItem().toString());
             startActivity(intent);
             overridePendingTransition(R.anim.fadein, R.anim.fadeout);
             finish();
@@ -218,16 +219,16 @@ public class PropertyCreation extends BaseActivity implements PropertyMvpView {
     private ArrayList<AreaModel> getAddressTypeListData() {
         ArrayList<AreaModel> addresModelArrayList = new ArrayList<>();
         AreaModel addresModel = new AreaModel();
-        addresModel.setAreaType("Acres");
+        addresModel.setAreaType("Square Meters");
+        addresModelArrayList.add(addresModel);
+        addresModel = new AreaModel();
+        addresModel.setAreaType("Square Feet");
         addresModelArrayList.add(addresModel);
         addresModel = new AreaModel();
         addresModel.setAreaType("Square yards");
         addresModelArrayList.add(addresModel);
         addresModel = new AreaModel();
-        addresModel.setAreaType("Square Meters");
-        addresModelArrayList.add(addresModel);
-        addresModel = new AreaModel();
-        addresModel.setAreaType("SQ FT");
+        addresModel.setAreaType("Acres");
         addresModelArrayList.add(addresModel);
         return addresModelArrayList;
     }

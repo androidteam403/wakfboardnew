@@ -75,6 +75,7 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
     private GoogleMap mMap;
     private int propertyId;
     List<MapDataTable> mapDataTableList;
+    private String measurements;
 
 
     @Override
@@ -94,6 +95,7 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
         mapFragment.getMapAsync(PropertyPreview.this);
         if (getIntent() != null) {
             propertyId = (Integer) getIntent().getIntExtra("propertyId", 0);
+            measurements = (String) getIntent().getStringExtra("measurements");
         }
         mpresenter.getMapTypelist(propertyId);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
@@ -328,11 +330,31 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
 //                        polyLineMarker = mMap.addMarker(markerOptions);
                     }
 
-                    double amount = Double.parseDouble(mpresenter.getPolygonArea(getPolygontLatlngList));
-                    DecimalFormat formatter = new DecimalFormat("#,###");
-                    String formatted = formatter.format(amount);
+                    if (measurements.equalsIgnoreCase("Square Meters")) {
+                        double amount = Double.parseDouble(mpresenter.getPolygonAreainMeters(getPolygontLatlngList));
+                        DecimalFormat formatter = new DecimalFormat("#,###");
+                        String formatted = formatter.format(amount);
 
-                    activityPropertySurveyStatusBinding.polygonArea.setText("Area :" + formatted + "m²");
+                        activityPropertySurveyStatusBinding.polygonArea.setText("Area :" + formatted + "m²");
+                    } else if (measurements.equalsIgnoreCase("Square Feet")) {
+                        double amount = Double.parseDouble(mpresenter.getPolygonAreainSquareFeet(getPolygontLatlngList));
+                        DecimalFormat formatter = new DecimalFormat("#,###");
+                        String formatted = formatter.format(amount);
+
+                        activityPropertySurveyStatusBinding.polygonArea.setText("Area :" + formatted + "sq ft²");
+                    } else if (measurements.equalsIgnoreCase("Square yards")) {
+                        double amount = Double.parseDouble(mpresenter.getPolygonAreainSquareYards(getPolygontLatlngList));
+                        DecimalFormat formatter = new DecimalFormat("#,###");
+                        String formatted = formatter.format(amount);
+
+                        activityPropertySurveyStatusBinding.polygonArea.setText("Area :" + formatted + "sq yd²");
+                    } else if (measurements.equalsIgnoreCase("Acres")) {
+                        double amount = Double.parseDouble(mpresenter.getPolygonAreainAcers(getPolygontLatlngList));
+                        DecimalFormat formatter = new DecimalFormat("#,###");
+                        String formatted = formatter.format(amount);
+
+                        activityPropertySurveyStatusBinding.polygonArea.setText("Area :" + formatted + "acers");
+                    }
                     PolygonOptions polygonOptions = null;
                     if (mapDataTable.getId() == 1) {
                         polygonOptions = new PolygonOptions().addAll(getPolygontLatlngList).strokeWidth(5).fillColor(getResources().getColor(R.color.yellow_transparent)).strokeColor(Color.RED).clickable(true);

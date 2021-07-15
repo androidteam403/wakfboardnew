@@ -93,9 +93,18 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:id="@+id/images_icon"
+                    android:layout_width="@dimen/thirty_dp"
+                    android:layout_height="@dimen/thirty_dp"
+                    android:layout_marginRight="@dimen/eight_dp"
+                    android:layout_marginTop="@dimen/three_dp"
+                    android:src="@drawable/ic_gallery" />
+
+                <ImageView
                     android:id="@+id/edit_map"
                     android:layout_width="@dimen/twenty_dp"
                     android:layout_height="@dimen/twenty_dp"
+                    android:layout_marginRight="@dimen/eight_dp"
                     android:layout_marginTop="@dimen/six_dp"
                     android:layout_marginEnd="@dimen/eight_dp"
                     android:src="@drawable/edit_ic"
@@ -115,6 +124,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/images_recycle_list"
             android:layout_width="match_parent"
+            android:visibility="gone"
             android:layout_height="wrap_content"
             android:layout_below="@id/parent_item_layout"
             android:nestedScrollingEnabled="true" />
