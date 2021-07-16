@@ -130,7 +130,6 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
         if (getIntent() != null) {
             mapTypeData = (int) getIntent().getIntExtra("maptype", 0);
             propertyId = (int) getIntent().getIntExtra("propertyId", 0);
-
             Gson gson = new Gson();
             String json = getIntent().getStringExtra("mapDataTableListUnchecked");
             Type type = new TypeToken<List<MapDataTable>>() {
@@ -145,6 +144,7 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
         fetchLocation();
 
         if (mapTypeData == 1) {
+            propertySurveyBinding.tittle.setText(R.string.label_points);
             propertySurveyBinding.polygonManualLay.setVisibility(View.GONE);
             propertySurveyBinding.polygonStart.setVisibility(View.GONE);
             propertySurveyBinding.polygonSave.setVisibility(View.GONE);
@@ -154,6 +154,7 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
             propertySurveyBinding.pointSave.setVisibility(View.VISIBLE);
             propertySurveyBinding.typeTextview.setBackgroundResource(R.drawable.new_point);
         } else if (mapTypeData == 2) {
+            propertySurveyBinding.tittle.setText(R.string.label_polyline);
             propertySurveyBinding.polygonManualLay.setVisibility(View.GONE);
             propertySurveyBinding.polygonStart.setVisibility(View.GONE);
             propertySurveyBinding.polygonSave.setVisibility(View.GONE);
@@ -163,6 +164,7 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
             propertySurveyBinding.polylineLay.setVisibility(View.VISIBLE);
             propertySurveyBinding.typeTextview.setBackgroundResource(R.drawable.new_line);
         } else if (mapTypeData == 3) {
+            propertySurveyBinding.tittle.setText(R.string.label_polygon);
             propertySurveyBinding.polygonManualLay.setVisibility(View.VISIBLE);
             propertySurveyBinding.polylineLay.setVisibility(View.GONE);
             propertySurveyBinding.pointSave.setVisibility(View.GONE);
@@ -469,7 +471,7 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
 
                             @Override
                             public void onMarkerDragEnd(Marker marker) {
-                                double j=0.0;
+                                double j = 0.0;
                                 updateMarkerLocation(marker);
                                 if (latLngList.size() > 2) {
                                     for (int i = 0; i < latLngList.size(); i++) {

@@ -13,4 +13,6 @@ public interface PropertySurveyStatusMvpView extends MvpView {
     void onClickBack();
 
     void onClickGallery();
+
+    void onClickPropertyEdit();
 }

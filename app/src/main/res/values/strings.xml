@@ -70,5 +70,15 @@
     <string name="label_no_items_found">No items found</string>
     <string name="label_distance">Distance</string>
     <string name="label_property_value">Property Value*</string>
+    <string name="label_update">update</string>
+    <string name="label_property_creation">Property Creation</string>
+    <string name="lable_area">Area</string>
+    <string name="label_survey_status">Survey Status</string>
+    <string name="label_property_value_">Property Value</string>
+    <string name="label_no_data_found">No data found</string>
+    <string name="label_create_property">Create Property</string>
+    <string name="label_edit_property_details">Edit Property Details</string>
+    <string name="label_polyline">Polylines</string>
+    <string name="label_polygon">Polygon</string>
     <item type="id" name="polygon_marker_position" />
 </resources>

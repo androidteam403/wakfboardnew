@@ -23,4 +23,9 @@ public class SurveyListPresenter<V extends SurveyListMvpView> extends BasePresen
     public List<PropertyData> getPropertylist() {
         return getDataManager().getAllPropertyCreationDataList();
     }
+
+    @Override
+    public void onClickPropertyCreation() {
+        getMvpView().onClickPropertyCreation();
+    }
 }

@@ -56,13 +56,13 @@
                     app:srcCompat="@drawable/wakfboard_rounded" />
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/tittle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:text="@string/label_wakf_board"
                     android:textColor="@color/white"
-                    android:fontFamily="@font/roboto_medium"
+                    android:fontFamily="@font/roboto_bold"
                     android:textSize="@dimen/text_dimen_18"
                     android:layout_marginStart="@dimen/five_dp"
                     app:layout_constraintBottom_toBottomOf="parent"

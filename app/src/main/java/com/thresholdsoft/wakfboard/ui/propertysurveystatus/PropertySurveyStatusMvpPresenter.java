@@ -23,4 +23,7 @@ public interface PropertySurveyStatusMvpPresenter<V extends PropertySurveyStatus
 
     void onClickGallery();
 
+    void onClickPropertyEdit();
+
+    void updateAreaByPropertyId(int id, String area);
 }

@@ -201,7 +201,15 @@ public class BaseDataManager implements DataManager {
 
     @Override
     public void insertPropertyData(PropertyData propertyData) {
-        mDatabase.userDao().insertPropertyData(propertyData);
+        if (propertyData.getId() == 0)
+            mDatabase.userDao().insertPropertyData(propertyData);
+        else
+            mDatabase.userDao().updatePropertyData(propertyData);
+    }
+
+    @Override
+    public void updatePropertyData(PropertyData propertyData) {
+
     }
 
     @Override
@@ -252,6 +260,11 @@ public class BaseDataManager implements DataManager {
     @Override
     public void deletePropertyDataTable() {
         mDatabase.userDao().deletePropertyDataTable();
+    }
+
+    @Override
+    public void updateAreaByPropertyId(int id, String area) {
+        mDatabase.userDao().updateAreaByPropertyId(id, area);
     }
 
     @Override

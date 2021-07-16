@@ -106,5 +106,6 @@ dependencies {
     //map drawing tool
     implementation 'com.github.bkhezry:MapDrawingTools:1.1.3'
 
-
+    //circle image view
+    implementation 'de.hdodenhof:circleimageview:1.2.1'
 }

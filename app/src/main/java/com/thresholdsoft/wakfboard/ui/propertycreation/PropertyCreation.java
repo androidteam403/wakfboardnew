@@ -49,9 +49,23 @@ public class PropertyCreation extends BaseActivity implements PropertyMvpView {
     ActivityPropertyCreationBinding propertyCreationBinding;
     private int PICK_IMAGES = 1;
     private PhotosUploadAdapter photosUploadAdapter;
+    private PropertyData propertyData;
+    private boolean isUpdateScreen = false;
+
+    public static final String PROPERTY_DATA_KEY = "PROPERTY_DATA_KEY";
+    public static final String IS_UPDATE_SCREEN = "IS_UPDATE_SCREEN";
+    public static final int ACTIVITY_ID = 188;
 
     public static Intent getStartIntent(Context context) {
         Intent intent = new Intent(context, PropertyCreation.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        return intent;
+    }
+
+    public static Intent getStartIntent(Context context, PropertyData propertyData, boolean isUpdateScreen) {
+        Intent intent = new Intent(context, PropertyCreation.class);
+        intent.putExtra(PROPERTY_DATA_KEY, propertyData);
+        intent.putExtra(IS_UPDATE_SCREEN, isUpdateScreen);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         return intent;
     }
@@ -71,7 +85,15 @@ public class PropertyCreation extends BaseActivity implements PropertyMvpView {
         getAddAddressTypes();
         getStateList();
         getPropertryList();
-
+        if (getIntent() != null) {
+            propertyData = (PropertyData) getIntent().getSerializableExtra(PROPERTY_DATA_KEY);
+            if (propertyData != null) {
+                isUpdateScreen = getIntent().getBooleanExtra(IS_UPDATE_SCREEN, false);
+                propertyCreationBinding.tittle.setText(R.string.label_edit_property_details);
+                propertyCreationBinding.save.setText(R.string.label_update);
+                updateProperyData(propertyData);
+            }
+        }
         propertyCreationBinding.upload.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("CheckResult")
             @Override
@@ -92,49 +114,76 @@ public class PropertyCreation extends BaseActivity implements PropertyMvpView {
             @Override
             public void onClick(View v) {
                 if (validate()) {
-
                     SimpleDateFormat currentDate = new SimpleDateFormat("dd/MM/yyyy");
                     Date todayDate = new Date();
                     String thisDate = currentDate.format(todayDate);
-
-                    PropertyData propertyData = new PropertyData(propertyCreationBinding.propertyName.getText().toString(),
+                    PropertyData propertyData1 = new PropertyData(propertyCreationBinding.propertyName.getText().toString(),
                             propertyCreationBinding.propertyType.getSelectedItem().toString(),
                             Double.parseDouble(propertyCreationBinding.propertyValue.getText().toString()),
                             propertyCreationBinding.village.getText().toString(),
                             propertyCreationBinding.mandal.getText().toString(),
                             propertyCreationBinding.state.getSelectedItem().toString(),
                             propertyCreationBinding.district.getText().toString(),
-                            propertyCreationBinding.areaType.getSelectedItem().toString(), mPaths, propertyCreationBinding.mobile.getText().toString(), thisDate);
-//                    List<PhotoUploadedData> photoUploadedDataList = new ArrayList<>();
-//                    if (mPaths != null && mPaths.size() > 0) {
-//                        for (String pathList : mPaths) {
-//                            PhotoUploadedData photoUploadedData = new PhotoUploadedData(pathList);
-//                            photoUploadedDataList.add(photoUploadedData);
-//                        }
-//                    }
-                    mpresenter.insertPropertyData(propertyData);
-                    getLocationPermmision();
+                            propertyCreationBinding.areaType.getSelectedItem().toString(), mPaths,
+                            propertyCreationBinding.mobile.getText().toString(), thisDate);
+                    if (propertyData != null) {
+                        propertyData1.setId(propertyData.getId());
+                        propertyData = propertyData1;
+                    } else {
+                        propertyData = propertyData1;
+                    }
+                    mpresenter.insertPropertyData(propertyData1);
+                    getLocationPermmision(propertyData1);
                 }
             }
         });
     }
 
+    private void updateProperyData(PropertyData propertyData) {
+        if (propertyData != null) {
+            propertyCreationBinding.propertyName.setText(propertyData.getPropertyName());
+            propertyCreationBinding.mobile.setText(propertyData.getMobileNumber());
+            for (int i = 0; i < getPropertyTypeListData().size(); i++) {
+                if (getPropertyTypeListData().get(i).getPropertyType().equals(propertyData.getPropertyType())) {
+                    propertyCreationBinding.propertyType.setSelection(i);
+                    break;
+                }
+            }
+            propertyCreationBinding.propertyValue.setText(String.valueOf(propertyData.getPropertyValue()));
+            propertyCreationBinding.village.setText(propertyData.getVillage());
+            propertyCreationBinding.mandal.setText(propertyData.getMandal());
+            propertyCreationBinding.district.setText(propertyData.getDistrict());
+            for (int i = 0; i < getStateListData().size(); i++) {
+                if (getStateListData().get(i).getState().equals(propertyData.getState())) {
+                    propertyCreationBinding.state.setSelection(i);
+                    break;
+                }
+            }
+            for (int i = 0; i < getAddressTypeListData().size(); i++) {
+                if (getAddressTypeListData().get(i).getAreaType().equals(propertyData.getMeasuredunit())) {
+                    propertyCreationBinding.areaType.setSelection(i);
+                    break;
+                }
+            }
+            if (propertyData.getPhotosList() != null && propertyData.getPhotosList().size() > 0) {
+                this.mPaths = propertyData.getPhotosList();
+                photosUploadAdapter = new PhotosUploadAdapter(this, mPaths, this);
+                RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(this);
+                propertyCreationBinding.photoRecycles.setLayoutManager(new GridLayoutManager(this, 3));
+                propertyCreationBinding.photoRecycles.setAdapter(photosUploadAdapter);
+            }
+        }
+    }
+
     private static final int REQUEST_PERMISSION_LOCATION = 255; // int should be between 0 and 255
 
-    private void getLocationPermmision() {
+    private void getLocationPermmision(PropertyData propertyData1) {
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(
                 this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_PERMISSION_LOCATION);
         } else {
-            Intent intent = new Intent(PropertyCreation.this, PropertyPreview.class);
-            intent.putExtra("propertyName", propertyCreationBinding.propertyName.getText().toString());
-            intent.putExtra("village", propertyCreationBinding.propertyName.getText().toString());
-            intent.putExtra("propertyId", mpresenter.propertyID());
-            intent.putExtra("measurements", propertyCreationBinding.areaType.getSelectedItem().toString());
-            startActivity(intent);
-            overridePendingTransition(R.anim.fadein, R.anim.fadeout);
-            finish();
+            decideNextScreen(propertyData1);
         }
     }
 
@@ -144,17 +193,33 @@ public class PropertyCreation extends BaseActivity implements PropertyMvpView {
         if (requestCode == REQUEST_PERMISSION_LOCATION) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // We now have permission to use the location
-                Intent intent = new Intent(PropertyCreation.this, PropertyPreview.class);
-                intent.putExtra("propertyName", propertyCreationBinding.propertyName.getText().toString());
-                intent.putExtra("village", propertyCreationBinding.propertyName.getText().toString());
-                intent.putExtra("propertyId", mpresenter.propertyID());
-                startActivity(intent);
-                overridePendingTransition(R.anim.fadein, R.anim.fadeout);
-                finish();
+                decideNextScreen(propertyData);
             } else {
                 finish();
             }
         }
+    }
+
+    private void decideNextScreen(PropertyData pd) {
+        Intent intent;
+        if (!isUpdateScreen)
+            intent = new Intent(PropertyCreation.this, PropertyPreview.class);
+        else
+            intent = new Intent();
+
+        intent.putExtra("measurements", propertyCreationBinding.areaType.getSelectedItem().toString());
+        intent.putExtra("propertyName", propertyCreationBinding.propertyName.getText().toString());
+        intent.putExtra("village", propertyCreationBinding.propertyName.getText().toString());
+        if (pd.getId() == 0) {
+            pd.setId(mpresenter.propertyID());
+        }
+        intent.putExtra(PROPERTY_DATA_KEY, pd);
+        if (isUpdateScreen)
+            setResult(RESULT_OK, intent);
+        else
+            startActivity(intent);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+        finish();
     }
 
     private List<String> mPaths = new ArrayList<>();

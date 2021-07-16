@@ -29,8 +29,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:contentDescription="@string/app_name"
-                        android:padding="@dimen/fifteen_dp"
                         android:onClick="@{()-> callback.onClickBack()}"
+                        android:paddingTop="@dimen/fifteen_dp"
+                        android:paddingBottom="@dimen/fifteen_dp"
                         android:src="@drawable/ic_back" />
 
                     <ImageView
@@ -52,24 +53,24 @@
                         <!--                            android:layout_marginTop="@dimen/five_dp"-->
                         <!--                            android:contentDescription="@string/app_name"-->
                         <!--                            android:src="@drawable/praanadhaara_title" />-->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:contentDescription="@string/app_name"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="@string/label_wakf_board"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/text_dimen_18" />
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:contentDescription="@string/app_name"-->
+<!--                            android:fontFamily="@font/roboto_medium"-->
+<!--                            android:text="@string/label_wakf_board"-->
+<!--                            android:textColor="@color/white"-->
+<!--                            android:textSize="@dimen/text_dimen_18" />-->
 
                         <TextView
                             android:id="@+id/tittle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/three_dp"
-                            android:fontFamily="@font/roboto_regular"
-                            android:text="Property Creation"
+                            android:fontFamily="@font/roboto_bold"
+                            android:text="@string/label_property_creation"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/text_dimen_13" />
+                            android:textSize="@dimen/text_dimen_18" />
                     </LinearLayout>
 
 
@@ -195,7 +196,7 @@
                                 android:id="@+id/property_value"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:digits="0123456789.,"
+                                android:digits="0123456789"
                                 android:fontFamily="@font/roboto_regular"
                                 android:hint="@string/label_property_value"
                                 android:imeOptions="actionDone"

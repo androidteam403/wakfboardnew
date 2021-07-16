@@ -54,6 +54,9 @@ public class PropertyData implements Serializable {
     @ColumnInfo(name = "propertDate")
     private String propertDate;
 
+    @ColumnInfo(name = "area")
+    private String area;
+
     public PropertyData(String propertyName, String propertyType, double propertyValue, String village, String mandal, String state, String district, String measuredunit, List<String> photosList, String mobileNumber, String propertDate) {
         this.propertyName = propertyName;
         this.propertyType = propertyType;
@@ -162,6 +165,14 @@ public class PropertyData implements Serializable {
 
     public void setPropertDate(String propertDate) {
         this.propertDate = propertDate;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
     }
 
     public static class ImageUploadTypeConverter {

@@ -64,9 +64,9 @@ public class GalleryActivity extends BaseActivity implements GalleryMvpView {
             individual = (boolean) getIntent().getBooleanExtra("individual", false);
         }
         this.mapDataTableList = mPresenter.getAllMapDataTableListByPropertyid(propertyId);
-        imagePathList = mapDataTableList.get(position).getPointPhotoData();
         if (individual) {
             if (imagePathList != null && imagePathList.size() > 0) {
+                imagePathList = mapDataTableList.get(position).getPointPhotoData();
                 galleryAdapter = new GalleryAdapter(this, imagePathList);
                 galleryBinding.galleryListRecycler.setLayoutManager(new GridLayoutManager(this, 3));
                 galleryBinding.galleryListRecycler.setAdapter(galleryAdapter);

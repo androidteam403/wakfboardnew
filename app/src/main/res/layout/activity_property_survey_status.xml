@@ -66,7 +66,7 @@
                     app:srcCompat="@drawable/wakfboard_rounded" />
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/header_tittle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/five_dp"
@@ -79,12 +79,27 @@
                     app:layout_constraintStart_toEndOf="@+id/imageView2"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <ImageView
+                    android:id="@+id/property_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/app_name"
+                    android:onClick="@{()-> callback.onClickPropertyEdit()}"
+                    android:paddingTop="@dimen/seven_dp"
+                    android:paddingBottom="@dimen/seven_dp"
+                    android:src="@drawable/ic_property_edit"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/plusImage"
+                    app:layout_constraintTop_toTopOf="parent" />
+
 
                 <ImageView
                     android:id="@+id/plusImage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/fifteen_dp"
+                    android:contentDescription="@string/app_name"
                     android:paddingTop="@dimen/fifteen_dp"
                     android:paddingBottom="@dimen/fifteen_dp"
                     android:src="@drawable/plus_icon"

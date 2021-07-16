@@ -54,6 +54,7 @@
                     android:fontFamily="@font/roboto_medium"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_dimen_18"
+                    android:visibility="gone"
                     android:contentDescription="@string/app_name" />
 
                 <TextView
@@ -62,19 +63,28 @@
                     android:layout_height="wrap_content"
                     android:text="@string/label_survey_list"
                     android:layout_marginStart="@dimen/three_dp"
-                    android:fontFamily="@font/roboto_regular"
+                    android:fontFamily="@font/roboto_bold"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/text_dimen_13" />
+                    android:textSize="@dimen/text_dimen_18" />
             </LinearLayout>
 
 
         </LinearLayout>
+        <ImageView
+            android:id="@+id/property_icon"
+            android:layout_width="@dimen/fifty_dp"
+            android:layout_height="@dimen/fifty_dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/property_plus_icon"
+            android:layout_alignParentEnd="true"
+            android:padding="@dimen/ten_dp"
+            android:layout_centerVertical="true" />
 
         <ImageView
             android:id="@+id/refresh_sync"
             android:layout_width="@dimen/thirty_dp"
             android:layout_height="@dimen/thirty_dp"
-            android:visibility="visible"
+            android:visibility="gone"
             android:contentDescription="@string/app_name"
             android:src="@drawable/ic_refresh"
             android:layout_alignParentEnd="true"

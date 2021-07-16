@@ -47,6 +47,8 @@ import com.thresholdsoft.wakfboard.databinding.ActivityPropertySurveyStatusBindi
 import com.thresholdsoft.wakfboard.ui.base.BaseActivity;
 import com.thresholdsoft.wakfboard.ui.gallery.GalleryActivity;
 import com.thresholdsoft.wakfboard.ui.mapdataliastactivity.MapDataListActivity;
+import com.thresholdsoft.wakfboard.ui.propertycreation.PropertyCreation;
+import com.thresholdsoft.wakfboard.ui.propertycreation.model.PropertyData;
 import com.thresholdsoft.wakfboard.ui.propertysurvey.PropertySurvey;
 import com.thresholdsoft.wakfboard.ui.propertysurvey.bottomsheet.PropertySurveyBottomSheet;
 import com.thresholdsoft.wakfboard.ui.propertysurvey.model.MapDataTable;
@@ -76,6 +78,7 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
     private int propertyId;
     List<MapDataTable> mapDataTableList;
     private String measurements;
+    private PropertyData propertyData;
 
 
     @Override
@@ -94,7 +97,9 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
                 .findFragmentById(R.id.preview_map);
         mapFragment.getMapAsync(PropertyPreview.this);
         if (getIntent() != null) {
-            propertyId = (Integer) getIntent().getIntExtra("propertyId", 0);
+            propertyData = (PropertyData) getIntent().getSerializableExtra(PropertyCreation.PROPERTY_DATA_KEY);
+            activityPropertySurveyStatusBinding.headerTittle.setText(propertyData.getPropertyName());
+            propertyId = propertyData.getId();
             measurements = (String) getIntent().getStringExtra("measurements");
         }
         mpresenter.getMapTypelist(propertyId);
@@ -189,6 +194,12 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
         startActivity(GalleryActivity.getStartIntent(this, propertyId));
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
 
+    }
+
+    @Override
+    public void onClickPropertyEdit() {
+        startActivityForResult(PropertyCreation.getStartIntent(this, propertyData, true), PropertyCreation.ACTIVITY_ID);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
     private void fetchLocation() {
@@ -334,24 +345,27 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
                         double amount = Double.parseDouble(mpresenter.getPolygonAreainMeters(getPolygontLatlngList));
                         DecimalFormat formatter = new DecimalFormat("#,###");
                         String formatted = formatter.format(amount);
-
+                        mpresenter.updateAreaByPropertyId(propertyId, formatted);
                         activityPropertySurveyStatusBinding.polygonArea.setText("Area :" + formatted + "m²");
                     } else if (measurements.equalsIgnoreCase("Square Feet")) {
                         double amount = Double.parseDouble(mpresenter.getPolygonAreainSquareFeet(getPolygontLatlngList));
                         DecimalFormat formatter = new DecimalFormat("#,###");
                         String formatted = formatter.format(amount);
+                        mpresenter.updateAreaByPropertyId(propertyId, formatted);
 
                         activityPropertySurveyStatusBinding.polygonArea.setText("Area :" + formatted + "sq ft²");
                     } else if (measurements.equalsIgnoreCase("Square yards")) {
                         double amount = Double.parseDouble(mpresenter.getPolygonAreainSquareYards(getPolygontLatlngList));
                         DecimalFormat formatter = new DecimalFormat("#,###");
                         String formatted = formatter.format(amount);
+                        mpresenter.updateAreaByPropertyId(propertyId, formatted);
 
                         activityPropertySurveyStatusBinding.polygonArea.setText("Area :" + formatted + "sq yd²");
                     } else if (measurements.equalsIgnoreCase("Acres")) {
                         double amount = Double.parseDouble(mpresenter.getPolygonAreainAcers(getPolygontLatlngList));
                         DecimalFormat formatter = new DecimalFormat("#,###");
                         String formatted = formatter.format(amount);
+                        mpresenter.updateAreaByPropertyId(propertyId, formatted);
 
                         activityPropertySurveyStatusBinding.polygonArea.setText("Area :" + formatted + "acers");
                     }
@@ -492,6 +506,11 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
                         getPolyLineList(mMap);
                     }
                     break;
+                case PropertyCreation.ACTIVITY_ID:
+                    if (data != null) {
+                        propertyData = (PropertyData) data.getSerializableExtra(PropertyCreation.PROPERTY_DATA_KEY);
+                        activityPropertySurveyStatusBinding.headerTittle.setText(propertyData.getPropertyName());
+                    }
                 default:
             }
         }

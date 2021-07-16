@@ -5,4 +5,6 @@ import com.thresholdsoft.wakfboard.ui.base.MvpView;
 public interface SurveyListMvpView extends MvpView {
 
     void onItemClickTakeSurveyLister(int position);
+
+    void onClickPropertyCreation();
 }

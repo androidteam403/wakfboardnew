@@ -61,17 +61,9 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView {
 
     @Override
     protected void setUp(View view) {
-
+        activitySurveyListBinding.setCallback(mpresenter);
         this.propertyDataList = mpresenter.getPropertylist();
-
         activitySurveyListBinding.propertyCreationLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivityForResult(PropertyCreation.getStartIntent(getContext()), PROPERTY_CREATION);
-                getActivity().overridePendingTransition(R.anim.fadein, R.anim.fadeout);
-            }
-        });
-        activitySurveyListBinding.createProperty.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivityForResult(PropertyCreation.getStartIntent(getContext()), PROPERTY_CREATION);
@@ -86,11 +78,21 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView {
             activitySurveyListBinding.recyclerSurveyList.setItemAnimator(new DefaultItemAnimator());
             activitySurveyListBinding.recyclerSurveyList.setAdapter(surveyAdapter);
             activitySurveyListBinding.recyclerSurveyList.setNestedScrollingEnabled(false);
+            activitySurveyListBinding.noDataFound.setVisibility(View.GONE);
+            activitySurveyListBinding.recyclerSurveyList.setVisibility(View.VISIBLE);
         } else {
             activitySurveyListBinding.noDataFound.setVisibility(View.VISIBLE);
             activitySurveyListBinding.recyclerSurveyList.setVisibility(View.GONE);
         }
         onSyncClick();
+        onClickCreatePropertryIcon();
+    }
+
+    private void onClickCreatePropertryIcon() {
+        ImageView createProperty = getActivity().findViewById(R.id.property_icon);
+        createProperty.setOnClickListener(v -> {
+            onClickPropertyCreation();
+        });
     }
 
     @Override
@@ -101,6 +103,12 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView {
     @Override
     public void onItemClickTakeSurveyLister(int position) {
         getLocationPermmision(position);
+    }
+
+    @Override
+    public void onClickPropertyCreation() {
+        startActivityForResult(PropertyCreation.getStartIntent(getContext()), PROPERTY_CREATION);
+        getActivity().overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
     private void onSyncClick() {
@@ -114,26 +122,19 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView {
     }
 
     private void sync() {
-        if (surveyAdapter != null) {
-            propertyDataList = mpresenter.getPropertylist();
-            activitySurveyListBinding.recyclerSurveyList.setVisibility(View.VISIBLE);
-            activitySurveyListBinding.noDataFound.setVisibility(View.GONE);
+        propertyDataList = mpresenter.getPropertylist();
+        if (propertyDataList != null && propertyDataList.size() > 0) {
             surveyAdapter = new SurveyAdapter(getContext(), propertyDataList, SurveyListFrag.this);
             RecyclerView.LayoutManager mLayoutManager2 = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
             activitySurveyListBinding.recyclerSurveyList.setLayoutManager(mLayoutManager2);
             activitySurveyListBinding.recyclerSurveyList.setItemAnimator(new DefaultItemAnimator());
             activitySurveyListBinding.recyclerSurveyList.setAdapter(surveyAdapter);
             activitySurveyListBinding.recyclerSurveyList.setNestedScrollingEnabled(false);
+            activitySurveyListBinding.recyclerSurveyList.setVisibility(View.VISIBLE);
+            activitySurveyListBinding.noDataFound.setVisibility(View.GONE);
         } else {
-            propertyDataList = mpresenter.getPropertylist();
-            activitySurveyListBinding.recyclerSurveyList.setVisibility(View.VISIBLE);
-            activitySurveyListBinding.noDataFound.setVisibility(View.GONE);
-            surveyAdapter = new SurveyAdapter(getContext(), propertyDataList, SurveyListFrag.this);
-            RecyclerView.LayoutManager mLayoutManager2 = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-            activitySurveyListBinding.recyclerSurveyList.setLayoutManager(mLayoutManager2);
-            activitySurveyListBinding.recyclerSurveyList.setItemAnimator(new DefaultItemAnimator());
-            activitySurveyListBinding.recyclerSurveyList.setAdapter(surveyAdapter);
-            activitySurveyListBinding.recyclerSurveyList.setNestedScrollingEnabled(false);
+            activitySurveyListBinding.recyclerSurveyList.setVisibility(View.GONE);
+            activitySurveyListBinding.noDataFound.setVisibility(View.VISIBLE);
         }
     }
 
@@ -148,7 +149,7 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView {
             this.itemPosition = position;
         } else {
             Intent intent = new Intent(getContext(), PropertyPreview.class);
-            intent.putExtra("propertyId", propertyDataList.get(position).getId());
+            intent.putExtra(PropertyCreation.PROPERTY_DATA_KEY, propertyDataList.get(position));
             intent.putExtra("measurements", propertyDataList.get(position).getMeasuredunit());
             startActivity(intent);
             getActivity().overridePendingTransition(R.anim.fadein, R.anim.fadeout);

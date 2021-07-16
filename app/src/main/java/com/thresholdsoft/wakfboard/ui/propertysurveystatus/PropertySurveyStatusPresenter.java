@@ -54,7 +54,7 @@ public class PropertySurveyStatusPresenter<V extends PropertySurveyStatusMvpView
         double area = 0;
         if (polygonPoints.size() > 0) {
             area = SphericalUtil.computeArea(polygonPoints);
-            area = area * 0.111111*0.111111;
+            area = area * 0.111111 * 0.111111;
         }
         return String.format("%.2f", area);
     }
@@ -66,7 +66,8 @@ public class PropertySurveyStatusPresenter<V extends PropertySurveyStatusMvpView
             area = SphericalUtil.computeArea(polygonPoints);
             area = area * 0.0000229568;
         }
-        return String.format("%.2f", area);    }
+        return String.format("%.2f", area);
+    }
 
     @SuppressLint("DefaultLocale")
     @Override
@@ -85,5 +86,15 @@ public class PropertySurveyStatusPresenter<V extends PropertySurveyStatusMvpView
     @Override
     public void onClickGallery() {
         getMvpView().onClickGallery();
+    }
+
+    @Override
+    public void onClickPropertyEdit() {
+        getMvpView().onClickPropertyEdit();
+    }
+
+    @Override
+    public void updateAreaByPropertyId(int id, String area) {
+        getDataManager().updateAreaByPropertyId(id, area);
     }
 }

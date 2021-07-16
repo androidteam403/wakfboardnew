@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface SurveyListMvpPresenter<V extends SurveyListMvpView> extends MvpPresenter<V> {
     List<PropertyData> getPropertylist();
+
+    void onClickPropertyCreation();
 }
