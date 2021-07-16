@@ -52,7 +52,9 @@
         <activity android:name="com.thresholdsoft.wakfboard.ui.propertycreation.PropertyCreation" />
         <activity
             android:name="com.thresholdsoft.wakfboard.ui.mainactivity.MainActiivty"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
         <activity android:name="com.thresholdsoft.wakfboard.ui.surveytrack.SurveyTrackingActivity">
 
         </activity>
@@ -80,6 +82,7 @@
         </activity>
         <activity android:name="com.thresholdsoft.wakfboard.ui.photouploadactivity.PhotoUpload" />
         <activity android:name="com.thresholdsoft.wakfboard.ui.mapdataliastactivity.MapDataListActivity" />
+        <activity android:name=".ui.gallery.GalleryActivity" />
 
         <receiver
             android:name="com.thresholdsoft.wakfboard.services.ConnectivityReceiver"

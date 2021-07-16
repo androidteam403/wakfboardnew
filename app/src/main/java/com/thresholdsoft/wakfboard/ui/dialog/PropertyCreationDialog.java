@@ -11,7 +11,6 @@ import androidx.databinding.DataBindingUtil;
 
 import com.thresholdsoft.wakfboard.R;
 import com.thresholdsoft.wakfboard.databinding.DialogPolygoneBinding;
-import com.thresholdsoft.wakfboard.databinding.SurveyPointDialogBinding;
 import com.thresholdsoft.wakfboard.ui.surveytrack.SurveyTrackMvpView;
 
 public class PropertyCreationDialog {
@@ -20,6 +19,14 @@ public class PropertyCreationDialog {
     private SurveyTrackMvpView surveyTrackMvpView;
 
     private boolean negativeExist = false;
+
+    public void setEditTextVisible(boolean isEditTextVisible) {
+        if (!isEditTextVisible) {
+            editQuantityDialogBinding.editNameEditText.setVisibility(View.GONE);
+            editQuantityDialogBinding.editDescriptionEditText.setVisibility(View.GONE);
+            editQuantityDialogBinding.uploadImage.setVisibility(View.GONE);
+        }
+    }
 
     public PropertyCreationDialog(Context context) {
         dialog = new Dialog(context);
@@ -92,6 +99,7 @@ public class PropertyCreationDialog {
     public String getPointDescription() {
         return editQuantityDialogBinding.editDescriptionEditText.getText().toString();
     }
+
     public void setEditTextData(String editTextData) {
         editQuantityDialogBinding.editNameEditText.setText(editTextData);
     }
@@ -107,7 +115,7 @@ public class PropertyCreationDialog {
             editQuantityDialogBinding.editNameEditText.setError("please enter name");
             editQuantityDialogBinding.editNameEditText.requestFocus();
             return false;
-        }else if (description.isEmpty()){
+        } else if (description.isEmpty()) {
             editQuantityDialogBinding.editDescriptionEditText.setError("Please enter description");
             editQuantityDialogBinding.editDescriptionEditText.requestFocus();
             return false;

@@ -33,7 +33,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="@dimen/seven_dp"
                     android:fontFamily="@font/roboto_bold"
-                    android:text="Start Survey Type"
+                    android:text="Choose Survey Type"
                     android:textColor="@color/black" />
 
                 <ImageView
@@ -58,6 +58,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:onClick="@{()-> clicklisteners.onPointRadioClick()}"
                     android:orientation="vertical">
 
                     <ImageView
@@ -89,6 +90,7 @@
                     android:layout_width="@dimen/zero_dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:onClick="@{()-> clicklisteners.onPolylineRadioClick()}"
                     android:gravity="center"
                     android:orientation="vertical">
 
@@ -121,6 +123,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:onClick="@{()-> clicklisteners.onPolygonRadioClick()}"
                     android:orientation="vertical">
 
                     <ImageView
@@ -153,7 +156,7 @@
                 android:fontFamily="@font/roboto_bold"
                 android:gravity="center"
                 android:onClick="@{()-> clicklisteners.onTakeSurveyClick()}"
-                android:text="@string/label_start_survey"
+                android:text="Start"
                 android:textColor="@color/white" />
 
         </LinearLayout>

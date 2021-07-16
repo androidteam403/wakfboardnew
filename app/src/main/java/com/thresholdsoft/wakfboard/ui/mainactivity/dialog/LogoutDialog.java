@@ -60,6 +60,7 @@ public class LogoutDialog extends BaseDialog implements LogoutMvpView {
     @Override
     public void onYesClick() {
         mpresenter.clearSharedPreference();
+        mpresenter.clearLocalDb();
         Intent intent = new Intent(getContext(), UserLoginActivity.class);
         startActivity(intent);
         getActivity().overridePendingTransition(R.anim.left_right, R.anim.right_left);

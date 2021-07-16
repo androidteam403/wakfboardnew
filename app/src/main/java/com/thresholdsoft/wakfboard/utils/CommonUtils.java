@@ -10,7 +10,9 @@ import com.thresholdsoft.wakfboard.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 
@@ -51,5 +53,15 @@ public class CommonUtils {
             }
         }
         return "";
+    }
+    public static List<Integer> getColorList() {
+        List<Integer> colorList = new ArrayList<>();
+        colorList.add(R.color.yellow_transparent);
+        colorList.add(R.color.red_transparent);
+        colorList.add(R.color.green_transparent);
+        colorList.add(R.color.blue_transparent);
+        colorList.add(R.color.black_transparent);
+        colorList.add(R.color.pink_transparent);
+        return colorList;
     }
 }

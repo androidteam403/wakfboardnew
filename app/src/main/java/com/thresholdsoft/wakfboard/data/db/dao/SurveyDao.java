@@ -92,6 +92,9 @@ public interface SurveyDao {
     @Insert
     void insertPropertyData(PropertyData propertyData);
 
+    @Update
+    void updatePropertyData(PropertyData propertyData);
+
     @Query("SELECT * FROM PROPERTY_DATA")
     List<PropertyData> getAllPropertyCreationDataList();
 
@@ -100,5 +103,20 @@ public interface SurveyDao {
 
     @Query("SELECT * FROM MAP_DATA_TABLE WHERE propertyId=:propertyId")
     List<MapDataTable> getAllMapDtaListByPropertyId(int propertyId);
+
+    @Query("SELECT * FROM PROPERTY_DATA WHERE id=:id")
+    List<PropertyData> getAllPropertyListByPropertyId(int id);
+
+    @Query("DELETE FROM MAP_DATA_TABLE")
+    void deleteMapDataTable();
+
+    @Query("DELETE FROM PROPERTY_DATA")
+    void deletePropertyDataTable();
+
+    @Query("UPDATE PROPERTY_DATA SET area=:area WHERE id=:id")
+    void updateAreaByPropertyId(int id, String area);
+
+    @Update
+    void updateMapEditData(MapDataTable mapDataTable);
 }
 

@@ -53,15 +53,18 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/imageButton"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/praanadhaara_logo" />
+                    app:srcCompat="@drawable/wakfboard_rounded" />
 
-
-                <ImageView
-                    android:id="@+id/textView"
-                    android:layout_width="@dimen/one_hundred_seventy_dp"
-                    android:layout_height="@dimen/fifteen_dp"
+                <TextView
+                    android:id="@+id/tittle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:src="@drawable/praanadhaara_title"
+                    android:text="@string/label_wakf_board"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/roboto_bold"
+                    android:textSize="@dimen/text_dimen_18"
+                    android:layout_marginStart="@dimen/five_dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/imageView2"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -120,9 +123,22 @@
                     android:id="@+id/polygon_area"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Area"
+                    android:text="Area : 0.0m²"
                     android:textColor="@color/black"
                     android:fontFamily="@font/roboto_regular"/>
+
+                <TextView
+                    android:id="@+id/distance_textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/twenty_dp"
+                    android:layout_toEndOf="@id/polygon_area"
+                    android:background="@null"
+                    android:fontFamily="@font/roboto_regular"
+                    android:gravity="center"
+                    android:text="Distance : 0.0m"
+                    android:textColor="@color/black" />
+
 
                 <ImageView
                     android:id="@+id/type_textview"
