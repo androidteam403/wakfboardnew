@@ -244,6 +244,26 @@ public class BaseDataManager implements DataManager {
         return mDatabase.userDao().getAllMapDtaListByPropertyId(propertyId);
     }
 
+    @Override
+    public List<PropertyData> getAllPropertyListByPropertyId(int id) {
+        return mDatabase.userDao().getAllPropertyListByPropertyId(id);
+    }
+
+    @Override
+    public void deleteMapDataTable() {
+        mDatabase.userDao().deleteMapDataTable();
+    }
+
+    @Override
+    public void deletePropertyDataTable() {
+        mDatabase.userDao().deletePropertyDataTable();
+    }
+
+    @Override
+    public void updateMapEditData(MapDataTable mapDataTable) {
+        mDatabase.userDao().updateMapEditData(mapDataTable);
+    }
+
 //    @Override
 //    public Survey findByName(String first, String last) {
 //        return mDatabase.userDao().findByName(first, last);
