@@ -101,6 +101,9 @@ public interface SurveyDao {
     @Query("SELECT * FROM MAP_DATA_TABLE WHERE propertyId=:propertyId")
     List<MapDataTable> getAllMapDtaListByPropertyId(int propertyId);
 
+    @Query("SELECT * FROM PROPERTY_DATA WHERE id=:id")
+    List<PropertyData> getAllPropertyListByPropertyId(int id);
+
     @Query("DELETE FROM MAP_DATA_TABLE")
     void deleteMapDataTable();
 

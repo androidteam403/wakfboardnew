@@ -27,7 +27,7 @@ public class PropertyData implements Serializable {
     private String propertyType;
 
     @ColumnInfo(name = "propertyValue")
-    private double propertyValue;
+    private String propertyValue;
 
     @ColumnInfo(name = "village")
     private String village;
@@ -54,7 +54,7 @@ public class PropertyData implements Serializable {
     @ColumnInfo(name = "propertDate")
     private String propertDate;
 
-    public PropertyData(String propertyName, String propertyType, double propertyValue, String village, String mandal, String state, String district, String measuredunit, List<String> photosList, String mobileNumber, String propertDate) {
+    public PropertyData(String propertyName, String propertyType, String propertyValue, String village, String mandal, String state, String district, String measuredunit, List<String> photosList, String mobileNumber, String propertDate) {
         this.propertyName = propertyName;
         this.propertyType = propertyType;
         this.propertyValue = propertyValue;
@@ -92,11 +92,11 @@ public class PropertyData implements Serializable {
         this.propertyType = propertyType;
     }
 
-    public double getPropertyValue() {
+    public String getPropertyValue() {
         return propertyValue;
     }
 
-    public void setPropertyValue(double propertyValue) {
+    public void setPropertyValue(String propertyValue) {
         this.propertyValue = propertyValue;
     }
 

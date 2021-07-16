@@ -2,70 +2,90 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
-            android:background="@color/colorPrimaryDark"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <ImageView
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                android:background="@color/colorPrimaryDark"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/app_name"
+                    android:onClick="@{()-> callback.onClickBack()}"
+                    android:paddingStart="@dimen/five_dp"
+                    android:paddingTop="@dimen/fifteen_dp"
+                    android:paddingBottom="@dimen/fifteen_dp"
+                    android:src="@drawable/ic_back"
+                    tools:ignore="RtlSymmetry" />
+
+                <ImageView
+                    android:layout_width="@dimen/fifty_dp"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/app_name"
+                    android:padding="@dimen/five_dp"
+                    android:src="@drawable/wakfboard_rounded" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/five_dp"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="@string/label_gallery"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_dimen_18" />
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/gallery_list_recycler"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/app_name"
-                android:onClick="@{()-> callback.onClickBack()}"
-                android:paddingStart="@dimen/five_dp"
-                android:paddingTop="@dimen/fifteen_dp"
-                android:paddingBottom="@dimen/fifteen_dp"
-                android:src="@drawable/ic_back"
-                tools:ignore="RtlSymmetry" />
-
-            <ImageView
-                android:layout_width="@dimen/fifty_dp"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/app_name"
-                android:padding="@dimen/five_dp"
-                android:src="@drawable/wakfboard_rounded" />
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="@dimen/five_dp"
+                android:layout_marginTop="@dimen/five_dp"
+                android:visibility="@{isGallery ? view.VISIBLE : view.GONE}" />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/five_dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
                 android:fontFamily="@font/roboto_bold"
-                android:text="@string/label_gallery"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_dimen_18" />
+                android:gravity="center"
+                android:text="@string/label_no_items_found"
+                android:textColor="@color/red"
+                android:visibility="@{isGallery ? view.GONE : view.VISIBLE}" />
         </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/gallery_list_recycler"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="@dimen/five_dp"
-            android:layout_marginTop="@dimen/five_dp"
-            android:visibility="@{isGallery ? view.VISIBLE : view.GONE}" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:fontFamily="@font/roboto_bold"
-            android:gravity="center"
-            android:text="@string/label_no_items_found"
-            android:textColor="@color/red"
-            android:visibility="@{isGallery ? view.GONE : view.VISIBLE}" />
-    </LinearLayout>
+        <ImageView
+            android:id="@+id/gallery_add"
+            android:layout_width="@dimen/forty_dp"
+            android:layout_height="@dimen/forty_dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/eight_dp"
+            android:layout_marginEnd="@dimen/ten_dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/property_plus_icon"
+            android:visibility="@{individual ? view.VISIBLE : view.GONE}" />
+    </RelativeLayout>
 
     <data>
 
         <variable
             name="isGallery"
+            type="Boolean" />
+        <variable
+            name="individual"
             type="Boolean" />
 
         <variable

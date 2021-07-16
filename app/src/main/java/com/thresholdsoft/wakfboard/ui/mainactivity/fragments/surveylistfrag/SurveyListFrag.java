@@ -149,7 +149,9 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView {
         } else {
             Intent intent = new Intent(getContext(), PropertyPreview.class);
             intent.putExtra("propertyId", propertyDataList.get(position).getId());
+            intent.putExtra("propertyName", propertyDataList.get(position).getPropertyName());
             intent.putExtra("measurements", propertyDataList.get(position).getMeasuredunit());
+            intent.putExtra("id", propertyDataList.get(position).getId());
             startActivity(intent);
             getActivity().overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         }

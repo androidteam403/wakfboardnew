@@ -2,6 +2,7 @@ package com.thresholdsoft.wakfboard.ui.gallery.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.thresholdsoft.wakfboard.R;
 import com.thresholdsoft.wakfboard.databinding.AdapterGalleryBinding;
+import com.thresholdsoft.wakfboard.ui.gallery.GalleryMvpView;
 
 import java.util.List;
 
@@ -18,10 +20,14 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
 
     private Context context;
     private List<String> imagePathList;
+    private GalleryMvpView galleryMvpView;
+    private boolean deleteVisibility;
 
-    public GalleryAdapter(Context context, List<String> imagePathList) {
+    public GalleryAdapter(Context context, List<String> imagePathList, GalleryMvpView galleryMvpView,boolean deleteVisibility) {
         this.context = context;
         this.imagePathList = imagePathList;
+        this.galleryMvpView = galleryMvpView;
+        this.deleteVisibility=deleteVisibility;
     }
 
     @NonNull
@@ -35,6 +41,29 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         String imagePath = imagePathList.get(position);
         Glide.with(context).load(imagePath).into(holder.galleryBinding.image);
+        if (deleteVisibility){
+            holder.galleryBinding.delete.setVisibility(View.VISIBLE);
+        }else {
+            holder.galleryBinding.delete.setVisibility(View.GONE);
+        }
+
+
+        holder.galleryBinding.image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (galleryMvpView != null) {
+                    galleryMvpView.onImageClick(position);
+                }
+            }
+        });
+        holder.galleryBinding.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (galleryMvpView != null) {
+                    galleryMvpView.onGalleryDeleteClick(position);
+                }
+            }
+        });
     }
 
     @Override

@@ -245,6 +245,11 @@ public class BaseDataManager implements DataManager {
     }
 
     @Override
+    public List<PropertyData> getAllPropertyListByPropertyId(int id) {
+        return mDatabase.userDao().getAllPropertyListByPropertyId(id);
+    }
+
+    @Override
     public void deleteMapDataTable() {
         mDatabase.userDao().deleteMapDataTable();
     }

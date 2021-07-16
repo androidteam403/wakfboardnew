@@ -156,7 +156,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_regular"
-                                    android:text="Area"
+                                    android:text="Area : 0.0 m²"
                                     android:textColor="@color/black" />
 
                                 <TextView
@@ -191,6 +191,7 @@
                             </RelativeLayout>
 
                             <LinearLayout
+                                android:id="@+id/parent"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_below="@id/area_cal_lay"
@@ -212,6 +213,23 @@
                                     android:onClick="@{()-> callback.onClickGallery()}"
                                     android:src="@drawable/ic_gallery" />
                             </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/current_location"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/area_cal_lay"
+                                android:layout_alignParentEnd="true"
+                                android:layout_marginTop="@dimen/twenty_dp"
+                                android:layout_marginEnd="@dimen/ten_dp"
+                                android:background="@drawable/rectangular_light_round"
+                                android:backgroundTint="@color/colorPrimaryDark"
+                                android:fontFamily="@font/roboto_regular"
+                                android:padding="@dimen/five_dp"
+                                android:text="Current Location"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_dimen_12" />
+
                         </RelativeLayout>
 
                     </LinearLayout>

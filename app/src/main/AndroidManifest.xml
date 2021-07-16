@@ -37,7 +37,11 @@
         <activity
             android:name="com.thresholdsoft.wakfboard.ui.splash.SplashActivity"
             android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name="com.thresholdsoft.wakfboard.ui.userlogin.UserLoginActivity">
 
@@ -49,11 +53,7 @@
         <activity
             android:name="com.thresholdsoft.wakfboard.ui.mainactivity.MainActiivty"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name="com.thresholdsoft.wakfboard.ui.surveytrack.SurveyTrackingActivity">
 

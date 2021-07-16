@@ -76,6 +76,8 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
     private int propertyId;
     List<MapDataTable> mapDataTableList;
     private String measurements;
+    private String propertyName;
+    private int id;
 
 
     @Override
@@ -96,6 +98,8 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
         if (getIntent() != null) {
             propertyId = (Integer) getIntent().getIntExtra("propertyId", 0);
             measurements = (String) getIntent().getStringExtra("measurements");
+            propertyName = (String) getIntent().getStringExtra("propertyName");
+            id = (int) getIntent().getIntExtra("id", 0);
         }
         mpresenter.getMapTypelist(propertyId);
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
@@ -116,6 +120,21 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
 
             startActivityForResult(MapDataListActivity.getStartIntent(PropertyPreview.this, propertyId, myJson), MAP_DATA_LIST);
             overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+        });
+
+//        activityPropertySurveyStatusBinding.propertyName.setText(propertyName);
+
+        activityPropertySurveyStatusBinding.currentLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (currentLocation != null) {
+                    LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+                    MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("I am here!");
+                    mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14));
+                    mMap.addMarker(markerOptions);
+                }
+            }
         });
 
     }
@@ -186,7 +205,7 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
 
     @Override
     public void onClickGallery() {
-        startActivity(GalleryActivity.getStartIntent(this, propertyId));
+        startActivity(GalleryActivity.getStartIntent(this, propertyId, id));
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
 
     }
@@ -234,6 +253,7 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
 
     private void getPolyLineList(GoogleMap googleMap) {
         double i1 = 0.0;
+        double polygoni1 = 0.0;
         mMap = googleMap;
         if (googleMap != null) {
             googleMap.clear();
@@ -248,7 +268,7 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
                         MarkerOptions markerOptions = new MarkerOptions().position(latLngLine).title(name);
                         polyLineMarker = mMap.addMarker(markerOptions);
                         googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLngLine));
-                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLngLine, 15));
+                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLngLine, 14));
                     }
                 } else if (mapDataTable.getMapType() == 2 && mapDataTable.isChecked()) {
                     BitmapDescriptor icon2 = BitmapDescriptorFactory.fromResource(R.drawable.marker_yellow_icon);
@@ -295,7 +315,7 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
                     PolylineOptions polylineOptions = new PolylineOptions().addAll(getPolylineLatlngList).color(Color.BLUE).width(5).clickable(true);
                     polyline = mMap.addPolyline(polylineOptions);
                     googleMap.animateCamera(CameraUpdateFactory.newLatLng(getPolylineLatlngList.get(0)));
-                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(getPolylineLatlngList.get(0), 15));
+                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(getPolylineLatlngList.get(0), 14));
 
                 } else if (mapDataTable.getMapType() == 3 && mapDataTable.isChecked()) {
                     BitmapDescriptor icon1 = BitmapDescriptorFactory.fromResource(R.drawable.marker_yellow_icon);
@@ -331,25 +351,37 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
                     }
 
                     if (measurements.equalsIgnoreCase("Square Meters")) {
-                        double amount = Double.parseDouble(mpresenter.getPolygonAreainMeters(getPolygontLatlngList));
+
+                        polygoni1 += Double.parseDouble(mpresenter.getPolygonAreainMeters(getPolygontLatlngList));
+
+                        double amount = polygoni1;
                         DecimalFormat formatter = new DecimalFormat("#,###");
                         String formatted = formatter.format(amount);
 
                         activityPropertySurveyStatusBinding.polygonArea.setText("Area :" + formatted + "m²");
                     } else if (measurements.equalsIgnoreCase("Square Feet")) {
-                        double amount = Double.parseDouble(mpresenter.getPolygonAreainSquareFeet(getPolygontLatlngList));
+
+                        polygoni1 += Double.parseDouble(mpresenter.getPolygonAreainSquareFeet(getPolygontLatlngList));
+
+                        double amount = polygoni1;
                         DecimalFormat formatter = new DecimalFormat("#,###");
                         String formatted = formatter.format(amount);
 
                         activityPropertySurveyStatusBinding.polygonArea.setText("Area :" + formatted + "sq ft²");
                     } else if (measurements.equalsIgnoreCase("Square yards")) {
-                        double amount = Double.parseDouble(mpresenter.getPolygonAreainSquareYards(getPolygontLatlngList));
+
+                        polygoni1 += Double.parseDouble(mpresenter.getPolygonAreainSquareFeet(getPolygontLatlngList));
+
+                        double amount = polygoni1;
                         DecimalFormat formatter = new DecimalFormat("#,###");
                         String formatted = formatter.format(amount);
 
                         activityPropertySurveyStatusBinding.polygonArea.setText("Area :" + formatted + "sq yd²");
                     } else if (measurements.equalsIgnoreCase("Acres")) {
-                        double amount = Double.parseDouble(mpresenter.getPolygonAreainAcers(getPolygontLatlngList));
+
+                        polygoni1 += Double.parseDouble(mpresenter.getPolygonAreainAcers(getPolygontLatlngList));
+
+                        double amount = polygoni1;
                         DecimalFormat formatter = new DecimalFormat("#,###");
                         String formatted = formatter.format(amount);
 
@@ -375,7 +407,7 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
                     }
                     polygon = mMap.addPolygon(polygonOptions);
                     googleMap.animateCamera(CameraUpdateFactory.newLatLng(getPolygontLatlngList.get(0)));
-                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(getPolygontLatlngList.get(0), 15));
+                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(getPolygontLatlngList.get(0), 14));
                 }
             }
 
@@ -384,7 +416,7 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
                 LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
                 MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("I am here!");
                 googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14));
                 googleMap.addMarker(markerOptions);
             }
         }
