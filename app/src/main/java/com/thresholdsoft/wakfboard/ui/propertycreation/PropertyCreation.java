@@ -8,6 +8,8 @@ import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -33,10 +35,13 @@ import net.alhazmy13.mediapicker.Image.ImagePicker;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -119,7 +124,7 @@ public class PropertyCreation extends BaseActivity implements PropertyMvpView {
                     String thisDate = currentDate.format(todayDate);
                     PropertyData propertyData1 = new PropertyData(propertyCreationBinding.propertyName.getText().toString(),
                             propertyCreationBinding.propertyType.getSelectedItem().toString(),
-                            Double.parseDouble(propertyCreationBinding.propertyValue.getText().toString()),
+                            propertyCreationBinding.propertyValue.getText().toString(),
                             propertyCreationBinding.village.getText().toString(),
                             propertyCreationBinding.mandal.getText().toString(),
                             propertyCreationBinding.state.getSelectedItem().toString(),
@@ -135,6 +140,44 @@ public class PropertyCreation extends BaseActivity implements PropertyMvpView {
                     mpresenter.insertPropertyData(propertyData1);
                     getLocationPermmision(propertyData1);
                 }
+            }
+        });
+        propertyCreationBinding.propertyValue.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                propertyCreationBinding.propertyValue.removeTextChangedListener(this);
+
+                try {
+                    String originalString = s.toString();
+
+                    Long longval;
+                    if (originalString.contains(",")) {
+                        originalString = originalString.replaceAll(",", "");
+                    }
+                    longval = Long.parseLong(originalString);
+
+                    DecimalFormat formatter = (DecimalFormat) NumberFormat.getInstance(Locale.US);
+                    formatter.applyPattern("#,###,###,###");
+                    String formattedString = formatter.format(longval);
+
+                    //setting text after format to EditText
+                    propertyCreationBinding.propertyValue.setText(formattedString);
+                    propertyCreationBinding.propertyValue.setSelection(propertyCreationBinding.propertyValue.getText().length());
+                } catch (NumberFormatException nfe) {
+                    nfe.printStackTrace();
+                }
+
+                propertyCreationBinding.propertyValue.addTextChangedListener(this);
             }
         });
     }
@@ -207,6 +250,7 @@ public class PropertyCreation extends BaseActivity implements PropertyMvpView {
         else
             intent = new Intent();
 
+        intent.putExtra("id",mpresenter.propertyID());
         intent.putExtra("measurements", propertyCreationBinding.areaType.getSelectedItem().toString());
         intent.putExtra("propertyName", propertyCreationBinding.propertyName.getText().toString());
         intent.putExtra("village", propertyCreationBinding.propertyName.getText().toString());

@@ -2,6 +2,7 @@ package com.thresholdsoft.wakfboard.ui.gallery;
 
 import com.thresholdsoft.wakfboard.data.DataManager;
 import com.thresholdsoft.wakfboard.ui.base.BasePresenter;
+import com.thresholdsoft.wakfboard.ui.propertycreation.model.PropertyData;
 import com.thresholdsoft.wakfboard.ui.propertysurvey.model.MapDataTable;
 import com.thresholdsoft.wakfboard.utils.rx.SchedulerProvider;
 
@@ -24,7 +25,17 @@ public class GalleryPresenter<V extends GalleryMvpView> extends BasePresenter<V>
     }
 
     @Override
+    public List<PropertyData> getAllPropertyList(int id) {
+        return getDataManager().getAllPropertyListByPropertyId(id);
+    }
+
+    @Override
     public void onClickBack() {
         getMvpView().onClickBack();
+    }
+
+    @Override
+    public void updateMapDataList(MapDataTable mapDataTable) {
+        getDataManager().updateMapEditData(mapDataTable);
     }
 }

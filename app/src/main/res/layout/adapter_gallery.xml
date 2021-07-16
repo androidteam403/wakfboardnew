@@ -2,26 +2,27 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.cardview.widget.CardView
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:cardElevation="@dimen/five_dp"
         android:layout_marginEnd="@dimen/five_dp"
-        android:layout_marginBottom="@dimen/five_dp">
+        android:layout_marginTop="@dimen/five_dp">
 
-        <RelativeLayout
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="100dp"
+            android:fitsSystemWindows="true"
+            android:layout_marginTop="@dimen/five_dp"
+            android:scaleType="fitXY"
+            android:layout_height="100dp"
+            android:contentDescription="@string/app_name" />
+
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center">
-
-            <ImageView
-                android:id="@+id/image"
-                android:layout_width="@dimen/one_hundred_ten_dp"
-                android:layout_height="@dimen/one_hundred_ten_dp"
-                android:contentDescription="@string/app_name"
-                android:scaleType="fitXY"
-                android:src="@drawable/wakfboard_rounded" />
-
-        </RelativeLayout>
-    </androidx.cardview.widget.CardView>
+            android:layout_toEndOf="@id/image"
+            android:src="@drawable/cross_black" />
+    </RelativeLayout>
 </layout>

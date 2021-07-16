@@ -11,6 +11,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.thresholdsoft.wakfboard.data.utils.DateConverter;
+import com.thresholdsoft.wakfboard.ui.propertycreation.model.PropertyData;
 
 import java.io.Serializable;
 import java.lang.reflect.Type;
@@ -41,6 +42,10 @@ public class MapDataTable implements Serializable {
     @TypeConverters(ImageUploadTypeConverter.class)
     @ColumnInfo(name = "pointPhotoData")
     private List<String> pointPhotoData;
+
+    @TypeConverters(ImageUploadTypeConverter.class)
+    @ColumnInfo(name = "propertyListData")
+    private List<String> propertyListData;
 
     @ColumnInfo(name = "mapDate")
     private String mapDate;
@@ -145,6 +150,14 @@ public class MapDataTable implements Serializable {
         this.description = description;
     }
 
+    public List<String> getPropertyListData() {
+        return propertyListData;
+    }
+
+    public void setPropertyListData(List<String> propertyListData) {
+        this.propertyListData = propertyListData;
+    }
+
     public List<String> getPointPhotoData() {
         return pointPhotoData;
     }
@@ -168,6 +181,22 @@ public class MapDataTable implements Serializable {
             return json;
         }
     }
+
+//    public static class PropertyTypeListConverter implements Serializable {
+//        @TypeConverter
+//        public List<PropertyData> fromString(String value) {
+//            Type listType = new TypeToken<List<PropertyData>>() {
+//            }.getType();
+//            return new Gson().fromJson(value, listType);
+//        }
+//
+//        @TypeConverter
+//        public String fromArrayList(List<PropertyData> list) {
+//            Gson gson = new Gson();
+//            String json = gson.toJson(list);
+//            return json;
+//        }
+//    }
 
 
     public static class ImageUploadTypeConverter implements Serializable {
