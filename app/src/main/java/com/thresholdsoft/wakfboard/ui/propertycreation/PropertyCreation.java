@@ -159,7 +159,6 @@ public class PropertyCreation extends BaseActivity implements PropertyMvpView {
 
                 try {
                     String originalString = s.toString();
-
                     Long longval;
                     if (originalString.contains(",")) {
                         originalString = originalString.replaceAll(",", "");

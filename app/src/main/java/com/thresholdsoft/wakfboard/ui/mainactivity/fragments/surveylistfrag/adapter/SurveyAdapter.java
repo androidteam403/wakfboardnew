@@ -46,13 +46,27 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
         if (propertyData.getMeasuredunit().equalsIgnoreCase("Square Meters")) {
             if (propertyData.getArea() != null) {
                 holder.adapterSurveyListBinding.propertyArea.setText(propertyData.getArea() + "m²");
+            } else {
+                holder.adapterSurveyListBinding.propertyArea.setText("0.0 m²");
             }
         } else if (propertyData.getMeasuredunit().equalsIgnoreCase("Square Feet")) {
-            holder.adapterSurveyListBinding.propertyArea.setText(propertyData.getArea() + "sq ft²");
+            if (propertyData.getArea() != null) {
+                holder.adapterSurveyListBinding.propertyArea.setText(propertyData.getArea() + "sq ft²");
+            } else {
+                holder.adapterSurveyListBinding.propertyArea.setText("0.0 sq ft²");
+            }
         } else if (propertyData.getMeasuredunit().equalsIgnoreCase("Square yards")) {
-            holder.adapterSurveyListBinding.propertyArea.setText(propertyData.getArea() + "sq yd²");
+            if (propertyData.getArea() != null) {
+                holder.adapterSurveyListBinding.propertyArea.setText(propertyData.getArea() + "sq yd²");
+            } else {
+                holder.adapterSurveyListBinding.propertyArea.setText("0.0 sq yd²");
+            }
         } else if (propertyData.getMeasuredunit().equalsIgnoreCase("Acres")) {
-            holder.adapterSurveyListBinding.propertyArea.setText(propertyData.getArea() + "acers");
+            if (propertyData.getArea() != null){
+                holder.adapterSurveyListBinding.propertyArea.setText(propertyData.getArea() + "acers");
+            }else{
+                holder.adapterSurveyListBinding.propertyArea.setText("0 acers");
+            }
         }
 
         holder.adapterSurveyListBinding.takeSurveyText.setOnClickListener(new View.OnClickListener() {
