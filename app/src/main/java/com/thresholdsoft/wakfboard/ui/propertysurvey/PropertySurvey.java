@@ -184,7 +184,11 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
                 propertySurveyBinding.propertyCreationDate.setVisibility(View.GONE);
                 propertySurveyBinding.tittle.setText(R.string.label_survey_details);
             }
-            propertySurveyBinding.tittle.setText(R.string.label_points);
+            if (editClick) {
+                propertySurveyBinding.pointSave.setVisibility(View.VISIBLE);
+            }else {
+                propertySurveyBinding.pointSave.setVisibility(View.GONE);
+            }
             propertySurveyBinding.polygonManualLay.setVisibility(View.GONE);
             propertySurveyBinding.polygonStart.setVisibility(View.GONE);
             propertySurveyBinding.polygonSave.setVisibility(View.GONE);
@@ -234,7 +238,6 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
                 propertySurveyBinding.tittle.setText(R.string.label_survey_details);
             }
             propertySurveyBinding.polygonManualLay.setVisibility(View.VISIBLE);
-            propertySurveyBinding.tittle.setText(R.string.label_polygon);
             if (editClick) {
                 propertySurveyBinding.polygonManualLay.setVisibility(View.VISIBLE);
             }else {
@@ -258,7 +261,12 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
             @Override
             public void onClick(View v) {
                 editClick = true;
+                if (mapTypeData == 3)
                 propertySurveyBinding.polygonManualLay.setVisibility(View.VISIBLE);
+                if (mapTypeData == 2)
+                    propertySurveyBinding.polylineLay.setVisibility(View.VISIBLE);
+                if (mapTypeData ==1)
+                    propertySurveyBinding.pointSave.setVisibility(View.VISIBLE);
                 onMapReady(mMap);
             }
         });
@@ -987,6 +995,7 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
 //        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
 //        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 21));
         }
+        hideLoading();
     }
 
     @Override
@@ -1148,6 +1157,7 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
 
     @Override
     public void polylineClearClick() {
+        showLoading();
         if (polyline != null) polyline.remove();
         for (Marker marker : markerList)
             marker.remove();
@@ -1199,6 +1209,7 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
 
     @Override
     public void polygonManualClear() {
+        showLoading();
         if (polygon != null) polygon.remove();
         for (Marker marker : markerList)
             marker.remove();
@@ -1342,21 +1353,22 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
 
 
     private void showPolygonDialog() {
-        PropertyCreationDialog dialogView = new PropertyCreationDialog(this);
-        dialogView.setTitle("Survey Details");
-        dialogView.setPositiveLabel("SAVE");
-        if (mapDataTableList != null && mapDataTableList.size() > 0) {
-            mapDataTableList.get(pos).setLatLngList(latLngList);
-            dialogView.setEditTextData(mapDataTableList.get(pos).getName());
-            dialogView.setEditTextDescriptionData(mapDataTableList.get(pos).getDescription());
-        }
-        dialogView.setPositiveListener(view -> {
-            if (dialogView.validations()) {
-                dialogView.dismiss();
-                if (latLngList != null && latLngList.size() > 0) {
+        if (latLngList.size()>2) {
+            PropertyCreationDialog dialogView = new PropertyCreationDialog(this);
+            dialogView.setTitle("Survey Details");
+            dialogView.setPositiveLabel("Save");
+            if (mapDataTableList != null && mapDataTableList.size() > 0) {
+                mapDataTableList.get(pos).setLatLngList(latLngList);
+                dialogView.setEditTextData(mapDataTableList.get(pos).getName());
+                dialogView.setEditTextDescriptionData(mapDataTableList.get(pos).getDescription());
+            }
+            dialogView.setPositiveListener(view -> {
+                if (dialogView.validations()) {
+                    dialogView.dismiss();
+                    if (latLngList != null && latLngList.size() > 0) {
 //                    if (latLngList.size() == markerList.size()) {
 //                        for (int i = 0; i < latLngList.size(); i++) {
-                    if (mapDataTableList != null && mapDataTableList.size() > 0) {
+                        if (mapDataTableList != null && mapDataTableList.size() > 0) {
 //                        MapDataTable mapDataTable = new MapDataTable();
 //                        mapDataTable.setId(mapDataTableList.get(pos).getId());
 //                        mapDataTable.setPropertyID(mapDataTableList.get(pos).getPropertyID());
@@ -1365,23 +1377,23 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
 //                        mapDataTable.setName(mapDataTableList.get(pos).getName());
 //                        mapDataTable.setDescription(mapDataTableList.get(pos).getDescription());
 //                        mapDataTable.setPointPhotoData(mapDataTableList.get(pos).getPointPhotoData());
-                        mapDataTableList.get(pos).setPointPhotoData(imagesUploadedList);
-                        mapDataTableList.get(pos).setAreaDistance(propertySurveyBinding.polygonArea.getText().toString());
-                        mpresenter.updateMapDataList(mapDataTableList.get(pos));
-                    } else {
+                            mapDataTableList.get(pos).setPointPhotoData(imagesUploadedList);
+                            mapDataTableList.get(pos).setAreaDistance(propertySurveyBinding.polygonArea.getText().toString());
+                            mpresenter.updateMapDataList(mapDataTableList.get(pos));
+                        } else {
 
-                        SimpleDateFormat currentDate = new SimpleDateFormat("dd/MM/yyyy");
-                        Date todayDate = new Date();
-                        String thisDate = currentDate.format(todayDate);
+                            SimpleDateFormat currentDate = new SimpleDateFormat("dd/MM/yyyy");
+                            Date todayDate = new Date();
+                            String thisDate = currentDate.format(todayDate);
 
-                        MapDataTable mapDataTable = new MapDataTable(propertyId, mapTypeData, latLngList, dialogView.getPointName(), dialogView.getPointDescription(), imagesUploadedList, thisDate, propertySurveyBinding.polygonArea.getText().toString(), measurements);
-                        mpresenter.insertMapTypeDataTable(mapDataTable);
-                    }
+                            MapDataTable mapDataTable = new MapDataTable(propertyId, mapTypeData, latLngList, dialogView.getPointName(), dialogView.getPointDescription(), imagesUploadedList, thisDate, propertySurveyBinding.polygonArea.getText().toString(), measurements);
+                            mpresenter.insertMapTypeDataTable(mapDataTable);
+                        }
 //                        }
 //                    }
-                }
+                    }
 //                Toast toast =
-                Toast.makeText(PropertySurvey.this, "Polygon Details are saved successfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PropertySurvey.this, "Polygon Details are saved successfully", Toast.LENGTH_SHORT).show();
 //                toast.getView().setBackground(getResources().getDrawable(R.drawable.toast_bg));
 //                TextView text = (TextView) toast.getView().findViewById(android.R.id.message);
 //                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -1391,24 +1403,24 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
 //                    text.setTextSize(14);
 //                }
 //                toast.show();
-                Intent intent = new Intent();
-                intent.putExtra("dialogName", dialogView.getPointName());
-                if (mapDataTableList != null && mapDataTableList.size() > 0) {
-                    Gson gson = new Gson();
-                    String myJson = gson.toJson(mapDataTableList);
-                    intent.putExtra("mapDataTableListUnchecked", myJson);
+                    Intent intent = new Intent();
+                    intent.putExtra("dialogName", dialogView.getPointName());
+                    if (mapDataTableList != null && mapDataTableList.size() > 0) {
+                        Gson gson = new Gson();
+                        String myJson = gson.toJson(mapDataTableList);
+                        intent.putExtra("mapDataTableListUnchecked", myJson);
+                    }
+                    setResult(RESULT_OK, intent);
+                    finish();
                 }
-                setResult(RESULT_OK, intent);
-                finish();
-            }
-        });
-        dialogView.setPositiveUploadImageListener(view -> {
-            startActivityForResult(PhotoUpload.getStartIntent(PropertySurvey.this), PHOTO_UPLOAD);
-            overridePendingTransition(R.anim.fadein, R.anim.fadeout);
-        });
-        dialogView.setNegativeLabel("Cancel");
-        dialogView.setNegativeListener(v -> {
-            dialogView.dismiss();
+            });
+            dialogView.setPositiveUploadImageListener(view -> {
+                startActivityForResult(PhotoUpload.getStartIntent(PropertySurvey.this), PHOTO_UPLOAD);
+                overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+            });
+            dialogView.setNegativeLabel("Cancel");
+            dialogView.setNegativeListener(v -> {
+                dialogView.dismiss();
 //            Toast.makeText(PropertySurvey.this, "PointDetails are not saved", Toast.LENGTH_LONG).show();
 //            Toast toast = Toast.makeText(PropertySurvey.this, "Polygon Details are not saved", Toast.LENGTH_SHORT);
 //            toast.getView().setBackground(getResources().getDrawable(R.drawable.toast_bg));
@@ -1420,26 +1432,30 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
 //                text.setTextSize(14);
 //            }
 //            toast.show();
-        });
-        dialogView.show();
+            });
+            dialogView.show();
+        }else {
+            Toast.makeText(this, "Please draw a polygon area", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void showPolylineDialog() {
-        PropertyCreationDialog dialogView = new PropertyCreationDialog(this);
-        dialogView.setTitle("Survey Details");
-        dialogView.setPositiveLabel("SAVE");
-        if (mapDataTableList != null && mapDataTableList.size() > 0) {
-            mapDataTableList.get(pos).setLatLngList(latLngList);
-            dialogView.setEditTextData(mapDataTableList.get(pos).getName());
-            dialogView.setEditTextDescriptionData(mapDataTableList.get(pos).getDescription());
-        }
-        dialogView.setPositiveListener(view -> {
-            if (dialogView.validations()) {
-                dialogView.dismiss();
-                if (latLngList != null && latLngList.size() > 0) {
+        if (latLngList.size()>1) {
+            PropertyCreationDialog dialogView = new PropertyCreationDialog(this);
+            dialogView.setTitle("Survey Details");
+            dialogView.setPositiveLabel("Save");
+            if (mapDataTableList != null && mapDataTableList.size() > 0) {
+                mapDataTableList.get(pos).setLatLngList(latLngList);
+                dialogView.setEditTextData(mapDataTableList.get(pos).getName());
+                dialogView.setEditTextDescriptionData(mapDataTableList.get(pos).getDescription());
+            }
+            dialogView.setPositiveListener(view -> {
+                if (dialogView.validations()) {
+                    dialogView.dismiss();
+                    if (latLngList != null && latLngList.size() > 0) {
 //                    if (latLngList.size() == markerList.size()) {
 //                        for (int i = 0; i < latLngList.size(); i++) {
-                    if (mapDataTableList != null && mapDataTableList.size() > 0) {
+                        if (mapDataTableList != null && mapDataTableList.size() > 0) {
 //                        MapDataTable mapDataTable = new MapDataTable();
 //                        mapDataTable.setPropertyID(mapDataTableList.get(pos).getPropertyID());
 //                        mapDataTable.setMapType(mapDataTableList.get(pos).getMapType());
@@ -1447,20 +1463,20 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
 //                        mapDataTable.setName(mapDataTableList.get(pos).getName());
 //                        mapDataTable.setDescription(mapDataTableList.get(pos).getDescription());
 //                        mapDataTable.setPointPhotoData(mapDataTableList.get(pos).getPointPhotoData());
-                        mapDataTableList.get(pos).setPointPhotoData(imagesUploadedList);
-                        mapDataTableList.get(pos).setAreaDistance(propertySurveyBinding.distanceTextView.getText().toString());
-                        mpresenter.updateMapDataList(mapDataTableList.get(pos));
-                    } else {
-                        SimpleDateFormat currentDate = new SimpleDateFormat("dd/MM/yyyy");
-                        Date todayDate = new Date();
-                        String thisDate = currentDate.format(todayDate);
-                        MapDataTable polylineDataTable = new MapDataTable(propertyId, mapTypeData, latLngList, dialogView.getPointName(), dialogView.getPointDescription(), imagesUploadedList, thisDate, propertySurveyBinding.distanceTextView.getText().toString(), "m");
-                        mpresenter.insertMapTypeDataTable(polylineDataTable);
-                    }
+                            mapDataTableList.get(pos).setPointPhotoData(imagesUploadedList);
+                            mapDataTableList.get(pos).setAreaDistance(propertySurveyBinding.distanceTextView.getText().toString());
+                            mpresenter.updateMapDataList(mapDataTableList.get(pos));
+                        } else {
+                            SimpleDateFormat currentDate = new SimpleDateFormat("dd/MM/yyyy");
+                            Date todayDate = new Date();
+                            String thisDate = currentDate.format(todayDate);
+                            MapDataTable polylineDataTable = new MapDataTable(propertyId, mapTypeData, latLngList, dialogView.getPointName(), dialogView.getPointDescription(), imagesUploadedList, thisDate, propertySurveyBinding.distanceTextView.getText().toString(), "m");
+                            mpresenter.insertMapTypeDataTable(polylineDataTable);
+                        }
 //                        }
 //                    }
-                }
-                Toast.makeText(PropertySurvey.this, "Polyline Details are saved successfully", Toast.LENGTH_SHORT).show();
+                    }
+                    Toast.makeText(PropertySurvey.this, "Polyline Details are saved successfully", Toast.LENGTH_SHORT).show();
 //                toast.getView().setBackground(getResources().getDrawable(R.drawable.toast_bg));
 //                TextView text = (TextView) toast.getView().findViewById(android.R.id.message);
 //                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -1470,24 +1486,24 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
 //                    text.setTextSize(14);
 //                }
 //                toast.show();
-                Intent intent = new Intent();
-                intent.putExtra("dialogName", dialogView.getPointName());
-                if (mapDataTableList != null && mapDataTableList.size() > 0) {
-                    Gson gson = new Gson();
-                    String myJson = gson.toJson(mapDataTableList);
-                    intent.putExtra("mapDataTableListUnchecked", myJson);
+                    Intent intent = new Intent();
+                    intent.putExtra("dialogName", dialogView.getPointName());
+                    if (mapDataTableList != null && mapDataTableList.size() > 0) {
+                        Gson gson = new Gson();
+                        String myJson = gson.toJson(mapDataTableList);
+                        intent.putExtra("mapDataTableListUnchecked", myJson);
+                    }
+                    setResult(RESULT_OK, intent);
+                    finish();
                 }
-                setResult(RESULT_OK, intent);
-                finish();
-            }
-        });
-        dialogView.setPositiveUploadImageListener(view -> {
-            startActivityForResult(PhotoUpload.getStartIntent(PropertySurvey.this), PHOTO_UPLOAD);
-            overridePendingTransition(R.anim.fadein, R.anim.fadeout);
-        });
-        dialogView.setNegativeLabel("Cancel");
-        dialogView.setNegativeListener(v -> {
-            dialogView.dismiss();
+            });
+            dialogView.setPositiveUploadImageListener(view -> {
+                startActivityForResult(PhotoUpload.getStartIntent(PropertySurvey.this), PHOTO_UPLOAD);
+                overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+            });
+            dialogView.setNegativeLabel("Cancel");
+            dialogView.setNegativeListener(v -> {
+                dialogView.dismiss();
 //            Toast.makeText(PropertySurvey.this, "PointDetails are not saved", Toast.LENGTH_LONG).show();
 //            Toast toast = Toast.makeText(PropertySurvey.this, "Polyline Details are not saved", Toast.LENGTH_SHORT);
 //            toast.getView().setBackground(getResources().getDrawable(R.drawable.toast_bg));
@@ -1499,14 +1515,17 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
 //                text.setTextSize(14);
 //            }
 //            toast.show();
-        });
-        dialogView.show();
+            });
+            dialogView.show();
+        }else {
+            Toast.makeText(this, "Please draw a polyline", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void showPointDialog(LatLng latLng) {
         PropertyCreationDialog dialogView = new PropertyCreationDialog(this);
         dialogView.setTitle("Survey Details");
-        dialogView.setPositiveLabel("SAVE");
+        dialogView.setPositiveLabel("Save");
         dialogView.setPositiveListener(view -> {
             if (dialogView.validations()) {
                 dialogView.dismiss();

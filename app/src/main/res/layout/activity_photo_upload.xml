@@ -57,22 +57,47 @@
 
         </RelativeLayout>
 
-        <TextView
-            android:id="@+id/no_data_found"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:fontFamily="@font/roboto_bold"
-            android:padding="@dimen/five_dp"
-            android:text="@string/label_no_images_found"
-            android:textColor="@color/red"
-            android:textSize="@dimen/text_dimen_14" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/pho_recycle"
+        <RelativeLayout
+            android:id="@+id/parent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/tool_bar"
-            android:layout_margin="@dimen/ten_dp" />
+            android:layout_below="@id/tool_bar">
+
+            <TextView
+                android:id="@+id/no_data_found"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/roboto_bold"
+                android:padding="@dimen/five_dp"
+                android:text="@string/label_no_images_found"
+                android:textColor="@color/red"
+                android:textSize="@dimen/text_dimen_14" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/pho_recycle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/ten_dp" />
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/full_view"
+            android:layout_marginTop="50dp"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/app_name" />
+        <ImageView
+            android:id="@+id/image_fullview_delete"
+            android:layout_marginTop="60dp"
+            android:layout_marginEnd="@dimen/fifteen_dp"
+            android:layout_width="30dp"
+            android:visibility="gone"
+            android:layout_alignParentEnd="true"
+            android:layout_height="30dp"
+            android:src="@drawable/cross_black"
+            android:contentDescription="@string/app_name" />
+
     </RelativeLayout>
 </layout>

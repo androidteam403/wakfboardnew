@@ -11,9 +11,12 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.thresholdsoft.wakfboard.R;
 import com.thresholdsoft.wakfboard.databinding.ActivityPhotoUploadBinding;
+import com.thresholdsoft.wakfboard.ui.alertdialog.CutomAlertBox;
 import com.thresholdsoft.wakfboard.ui.base.BaseActivity;
+import com.thresholdsoft.wakfboard.ui.gallery.GalleryActivity;
 import com.thresholdsoft.wakfboard.ui.photouploadactivity.adapter.PhotosUploadSurveyAdapter;
 
 import net.alhazmy13.mediapicker.Image.ImagePicker;
@@ -85,15 +88,44 @@ public class PhotoUpload extends BaseActivity implements PhotoUploadMvpView {
 
     @Override
     public void onRemovePhoto(int position) {
-        mPaths.remove(position);
-        photosUploadAdapter.notifyDataSetChanged();
-        if (mPaths != null && mPaths.size() > 0) {
-            activityPhotoUploadBinding.phoRecycle.setVisibility(View.VISIBLE);
-            activityPhotoUploadBinding.noDataFound.setVisibility(View.GONE);
-        } else {
-            activityPhotoUploadBinding.phoRecycle.setVisibility(View.GONE);
-            activityPhotoUploadBinding.noDataFound.setVisibility(View.VISIBLE);
-        }
+
+        CutomAlertBox cutomAlertBox = new CutomAlertBox(PhotoUpload.this);
+
+        cutomAlertBox.setTitle("Do you want to delete image ?");
+        cutomAlertBox.setPositiveListener(view -> {
+            mPaths.remove(position);
+            photosUploadAdapter.notifyDataSetChanged();
+            if (mPaths != null && mPaths.size() > 0) {
+                activityPhotoUploadBinding.phoRecycle.setVisibility(View.VISIBLE);
+                activityPhotoUploadBinding.noDataFound.setVisibility(View.GONE);
+            } else {
+                activityPhotoUploadBinding.phoRecycle.setVisibility(View.GONE);
+                activityPhotoUploadBinding.noDataFound.setVisibility(View.VISIBLE);
+            }
+            cutomAlertBox.dismiss();
+        });
+        cutomAlertBox.setNegativeListener(v -> cutomAlertBox.dismiss());
+        cutomAlertBox.show();
+
+
+
+    }
+
+    @Override
+    public void imagePathFullView(int pos, String path) {
+        activityPhotoUploadBinding.parent.setVisibility(View.GONE);
+        activityPhotoUploadBinding.fullView.setVisibility(View.VISIBLE);
+        activityPhotoUploadBinding.imageFullviewDelete.setVisibility(View.VISIBLE);
+        Glide.with(this).load(path).into(activityPhotoUploadBinding.fullView);
+        activityPhotoUploadBinding.imageFullviewDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activityPhotoUploadBinding.fullView.setVisibility(View.GONE);
+                activityPhotoUploadBinding.imageFullviewDelete.setVisibility(View.GONE);
+                activityPhotoUploadBinding.parent.setVisibility(View.VISIBLE);
+            }
+        });
+
     }
 
     @Override
@@ -135,17 +167,21 @@ public class PhotoUpload extends BaseActivity implements PhotoUploadMvpView {
                 activityPhotoUploadBinding.noDataFound.setVisibility(View.VISIBLE);
                 activityPhotoUploadBinding.phoRecycle.setVisibility(View.GONE);
             }
-
-
         }
     }
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent();
-        intent.putExtra("mpaths", (Serializable) mPaths);
-        setResult(RESULT_OK, intent);
-        finish();
-        overridePendingTransition(R.anim.left_right, R.anim.right_left);
+        if (activityPhotoUploadBinding.fullView.getVisibility() == View.VISIBLE) {
+            activityPhotoUploadBinding.fullView.setVisibility(View.GONE);
+            activityPhotoUploadBinding.imageFullviewDelete.setVisibility(View.GONE);
+            activityPhotoUploadBinding.parent.setVisibility(View.VISIBLE);
+        } else {
+            Intent intent = new Intent();
+            intent.putExtra("mpaths", (Serializable) mPaths);
+            setResult(RESULT_OK, intent);
+            finish();
+            overridePendingTransition(R.anim.left_right, R.anim.right_left);
+        }
     }
 }

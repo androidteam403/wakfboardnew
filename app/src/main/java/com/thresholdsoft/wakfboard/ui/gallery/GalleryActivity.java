@@ -221,14 +221,14 @@ public class GalleryActivity extends BaseActivity implements GalleryMvpView {
     }
 
     @Override
-    public void onGalleryDeleteClick(int position) {
+    public void onGalleryDeleteClick(int pos) {
         CutomAlertBox cutomAlertBox = new CutomAlertBox(GalleryActivity.this);
 
         cutomAlertBox.setTitle("Do you want to delete image ?");
         cutomAlertBox.setPositiveListener(view -> {
-            imagePathList.remove(position);
+            imagePathList.remove(pos);
             galleryAdapter.notifyDataSetChanged();
-            mapDataTableList.get(position).setPointPhotoData(imagePathList);
+            mapDataTableList.get(this.position).setPointPhotoData(imagePathList);
             mPresenter.updateMapDataList(mapDataTableList.get(this.position));
             cutomAlertBox.dismiss();
         });
