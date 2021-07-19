@@ -79,6 +79,6 @@
     <string name="label_edit_property_details">Edit Property Details</string>
     <string name="label_polyline">Polylines</string>
     <string name="label_polygon">Polygon</string>
-    <string name="label_distance">Distance : 0.0 m</string>
+    <string name="label_distance">Distance: 0.0 m</string>
     <item type="id" name="polygon_marker_position" />
 </resources>

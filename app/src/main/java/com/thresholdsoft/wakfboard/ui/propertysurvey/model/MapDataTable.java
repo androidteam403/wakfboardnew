@@ -11,7 +11,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.thresholdsoft.wakfboard.data.utils.DateConverter;
-import com.thresholdsoft.wakfboard.ui.propertycreation.model.PropertyData;
 
 import java.io.Serializable;
 import java.lang.reflect.Type;
@@ -53,6 +52,9 @@ public class MapDataTable implements Serializable {
     @ColumnInfo(name = "areaDistance")
     private String areaDistance;
 
+    @ColumnInfo(name = "measurementsType")
+    private String measurementsType;
+
     @Ignore
     private boolean isChecked = true;
 
@@ -75,7 +77,7 @@ public class MapDataTable implements Serializable {
         isChecked = checked;
     }
 
-    public MapDataTable(int propertyID, int mapType, List<LatLng> latLngList, String name, String description, List<String> pointPhotoData, String mapDate, String areaDistance) {
+    public MapDataTable(int propertyID, int mapType, List<LatLng> latLngList, String name, String description, List<String> pointPhotoData, String mapDate, String areaDistance, String measurementsType) {
         this.propertyID = propertyID;
         this.mapType = mapType;
         this.latLngList = latLngList;
@@ -84,6 +86,7 @@ public class MapDataTable implements Serializable {
         this.pointPhotoData = pointPhotoData;
         this.mapDate = mapDate;
         this.areaDistance = areaDistance;
+        this.measurementsType = measurementsType;
     }
 
     public String getAreaDistance() {
@@ -124,6 +127,14 @@ public class MapDataTable implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getMeasurementsType() {
+        return measurementsType;
+    }
+
+    public void setMeasurementsType(String measurementsType) {
+        this.measurementsType = measurementsType;
     }
 
     public List<LatLng> getLatLngList() {

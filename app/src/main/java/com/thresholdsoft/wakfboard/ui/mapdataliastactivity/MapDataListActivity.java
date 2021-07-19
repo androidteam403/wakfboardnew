@@ -127,7 +127,7 @@ public class MapDataListActivity extends BaseActivity implements MapDataListActi
 
         String myJson = gson.toJson(mapDataTableList);
 
-        startActivityForResult(PropertySurvey.getStartIntent(MapDataListActivity.this, mapDataTable.get(pos).getMapType(), propertyId, myJson, pos, isEditMode), PROPERTY_SURVEY);
+        startActivityForResult(PropertySurvey.getStartIntent(MapDataListActivity.this, mapDataTable.get(pos).getMapType(), propertyId, myJson, pos, isEditMode, mapDataTable.get(pos).getMeasurementsType()), PROPERTY_SURVEY);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
@@ -139,7 +139,7 @@ public class MapDataListActivity extends BaseActivity implements MapDataListActi
         Gson gson = new Gson();
 
         String myJson = gson.toJson(mapDataTableList);
-        startActivityForResult(GalleryActivity.getStartIntent(this, propertyId, pos, individualGallery,myJson), GALLERY_ACTIVITY);
+        startActivityForResult(GalleryActivity.getStartIntent(this, propertyId, pos, individualGallery, myJson), GALLERY_ACTIVITY);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
@@ -172,7 +172,7 @@ public class MapDataListActivity extends BaseActivity implements MapDataListActi
                     }
                     break;
                 case GALLERY_ACTIVITY:
-                    if (data!=null){
+                    if (data != null) {
                         Gson gson = new Gson();
                         String json = data.getStringExtra("mapDataTableListUnchecked");
                         Type type = new TypeToken<List<MapDataTable>>() {

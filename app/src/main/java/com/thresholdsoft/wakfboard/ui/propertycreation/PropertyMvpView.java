@@ -6,5 +6,7 @@ public interface PropertyMvpView extends MvpView {
 
     void onRemovePhoto(int position);
 
+    void imageFullView(int position, String path);
+
     void onClickBack();
 }

@@ -50,6 +50,7 @@
                     android:paddingStart="@dimen/five_dp"
                     android:paddingTop="@dimen/five_dp"
                     android:paddingBottom="@dimen/five_dp"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/imageButton"
                     app:layout_constraintTop_toTopOf="parent"
@@ -59,15 +60,16 @@
                     android:id="@+id/tittle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/five_dp"
+                    android:fontFamily="@font/roboto_bold"
                     android:gravity="center_vertical"
                     android:text="@string/label_wakf_board"
                     android:textColor="@color/white"
-                    android:fontFamily="@font/roboto_bold"
                     android:textSize="@dimen/text_dimen_18"
-                    android:layout_marginStart="@dimen/five_dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/imageView2"
                     app:layout_constraintTop_toTopOf="parent" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -123,9 +125,9 @@
                     android:id="@+id/polygon_area"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Area : 0.0m²"
-                    android:textColor="@color/black"
-                    android:fontFamily="@font/roboto_regular"/>
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Area: 0.0 m²"
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:id="@+id/distance_textView"
@@ -136,7 +138,7 @@
                     android:background="@null"
                     android:fontFamily="@font/roboto_regular"
                     android:gravity="center"
-                    android:text="Distance : 0.0m"
+                    android:text="Distance: 0.0 m"
                     android:textColor="@color/black" />
 
 
@@ -223,11 +225,11 @@
             android:id="@+id/polygon_manual_lay"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:visibility="gone"
             android:layout_alignParentBottom="true"
             android:layout_margin="@dimen/text_dimen_20"
             android:background="@drawable/bg_rounde"
-            android:clickable="true">
+            android:clickable="true"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/polygon_maual_undo"
@@ -389,7 +391,33 @@
 
         </RelativeLayout>
 
-
+        <ImageView
+            android:id="@+id/edit_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/twenty_seven_dp"
+            android:layout_marginTop="150dp"
+            android:contentDescription="@string/app_name"
+            android:fontFamily="@font/roboto_bold"
+            android:gravity="center_vertical"
+            android:src="@drawable/map_edit"
+            android:text="@string/label_wakf_board"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_dimen_18" />
+        <ImageView
+            android:id="@+id/gallery_icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="@dimen/twenty_dp"
+            android:layout_below="@id/edit_icon"
+            android:layout_marginTop="@dimen/twenty_dp"
+            android:contentDescription="@string/app_name"
+            android:fontFamily="@font/roboto_bold"
+            android:gravity="center_vertical"
+            android:src="@drawable/ic_gallery"
+            android:text="@string/label_wakf_board"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_dimen_18" />
     </RelativeLayout>
 
 </layout>
