@@ -27,7 +27,7 @@ public class PropertyData implements Serializable {
     private String propertyType;
 
     @ColumnInfo(name = "propertyValue")
-    private double propertyValue;
+    private String propertyValue;
 
     @ColumnInfo(name = "village")
     private String village;
@@ -48,7 +48,16 @@ public class PropertyData implements Serializable {
     @ColumnInfo(name = "photosList")
     private List<String> photosList;
 
-    public PropertyData(String propertyName, String propertyType, double propertyValue, String village, String mandal, String state, String district, String measuredunit, List<String> photosList) {
+    @ColumnInfo(name = "mobileNumber")
+    private String mobileNumber;
+
+    @ColumnInfo(name = "propertDate")
+    private String propertDate;
+
+    @ColumnInfo(name = "area")
+    private String area;
+
+    public PropertyData(String propertyName, String propertyType, String propertyValue, String village, String mandal, String state, String district, String measuredunit, List<String> photosList, String mobileNumber, String propertDate) {
         this.propertyName = propertyName;
         this.propertyType = propertyType;
         this.propertyValue = propertyValue;
@@ -58,6 +67,8 @@ public class PropertyData implements Serializable {
         this.district = district;
         this.measuredunit = measuredunit;
         this.photosList = photosList;
+        this.mobileNumber = mobileNumber;
+        this.propertDate = propertDate;
     }
 
     public int getId() {
@@ -84,11 +95,11 @@ public class PropertyData implements Serializable {
         this.propertyType = propertyType;
     }
 
-    public double getPropertyValue() {
+    public String getPropertyValue() {
         return propertyValue;
     }
 
-    public void setPropertyValue(double propertyValue) {
+    public void setPropertyValue(String propertyValue) {
         this.propertyValue = propertyValue;
     }
 
@@ -138,6 +149,30 @@ public class PropertyData implements Serializable {
 
     public void setPhotosList(List<String> photosList) {
         this.photosList = photosList;
+    }
+
+    public String getMobileNumber() {
+        return mobileNumber;
+    }
+
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
+    }
+
+    public String getPropertDate() {
+        return propertDate;
+    }
+
+    public void setPropertDate(String propertDate) {
+        this.propertDate = propertDate;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
     }
 
     public static class ImageUploadTypeConverter {

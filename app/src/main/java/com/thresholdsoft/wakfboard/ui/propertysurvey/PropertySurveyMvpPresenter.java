@@ -5,6 +5,7 @@ import com.thresholdsoft.wakfboard.ui.base.MvpPresenter;
 import com.thresholdsoft.wakfboard.ui.propertysurvey.model.MapDataTable;
 
 import java.util.List;
+import java.util.Map;
 
 public interface PropertySurveyMvpPresenter<V extends PropertySurveyMvpView> extends MvpPresenter<V> {
 
@@ -32,7 +33,19 @@ public interface PropertySurveyMvpPresenter<V extends PropertySurveyMvpView> ext
 
     void polygonManualSave();
 
-    String getPolygonArea(List<LatLng> polygonPoints);
-
     void insertMapTypeDataTable(MapDataTable mapDataTable);
+
+    void updateMapDataList(MapDataTable mapDataTable);
+
+    String getLineLength(LatLng fromPolyLineLatLng, LatLng toPolyLineLatLng);
+
+    List<MapDataTable> getMapTypelist(int propertyId);
+
+    String getPolygonAreainMeters(List<LatLng> polygonPoints);
+
+    String getPolygonAreainSquareFeet(List<LatLng> polygonPoints);
+
+    String getPolygonAreainSquareYards(List<LatLng> polygonPoints);
+
+    String getPolygonAreainAcers(List<LatLng> polygonPoints);
 }

@@ -24,6 +24,7 @@
             android:layout_height="match_parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/header"
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
                 android:background="@color/colorPrimaryDark"
@@ -44,28 +45,46 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
-                    android:id="@+id/imageView2"
+                    android:id="@+id/logo"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
+                    android:contentDescription="@string/app_name"
                     android:paddingStart="@dimen/five_dp"
                     android:paddingTop="@dimen/five_dp"
                     android:paddingBottom="@dimen/five_dp"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/imageButton"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/praanadhaara_logo" />
+                    app:srcCompat="@drawable/wakfboard_rounded" />
 
-
-                <ImageView
-                    android:id="@+id/textView"
-                    android:layout_width="@dimen/one_hundred_seventy_dp"
-                    android:layout_height="@dimen/fifteen_dp"
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/five_dp"
                     android:gravity="center_vertical"
-                    android:src="@drawable/praanadhaara_title"
+                    android:orientation="vertical"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/imageView2"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintStart_toEndOf="@+id/logo"
+                    app:layout_constraintTop_toTopOf="parent">
 
+                    <TextView
+                        android:id="@+id/tittle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="@string/label_survey_details"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_dimen_18" />
+
+                    <TextView
+                        android:id="@+id/property_creation_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="@string/label_date"
+                        android:textColor="@color/white" />
+                </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -81,6 +100,7 @@
 
 
             <RelativeLayout
+                android:id="@+id/area_distance_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="?actionBarSize"
@@ -115,14 +135,40 @@
                 <!--                android:text="Distance"-->
                 <!--                android:textColor="@color/black"-->
                 <!--                android:textSize="@dimen/text_dimen_12" />-->
-
-                <TextView
-                    android:id="@+id/polygon_area"
+                <LinearLayout
+                    android:id="@+id/polygon_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Area"
-                    android:textColor="@color/black"
-                    android:fontFamily="@font/roboto_regular"/>
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/polygon_area"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Area : 0.0m²"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/distance_textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toEndOf="@id/polygon_description"
+                        android:background="@null"
+                        android:fontFamily="@font/roboto_regular"
+                        android:gravity="center"
+                        android:text="Distance : 0.0m"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/description"
+                        android:layout_width="@dimen/two_hundred_fifty_dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:textColor="@color/black" />
+
+                </LinearLayout>
+
 
                 <ImageView
                     android:id="@+id/type_textview"
@@ -142,7 +188,6 @@
 
             </RelativeLayout>
 
-
             <!--        <ProgressBar-->
             <!--            android:id="@+id/progress_bar"-->
             <!--            android:layout_width="wrap_content"-->
@@ -154,124 +199,112 @@
             <!--            app:layout_constraintTop_toTopOf="parent" />-->
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/polyline_lay"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_alignParentBottom="true"
-            android:layout_margin="@dimen/text_dimen_20"
-            android:background="@drawable/bg_rounde"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/one_hundred_twenty_dp"
             android:clickable="true"
+            android:orientation="vertical"
             android:visibility="gone">
 
-            <TextView
-                android:id="@+id/polyline_undo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="30dp"
-                android:fontFamily="@font/roboto_bold"
-                android:onClick="@{()->callbacks.polylineUndoClick()}"
-                android:text="Undo"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_dimen_18" />
-
-            <TextView
+            <ImageView
                 android:id="@+id/polyline_save"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:fontFamily="@font/roboto_bold"
+                android:contentDescription="@string/app_name"
                 android:onClick="@{()->callbacks.polylineSaveClick()}"
-                android:text="Save"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_dimen_18" />
+                android:src="@drawable/ic_save" />
 
-            <TextView
+            <ImageView
+                android:id="@+id/polyline_undo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/five_dp"
+                android:contentDescription="@string/app_name"
+                android:onClick="@{()->callbacks.polylineUndoClick()}"
+                android:src="@drawable/ic_undo" />
+
+            <ImageView
                 android:id="@+id/polyline_clear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="30dp"
-                android:fontFamily="@font/roboto_bold"
+                android:layout_marginTop="@dimen/five_dp"
+                android:contentDescription="@string/app_name"
                 android:onClick="@{()->callbacks.polylineClearClick()}"
-                android:text="Clear"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_dimen_18" />
+                android:src="@drawable/ic_clear" />
 
+        </LinearLayout>
 
-        </RelativeLayout>
-
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/polygon_manual_lay"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:visibility="gone"
-            android:layout_alignParentBottom="true"
-            android:layout_margin="@dimen/text_dimen_20"
-            android:background="@drawable/bg_rounde"
-            android:clickable="true">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/one_hundred_twenty_dp"
+            android:clickable="true"
+            android:orientation="vertical"
+            android:visibility="gone">
 
-            <TextView
-                android:id="@+id/polygon_maual_undo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="30dp"
-                android:fontFamily="@font/roboto_bold"
-                android:onClick="@{()->callbacks.polygonManualUndo()}"
-                android:text="Undo"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_dimen_18" />
-
-            <TextView
+            <ImageView
                 android:id="@+id/polygon_maual_save"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:fontFamily="@font/roboto_bold"
+                android:contentDescription="@string/app_name"
                 android:onClick="@{()->callbacks.polygonManualSave()}"
-                android:text="Save"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_dimen_18" />
+                android:src="@drawable/ic_save" />
 
-            <TextView
+            <ImageView
+                android:id="@+id/polygon_maual_undo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/five_dp"
+                android:contentDescription="@string/app_name"
+                android:onClick="@{()->callbacks.polygonManualUndo()}"
+                android:src="@drawable/ic_undo" />
+
+            <ImageView
                 android:id="@+id/polygone_manual_clear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="30dp"
-                android:fontFamily="@font/roboto_bold"
+                android:layout_marginTop="@dimen/five_dp"
+                android:contentDescription="@string/app_name"
                 android:onClick="@{()->callbacks.polygonManualClear()}"
-                android:text="Clear"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_dimen_18" />
+                android:src="@drawable/ic_clear" />
 
+        </LinearLayout>
 
-        </RelativeLayout>
-
-
-        <TextView
+        <ImageView
             android:id="@+id/point_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="@dimen/twenty_dp"
-            android:background="@drawable/bg_rounde"
-            android:clickable="true"
-            android:fontFamily="@font/roboto_bold"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/one_hundred_twenty_dp"
+            android:contentDescription="@string/app_name"
             android:onClick="@{()->callbacks.pointSaveClick()}"
-            android:paddingLeft="@dimen/fifteen_dp"
-            android:paddingTop="@dimen/five_dp"
-            android:paddingRight="@dimen/fifteen_dp"
-            android:paddingBottom="@dimen/five_dp"
-            android:text="Save"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_dimen_18"
-            android:visibility="gone" />
+            android:src="@drawable/ic_save" />
+
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/point_save"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_alignParentBottom="true"-->
+        <!--            android:layout_centerHorizontal="true"-->
+        <!--            android:layout_margin="@dimen/twenty_dp"-->
+        <!--            android:background="@drawable/bg_rounde"-->
+        <!--            android:clickable="true"-->
+        <!--            android:fontFamily="@font/roboto_bold"-->
+        <!--            android:onClick="@{()->callbacks.pointSaveClick()}"-->
+        <!--            android:paddingLeft="@dimen/fifteen_dp"-->
+        <!--            android:paddingTop="@dimen/five_dp"-->
+        <!--            android:paddingRight="@dimen/fifteen_dp"-->
+        <!--            android:paddingBottom="@dimen/five_dp"-->
+        <!--            android:text="Save"-->
+        <!--            android:textColor="@color/white"-->
+        <!--            android:textSize="@dimen/text_dimen_18"-->
+        <!--            android:visibility="gone" />-->
 
         <TextView
             android:id="@+id/polygon_start"
@@ -372,6 +405,25 @@
 
 
         </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/edit_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/twenty_seven_dp"
+            android:layout_marginTop="@dimen/one_hundred_forty_dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/map_edit" />
+
+        <ImageView
+            android:id="@+id/gallery_icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/edit_icon"
+            android:layout_marginStart="@dimen/twenty_dp"
+            android:layout_marginTop="@dimen/fifteen_dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_gallery" />
 
 
     </RelativeLayout>
