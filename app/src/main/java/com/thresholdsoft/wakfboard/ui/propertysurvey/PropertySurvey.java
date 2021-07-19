@@ -172,7 +172,6 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
                 propertySurveyBinding.propertyCreationDate.setVisibility(View.GONE);
                 propertySurveyBinding.tittle.setText(R.string.label_survey_details);
             }
-            propertySurveyBinding.tittle.setText(R.string.label_points);
             propertySurveyBinding.polygonManualLay.setVisibility(View.GONE);
             propertySurveyBinding.polygonStart.setVisibility(View.GONE);
             propertySurveyBinding.polygonSave.setVisibility(View.GONE);
