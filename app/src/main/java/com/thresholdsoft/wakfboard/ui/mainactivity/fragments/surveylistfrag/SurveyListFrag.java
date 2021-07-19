@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -61,6 +62,8 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView {
 
     @Override
     protected void setUp(View view) {
+        TextView tittle = getActivity().findViewById(R.id.tittle);
+        tittle.setText(R.string.label_survey_list);
         activitySurveyListBinding.setCallback(mpresenter);
         this.propertyDataList = mpresenter.getPropertylist();
         activitySurveyListBinding.propertyCreationLayout.setOnClickListener(new View.OnClickListener() {

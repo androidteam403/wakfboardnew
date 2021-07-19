@@ -176,12 +176,12 @@
                                     tools:ignore="HardcodedText" />
 
                                 <TextView
+                                    android:id="@+id/property_value"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:ellipsize="end"
                                     android:fontFamily="@font/roboto_regular"
                                     android:maxLines="1"
-                                    android:text="@{propertyData.propertyValue}"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/text_dimen_12" />
                             </LinearLayout>

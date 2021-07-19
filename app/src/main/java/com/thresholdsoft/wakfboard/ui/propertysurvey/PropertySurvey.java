@@ -16,6 +16,8 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -69,7 +71,8 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class PropertySurvey extends BaseActivity implements PropertySurveyMvpView, OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+public class PropertySurvey extends BaseActivity implements PropertySurveyMvpView,
+        OnMapReadyCallback, GoogleMap.OnMarkerClickListener, LocationListener {
     @Inject
     PropertySurveyMvpPresenter<PropertySurveyMvpView> mpresenter;
     ActivityPropertySurveyBinding propertySurveyBinding;
@@ -95,6 +98,7 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
     boolean individualGallery;
     public static final int GALLERY_ACTIVITY = 202;
     private String measurements;
+    private LocationManager mLocationManager;
 
     public static Intent getStartIntent(Context context, int mapType, int propertyId, boolean edited, String measurements) {
         Intent intent = new Intent(context, PropertySurvey.class);
@@ -125,6 +129,19 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
         propertySurveyBinding = DataBindingUtil.setContentView(this, R.layout.activity_property_survey);
         getActivityComponent().inject(this);
         mpresenter.onAttach(PropertySurvey.this);
+        mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10, 0, this);
+        mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
         setUp();
     }
 
@@ -156,6 +173,17 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
         fetchLocation();
 
         if (mapTypeData == 1) {
+            if (editMode) {
+                propertySurveyBinding.propertyCreationDate.setVisibility(View.VISIBLE);
+                propertySurveyBinding.description.setVisibility(View.VISIBLE);
+                propertySurveyBinding.description.setText(mapDataTableList.get(pos).getDescription());
+                propertySurveyBinding.tittle.setText(mapDataTableList.get(pos).getName());
+                propertySurveyBinding.propertyCreationDate.setText(mapDataTableList.get(pos).getMapDate());
+            } else {
+                propertySurveyBinding.description.setVisibility(View.GONE);
+                propertySurveyBinding.propertyCreationDate.setVisibility(View.GONE);
+                propertySurveyBinding.tittle.setText(R.string.label_survey_details);
+            }
             propertySurveyBinding.tittle.setText(R.string.label_points);
             propertySurveyBinding.polygonManualLay.setVisibility(View.GONE);
             propertySurveyBinding.polygonStart.setVisibility(View.GONE);
@@ -168,7 +196,17 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
             propertySurveyBinding.polygonArea.setVisibility(View.GONE);
             propertySurveyBinding.distanceTextView.setVisibility(View.GONE);
         } else if (mapTypeData == 2) {
-            propertySurveyBinding.tittle.setText(R.string.label_polyline);
+            if (editMode) {
+                propertySurveyBinding.propertyCreationDate.setVisibility(View.VISIBLE);
+                propertySurveyBinding.description.setVisibility(View.VISIBLE);
+                propertySurveyBinding.description.setText(mapDataTableList.get(pos).getDescription());
+                propertySurveyBinding.tittle.setText(mapDataTableList.get(pos).getName());
+                propertySurveyBinding.propertyCreationDate.setText(mapDataTableList.get(pos).getMapDate());
+            } else {
+                propertySurveyBinding.propertyCreationDate.setVisibility(View.GONE);
+                propertySurveyBinding.description.setVisibility(View.GONE);
+                propertySurveyBinding.tittle.setText(R.string.label_survey_details);
+            }
             propertySurveyBinding.polygonManualLay.setVisibility(View.GONE);
             propertySurveyBinding.polygonStart.setVisibility(View.GONE);
             propertySurveyBinding.polygonSave.setVisibility(View.GONE);
@@ -184,6 +222,18 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
             propertySurveyBinding.polygonArea.setVisibility(View.GONE);
             propertySurveyBinding.distanceTextView.setVisibility(View.VISIBLE);
         } else if (mapTypeData == 3) {
+            if (editMode) {
+                propertySurveyBinding.propertyCreationDate.setVisibility(View.VISIBLE);
+                propertySurveyBinding.description.setVisibility(View.VISIBLE);
+                propertySurveyBinding.description.setText(mapDataTableList.get(pos).getDescription());
+                propertySurveyBinding.tittle.setText(mapDataTableList.get(pos).getName());
+                propertySurveyBinding.propertyCreationDate.setText(mapDataTableList.get(pos).getMapDate());
+            } else {
+                propertySurveyBinding.propertyCreationDate.setVisibility(View.GONE);
+                propertySurveyBinding.description.setVisibility(View.GONE);
+                propertySurveyBinding.tittle.setText(R.string.label_survey_details);
+            }
+            propertySurveyBinding.polygonManualLay.setVisibility(View.VISIBLE);
             propertySurveyBinding.tittle.setText(R.string.label_polygon);
             if (editClick) {
                 propertySurveyBinding.polygonManualLay.setVisibility(View.VISIBLE);
@@ -417,7 +467,7 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
                             }
                         }
                         if (polygon != null) polygon.remove();
-                        PolygonOptions polygonOptions = new PolygonOptions().addAll(latLngList).strokeWidth(5).strokeColor(getResources().getColor(R.color.colorPrimaryDark)).fillColor(getResources().getColor(R.color.alpha_ripple_effect_btn_color)).clickable(true);
+                        PolygonOptions polygonOptions = new PolygonOptions().addAll(latLngList).strokeWidth(5).strokeColor(getResources().getColor(R.color.colorPrimaryDark)).fillColor(getResources().getColor(R.color.yellow_transparent)).clickable(true);
                         polygon = mMap.addPolygon(polygonOptions);
                         polygonList.add(polygon);
 
@@ -679,7 +729,7 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
                         }
                     }
                     if (polygon != null) polygon.remove();
-                    PolygonOptions polygonOptions = new PolygonOptions().addAll(latLngList).strokeWidth(5).strokeColor(getResources().getColor(R.color.colorPrimaryDark)).fillColor(getResources().getColor(R.color.alpha_ripple_effect_btn_color)).clickable(true);
+                    PolygonOptions polygonOptions = new PolygonOptions().addAll(latLngList).strokeWidth(5).strokeColor(getResources().getColor(R.color.colorPrimaryDark)).fillColor(getResources().getColor(R.color.yellow_transparent)).clickable(true);
                     polygon = mMap.addPolygon(polygonOptions);
                     googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLngList.get(0)));
                     googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLngList.get(0), 15));
@@ -722,8 +772,9 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
 
         } else {
             if (currentLocation != null) {
+                BitmapDescriptor icon2 = BitmapDescriptorFactory.fromResource(R.drawable.blue_dot);
                 LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-                MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("I am here!");
+                MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("I am here!").icon(icon2);
                 googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
                 googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
                 googleMap.addMarker(markerOptions);
@@ -842,7 +893,7 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
             }
         }
         if (polygon != null) polygon.remove();
-        PolygonOptions polygonOptions = new PolygonOptions().addAll(latLngList).strokeWidth(5).strokeColor(getResources().getColor(R.color.colorPrimaryDark)).fillColor(getResources().getColor(R.color.alpha_ripple_effect_btn_color)).clickable(true);
+        PolygonOptions polygonOptions = new PolygonOptions().addAll(latLngList).strokeWidth(5).strokeColor(getResources().getColor(R.color.colorPrimaryDark)).fillColor(getResources().getColor(R.color.yellow_transparent)).clickable(true);
         polygon = mMap.addPolygon(polygonOptions);
         polygonList.add(polygon);
     }
@@ -923,6 +974,34 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
             }
         }
         return true;
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        this.currentLocation = location;
+        if (mMap != null) {
+            BitmapDescriptor icon2 = BitmapDescriptorFactory.fromResource(R.drawable.blue_dot);
+            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+            MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("I am here!").icon(icon2);
+            mMap.addMarker(markerOptions);
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+//        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 21));
+        }
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
     }
 
     private static class MarkerTag implements Serializable {
@@ -1195,7 +1274,7 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
             }
         }
         if (polygon != null) polygon.remove();
-        PolygonOptions polygonOptions = new PolygonOptions().addAll(latLngList).strokeWidth(5).strokeColor(getResources().getColor(R.color.colorPrimaryDark)).fillColor(getResources().getColor(R.color.alpha_ripple_effect_btn_color)).clickable(true);
+        PolygonOptions polygonOptions = new PolygonOptions().addAll(latLngList).strokeWidth(5).strokeColor(getResources().getColor(R.color.colorPrimaryDark)).fillColor(getResources().getColor(R.color.yellow_transparent)).clickable(true);
         polygon = mMap.addPolygon(polygonOptions);
         polygonList.add(polygon);
     }
@@ -1264,8 +1343,8 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
 
     private void showPolygonDialog() {
         PropertyCreationDialog dialogView = new PropertyCreationDialog(this);
-        dialogView.setTitle("Polygon Details");
-        dialogView.setPositiveLabel("Ok");
+        dialogView.setTitle("Survey Details");
+        dialogView.setPositiveLabel("SAVE");
         if (mapDataTableList != null && mapDataTableList.size() > 0) {
             mapDataTableList.get(pos).setLatLngList(latLngList);
             dialogView.setEditTextData(mapDataTableList.get(pos).getName());
@@ -1301,16 +1380,17 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
 //                        }
 //                    }
                 }
-                Toast toast = Toast.makeText(PropertySurvey.this, "Polygon Details are saved successfully", Toast.LENGTH_SHORT);
-                toast.getView().setBackground(getResources().getDrawable(R.drawable.toast_bg));
-                TextView text = (TextView) toast.getView().findViewById(android.R.id.message);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    Typeface typeface = Typeface.createFromAsset(getApplication().getAssets(), "font/roboto_bold.ttf");
-                    text.setTypeface(typeface);
-                    text.setTextColor(Color.WHITE);
-                    text.setTextSize(14);
-                }
-                toast.show();
+//                Toast toast =
+                Toast.makeText(PropertySurvey.this, "Polygon Details are saved successfully", Toast.LENGTH_SHORT).show();
+//                toast.getView().setBackground(getResources().getDrawable(R.drawable.toast_bg));
+//                TextView text = (TextView) toast.getView().findViewById(android.R.id.message);
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                    Typeface typeface = Typeface.createFromAsset(getApplication().getAssets(), "font/roboto_bold.ttf");
+//                    text.setTypeface(typeface);
+//                    text.setTextColor(Color.WHITE);
+//                    text.setTextSize(14);
+//                }
+//                toast.show();
                 Intent intent = new Intent();
                 intent.putExtra("dialogName", dialogView.getPointName());
                 if (mapDataTableList != null && mapDataTableList.size() > 0) {
@@ -1330,24 +1410,24 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
         dialogView.setNegativeListener(v -> {
             dialogView.dismiss();
 //            Toast.makeText(PropertySurvey.this, "PointDetails are not saved", Toast.LENGTH_LONG).show();
-            Toast toast = Toast.makeText(PropertySurvey.this, "Polygon Details are not saved", Toast.LENGTH_SHORT);
-            toast.getView().setBackground(getResources().getDrawable(R.drawable.toast_bg));
-            TextView text = (TextView) toast.getView().findViewById(android.R.id.message);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                Typeface typeface = Typeface.createFromAsset(getApplication().getAssets(), "font/roboto_bold.ttf");
-                text.setTypeface(typeface);
-                text.setTextColor(Color.WHITE);
-                text.setTextSize(14);
-            }
-            toast.show();
+//            Toast toast = Toast.makeText(PropertySurvey.this, "Polygon Details are not saved", Toast.LENGTH_SHORT);
+//            toast.getView().setBackground(getResources().getDrawable(R.drawable.toast_bg));
+//            TextView text = (TextView) toast.getView().findViewById(android.R.id.message);
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                Typeface typeface = Typeface.createFromAsset(getApplication().getAssets(), "font/roboto_bold.ttf");
+//                text.setTypeface(typeface);
+//                text.setTextColor(Color.WHITE);
+//                text.setTextSize(14);
+//            }
+//            toast.show();
         });
         dialogView.show();
     }
 
     private void showPolylineDialog() {
         PropertyCreationDialog dialogView = new PropertyCreationDialog(this);
-        dialogView.setTitle("Polyline Details");
-        dialogView.setPositiveLabel("Ok");
+        dialogView.setTitle("Survey Details");
+        dialogView.setPositiveLabel("SAVE");
         if (mapDataTableList != null && mapDataTableList.size() > 0) {
             mapDataTableList.get(pos).setLatLngList(latLngList);
             dialogView.setEditTextData(mapDataTableList.get(pos).getName());
@@ -1380,16 +1460,16 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
 //                        }
 //                    }
                 }
-                Toast toast = Toast.makeText(PropertySurvey.this, "Polyline Details are saved successfully", Toast.LENGTH_SHORT);
-                toast.getView().setBackground(getResources().getDrawable(R.drawable.toast_bg));
-                TextView text = (TextView) toast.getView().findViewById(android.R.id.message);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    Typeface typeface = Typeface.createFromAsset(getApplication().getAssets(), "font/roboto_bold.ttf");
-                    text.setTypeface(typeface);
-                    text.setTextColor(Color.WHITE);
-                    text.setTextSize(14);
-                }
-                toast.show();
+                Toast.makeText(PropertySurvey.this, "Polyline Details are saved successfully", Toast.LENGTH_SHORT).show();
+//                toast.getView().setBackground(getResources().getDrawable(R.drawable.toast_bg));
+//                TextView text = (TextView) toast.getView().findViewById(android.R.id.message);
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                    Typeface typeface = Typeface.createFromAsset(getApplication().getAssets(), "font/roboto_bold.ttf");
+//                    text.setTypeface(typeface);
+//                    text.setTextColor(Color.WHITE);
+//                    text.setTextSize(14);
+//                }
+//                toast.show();
                 Intent intent = new Intent();
                 intent.putExtra("dialogName", dialogView.getPointName());
                 if (mapDataTableList != null && mapDataTableList.size() > 0) {
@@ -1409,24 +1489,24 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
         dialogView.setNegativeListener(v -> {
             dialogView.dismiss();
 //            Toast.makeText(PropertySurvey.this, "PointDetails are not saved", Toast.LENGTH_LONG).show();
-            Toast toast = Toast.makeText(PropertySurvey.this, "Polyline Details are not saved", Toast.LENGTH_SHORT);
-            toast.getView().setBackground(getResources().getDrawable(R.drawable.toast_bg));
-            TextView text = (TextView) toast.getView().findViewById(android.R.id.message);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                Typeface typeface = Typeface.createFromAsset(getApplication().getAssets(), "font/roboto_bold.ttf");
-                text.setTypeface(typeface);
-                text.setTextColor(Color.WHITE);
-                text.setTextSize(14);
-            }
-            toast.show();
+//            Toast toast = Toast.makeText(PropertySurvey.this, "Polyline Details are not saved", Toast.LENGTH_SHORT);
+//            toast.getView().setBackground(getResources().getDrawable(R.drawable.toast_bg));
+//            TextView text = (TextView) toast.getView().findViewById(android.R.id.message);
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                Typeface typeface = Typeface.createFromAsset(getApplication().getAssets(), "font/roboto_bold.ttf");
+//                text.setTypeface(typeface);
+//                text.setTextColor(Color.WHITE);
+//                text.setTextSize(14);
+//            }
+//            toast.show();
         });
         dialogView.show();
     }
 
     private void showPointDialog(LatLng latLng) {
         PropertyCreationDialog dialogView = new PropertyCreationDialog(this);
-        dialogView.setTitle("Point Details");
-        dialogView.setPositiveLabel("Ok");
+        dialogView.setTitle("Survey Details");
+        dialogView.setPositiveLabel("SAVE");
         dialogView.setPositiveListener(view -> {
             if (dialogView.validations()) {
                 dialogView.dismiss();
@@ -1435,17 +1515,17 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
                 String thisDate = currentDate.format(todayDate);
                 MapDataTable pointDataTable = new MapDataTable(propertyId, mapTypeData, latLngList, dialogView.getPointName(), dialogView.getPointDescription(), imagesUploadedList, thisDate, "", "");
                 mpresenter.insertMapTypeDataTable(pointDataTable);
-//                Toast.makeText(PropertySurvey.this, "PointDetails are saved successfully", Toast.LENGTH_LONG).show();
-                Toast toast = Toast.makeText(PropertySurvey.this, "Point Details are saved successfully", Toast.LENGTH_SHORT);
-                toast.getView().setBackground(getResources().getDrawable(R.drawable.toast_bg));
-                TextView text = (TextView) toast.getView().findViewById(android.R.id.message);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    Typeface typeface = Typeface.createFromAsset(getApplication().getAssets(), "font/roboto_bold.ttf");
-                    text.setTypeface(typeface);
-                    text.setTextColor(Color.WHITE);
-                    text.setTextSize(14);
-                }
-                toast.show();
+                Toast.makeText(PropertySurvey.this, "PointDetails are saved successfully", Toast.LENGTH_LONG).show();
+//                Toast toast = Toast.makeText(PropertySurvey.this, "Point Details are saved successfully", Toast.LENGTH_SHORT);
+//                toast.getView().setBackground(getResources().getDrawable(R.drawable.toast_bg));
+//                TextView text = (TextView) toast.getView().findViewById(android.R.id.message);
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                    Typeface typeface = Typeface.createFromAsset(getApplication().getAssets(), "font/roboto_bold.ttf");
+//                    text.setTypeface(typeface);
+//                    text.setTextColor(Color.WHITE);
+//                    text.setTextSize(14);
+//                }
+//                toast.show();
                 Intent intent = new Intent();
                 intent.putExtra("dialogName", dialogView.getPointName());
                 setResult(RESULT_OK, intent);
@@ -1459,17 +1539,17 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
         dialogView.setNegativeLabel("Cancel");
         dialogView.setNegativeListener(v -> {
             dialogView.dismiss();
-//            Toast.makeText(PropertySurvey.this, "PointDetails are not saved", Toast.LENGTH_LONG).show();
-            Toast toast = Toast.makeText(PropertySurvey.this, "PointDetails are not saved", Toast.LENGTH_SHORT);
-            toast.getView().setBackground(getResources().getDrawable(R.drawable.toast_bg));
-            TextView text = (TextView) toast.getView().findViewById(android.R.id.message);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                Typeface typeface = Typeface.createFromAsset(getApplication().getAssets(), "font/roboto_bold.ttf");
-                text.setTypeface(typeface);
-                text.setTextColor(Color.WHITE);
-                text.setTextSize(14);
-            }
-            toast.show();
+            Toast.makeText(PropertySurvey.this, "PointDetails are not saved", Toast.LENGTH_LONG).show();
+//            Toast toast = Toast.makeText(PropertySurvey.this, "PointDetails are not saved", Toast.LENGTH_SHORT);
+//            toast.getView().setBackground(getResources().getDrawable(R.drawable.toast_bg));
+//            TextView text = (TextView) toast.getView().findViewById(android.R.id.message);
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                Typeface typeface = Typeface.createFromAsset(getApplication().getAssets(), "font/roboto_bold.ttf");
+//                text.setTypeface(typeface);
+//                text.setTextColor(Color.WHITE);
+//                text.setTextSize(14);
+//            }
+//            toast.show();
         });
         dialogView.show();
     }

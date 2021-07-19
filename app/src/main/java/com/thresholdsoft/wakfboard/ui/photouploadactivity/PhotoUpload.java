@@ -29,6 +29,8 @@ public class PhotoUpload extends BaseActivity implements PhotoUploadMvpView {
     PhotoUploadMvpPresenter<PhotoUploadMvpView> mpresenter;
     ActivityPhotoUploadBinding activityPhotoUploadBinding;
     private PhotosUploadSurveyAdapter photosUploadAdapter;
+    private List<String> mPaths = new ArrayList<>();
+    public final static String IMAGEA_LIST = "IMAGEA_LIST";
 
     public static Intent getStartIntent(Context context) {
         Intent intent = new Intent(context, PhotoUpload.class);
@@ -47,6 +49,20 @@ public class PhotoUpload extends BaseActivity implements PhotoUploadMvpView {
     @Override
     protected void setUp() {
         activityPhotoUploadBinding.setCallBack(mpresenter);
+        if (getIntent() != null) {
+            mPaths = (List<String>) getIntent().getSerializableExtra(IMAGEA_LIST);
+        }
+        if (mPaths != null && mPaths.size() > 0) {
+            activityPhotoUploadBinding.noDataFound.setVisibility(View.GONE);
+            activityPhotoUploadBinding.phoRecycle.setVisibility(View.VISIBLE);
+            photosUploadAdapter = new PhotosUploadSurveyAdapter(this, mPaths, this);
+            RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(this);
+            activityPhotoUploadBinding.phoRecycle.setLayoutManager(new GridLayoutManager(this, 3));
+            activityPhotoUploadBinding.phoRecycle.setAdapter(photosUploadAdapter);
+        } else {
+            activityPhotoUploadBinding.noDataFound.setVisibility(View.VISIBLE);
+            activityPhotoUploadBinding.phoRecycle.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -56,8 +72,6 @@ public class PhotoUpload extends BaseActivity implements PhotoUploadMvpView {
 
     @Override
     public void photoUploadButton() {
-        activityPhotoUploadBinding.uploadButton.setVisibility(View.GONE);
-
         new ImagePicker.Builder(PhotoUpload.this)
                 .mode(ImagePicker.Mode.CAMERA_AND_GALLERY)
                 .compressLevel(ImagePicker.ComperesLevel.MEDIUM)
@@ -73,8 +87,12 @@ public class PhotoUpload extends BaseActivity implements PhotoUploadMvpView {
     public void onRemovePhoto(int position) {
         mPaths.remove(position);
         photosUploadAdapter.notifyDataSetChanged();
-        if (mPaths.size() < 1) {
-            activityPhotoUploadBinding.uploadButton.setVisibility(View.VISIBLE);
+        if (mPaths != null && mPaths.size() > 0) {
+            activityPhotoUploadBinding.phoRecycle.setVisibility(View.VISIBLE);
+            activityPhotoUploadBinding.noDataFound.setVisibility(View.GONE);
+        } else {
+            activityPhotoUploadBinding.phoRecycle.setVisibility(View.GONE);
+            activityPhotoUploadBinding.noDataFound.setVisibility(View.VISIBLE);
         }
     }
 
@@ -83,7 +101,6 @@ public class PhotoUpload extends BaseActivity implements PhotoUploadMvpView {
         onBackPressed();
     }
 
-    private List<String> mPaths = new ArrayList<>();
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -107,11 +124,17 @@ public class PhotoUpload extends BaseActivity implements PhotoUploadMvpView {
             }
 
             //Your Code
-
-            photosUploadAdapter = new PhotosUploadSurveyAdapter(this, mPaths, this);
-            RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(this);
-            activityPhotoUploadBinding.phoRecycle.setLayoutManager(new GridLayoutManager(this, 3));
-            activityPhotoUploadBinding.phoRecycle.setAdapter(photosUploadAdapter);
+            if (mPaths != null && mPaths.size() > 0) {
+                activityPhotoUploadBinding.noDataFound.setVisibility(View.GONE);
+                activityPhotoUploadBinding.phoRecycle.setVisibility(View.VISIBLE);
+                photosUploadAdapter = new PhotosUploadSurveyAdapter(this, mPaths, this);
+                RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(this);
+                activityPhotoUploadBinding.phoRecycle.setLayoutManager(new GridLayoutManager(this, 3));
+                activityPhotoUploadBinding.phoRecycle.setAdapter(photosUploadAdapter);
+            } else {
+                activityPhotoUploadBinding.noDataFound.setVisibility(View.VISIBLE);
+                activityPhotoUploadBinding.phoRecycle.setVisibility(View.GONE);
+            }
 
 
         }
