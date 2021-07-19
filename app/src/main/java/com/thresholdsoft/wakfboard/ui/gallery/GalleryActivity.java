@@ -9,9 +9,11 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.thresholdsoft.wakfboard.R;
 import com.thresholdsoft.wakfboard.databinding.ActivityGalleryBinding;
+import com.thresholdsoft.wakfboard.ui.alertdialog.CutomAlertBox;
 import com.thresholdsoft.wakfboard.ui.base.BaseActivity;
 import com.thresholdsoft.wakfboard.ui.gallery.adapter.GalleryAdapter;
 import com.thresholdsoft.wakfboard.ui.propertycreation.model.PropertyData;
@@ -88,7 +90,7 @@ public class GalleryActivity extends BaseActivity implements GalleryMvpView {
         if (individual) {
             imagePathList = mapDataTableList.get(position).getPointPhotoData();
             if (imagePathList != null && imagePathList.size() > 0) {
-                galleryAdapter = new GalleryAdapter(this, imagePathList, this, true);
+                galleryAdapter = new GalleryAdapter(this, imagePathList, this, true, true);
                 galleryBinding.galleryListRecycler.setLayoutManager(new GridLayoutManager(this, 3));
                 galleryBinding.galleryListRecycler.setAdapter(galleryAdapter);
                 galleryBinding.setIsGallery(true);
@@ -107,7 +109,7 @@ public class GalleryActivity extends BaseActivity implements GalleryMvpView {
                 }
             }
             if (imagePathList != null && imagePathList.size() > 0) {
-                galleryAdapter = new GalleryAdapter(this, imagePathList, this, false);
+                galleryAdapter = new GalleryAdapter(this, imagePathList, this, false, false);
                 galleryBinding.galleryListRecycler.setLayoutManager(new GridLayoutManager(this, 3));
                 galleryBinding.galleryListRecycler.setAdapter(galleryAdapter);
                 galleryBinding.setIsGallery(true);
@@ -165,7 +167,7 @@ public class GalleryActivity extends BaseActivity implements GalleryMvpView {
 
             //Your Code
 
-            galleryAdapter = new GalleryAdapter(this, imagePathList, this, true);
+            galleryAdapter = new GalleryAdapter(this, imagePathList, this, true, false);
             galleryBinding.galleryListRecycler.setLayoutManager(new GridLayoutManager(this, 3));
             galleryBinding.galleryListRecycler.setAdapter(galleryAdapter);
             galleryBinding.setIsGallery(true);
@@ -180,29 +182,60 @@ public class GalleryActivity extends BaseActivity implements GalleryMvpView {
     }
 
     @Override
+    public void onBackPressed() {
+        onClickBack();
+    }
+
+    @Override
     public void onClickBack() {
-        onBackPressed();
-        Intent intent = new Intent();
-        if (mapDataTableList != null && mapDataTableList.size() > 0) {
-            Gson gson = new Gson();
-            String myJson = gson.toJson(mapDataTableList);
-            intent.putExtra("mapDataTableListUnchecked", myJson);
+        if (galleryBinding.fullView.getVisibility() == View.VISIBLE) {
+            galleryBinding.fullView.setVisibility(View.GONE);
+            galleryBinding.imageFullviewDelete.setVisibility(View.GONE);
+            galleryBinding.galleryListRecycler.setVisibility(View.VISIBLE);
+        } else {
+            Intent intent = new Intent();
+            if (mapDataTableList != null && mapDataTableList.size() > 0) {
+                Gson gson = new Gson();
+                String myJson = gson.toJson(mapDataTableList);
+                intent.putExtra("mapDataTableListUnchecked", myJson);
+            }
+            setResult(RESULT_OK, intent);
+            finish();
         }
-        setResult(RESULT_OK, intent);
-        finish();
     }
 
     @Override
-    public void onImageClick(int position) {
-
+    public void onImageClick(int position, String path) {
+        galleryBinding.galleryListRecycler.setVisibility(View.GONE);
+        galleryBinding.fullView.setVisibility(View.VISIBLE);
+        galleryBinding.imageFullviewDelete.setVisibility(View.VISIBLE);
+        Glide.with(this).load(path).into(galleryBinding.fullView);
+        galleryBinding.imageFullviewDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                galleryBinding.fullView.setVisibility(View.GONE);
+                galleryBinding.imageFullviewDelete.setVisibility(View.GONE);
+                galleryBinding.galleryListRecycler.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     @Override
-    public void onGalleryDeleteClick(int position) {
-        imagePathList.remove(position);
-        galleryAdapter.notifyDataSetChanged();
-        mapDataTableList.get(position).setPointPhotoData(imagePathList);
-        mPresenter.updateMapDataList(mapDataTableList.get(this.position));
+    public void onGalleryDeleteClick(int pos) {
+        CutomAlertBox cutomAlertBox = new CutomAlertBox(GalleryActivity.this);
+
+        cutomAlertBox.setTitle("Do you want to delete image ?");
+        cutomAlertBox.setPositiveListener(view -> {
+            imagePathList.remove(pos);
+            galleryAdapter.notifyDataSetChanged();
+            mapDataTableList.get(this.position).setPointPhotoData(imagePathList);
+            mPresenter.updateMapDataList(mapDataTableList.get(this.position));
+            cutomAlertBox.dismiss();
+        });
+        cutomAlertBox.setNegativeListener(v -> cutomAlertBox.dismiss());
+        cutomAlertBox.show();
+
+
     }
 
 //    public class MergedDataList {

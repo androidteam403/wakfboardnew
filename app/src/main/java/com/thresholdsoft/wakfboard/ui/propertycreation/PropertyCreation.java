@@ -24,8 +24,10 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.thresholdsoft.wakfboard.R;
 import com.thresholdsoft.wakfboard.databinding.ActivityPropertyCreationBinding;
+import com.thresholdsoft.wakfboard.ui.alertdialog.CutomAlertBox;
 import com.thresholdsoft.wakfboard.ui.base.BaseActivity;
 import com.thresholdsoft.wakfboard.ui.propertycreation.adapter.PhotosUploadAdapter;
 import com.thresholdsoft.wakfboard.ui.propertycreation.model.PropertyData;
@@ -179,6 +181,7 @@ public class PropertyCreation extends BaseActivity implements PropertyMvpView {
                 propertyCreationBinding.propertyValue.addTextChangedListener(this);
             }
         });
+
     }
 
     private void updateProperyData(PropertyData propertyData) {
@@ -249,7 +252,7 @@ public class PropertyCreation extends BaseActivity implements PropertyMvpView {
         else
             intent = new Intent();
 
-        intent.putExtra("id",mpresenter.propertyID());
+        intent.putExtra("id", mpresenter.propertyID());
         intent.putExtra("measurements", propertyCreationBinding.areaType.getSelectedItem().toString());
         intent.putExtra("propertyName", propertyCreationBinding.propertyName.getText().toString());
         intent.putExtra("village", propertyCreationBinding.propertyName.getText().toString());
@@ -427,13 +430,48 @@ public class PropertyCreation extends BaseActivity implements PropertyMvpView {
 
     @Override
     public void onRemovePhoto(int position) {
-        mPaths.remove(position);
-        photosUploadAdapter.notifyDataSetChanged();
+        CutomAlertBox cutomAlertBox = new CutomAlertBox(PropertyCreation.this);
+
+        cutomAlertBox.setTitle("Do you want to delete image ?");
+        cutomAlertBox.setPositiveListener(view -> {
+            mPaths.remove(position);
+            photosUploadAdapter.notifyDataSetChanged();
+            cutomAlertBox.dismiss();
+        });
+        cutomAlertBox.setNegativeListener(v -> cutomAlertBox.dismiss());
+        cutomAlertBox.show();
+    }
+
+    @Override
+    public void imageFullView(int position, String path) {
+        propertyCreationBinding.fullView.setVisibility(View.VISIBLE);
+        propertyCreationBinding.deleteFullView.setVisibility(View.VISIBLE);
+        propertyCreationBinding.parent.setVisibility(View.GONE);
+        Glide.with(this).load(path).into(propertyCreationBinding.fullView);
+        propertyCreationBinding.deleteFullView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                propertyCreationBinding.fullView.setVisibility(View.GONE);
+                propertyCreationBinding.deleteFullView.setVisibility(View.GONE);
+                propertyCreationBinding.parent.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     @Override
     public void onClickBack() {
-        onBackPressed();
+        if (propertyCreationBinding.fullView.getVisibility() == View.VISIBLE) {
+            propertyCreationBinding.fullView.setVisibility(View.GONE);
+            propertyCreationBinding.deleteFullView.setVisibility(View.GONE);
+            propertyCreationBinding.parent.setVisibility(View.VISIBLE);
+        }else {
+            finish();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        onClickBack();
     }
 
     private class AreaModel {

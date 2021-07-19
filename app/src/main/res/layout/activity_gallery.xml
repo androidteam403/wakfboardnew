@@ -12,6 +12,7 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/parent"
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
                 android:background="@color/colorPrimaryDark"
@@ -49,10 +50,8 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/gallery_list_recycler"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginStart="@dimen/five_dp"
                 android:layout_marginTop="@dimen/five_dp"
                 android:visibility="@{isGallery ? view.VISIBLE : view.GONE}" />
 
@@ -77,6 +76,26 @@
             android:contentDescription="@string/app_name"
             android:src="@drawable/property_plus_icon"
             android:visibility="@{individual ? view.VISIBLE : view.GONE}" />
+
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/full_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="55dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/current_location_icon" />
+
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/image_fullview_delete"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="70dp"
+            android:layout_marginEnd="@dimen/ten_dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/cross_black" />
     </RelativeLayout>
 
     <data>
@@ -84,6 +103,7 @@
         <variable
             name="isGallery"
             type="Boolean" />
+
         <variable
             name="individual"
             type="Boolean" />

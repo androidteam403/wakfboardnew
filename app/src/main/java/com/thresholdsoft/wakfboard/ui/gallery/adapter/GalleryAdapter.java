@@ -22,12 +22,14 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
     private List<String> imagePathList;
     private GalleryMvpView galleryMvpView;
     private boolean deleteVisibility;
+    private boolean deletePath;
 
-    public GalleryAdapter(Context context, List<String> imagePathList, GalleryMvpView galleryMvpView,boolean deleteVisibility) {
+    public GalleryAdapter(Context context, List<String> imagePathList, GalleryMvpView galleryMvpView, boolean deleteVisibility, boolean deletePath) {
         this.context = context;
         this.imagePathList = imagePathList;
         this.galleryMvpView = galleryMvpView;
-        this.deleteVisibility=deleteVisibility;
+        this.deleteVisibility = deleteVisibility;
+        this.deletePath = deletePath;
     }
 
     @NonNull
@@ -40,19 +42,13 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         String imagePath = imagePathList.get(position);
-        Glide.with(context).load(imagePath).into(holder.galleryBinding.image);
-        if (deleteVisibility){
-            holder.galleryBinding.delete.setVisibility(View.VISIBLE);
-        }else {
-            holder.galleryBinding.delete.setVisibility(View.GONE);
-        }
+        Glide.with(context).load(imagePath).into(holder.galleryBinding.imageView);
 
-
-        holder.galleryBinding.image.setOnClickListener(new View.OnClickListener() {
+        holder.galleryBinding.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (galleryMvpView != null) {
-                    galleryMvpView.onImageClick(position);
+                    galleryMvpView.onImageClick(position,imagePath);
                 }
             }
         });
@@ -64,6 +60,17 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
                 }
             }
         });
+        if (deletePath) {
+            holder.galleryBinding.imageView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    if (galleryMvpView != null) {
+                        galleryMvpView.onGalleryDeleteClick(position);
+                    }
+                    return false;
+                }
+            });
+        }
     }
 
     @Override

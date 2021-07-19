@@ -42,11 +42,11 @@ public class MapDataAdapter extends RecyclerView.Adapter<MapDataAdapter.ViewHold
         MapDataTable mapDataTable = mapDataTableList.get(position);
         holder.adapterMapDataListBinding.setMapData(mapDataTable);
         if (mapDataTable.getMapType() == 1) {
-            holder.adapterMapDataListBinding.image.setImageResource(R.drawable.points);
+            holder.adapterMapDataListBinding.image.setImageResource(R.drawable.new_point);
         } else if (mapDataTable.getMapType() == 2) {
-            holder.adapterMapDataListBinding.image.setImageResource(R.drawable.lines);
+            holder.adapterMapDataListBinding.image.setImageResource(R.drawable.new_line);
         } else if (mapDataTable.getMapType() == 3) {
-            holder.adapterMapDataListBinding.image.setImageResource(R.drawable.polygon);
+            holder.adapterMapDataListBinding.image.setImageResource(R.drawable.new_polygon);
         }
 
         holder.adapterMapDataListBinding.checkBox.setOnClickListener(new View.OnClickListener() {
@@ -58,7 +58,7 @@ public class MapDataAdapter extends RecyclerView.Adapter<MapDataAdapter.ViewHold
             }
         });
 
-        holder.adapterMapDataListBinding.editMap.setOnClickListener(new View.OnClickListener() {
+        holder.adapterMapDataListBinding.itemViewClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mapDataListActivityMvpView != null) {

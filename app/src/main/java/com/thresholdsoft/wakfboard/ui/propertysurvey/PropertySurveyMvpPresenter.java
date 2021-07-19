@@ -33,8 +33,6 @@ public interface PropertySurveyMvpPresenter<V extends PropertySurveyMvpView> ext
 
     void polygonManualSave();
 
-    String getPolygonArea(List<LatLng> polygonPoints);
-
     void insertMapTypeDataTable(MapDataTable mapDataTable);
 
     void updateMapDataList(MapDataTable mapDataTable);
@@ -43,4 +41,11 @@ public interface PropertySurveyMvpPresenter<V extends PropertySurveyMvpView> ext
 
     List<MapDataTable> getMapTypelist(int propertyId);
 
+    String getPolygonAreainMeters(List<LatLng> polygonPoints);
+
+    String getPolygonAreainSquareFeet(List<LatLng> polygonPoints);
+
+    String getPolygonAreainSquareYards(List<LatLng> polygonPoints);
+
+    String getPolygonAreainAcers(List<LatLng> polygonPoints);
 }

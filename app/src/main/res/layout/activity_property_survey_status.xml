@@ -171,7 +171,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/roboto_regular"
-                                    android:text="Area : 0.0 m²"
+                                    android:text="Area: 0.0 m²"
                                     android:textColor="@color/black" />
 
                                 <TextView
@@ -229,7 +229,7 @@
                                     android:src="@drawable/ic_gallery" />
                             </LinearLayout>
 
-                            <TextView
+                            <ImageView
                                 android:id="@+id/current_location"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -237,8 +237,7 @@
                                 android:layout_alignParentEnd="true"
                                 android:layout_marginTop="@dimen/twenty_dp"
                                 android:layout_marginEnd="@dimen/ten_dp"
-                                android:background="@drawable/rectangular_light_round"
-                                android:backgroundTint="@color/colorPrimaryDark"
+                                android:src="@drawable/current_location_icon"
                                 android:fontFamily="@font/roboto_regular"
                                 android:padding="@dimen/five_dp"
                                 android:text="Current Location"

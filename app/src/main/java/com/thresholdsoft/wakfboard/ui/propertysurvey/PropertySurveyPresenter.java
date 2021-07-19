@@ -85,11 +85,41 @@ public class PropertySurveyPresenter<V extends PropertySurveyMvpView> extends Ba
 
     @SuppressLint("DefaultLocale")
     @Override
-    public String getPolygonArea(List<LatLng> polygonPoints) {
+    public String getPolygonAreainMeters(List<LatLng> polygonPoints) {
         double area = 0;
         if (polygonPoints.size() > 0) {
             area = SphericalUtil.computeArea(polygonPoints);
             area = area * 0.3048 * 0.3048;
+        }
+        return String.format("%.2f", area);
+    }
+
+    @Override
+    public String getPolygonAreainSquareFeet(List<LatLng> polygonPoints) {
+        double area = 0;
+        if (polygonPoints.size() > 0) {
+            area = SphericalUtil.computeArea(polygonPoints);
+            area = area * 1;
+        }
+        return String.format("%.2f", area);
+    }
+
+    @Override
+    public String getPolygonAreainSquareYards(List<LatLng> polygonPoints) {
+        double area = 0;
+        if (polygonPoints.size() > 0) {
+            area = SphericalUtil.computeArea(polygonPoints);
+            area = area * 0.111111 * 0.111111;
+        }
+        return String.format("%.2f", area);
+    }
+
+    @Override
+    public String getPolygonAreainAcers(List<LatLng> polygonPoints) {
+        double area = 0;
+        if (polygonPoints.size() > 0) {
+            area = SphericalUtil.computeArea(polygonPoints);
+            area = area * 0.0000229568;
         }
         return String.format("%.2f", area);
     }

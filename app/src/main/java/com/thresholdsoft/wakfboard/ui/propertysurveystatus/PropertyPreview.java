@@ -187,7 +187,7 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
     @Override
     public void mapTypeData(int mapData) {
         mapTypeData = mapData;
-        startActivityForResult(PropertySurvey.getStartIntent(PropertyPreview.this, mapData, propertyId), PROPERTY_SURVEY);
+        startActivityForResult(PropertySurvey.getStartIntent(PropertyPreview.this, mapData, propertyId,true,measurements), PROPERTY_SURVEY);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
@@ -289,14 +289,6 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
                         if (i == getPolylineLatlngList.size() - 1) {
                             LatLng latLng1 = new LatLng((getPolylineLatlngList.get(i).latitude + getPolylineLatlngList.get(0).latitude) / 2, (getPolylineLatlngList.get(i).longitude + getPolylineLatlngList.get(0).longitude) / 2);
 
-//                            LatLng from = new LatLng(((getPolylineLatlngList.get(i).latitude)), ((getPolylineLatlngList.get(i).longitude)));
-//                            LatLng to = new LatLng(((getPolylineLatlngList.get(0).latitude)), ((getPolylineLatlngList.get(0).longitude)));
-//
-//                            double amount = Double.parseDouble(mpresenter.getLineLength(from, to));
-//                            DecimalFormat formatter = new DecimalFormat("#,###");
-//                            String formatted = formatter.format(amount);
-//
-//                            addText(getApplicationContext(), mMap, latLng1, formatted, 3, 16, Color.RED);
                         } else {
                             LatLng latLng1 = new LatLng((getPolylineLatlngList.get(i).latitude + getPolylineLatlngList.get(i + 1).latitude) / 2, (getPolylineLatlngList.get(i).longitude + getPolylineLatlngList.get(i + 1).longitude) / 2);
 
@@ -307,7 +299,7 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
                             DecimalFormat formatter = new DecimalFormat("#,###");
                             String formatted = formatter.format(amount);
 
-                            addText(getApplicationContext(), mMap, latLng1, formatted, 3, 16, Color.RED);
+//                            addText(getApplicationContext(), mMap, latLng1, formatted, 3, 16, Color.RED);
 
                             i1 += Double.parseDouble(mpresenter.getLineLength(from, to));
 
@@ -315,7 +307,7 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
                             DecimalFormat formatter1 = new DecimalFormat("#,###.00");
                             String formatted1 = formatter1.format(amount1);
 
-                            activityPropertySurveyStatusBinding.distanceTextView.setText("Length :" + formatted1 + "m");
+                            activityPropertySurveyStatusBinding.distanceTextView.setText("Length:" +" "+ formatted1 + "m");
 
                         }
 //                        latLngLine = new LatLng(getPolylineLatlngList.get(i).latitude, getPolylineLatlngList.get(i).longitude);
@@ -323,7 +315,7 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
 //                        polyLineMarker = mMap.addMarker(markerOptions);
                     }
 
-                    PolylineOptions polylineOptions = new PolylineOptions().addAll(getPolylineLatlngList).color(Color.BLUE).width(5).clickable(true);
+                    PolylineOptions polylineOptions = new PolylineOptions().addAll(getPolylineLatlngList).color(getResources().getColor(R.color.colorPrimaryDark)).width(5).clickable(true);
                     polyline = mMap.addPolyline(polylineOptions);
                     googleMap.animateCamera(CameraUpdateFactory.newLatLng(getPolylineLatlngList.get(0)));
                     googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(getPolylineLatlngList.get(0), 14));
@@ -343,7 +335,7 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
                             DecimalFormat formatter = new DecimalFormat("#,###");
                             String formatted = formatter.format(amount);
 
-                            addText(getApplicationContext(), mMap, latLng1, formatted, 3, 16, Color.RED);
+//                            addText(getApplicationContext(), mMap, latLng1, formatted, 3, 16, Color.RED);
                         } else {
                             LatLng latLng1 = new LatLng((getPolygontLatlngList.get(i).latitude + getPolygontLatlngList.get(i + 1).latitude) / 2, (getPolygontLatlngList.get(i).longitude + getPolygontLatlngList.get(i + 1).longitude) / 2);
 
@@ -354,7 +346,7 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
                             DecimalFormat formatter = new DecimalFormat("#,###");
                             String formatted = formatter.format(amount);
 
-                            addText(getApplicationContext(), mMap, latLng1, formatted, 3, 16, Color.RED);
+//                            addText(getApplicationContext(), mMap, latLng1, formatted, 3, 16, Color.RED);
                         }
 //                        latLngLine = new LatLng(getPolygontLatlngList.get(i).latitude, getPolygontLatlngList.get(i).longitude);
 //                        MarkerOptions markerOptions = new MarkerOptions().position(latLngLine).icon(icon1);
@@ -369,7 +361,7 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
                         DecimalFormat formatter = new DecimalFormat("#,###");
                         String formatted = formatter.format(amount);
                         mpresenter.updateAreaByPropertyId(propertyId, formatted);
-                        activityPropertySurveyStatusBinding.polygonArea.setText("Area :" + formatted + "m²");
+                        activityPropertySurveyStatusBinding.polygonArea.setText("Area:" +" "+ formatted +" m²");
                     } else if (measurements.equalsIgnoreCase("Square Feet")) {
 
                         polygoni1 += Double.parseDouble(mpresenter.getPolygonAreainSquareFeet(getPolygontLatlngList));
@@ -379,7 +371,7 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
                         String formatted = formatter.format(amount);
                         mpresenter.updateAreaByPropertyId(propertyId, formatted);
 
-                        activityPropertySurveyStatusBinding.polygonArea.setText("Area :" + formatted + "sq ft²");
+                        activityPropertySurveyStatusBinding.polygonArea.setText("Area:" +" "+ formatted + " sq ft²");
                     } else if (measurements.equalsIgnoreCase("Square yards")) {
 
                         polygoni1 += Double.parseDouble(mpresenter.getPolygonAreainSquareFeet(getPolygontLatlngList));
@@ -389,7 +381,7 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
                         String formatted = formatter.format(amount);
                         mpresenter.updateAreaByPropertyId(propertyId, formatted);
 
-                        activityPropertySurveyStatusBinding.polygonArea.setText("Area :" + formatted + "sq yd²");
+                        activityPropertySurveyStatusBinding.polygonArea.setText("Area:" +" "+ formatted + " sq yd²");
                     } else if (measurements.equalsIgnoreCase("Acres")) {
 
                         polygoni1 += Double.parseDouble(mpresenter.getPolygonAreainAcers(getPolygontLatlngList));
@@ -399,25 +391,25 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
                         String formatted = formatter.format(amount);
                         mpresenter.updateAreaByPropertyId(propertyId, formatted);
 
-                        activityPropertySurveyStatusBinding.polygonArea.setText("Area :" + formatted + "acers");
+                        activityPropertySurveyStatusBinding.polygonArea.setText("Area:" +" "+ formatted + " acers");
                     }
                     PolygonOptions polygonOptions = null;
                     if (mapDataTable.getId() == 1) {
-                        polygonOptions = new PolygonOptions().addAll(getPolygontLatlngList).strokeWidth(5).fillColor(getResources().getColor(R.color.yellow_transparent)).strokeColor(Color.RED).clickable(true);
+                        polygonOptions = new PolygonOptions().addAll(getPolygontLatlngList).strokeWidth(5).strokeColor(getResources().getColor(R.color.colorPrimaryDark)).fillColor(getResources().getColor(R.color.yellow_transparent)).clickable(true);
                     } else if (mapDataTable.getId() == 2) {
-                        polygonOptions = new PolygonOptions().addAll(getPolygontLatlngList).strokeWidth(5).fillColor(getResources().getColor(R.color.red_transparent)).strokeColor(Color.RED).clickable(true);
+                        polygonOptions = new PolygonOptions().addAll(getPolygontLatlngList).strokeWidth(5).strokeColor(getResources().getColor(R.color.colorPrimaryDark)).fillColor(getResources().getColor(R.color.red_transparent)).clickable(true);
                     } else if (mapDataTable.getId() == 3) {
-                        polygonOptions = new PolygonOptions().addAll(getPolygontLatlngList).strokeWidth(5).fillColor(getResources().getColor(R.color.green_transparent)).strokeColor(Color.RED).clickable(true);
+                        polygonOptions = new PolygonOptions().addAll(getPolygontLatlngList).strokeWidth(5).strokeColor(getResources().getColor(R.color.colorPrimaryDark)).fillColor(getResources().getColor(R.color.green_transparent)).clickable(true);
                     } else if (mapDataTable.getId() == 4) {
-                        polygonOptions = new PolygonOptions().addAll(getPolygontLatlngList).strokeWidth(5).fillColor(getResources().getColor(R.color.blue_transparent)).strokeColor(Color.RED).clickable(true);
+                        polygonOptions = new PolygonOptions().addAll(getPolygontLatlngList).strokeWidth(5).strokeColor(getResources().getColor(R.color.colorPrimaryDark)).fillColor(getResources().getColor(R.color.blue_transparent)).clickable(true);
                     } else if (mapDataTable.getId() == 5) {
-                        polygonOptions = new PolygonOptions().addAll(getPolygontLatlngList).strokeWidth(5).fillColor(getResources().getColor(R.color.black_transparent)).strokeColor(Color.RED).clickable(true);
+                        polygonOptions = new PolygonOptions().addAll(getPolygontLatlngList).strokeWidth(5).strokeColor(getResources().getColor(R.color.colorPrimaryDark)).fillColor(getResources().getColor(R.color.black_transparent)).clickable(true);
                     } else if (mapDataTable.getId() == 6) {
-                        polygonOptions = new PolygonOptions().addAll(getPolygontLatlngList).strokeWidth(5).fillColor(getResources().getColor(R.color.pink_transparent)).strokeColor(Color.RED).clickable(true);
+                        polygonOptions = new PolygonOptions().addAll(getPolygontLatlngList).strokeWidth(5).strokeColor(getResources().getColor(R.color.colorPrimaryDark)).fillColor(getResources().getColor(R.color.pink_transparent)).clickable(true);
                     } else {
                         Random rand = new Random();
 //                       int randomElement = CommonUtils.getColorList().get(rand.nextInt(CommonUtils.getColorList().size()));
-                        polygonOptions = new PolygonOptions().addAll(getPolygontLatlngList).strokeWidth(5).fillColor(CommonUtils.getColorList().get(rand.nextInt(CommonUtils.getColorList().size()))).strokeColor(Color.RED).clickable(true);
+                        polygonOptions = new PolygonOptions().addAll(getPolygontLatlngList).strokeWidth(5).strokeColor(getResources().getColor(R.color.colorPrimaryDark)).fillColor(CommonUtils.getColorList().get(rand.nextInt(CommonUtils.getColorList().size()))).clickable(true);
                     }
                     polygon = mMap.addPolygon(polygonOptions);
                     googleMap.animateCamera(CameraUpdateFactory.newLatLng(getPolygontLatlngList.get(0)));
