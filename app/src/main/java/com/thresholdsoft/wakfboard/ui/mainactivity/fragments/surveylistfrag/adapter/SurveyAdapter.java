@@ -42,29 +42,29 @@ public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder
         holder.adapterSurveyListBinding.setPropertyData(propertyData);
         if (propertyData.getPhotosList() != null && propertyData.getPhotosList().size() > 0)
             Glide.with(context).load(propertyData.getPhotosList().get(0)).error(R.drawable.placeholder).into(holder.adapterSurveyListBinding.image);
-
+        holder.adapterSurveyListBinding.propertyValue.setText(propertyData.getPropertyValue() + " (INR)");
         if (propertyData.getMeasuredunit().equalsIgnoreCase("Square Meters")) {
             if (propertyData.getArea() != null) {
-                holder.adapterSurveyListBinding.propertyArea.setText(propertyData.getArea() + "m²");
+                holder.adapterSurveyListBinding.propertyArea.setText(propertyData.getArea() + " m²");
             } else {
                 holder.adapterSurveyListBinding.propertyArea.setText("0.0 m²");
             }
         } else if (propertyData.getMeasuredunit().equalsIgnoreCase("Square Feet")) {
             if (propertyData.getArea() != null) {
-                holder.adapterSurveyListBinding.propertyArea.setText(propertyData.getArea() + "sq ft²");
+                holder.adapterSurveyListBinding.propertyArea.setText(propertyData.getArea() + " sq ft²");
             } else {
                 holder.adapterSurveyListBinding.propertyArea.setText("0.0 sq ft²");
             }
         } else if (propertyData.getMeasuredunit().equalsIgnoreCase("Square yards")) {
             if (propertyData.getArea() != null) {
-                holder.adapterSurveyListBinding.propertyArea.setText(propertyData.getArea() + "sq yd²");
+                holder.adapterSurveyListBinding.propertyArea.setText(propertyData.getArea() + " sq yd²");
             } else {
                 holder.adapterSurveyListBinding.propertyArea.setText("0.0 sq yd²");
             }
         } else if (propertyData.getMeasuredunit().equalsIgnoreCase("Acres")) {
-            if (propertyData.getArea() != null){
-                holder.adapterSurveyListBinding.propertyArea.setText(propertyData.getArea() + "acers");
-            }else{
+            if (propertyData.getArea() != null) {
+                holder.adapterSurveyListBinding.propertyArea.setText(propertyData.getArea() + " acers");
+            } else {
                 holder.adapterSurveyListBinding.propertyArea.setText("0 acers");
             }
         }

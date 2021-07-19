@@ -49,7 +49,9 @@
         <activity android:name="com.thresholdsoft.wakfboard.ui.selectingformactivity.SelectingFormActivity">
 
         </activity>
-        <activity android:name="com.thresholdsoft.wakfboard.ui.propertycreation.PropertyCreation" />
+        <activity
+            android:name="com.thresholdsoft.wakfboard.ui.propertycreation.PropertyCreation"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name="com.thresholdsoft.wakfboard.ui.mainactivity.MainActiivty"
             android:theme="@style/AppTheme.NoActionBar">

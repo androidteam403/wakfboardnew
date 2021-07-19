@@ -80,5 +80,12 @@
     <string name="label_polyline">Polylines</string>
     <string name="label_polygon">Polygon</string>
     <string name="label_distance">Distance : 0.0 m</string>
+    <string name="label_profile">Profile</string>
+    <string name="label_survey_details">Survey Details</string>
+    <string name="label_date">date</string>
+    <string name="label_description">Description</string>
+    <string name="label_tittle">tittle</string>
+    <string name="label_no_images_found">No images found</string>
+    <string name="label_upload_photos">Upload Photos</string>
     <item type="id" name="polygon_marker_position" />
 </resources>
