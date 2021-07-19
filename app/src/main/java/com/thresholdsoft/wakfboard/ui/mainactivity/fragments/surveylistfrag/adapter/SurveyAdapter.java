@@ -1,87 +1,101 @@
 package com.thresholdsoft.wakfboard.ui.mainactivity.fragments.surveylistfrag.adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
-import android.widget.Filterable;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
-import androidx.recyclerview.widget.AsyncListDiffer;
-import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.thresholdsoft.wakfboard.R;
-import com.thresholdsoft.wakfboard.data.db.model.FarmerLands;
 import com.thresholdsoft.wakfboard.databinding.AdapterSurveyListBinding;
-import com.thresholdsoft.wakfboard.databinding.LmItemLoadingBinding;
-import com.thresholdsoft.wakfboard.ui.mainactivity.fragments.surveylistfrag.SurveyListFrag;
+import com.thresholdsoft.wakfboard.ui.mainactivity.fragments.surveylistfrag.SurveyListMvpView;
+import com.thresholdsoft.wakfboard.ui.propertycreation.model.PropertyData;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class SurveyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable {
+public class SurveyAdapter extends RecyclerView.Adapter<SurveyAdapter.ViewHolder> {
+    private Context context;
+    private List<PropertyData> propertyDataList;
+    private SurveyListMvpView surveyListMvpView;
 
-    private static final DiffUtil.ItemCallback<FarmerLands> DIFF_CALLBACK = new DiffUtil.ItemCallback<FarmerLands>() {
-        @Override
-        public boolean areItemsTheSame(@NonNull FarmerLands oldItem, @NonNull FarmerLands newItem) {
-            return oldItem.getId() == newItem.getId();
-        }
-
-        @Override
-        public boolean areContentsTheSame(@NonNull FarmerLands oldItem, @NonNull FarmerLands newItem) {
-            return oldItem.getStatus().equals(newItem.getStatus());
-        }
-
-
-    };
-    private List<FarmerLands> fullList;
-    private AsyncListDiffer<FarmerLands> differ = new AsyncListDiffer<>(this, DIFF_CALLBACK);
-    private List<FarmerLands> adapterList = new ArrayList<>();
-    private List<FarmerLands> searchList = new ArrayList<>();
-
-    private final int VIEW_TYPE_ITEM = 0;
-    private OnItemClickListener listener;
-    private SurveyListFrag surveyListFrag;
-
-    public SurveyAdapter(SurveyListFrag surveyListFrag) {
-        this.surveyListFrag = surveyListFrag;
-    }
-
-    public interface OnItemClickListener {
-        void onItemClick(FarmerLands farmerLands);
-    }
-
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        this.listener = listener;
+    public SurveyAdapter(Context context, List<PropertyData> propertyDataList, SurveyListMvpView surveyListMvpView) {
+        this.context = context;
+        this.propertyDataList = propertyDataList;
+        this.surveyListMvpView = surveyListMvpView;
     }
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (viewType == VIEW_TYPE_ITEM) {
-            AdapterSurveyListBinding adapterSurveyListBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
-                    R.layout.adapter_survey_list, parent, false);
-            return new SurveyAdapter.ViewHolder(adapterSurveyListBinding);
-
-        } else {
-            LmItemLoadingBinding lmItemLoadingBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
-                    R.layout.lm_item_loading, parent, false);
-            return new SurveyAdapter.LoadingViewHolder(lmItemLoadingBinding);
-        }
+    public SurveyAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        AdapterSurveyListBinding adapterSurveyListBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                R.layout.adapter_survey_list, parent, false);
+        return new SurveyAdapter.ViewHolder(adapterSurveyListBinding);
     }
 
-    public static class LoadingViewHolder extends RecyclerView.ViewHolder {
-        public LmItemLoadingBinding lmItemLoadingBinding;
-
-        public LoadingViewHolder(@NonNull LmItemLoadingBinding lmItemLoadingBinding) {
-            super(lmItemLoadingBinding.getRoot());
-            this.lmItemLoadingBinding = lmItemLoadingBinding;
+    @Override
+    public void onBindViewHolder(@NonNull SurveyAdapter.ViewHolder holder, int position) {
+        PropertyData propertyData = propertyDataList.get(position);
+        holder.adapterSurveyListBinding.setPropertyData(propertyData);
+        if (propertyData.getPhotosList() != null && propertyData.getPhotosList().size() > 0)
+            Glide.with(context).load(propertyData.getPhotosList().get(0)).error(R.drawable.placeholder).into(holder.adapterSurveyListBinding.image);
+        holder.adapterSurveyListBinding.propertyValue.setText(propertyData.getPropertyValue() + " (INR)");
+        if (propertyData.getMeasuredunit().equalsIgnoreCase("Square Meters")) {
+            if (propertyData.getArea() != null) {
+                holder.adapterSurveyListBinding.propertyArea.setText(propertyData.getArea() + " m²");
+            } else {
+                holder.adapterSurveyListBinding.propertyArea.setText("0.0 m²");
+            }
+        } else if (propertyData.getMeasuredunit().equalsIgnoreCase("Square Feet")) {
+            if (propertyData.getArea() != null) {
+                holder.adapterSurveyListBinding.propertyArea.setText(propertyData.getArea() + " sq ft²");
+            } else {
+                holder.adapterSurveyListBinding.propertyArea.setText("0.0 sq ft²");
+            }
+        } else if (propertyData.getMeasuredunit().equalsIgnoreCase("Square yards")) {
+            if (propertyData.getArea() != null) {
+                holder.adapterSurveyListBinding.propertyArea.setText(propertyData.getArea() + " sq yd²");
+            } else {
+                holder.adapterSurveyListBinding.propertyArea.setText("0.0 sq yd²");
+            }
+        } else if (propertyData.getMeasuredunit().equalsIgnoreCase("Acres")) {
+            if (propertyData.getArea() != null) {
+                holder.adapterSurveyListBinding.propertyArea.setText(propertyData.getArea() + " acers");
+            } else {
+                holder.adapterSurveyListBinding.propertyArea.setText("0 acers");
+            }
         }
+
+        holder.adapterSurveyListBinding.takeSurveyText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (surveyListMvpView != null) {
+                    surveyListMvpView.onItemClickTakeSurveyLister(position);
+                }
+            }
+        });
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (surveyListMvpView != null) {
+                    surveyListMvpView.onItemClickTakeSurveyLister(position);
+                }
+            }
+        });
+
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public AdapterSurveyListBinding adapterSurveyListBinding;
+    @Override
+    public int getItemCount() {
+        return propertyDataList.size();
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        AdapterSurveyListBinding adapterSurveyListBinding;
 
         public ViewHolder(@NonNull AdapterSurveyListBinding adapterSurveyListBinding) {
             super(adapterSurveyListBinding.getRoot());
@@ -89,146 +103,4 @@ public class SurveyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof ViewHolder) {
-            populateItemRows((SurveyAdapter.ViewHolder) holder, position);
-        } else if (holder instanceof LoadingViewHolder) {
-            showLoadingView((SurveyAdapter.LoadingViewHolder) holder, position);
-        }
-    }
-
-    private void populateItemRows(SurveyAdapter.ViewHolder holder, int position) {
-        FarmerLands farmerModel = adapterList.get(position);
-        holder.adapterSurveyListBinding.setSurvey(farmerModel);
-
-        holder.itemView.setOnClickListener(view -> {
-            if (listener != null && position != RecyclerView.NO_POSITION) {
-                listener.onItemClick(farmerModel);
-            }
-        });
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        int VIEW_TYPE_LOADING = 1;
-        return adapterList.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
-    }
-
-    private void showLoadingView(LoadingViewHolder viewHolder, int position) {
-        //ProgressBar would be displayed
-
-    }
-
-    @Override
-    public int getItemCount() {
-        return adapterList.size();
-    }
-
-    public void submitList(List<FarmerLands> stores) {
-        differ.submitList(stores);
-        fullList = new ArrayList<>(stores);
-        adapterList.clear();
-        adapterList.addAll(stores);
-        notifyDataSetChanged();
-    }
-
-    public void addItemData(FarmerLands farmerLands) {
-        adapterList.add(null);
-    }
-
-    public void removeItemData(int position) {
-        adapterList.remove(position);
-    }
-
-    public int loadMorePageNumber() {
-        return adapterList.get(adapterList.size() - 2).getPageNo();
-    }
-
-    @Override
-    public Filter getFilter() {
-        return shopFilter;
-    }
-
-    private Filter shopFilter = new Filter() {
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-
-            List<FarmerLands> filteredList = new ArrayList<>();
-            if (constraint == null || constraint.length() == 0) {
-                isSearchFilter = false;
-                filteredList.addAll(fullList);
-                surveyListFrag.regularText();
-            } else {
-                isSearchFilter = true;
-                String filterPattern = constraint.toString().toLowerCase().trim();
-                for (FarmerLands store : fullList) {
-                    if (store.getName().toLowerCase().contains(filterPattern)) {
-                        filteredList.add(store);
-                    }
-                }
-            }
-
-            FilterResults results = new FilterResults();
-            results.values = filteredList;
-            return results;
-        }
-
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-            //differ.getCurrentList().clear();
-            //differ.getCurrentList().addAll((List) results.values);
-            adapterList = (List) results.values;
-            searchList = adapterList;
-            statusFilter("");
-            //  notifyDataSetChanged();
-        }
-    };
-
-    public void statusFilter(String status) {
-        int newRes = 0;
-        int inProgress = 0, completed = 0;
-        if (isSearchFilter) {
-            adapterList = searchList;
-            surveyListFrag.regularText();
-        } else {
-            adapterList = fullList;
-        }
-        for (FarmerLands lands : adapterList) {
-            if (lands.getStatus().equalsIgnoreCase("New")) {
-                newRes++;
-            } else if (lands.getStatus().equalsIgnoreCase("No")) {
-                inProgress++;
-            } else if (lands.getStatus().equalsIgnoreCase("Yes")) {
-                completed++;
-            }
-        }
-        surveyListFrag.updateStatusCount(newRes, inProgress, completed);
-        if (!status.equalsIgnoreCase("")) {
-            if (status.equalsIgnoreCase("InProgress")) {
-                status = "No";
-            } else if (status.equalsIgnoreCase("Completed")) {
-                status = "Yes";
-            }
-            List<FarmerLands> filteredList = new ArrayList<>();
-            for (FarmerLands store : adapterList) {
-                if (store.getStatus().equalsIgnoreCase(status)) {
-                    filteredList.add(store);
-                }
-            }
-            adapterList = filteredList;
-        }
-        notifyDataSetChanged();
-    }
-
-    boolean isSearchFilter = false;
-
-    public void applyFilter(boolean isSearch) {
-        isSearchFilter = isSearch;
-    }
 }

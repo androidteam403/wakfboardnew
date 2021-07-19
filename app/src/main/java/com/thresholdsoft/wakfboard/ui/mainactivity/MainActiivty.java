@@ -2,6 +2,8 @@ package com.thresholdsoft.wakfboard.ui.mainactivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,11 +45,12 @@ public class MainActiivty extends BaseActivity implements MainActivityMvpView {
     NavHeaderMainBinding navHeaderMainBinding;
     NavigationView navigationView;
     Toolbar mTopToolbar;
-    TextView count;
+    TextView count, tittle;
     DrawerLayout drawer;
     ToolbarBinding toolbarBinding;
-    private ImageView syncImage;
+    private ImageView syncImage, propertyIcon;
     TextView logout;
+    private boolean doubleBackToExitPressedOnce = false;
 
 
     @Override
@@ -75,6 +78,8 @@ public class MainActiivty extends BaseActivity implements MainActivityMvpView {
         });
 
         syncImage = findViewById(R.id.refresh_sync);
+        propertyIcon = findViewById(R.id.property_icon);
+        tittle = findViewById(R.id.tittle);
         syncImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -99,13 +104,13 @@ public class MainActiivty extends BaseActivity implements MainActivityMvpView {
                 if (menuItem.isChecked()) return false;
 
                 if (menuItem.getItemId() == R.id.nav_home) {
-                    syncImage.setVisibility(View.VISIBLE);
+                    propertyIcon.setVisibility(View.VISIBLE);
                     navController.navigate(R.id.nav_home);
                 } else if (menuItem.getItemId() == R.id.nav_profile) {
-                    syncImage.setVisibility(View.GONE);
+                    propertyIcon.setVisibility(View.GONE);
                     navController.navigate(R.id.nav_profile);
                 } else if (menuItem.getItemId() == R.id.nav_enrollment) {
-                    syncImage.setVisibility(View.GONE);
+                    propertyIcon.setVisibility(View.GONE);
                     navController.navigate(R.id.nav_enrollment);
                 }
                 return true;
@@ -169,12 +174,23 @@ public class MainActiivty extends BaseActivity implements MainActivityMvpView {
 
     @Override
     public void onBackPressed() {
-        if (Navigation.findNavController(this, R.id.nav_host_fragment)
-                .getCurrentDestination().getId() == R.id.nav_profile) {
-            syncImage.setVisibility(View.VISIBLE);
+        if (doubleBackToExitPressedOnce) {
+            finish();
+            return;
         }
-        super.onBackPressed();
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce = false;
+            }
+        }, 2000);
+//        if (Navigation.findNavController(this, R.id.nav_host_fragment)
+//                .getCurrentDestination().getId() == R.id.nav_profile) {
+//            syncImage.setVisibility(View.VISIBLE);
+//        }
+//        super.onBackPressed();
     }
-
-
 }

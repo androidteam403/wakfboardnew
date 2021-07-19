@@ -1,71 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ScrollView
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@id/save">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/header"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="@dimen/fifty_five_dp"
+                android:background="@color/colorPrimaryDark"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingEnd="@dimen/twenty_dp"
+                tools:ignore="RtlSymmetry,UselessParent">
+
+                <ImageView
+                    android:id="@+id/back_arrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/app_name"
+                    android:onClick="@{()-> callback.onClickBack()}"
+                    android:paddingTop="@dimen/fifteen_dp"
+                    android:paddingBottom="@dimen/fifteen_dp"
+                    android:src="@drawable/ic_back" />
+
+                <ImageView
+                    android:layout_width="@dimen/forty_five_dp"
+                    android:layout_height="@dimen/forty_five_dp"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/wakfboard_rounded" />
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/fifty_five_dp"
-                    android:background="@color/colorPrimaryDark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/five_dp"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingStart="@dimen/twenty_dp"
-                    android:paddingEnd="@dimen/twenty_dp"
-                    tools:ignore="RtlSymmetry,UselessParent">
+                    android:orientation="vertical">
 
-                    <ImageView
-                        android:id="@+id/menulines"
-                        android:layout_width="@dimen/thirty_dp"
-                        android:layout_height="@dimen/forty_dp"
-                        android:contentDescription="@string/app_name"
-                        android:src="@drawable/menuhdpi" />
+                    <!--                        <ImageView-->
+                    <!--                            android:layout_width="@dimen/one_hundred_seventy_dp"-->
+                    <!--                            android:layout_height="@dimen/seventeen_dp"-->
+                    <!--                            android:layout_marginTop="@dimen/five_dp"-->
+                    <!--                            android:contentDescription="@string/app_name"-->
+                    <!--                            android:src="@drawable/praanadhaara_title" />-->
+                    <!--                        <TextView-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:contentDescription="@string/app_name"-->
+                    <!--                            android:fontFamily="@font/roboto_medium"-->
+                    <!--                            android:text="@string/label_wakf_board"-->
+                    <!--                            android:textColor="@color/white"-->
+                    <!--                            android:textSize="@dimen/text_dimen_18" />-->
 
-                    <ImageView
-                        android:layout_width="@dimen/forty_five_dp"
-                        android:layout_height="@dimen/forty_five_dp"
-                        android:layout_marginStart="@dimen/ten_dp"
-                        android:contentDescription="@string/app_name"
-                        android:src="@drawable/wakfboard_rounded" />
-
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/tittle"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="@dimen/five_dp"
-                        android:gravity="center_vertical"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="@dimen/one_hundred_seventy_dp"
-                            android:layout_height="@dimen/seventeen_dp"
-                            android:layout_marginTop="@dimen/five_dp"
-                            android:contentDescription="@string/app_name"
-                            android:src="@drawable/praanadhaara_title" />
-
-                        <TextView
-                            android:id="@+id/tittle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/three_dp"
-                            android:fontFamily="@font/roboto_regular"
-                            android:text="Property Creation"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/text_dimen_13" />
-                    </LinearLayout>
-
-
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/three_dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="@string/label_property_creation"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_dimen_18" />
                 </LinearLayout>
+
+
+            </LinearLayout>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/fifty_dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -103,70 +115,42 @@
                             android:textSize="@dimen/text_dimen_14" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <LinearLayout
+                    <com.tiper.MaterialSpinner
+                        android:id="@+id/property_type"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:weightSum="2">
+                        android:layout_marginTop="@dimen/seven_dp"
+                        android:descendantFocusability="beforeDescendants"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:fontFamily="@font/roboto_regular"
+                        android:hint="Property Type*"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/base"
+                        android:textSize="6sp"
+                        android:theme="@style/LoginEditTextInputLayoutStyle" />
 
-                        <!--                        <com.google.android.material.textfield.TextInputLayout-->
-                        <!--                            android:layout_width="0dp"-->
-                        <!--                            android:layout_height="wrap_content"-->
-                        <!--                            android:layout_marginTop="@dimen/three_dp"-->
-                        <!--                            android:layout_weight="1"-->
-                        <!--                            android:theme="@style/TextLabelEdit">-->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/three_dp"
+                        android:theme="@style/TextLabelEdit">
 
-                        <!--                            <com.google.android.material.textfield.TextInputEditText-->
-                        <!--                                android:id="@+id/property_type"-->
-                        <!--                                android:layout_width="match_parent"-->
-                        <!--                                android:layout_height="wrap_content"-->
-                        <!--                                android:fontFamily="@font/roboto_regular"-->
-                        <!--                                android:hint="Property Type*"-->
-                        <!--                                android:imeOptions="actionNext"-->
-                        <!--                                android:inputType="text|textNoSuggestions"-->
-                        <!--                                android:singleLine="true"-->
-                        <!--                                android:textColor="@color/black"-->
-                        <!--                                android:textColorHint="@color/black"-->
-                        <!--                                android:textSize="@dimen/text_dimen_14" />-->
-                        <!--                        </com.google.android.material.textfield.TextInputLayout>-->
-                        <com.tiper.MaterialSpinner
-                            android:id="@+id/property_type"
-                            android:layout_width="0dp"
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/property_value"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/seven_dp"
-                            android:layout_weight="1"
-                            android:descendantFocusability="beforeDescendants"
-                            android:focusable="true"
-                            android:focusableInTouchMode="true"
+                            android:digits="0123456789"
                             android:fontFamily="@font/roboto_regular"
-                            android:hint="Property Type*"
+                            android:hint="@string/label_property_value"
+                            android:imeOptions="actionDone"
+                            android:inputType="number"
+                            android:singleLine="true"
                             android:textColor="@color/black"
-                            android:textColorHint="@color/base"
-                            android:textSize="6sp"
-                            android:theme="@style/LoginEditTextInputLayoutStyle" />
+                            android:textColorHint="@color/black"
+                            android:textSize="@dimen/text_dimen_14" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/three_dp"
-                            android:layout_weight="1"
-                            android:theme="@style/TextLabelEdit">
-
-                            <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/property_value"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:digits="0123456789"
-                                android:fontFamily="@font/roboto_regular"
-                                android:hint="Property Value*"
-                                android:imeOptions="actionDone"
-                                android:inputType="number"
-                                android:singleLine="true"
-                                android:textColor="@color/black"
-                                android:textColorHint="@color/black"
-                                android:textSize="@dimen/text_dimen_14" />
-                        </com.google.android.material.textfield.TextInputLayout>
-                    </LinearLayout>
 
                     <TextView
                         android:layout_width="match_parent"
@@ -294,6 +278,27 @@
 
                     </LinearLayout>
 
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:theme="@style/TextLabelEdit">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/mobile"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:digits="0123456789"
+                            android:fontFamily="@font/roboto_regular"
+                            android:hint="Mobile Number*"
+                            android:imeOptions="actionNext"
+                            android:inputType="number"
+                            android:maxLength="10"
+                            android:singleLine="true"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/black"
+                            android:textSize="@dimen/text_dimen_14" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -322,15 +327,16 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="@dimen/five_dp"
                         android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/five_dp"
                             android:fontFamily="@font/roboto_bold"
-                            android:paddingStart="@dimen/ten_dp"
-                            android:text="Upload Photos"
+                            android:text="@string/label_upload_photos"
+                            android:layout_marginStart="@dimen/ten_dp"
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_dimen_14"
                             tools:ignore="RtlSymmetry" />
@@ -340,12 +346,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/five_dp"
-                            android:layout_marginLeft="@dimen/fifteen_dp"
                             android:src="@drawable/image_upload_icon"
-                            android:text="Upload"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/text_dimen_14"
-                            tools:ignore="RtlSymmetry" />
+                            tools:ignore="RtlSymmetry"
+                            android:contentDescription="@string/app_name" />
 
                     </LinearLayout>
 
@@ -357,20 +361,37 @@
                         android:layout_marginBottom="@dimen/ten_dp" />
 
                 </LinearLayout>
+            </ScrollView>
 
-            </LinearLayout>
+        </LinearLayout>
 
-        </ScrollView>
 
-        <Button
+        <TextView
             android:id="@+id/save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:fontFamily="@font/roboto_regular"
+            android:layout_marginBottom="@dimen/five_dp"
+            android:background="@drawable/rounded_cornerers_background"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:fontFamily="@font/roboto_medium"
+            android:gravity="center"
+            android:paddingLeft="@dimen/fifteen_dp"
+            android:paddingTop="@dimen/five_dp"
+            android:paddingRight="@dimen/fifteen_dp"
+            android:paddingBottom="@dimen/five_dp"
             android:text="save"
-            android:textColor="@color/black" />
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_dimen_18" />
 
     </RelativeLayout>
+
+    <data>
+
+        <variable
+            name="callback"
+            type="com.thresholdsoft.wakfboard.ui.propertycreation.PropertyMvpPresenter" />
+    </data>
 </layout>
