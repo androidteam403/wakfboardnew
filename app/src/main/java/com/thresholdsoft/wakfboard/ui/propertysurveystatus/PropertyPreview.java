@@ -187,7 +187,7 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
     @Override
     public void mapTypeData(int mapData) {
         mapTypeData = mapData;
-        startActivityForResult(PropertySurvey.getStartIntent(PropertyPreview.this, mapData, propertyId,true,measurements), PROPERTY_SURVEY);
+        startActivityForResult(PropertySurvey.getStartIntent(PropertyPreview.this, mapData, propertyId, true, measurements), PROPERTY_SURVEY);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
@@ -307,7 +307,7 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
                             DecimalFormat formatter1 = new DecimalFormat("#,###.00");
                             String formatted1 = formatter1.format(amount1);
 
-                            activityPropertySurveyStatusBinding.distanceTextView.setText("Length:" +" "+ formatted1 + "m");
+                            activityPropertySurveyStatusBinding.distanceTextView.setText("Length:" + " " + formatted1 + "m");
 
                         }
 //                        latLngLine = new LatLng(getPolylineLatlngList.get(i).latitude, getPolylineLatlngList.get(i).longitude);
@@ -361,7 +361,7 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
                         DecimalFormat formatter = new DecimalFormat("#,###");
                         String formatted = formatter.format(amount);
                         mpresenter.updateAreaByPropertyId(propertyId, formatted);
-                        activityPropertySurveyStatusBinding.polygonArea.setText("Area:" +" "+ formatted +" m²");
+                        activityPropertySurveyStatusBinding.polygonArea.setText("Area:" + " " + formatted + " m²");
                     } else if (measurements.equalsIgnoreCase("Square Feet")) {
 
                         polygoni1 += Double.parseDouble(mpresenter.getPolygonAreainSquareFeet(getPolygontLatlngList));
@@ -371,7 +371,7 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
                         String formatted = formatter.format(amount);
                         mpresenter.updateAreaByPropertyId(propertyId, formatted);
 
-                        activityPropertySurveyStatusBinding.polygonArea.setText("Area:" +" "+ formatted + " sq ft²");
+                        activityPropertySurveyStatusBinding.polygonArea.setText("Area:" + " " + formatted + " sq ft²");
                     } else if (measurements.equalsIgnoreCase("Square yards")) {
 
                         polygoni1 += Double.parseDouble(mpresenter.getPolygonAreainSquareFeet(getPolygontLatlngList));
@@ -381,7 +381,7 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
                         String formatted = formatter.format(amount);
                         mpresenter.updateAreaByPropertyId(propertyId, formatted);
 
-                        activityPropertySurveyStatusBinding.polygonArea.setText("Area:" +" "+ formatted + " sq yd²");
+                        activityPropertySurveyStatusBinding.polygonArea.setText("Area:" + " " + formatted + " sq yd²");
                     } else if (measurements.equalsIgnoreCase("Acres")) {
 
                         polygoni1 += Double.parseDouble(mpresenter.getPolygonAreainAcers(getPolygontLatlngList));
@@ -391,7 +391,7 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
                         String formatted = formatter.format(amount);
                         mpresenter.updateAreaByPropertyId(propertyId, formatted);
 
-                        activityPropertySurveyStatusBinding.polygonArea.setText("Area:" +" "+ formatted + " acers");
+                        activityPropertySurveyStatusBinding.polygonArea.setText("Area:" + " " + formatted + " acers");
                     }
                     PolygonOptions polygonOptions = null;
                     if (mapDataTable.getId() == 1) {
@@ -418,9 +418,10 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
             }
 
         } else {
+            BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.blue_dot);
             if (currentLocation != null) {
                 LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-                MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("I am here!");
+                MarkerOptions markerOptions = new MarkerOptions().position(latLng).icon(icon).title("I am here!");
                 googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
                 googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14));
                 googleMap.addMarker(markerOptions);

@@ -58,6 +58,7 @@
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:paddingStart="@dimen/five_dp"
+                    android:visibility="gone"
                     android:paddingTop="@dimen/five_dp"
                     android:paddingBottom="@dimen/five_dp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -230,6 +231,7 @@
                             </LinearLayout>
 
                             <ImageView
+                                android:visibility="gone"
                                 android:id="@+id/current_location"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
