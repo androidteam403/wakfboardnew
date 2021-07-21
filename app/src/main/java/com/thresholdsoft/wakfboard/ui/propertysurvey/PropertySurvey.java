@@ -423,7 +423,9 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
+        if (mpresenter.getMapViewType() != null && !mpresenter.getMapViewType().isEmpty()) {
+            setMapType(mpresenter.getMapViewType());
+        }
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(this,
                     Manifest.permission.ACCESS_FINE_LOCATION)
@@ -1085,6 +1087,28 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
 
     Marker marker1;
 
+    private void setMapType(String mapViewType) {
+        if (mMap != null) {
+            switch (mapViewType) {
+                case "Satelite":
+                    mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+                    break;
+                case "Hybrid":
+                    mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+                    break;
+                case "Terrain":
+                    mMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+                    break;
+                case "":
+                    mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                    break;
+                case "Normal":
+                    mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                    break;
+                default:
+            }
+        }
+    }
 
     @Override
     public void onLocationChanged(Location location) {
@@ -1291,7 +1315,7 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
                         propertySurveyBinding.distanceTextView.setText("Length :" + formatted1 + "m");
                     }
                 }
-            }else {
+            } else {
                 propertySurveyBinding.distanceTextView.setText("Length :" + 0.0 + "m");
             }
         }

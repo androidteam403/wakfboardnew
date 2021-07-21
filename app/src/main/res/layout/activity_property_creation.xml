@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
@@ -37,11 +38,11 @@
                         android:src="@drawable/ic_back" />
 
                     <ImageView
-                        android:visibility="gone"
                         android:layout_width="@dimen/forty_five_dp"
                         android:layout_height="@dimen/forty_five_dp"
                         android:contentDescription="@string/app_name"
-                        android:src="@drawable/wakfboard_rounded" />
+                        android:src="@drawable/wakfboard_rounded"
+                        android:visibility="gone" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -78,19 +79,19 @@
 
                     <RelativeLayout
                         android:layout_width="wrap_content"
-                        android:layout_marginEnd="@dimen/ten_dp"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/ten_dp">
 
                         <TextView
                             android:id="@+id/save"
-                            android:paddingLeft="@dimen/ten_dp"
-                            android:paddingRight="@dimen/ten_dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:background="@drawable/rectangular_light_round"
                             android:backgroundTint="@color/white"
                             android:fontFamily="@font/roboto_bold"
+                            android:paddingLeft="@dimen/ten_dp"
+                            android:paddingRight="@dimen/ten_dp"
                             android:text="Save"
                             android:textColor="@color/colorPrimaryDark"
                             android:textSize="@dimen/text_dimen_12" />
@@ -145,13 +146,14 @@
                             android:layout_marginTop="@dimen/seven_dp"
                             android:descendantFocusability="beforeDescendants"
                             android:focusable="true"
-                            android:textSize="5sp"
-                            android:focusableInTouchMode="true"
+                            android:focusableInTouchMode="false"
                             android:fontFamily="@font/roboto_regular"
                             android:hint="Property Type*"
                             android:textColor="@color/black"
                             android:textColorHint="@color/base"
-                            android:theme="@style/LoginEditTextInputLayoutStyle" />
+                            android:textSize="5sp"
+                            android:theme="@style/LoginEditTextInputLayoutStyle"
+                            app:spinnerMode="bottomsheet" />
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="match_parent"
@@ -291,13 +293,14 @@
                                 android:layout_weight="1"
                                 android:descendantFocusability="beforeDescendants"
                                 android:focusable="true"
-                                android:focusableInTouchMode="true"
+                                android:focusableInTouchMode="false"
                                 android:fontFamily="@font/roboto_regular"
                                 android:hint="State*"
-                                android:textSize="5sp"
                                 android:textColor="@color/black"
                                 android:textColorHint="@color/base"
-                                android:theme="@style/LoginEditTextInputLayoutStyle" />
+                                android:textSize="5sp"
+                                android:theme="@style/LoginEditTextInputLayoutStyle"
+                                app:spinnerMode="bottomsheet" />
 
                         </LinearLayout>
 
@@ -339,13 +342,14 @@
                             android:layout_height="wrap_content"
                             android:descendantFocusability="beforeDescendants"
                             android:focusable="true"
-                            android:textSize="5sp"
-                            android:focusableInTouchMode="true"
+                            android:focusableInTouchMode="false"
                             android:fontFamily="@font/roboto_regular"
                             android:hint="Measurement Units"
                             android:textColor="@color/black"
                             android:textColorHint="@color/base"
-                            android:theme="@style/LoginEditTextInputLayoutStyle" />
+                            android:textSize="5sp"
+                            android:theme="@style/LoginEditTextInputLayoutStyle"
+                            app:spinnerMode="bottomsheet" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -406,8 +410,11 @@
             android:layout_alignParentEnd="true"
             android:layout_marginTop="@dimen/seventy_dp"
             android:layout_marginEnd="@dimen/twenty_dp"
+            android:background="@drawable/rounded_cornerers_background"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:padding="@dimen/three_dp"
+            android:src="@drawable/ic_cross_white"
             android:contentDescription="@string/app_name"
-            android:src="@drawable/cross_black"
             android:visibility="gone" />
     </RelativeLayout>
 

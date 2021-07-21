@@ -472,4 +472,14 @@ public class BaseDataManager implements DataManager {
     public void logoutUser() {
         mPreferencesHelper.logoutUser();
     }
+
+    @Override
+    public void setMapViewType(String mapViewType) {
+        mPreferencesHelper.setMapViewType(mapViewType);
+    }
+
+    @Override
+    public String getMapViewType() {
+        return mPreferencesHelper.getMapViewType();
+    }
 }

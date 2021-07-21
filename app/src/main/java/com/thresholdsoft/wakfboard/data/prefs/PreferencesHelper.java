@@ -65,4 +65,8 @@ public interface PreferencesHelper {
     void setFirstTime(boolean firstTime);
 
     void logoutUser();
+
+    void setMapViewType(String mapViewType);
+
+    String getMapViewType();
 }

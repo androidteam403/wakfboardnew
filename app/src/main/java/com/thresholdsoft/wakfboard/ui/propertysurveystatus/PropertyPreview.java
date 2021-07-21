@@ -18,6 +18,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -25,6 +27,9 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -55,6 +60,7 @@ import com.thresholdsoft.wakfboard.ui.propertycreation.model.PropertyData;
 import com.thresholdsoft.wakfboard.ui.propertysurvey.PropertySurvey;
 import com.thresholdsoft.wakfboard.ui.propertysurvey.bottomsheet.PropertySurveyBottomSheet;
 import com.thresholdsoft.wakfboard.ui.propertysurvey.model.MapDataTable;
+import com.thresholdsoft.wakfboard.ui.propertysurveystatus.adapter.MaptypeListAdapter;
 import com.thresholdsoft.wakfboard.utils.CommonUtils;
 
 import java.lang.reflect.Type;
@@ -66,7 +72,7 @@ import java.util.Random;
 import javax.inject.Inject;
 
 @RequiresApi(api = Build.VERSION_CODES.M)
-public class PropertyPreview extends BaseActivity implements PropertySurveyStatusMvpView, OnMapReadyCallback {
+public class PropertyPreview extends BaseActivity implements PropertySurveyStatusMvpView, OnMapReadyCallback, GoogleMap.OnMapClickListener {
     @Inject
     PropertySurveyStatusMvpPresenter<PropertySurveyStatusMvpView> mpresenter;
     ActivityPropertySurveyStatusBinding activityPropertySurveyStatusBinding;
@@ -84,7 +90,8 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
     private PropertyData propertyData;
     private String propertyName;
     private int id;
-
+    private ArrayList<MapTypeModel> mapTypeModelArrayList;
+    private MaptypeListAdapter maptypeListAdapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -92,8 +99,23 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
         activityPropertySurveyStatusBinding = DataBindingUtil.setContentView(this, R.layout.activity_property_survey_status);
         getActivityComponent().inject(this);
         mpresenter.onAttach(PropertyPreview.this);
+        closeMapTypeViewList();
+        maptypeList();
+//        onMapClick();
         setUp();
 //        statusCheck();
+    }
+
+    private void closeMapTypeViewList() {
+        activityPropertySurveyStatusBinding.containerWrapper.setOnTouchListener((v, event) -> {
+            if (isMapTypeView) {
+                Animation slideUp = AnimationUtils.loadAnimation(PropertyPreview.this, R.anim.bottom_down);
+                activityPropertySurveyStatusBinding.maptypeListLayout.setVisibility(View.INVISIBLE);
+                activityPropertySurveyStatusBinding.maptypeListLayout.startAnimation(slideUp);
+                isMapTypeView = false;
+            }
+            return false;
+        });
     }
 
     public void statusCheck() {
@@ -252,6 +274,64 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
+    private boolean isMapTypeView = false;
+
+    @Override
+    public void onClickMapIcon() {
+        if (mapTypeModelArrayList != null && mapTypeModelArrayList.size() > 0) {
+            maptypeListAdapter = new MaptypeListAdapter(this, mapTypeModelArrayList, this);
+            RecyclerView.LayoutManager mLayoutManager2 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+            activityPropertySurveyStatusBinding.maptypeListRecy.setLayoutManager(mLayoutManager2);
+            activityPropertySurveyStatusBinding.maptypeListRecy.setItemAnimator(new DefaultItemAnimator());
+            activityPropertySurveyStatusBinding.maptypeListRecy.setAdapter(maptypeListAdapter);
+            activityPropertySurveyStatusBinding.maptypeListRecy.setNestedScrollingEnabled(false);
+            if (!isMapTypeView) {
+                Animation slideUp = AnimationUtils.loadAnimation(this, R.anim.bottom_up);
+                activityPropertySurveyStatusBinding.maptypeListLayout.setVisibility(View.VISIBLE);
+                activityPropertySurveyStatusBinding.maptypeListLayout.startAnimation(slideUp);
+                isMapTypeView = true;
+            }
+        }
+    }
+
+    @Override
+    public void onItemClick(int pos) {
+        mpresenter.saveMapViewType(mapTypeModelArrayList.get(pos).getMapType());
+        setMapType(mapTypeModelArrayList.get(pos).getMapType());
+        if (mMap != null)
+            for (int i = 0; i < mapTypeModelArrayList.size(); i++) {
+                mapTypeModelArrayList.get(i).setSelected(i == pos);
+            }
+        maptypeListAdapter.notifyDataSetChanged();
+        Animation slideUp = AnimationUtils.loadAnimation(this, R.anim.bottom_down);
+        activityPropertySurveyStatusBinding.maptypeListLayout.setVisibility(View.INVISIBLE);
+        activityPropertySurveyStatusBinding.maptypeListLayout.startAnimation(slideUp);
+        isMapTypeView = false;
+    }
+
+    private void setMapType(String mapViewType) {
+        if (mMap != null) {
+            switch (mapViewType) {
+                case "Satelite":
+                    mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+                    break;
+                case "Hybrid":
+                    mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+                    break;
+                case "Terrain":
+                    mMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+                    break;
+                case "":
+                    mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                    break;
+                case "Normal":
+                    mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                    break;
+                default:
+            }
+        }
+    }
+
     private void fetchLocation() {
         if (ActivityCompat.checkSelfPermission(
                 this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
@@ -297,6 +377,11 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
         double i1 = 0.0;
         double polygoni1 = 0.0;
         mMap = googleMap;
+//        mMap.setOnMapClickListener(this);
+        onMapClick();
+        if (mpresenter.getMapViewType() != null && !mpresenter.getMapViewType().isEmpty()) {
+            setMapType(mpresenter.getMapViewType());
+        }
         if (googleMap != null) {
             googleMap.clear();
         }
@@ -581,5 +666,110 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
     public void onBackPressed() {
         super.onBackPressed();
         finish();
+    }
+
+//    public void getMapTypeSpinner() {
+//        activityPropertySurveyStatusBinding.maptypeIcon.getEditText().setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "font/roboto_regular.ttf"));
+//        activityPropertySurveyStatusBinding.maptypeIcon.setTypeface(Typeface.createFromAsset(getApplicationContext().getAssets(), "font/roboto_regular.ttf"));
+//        ArrayAdapter<MapTypeModel> addresModelArrayAdapter = new ArrayAdapter<MapTypeModel>(getApplicationContext(), android.R.layout.simple_spinner_item, getMaptypeList()) {
+//            @NotNull
+//            public View getView(int position, View convertView, @NotNull ViewGroup parent) {
+//                View v = super.getView(position, convertView, parent);
+//                Typeface externalFont = Typeface.createFromAsset(getContext().getAssets(), "font/roboto_regular.ttf");
+//                ((TextView) v).setTypeface(externalFont);
+//                return v;
+//            }
+//
+//            public View getDropDownView(int position, View convertView, @NotNull ViewGroup parent) {
+//                View v = super.getDropDownView(position, convertView, parent);
+//                Typeface externalFont = Typeface.createFromAsset(getContext().getAssets(), "font/roboto_regular.ttf");
+//                ((TextView) v).setTypeface(externalFont);
+//                return v;
+//            }
+//        };
+//        addresModelArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        activityPropertySurveyStatusBinding.maptypeIcon.setAdapter(addresModelArrayAdapter);
+////        propertyCreationBinding.state.setSelection(0);
+//    }
+
+    private ArrayList<MapTypeModel> getMaptypeList() {
+        ArrayList<MapTypeModel> mapTypeModelArrayList = new ArrayList<>();
+        MapTypeModel mapTypeModel = new MapTypeModel();
+        mapTypeModel.setMapType("Satelite");
+        mapTypeModelArrayList.add(mapTypeModel);
+        mapTypeModel = new MapTypeModel();
+        mapTypeModel.setMapType("Hybrid");
+        mapTypeModelArrayList.add(mapTypeModel);
+        mapTypeModel = new MapTypeModel();
+        mapTypeModel.setMapType("Terrain");
+        mapTypeModelArrayList.add(mapTypeModel);
+        return mapTypeModelArrayList;
+    }
+
+    private void maptypeList() {
+        mapTypeModelArrayList = new ArrayList<>();
+        MapTypeModel mapTypeModel = new MapTypeModel();
+        mapTypeModel.setMapType("Satelite");
+        mapTypeModel.setSelected(mpresenter.getMapViewType() != null && mpresenter.getMapViewType().equals("Satelite"));
+        mapTypeModelArrayList.add(mapTypeModel);
+        mapTypeModel = new MapTypeModel();
+        mapTypeModel.setMapType("Hybrid");
+        mapTypeModel.setSelected(mpresenter.getMapViewType() != null && mpresenter.getMapViewType().equals("Hybrid"));
+        mapTypeModelArrayList.add(mapTypeModel);
+        mapTypeModel = new MapTypeModel();
+        mapTypeModel.setMapType("Terrain");
+        mapTypeModel.setSelected(mpresenter.getMapViewType() != null && mpresenter.getMapViewType().equals("Terrain"));
+        mapTypeModelArrayList.add(mapTypeModel);
+        mapTypeModel = new MapTypeModel();
+        mapTypeModel.setMapType("Normal");
+        mapTypeModel.setSelected(mpresenter.getMapViewType() != null && mpresenter.getMapViewType().equals("Normal"));
+        mapTypeModelArrayList.add(mapTypeModel);
+    }
+
+    public void onMapClick() {
+        if (mMap != null) {
+            mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                @Override
+                public void onMapClick(LatLng latLng) {
+                    if (isMapTypeView) {
+                        isMapTypeView = false;
+                        Animation slideUp = AnimationUtils.loadAnimation(PropertyPreview.this, R.anim.bottom_down);
+                        activityPropertySurveyStatusBinding.maptypeListLayout.setVisibility(View.INVISIBLE);
+                        activityPropertySurveyStatusBinding.maptypeListLayout.startAnimation(slideUp);
+                    }
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onMapClick(LatLng latLng) {
+//        if (isMapTypeView) {
+//            Animation slideUp = AnimationUtils.loadAnimation(PropertyPreview.this, R.anim.bottom_up);
+//            activityPropertySurveyStatusBinding.maptypeListLayout.setVisibility(View.VISIBLE);
+//            activityPropertySurveyStatusBinding.maptypeListLayout.startAnimation(slideUp);
+//            isMapTypeView = false;
+//        }
+    }
+
+    public class MapTypeModel {
+        public String mapType;
+        private boolean isSelected;
+
+        public String getMapType() {
+            return mapType;
+        }
+
+        public void setMapType(String mapType) {
+            this.mapType = mapType;
+        }
+
+        public boolean isSelected() {
+            return isSelected;
+        }
+
+        public void setSelected(boolean selected) {
+            isSelected = selected;
+        }
     }
 }
