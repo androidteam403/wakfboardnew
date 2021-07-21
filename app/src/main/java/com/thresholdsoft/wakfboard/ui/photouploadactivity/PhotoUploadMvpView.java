@@ -8,5 +8,7 @@ public interface PhotoUploadMvpView extends MvpView {
 
     void onRemovePhoto(int position);
 
+    void imagePathFullView(int pos,String path);
+
     void onBackClickData();
 }

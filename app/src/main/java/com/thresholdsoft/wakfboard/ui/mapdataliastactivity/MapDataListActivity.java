@@ -3,7 +3,6 @@ package com.thresholdsoft.wakfboard.ui.mapdataliastactivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
@@ -16,7 +15,9 @@ import com.google.gson.reflect.TypeToken;
 import com.thresholdsoft.wakfboard.R;
 import com.thresholdsoft.wakfboard.databinding.ActivityMapDataListBinding;
 import com.thresholdsoft.wakfboard.ui.base.BaseActivity;
+import com.thresholdsoft.wakfboard.ui.gallery.GalleryActivity;
 import com.thresholdsoft.wakfboard.ui.mapdataliastactivity.adapter.MapDataAdapter;
+import com.thresholdsoft.wakfboard.ui.propertysurvey.PropertySurvey;
 import com.thresholdsoft.wakfboard.ui.propertysurvey.model.MapDataTable;
 
 import java.lang.reflect.Type;
@@ -31,6 +32,9 @@ public class MapDataListActivity extends BaseActivity implements MapDataListActi
     List<MapDataTable> mapDataTableList;
     int propertyId;
     MapDataAdapter mapDataAdapter;
+    private static final int PROPERTY_SURVEY = 5435;
+    public static final int GALLERY_ACTIVITY = 202;
+
 
     public static Intent getStartIntent(Context context, int propertyId, String myJson) {
         Intent intent = new Intent(context, MapDataListActivity.class);
@@ -51,7 +55,7 @@ public class MapDataListActivity extends BaseActivity implements MapDataListActi
 
     @Override
     protected void setUp() {
-
+        activityMapDataListBinding.setCallback(mpresenter);
         if (getIntent() != null) {
             propertyId = (int) getIntent().getIntExtra("propertyId", 0);
             Gson gson = new Gson();
@@ -70,18 +74,6 @@ public class MapDataListActivity extends BaseActivity implements MapDataListActi
         activityMapDataListBinding.mapDataRecycle.setItemAnimator(new DefaultItemAnimator());
         activityMapDataListBinding.mapDataRecycle.setAdapter(mapDataAdapter);
         activityMapDataListBinding.mapDataRecycle.setNestedScrollingEnabled(false);
-
-        activityMapDataListBinding.submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Gson gson = new Gson();
-                String myJson = gson.toJson(mapDataTableList);
-                Intent intent = new Intent();
-                intent.putExtra("mapDataTableListUnchecked", myJson);
-                setResult(RESULT_OK, intent);
-                finish();
-            }
-        });
     }
 
     @Override
@@ -99,6 +91,99 @@ public class MapDataListActivity extends BaseActivity implements MapDataListActi
             mapDataTableList.get(pos).setChecked(true);
         }
         mapDataAdapter.notifyDataSetChanged();
-
     }
+
+    @Override
+    public void onClickSubmit() {
+        Gson gson = new Gson();
+        String myJson = gson.toJson(mapDataTableList);
+        Intent intent = new Intent();
+        intent.putExtra("mapDataTableListUnchecked", myJson);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        onClickSubmit();
+    }
+
+    private boolean isEditMode;
+
+    @Override
+    public void onClickEditMapView(int pos, List<MapDataTable> mapDataTable) {
+
+        for (int i = 0; i < mapDataTableList.size(); i++) {
+            if (i == pos) {
+                mapDataTableList.get(pos).setEditable(true);
+            } else {
+                mapDataTableList.get(i).setEditable(false);
+            }
+        }
+
+        isEditMode = true;
+
+        Gson gson = new Gson();
+
+        String myJson = gson.toJson(mapDataTableList);
+
+        startActivityForResult(PropertySurvey.getStartIntent(MapDataListActivity.this, mapDataTable.get(pos).getMapType(), propertyId, myJson, pos, isEditMode, mapDataTable.get(pos).getMeasurementsType()), PROPERTY_SURVEY);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+    }
+
+    boolean individualGallery;
+
+    @Override
+    public void onClickImageShow(int pos, List<MapDataTable> mapDataTables) {
+        individualGallery = true;
+        Gson gson = new Gson();
+
+        String myJson = gson.toJson(mapDataTableList);
+        startActivityForResult(GalleryActivity.getStartIntent(this, propertyId, pos, individualGallery, myJson), GALLERY_ACTIVITY);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+    }
+
+    String name;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case PROPERTY_SURVEY:
+                    if (data != null) {
+                        String dialogName = (String) data.getSerializableExtra("dialogName");
+                        name = dialogName;
+                        Gson gson = new Gson();
+                        String json = data.getStringExtra("mapDataTableListUnchecked");
+                        Type type = new TypeToken<List<MapDataTable>>() {
+                        }.getType();
+                        mapDataTableList = gson.fromJson(json, type);
+
+                        mpresenter.getMapTypelist(propertyId);
+
+                        Gson gson1 = new Gson();
+                        String myJson = gson1.toJson(mapDataTableList);
+                        Intent intent = new Intent();
+                        intent.putExtra("mapDataTableListUnchecked", myJson);
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    }
+                    break;
+                case GALLERY_ACTIVITY:
+                    if (data != null) {
+                        Gson gson = new Gson();
+                        String json = data.getStringExtra("mapDataTableListUnchecked");
+                        Type type = new TypeToken<List<MapDataTable>>() {
+                        }.getType();
+                        mapDataTableList = gson.fromJson(json, type);
+
+                        mpresenter.getMapTypelist(propertyId);
+                    }
+                default:
+            }
+        }
+    }
+
 }
