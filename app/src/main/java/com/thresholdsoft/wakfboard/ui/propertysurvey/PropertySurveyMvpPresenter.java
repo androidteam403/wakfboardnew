@@ -32,7 +32,29 @@ public interface PropertySurveyMvpPresenter<V extends PropertySurveyMvpView> ext
 
     void polygonManualSave();
 
-    String getPolygonArea(List<LatLng> polygonPoints);
+    void polygonWalkClear();
+
+    void polygonWalkStart();
+
+    void polygonWalkStop();
+
+    void polygonWalkSave();
 
     void insertMapTypeDataTable(MapDataTable mapDataTable);
+
+    void updateMapDataList(MapDataTable mapDataTable);
+
+    String getLineLength(LatLng fromPolyLineLatLng, LatLng toPolyLineLatLng);
+
+    List<MapDataTable> getMapTypelist(int propertyId);
+
+    String getPolygonAreainMeters(List<LatLng> polygonPoints);
+
+    String getPolygonAreainSquareFeet(List<LatLng> polygonPoints);
+
+    String getPolygonAreainSquareYards(List<LatLng> polygonPoints);
+
+    String getPolygonAreainAcers(List<LatLng> polygonPoints);
+
+    String getMapViewType();
 }
