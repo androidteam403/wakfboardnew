@@ -154,6 +154,7 @@ public class MapDataListActivity extends BaseActivity implements MapDataListActi
                 case PROPERTY_SURVEY:
                     if (data != null) {
                         String dialogName = (String) data.getSerializableExtra("dialogName");
+                        Boolean updatedData = (boolean) data.getBooleanExtra("updatedvalue", false);
                         name = dialogName;
                         Gson gson = new Gson();
                         String json = data.getStringExtra("mapDataTableListUnchecked");
@@ -167,6 +168,7 @@ public class MapDataListActivity extends BaseActivity implements MapDataListActi
                         String myJson = gson1.toJson(mapDataTableList);
                         Intent intent = new Intent();
                         intent.putExtra("mapDataTableListUnchecked", myJson);
+                        intent.putExtra("updatedvalue", updatedData);
                         setResult(RESULT_OK, intent);
                         finish();
                     }

@@ -141,6 +141,10 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
                 }
             }
         });
+        if (mapDataTableList != null && mapDataTableList.size() > 0) {
+            activityPropertySurveyStatusBinding.lastUpdateDate.setVisibility(View.VISIBLE);
+            activityPropertySurveyStatusBinding.lastUpdateDate.setText("Last updated date: " + mapDataTableList.get(0).getLastUpdatedDate());
+        }
 
     }
 //    LinearLayout mapFrameLayout;
@@ -307,7 +311,7 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
                             DecimalFormat formatter1 = new DecimalFormat("#,###.00");
                             String formatted1 = formatter1.format(amount1);
 
-                            activityPropertySurveyStatusBinding.distanceTextView.setText("Length:" + " " + formatted1 + "m");
+                            activityPropertySurveyStatusBinding.distanceTextView.setText("Length:" + " " + formatted1 + " m");
 
                         }
 //                        latLngLine = new LatLng(getPolylineLatlngList.get(i).latitude, getPolylineLatlngList.get(i).longitude);
@@ -496,6 +500,7 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
     }
 
     String name;
+    private boolean updatedDat;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -520,13 +525,18 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
 
                         Gson gson = new Gson();
                         String json = data.getStringExtra("mapDataTableListUnchecked");
+                        Boolean updatedData = data.getBooleanExtra("updatedvalue", false);
+                        updatedDat = updatedData;
                         Type type = new TypeToken<List<MapDataTable>>() {
                         }.getType();
                         if (mapDataTableList != null) {
                             mapDataTableList.clear();
                         }
                         mapDataTableList = gson.fromJson(json, type);
-
+                        if (updatedData) {
+                            activityPropertySurveyStatusBinding.lastUpdateDate.setVisibility(View.VISIBLE);
+                            activityPropertySurveyStatusBinding.lastUpdateDate.setText("Last updated date: " + mapDataTableList.get(0).getLastUpdatedDate());
+                        }
 //                        mapDataTableList = (List<MapDataTable>) data.getSerializableExtra("mapDataTableListUnchecked");
                         getPolyLineList(mMap);
                     }

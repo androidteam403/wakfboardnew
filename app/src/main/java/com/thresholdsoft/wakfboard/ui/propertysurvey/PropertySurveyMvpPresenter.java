@@ -5,7 +5,6 @@ import com.thresholdsoft.wakfboard.ui.base.MvpPresenter;
 import com.thresholdsoft.wakfboard.ui.propertysurvey.model.MapDataTable;
 
 import java.util.List;
-import java.util.Map;
 
 public interface PropertySurveyMvpPresenter<V extends PropertySurveyMvpView> extends MvpPresenter<V> {
 
@@ -32,6 +31,14 @@ public interface PropertySurveyMvpPresenter<V extends PropertySurveyMvpView> ext
     void polygonManualUndo();
 
     void polygonManualSave();
+
+    void polygonWalkClear();
+
+    void polygonWalkStart();
+
+    void polygonWalkStop();
+
+    void polygonWalkSave();
 
     void insertMapTypeDataTable(MapDataTable mapDataTable);
 
