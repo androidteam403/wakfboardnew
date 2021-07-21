@@ -129,19 +129,19 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
         propertySurveyBinding = DataBindingUtil.setContentView(this, R.layout.activity_property_survey);
         getActivityComponent().inject(this);
         mpresenter.onAttach(PropertySurvey.this);
-        mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10, 0, this);
-        mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+//        mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            // TODO: Consider calling
+//            //    ActivityCompat#requestPermissions
+//            // here to request the missing permissions, and then overriding
+//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//            //                                          int[] grantResults)
+//            // to handle the case where the user grants the permission. See the documentation
+//            // for ActivityCompat#requestPermissions for more details.
+//            return;
+//        }
+//        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10, 0, this);
+//        mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
         setUp();
     }
 
@@ -1157,7 +1157,7 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
 
     @Override
     public void polylineClearClick() {
-        showLoading();
+//        showLoading();
         if (polyline != null) polyline.remove();
         for (Marker marker : markerList)
             marker.remove();
@@ -1209,7 +1209,7 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
 
     @Override
     public void polygonManualClear() {
-        showLoading();
+//        showLoading();
         if (polygon != null) polygon.remove();
         for (Marker marker : markerList)
             marker.remove();

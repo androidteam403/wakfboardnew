@@ -2,6 +2,7 @@ package com.thresholdsoft.wakfboard.ui.propertysurveystatus;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -12,6 +13,7 @@ import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,6 +22,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
 
@@ -90,6 +93,34 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
         getActivityComponent().inject(this);
         mpresenter.onAttach(PropertyPreview.this);
         setUp();
+//        statusCheck();
+    }
+
+    public void statusCheck() {
+        final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            buildAlertMessageNoGps();
+        } else {
+            setUp();
+        }
+    }
+
+    private void buildAlertMessageNoGps() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, final int id) {
+                        startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, final int id) {
+                        dialog.cancel();
+                    }
+                });
+        final AlertDialog alert = builder.create();
+        alert.show();
     }
 
     @Override
@@ -187,7 +218,7 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
     @Override
     public void mapTypeData(int mapData) {
         mapTypeData = mapData;
-        startActivityForResult(PropertySurvey.getStartIntent(PropertyPreview.this, mapData, propertyId,true,measurements), PROPERTY_SURVEY);
+        startActivityForResult(PropertySurvey.getStartIntent(PropertyPreview.this, mapData, propertyId, true, measurements), PROPERTY_SURVEY);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
@@ -307,7 +338,7 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
                             DecimalFormat formatter1 = new DecimalFormat("#,###.00");
                             String formatted1 = formatter1.format(amount1);
 
-                            activityPropertySurveyStatusBinding.distanceTextView.setText("Length:" +" "+ formatted1 + "m");
+                            activityPropertySurveyStatusBinding.distanceTextView.setText("Length:" + " " + formatted1 + "m");
 
                         }
 //                        latLngLine = new LatLng(getPolylineLatlngList.get(i).latitude, getPolylineLatlngList.get(i).longitude);
@@ -361,7 +392,7 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
                         DecimalFormat formatter = new DecimalFormat("#,###");
                         String formatted = formatter.format(amount);
                         mpresenter.updateAreaByPropertyId(propertyId, formatted);
-                        activityPropertySurveyStatusBinding.polygonArea.setText("Area:" +" "+ formatted +" m²");
+                        activityPropertySurveyStatusBinding.polygonArea.setText("Area:" + " " + formatted + " m²");
                     } else if (measurements.equalsIgnoreCase("Square Feet")) {
 
                         polygoni1 += Double.parseDouble(mpresenter.getPolygonAreainSquareFeet(getPolygontLatlngList));
@@ -371,7 +402,7 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
                         String formatted = formatter.format(amount);
                         mpresenter.updateAreaByPropertyId(propertyId, formatted);
 
-                        activityPropertySurveyStatusBinding.polygonArea.setText("Area:" +" "+ formatted + " sq ft²");
+                        activityPropertySurveyStatusBinding.polygonArea.setText("Area:" + " " + formatted + " sq ft²");
                     } else if (measurements.equalsIgnoreCase("Square yards")) {
 
                         polygoni1 += Double.parseDouble(mpresenter.getPolygonAreainSquareFeet(getPolygontLatlngList));
@@ -381,7 +412,7 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
                         String formatted = formatter.format(amount);
                         mpresenter.updateAreaByPropertyId(propertyId, formatted);
 
-                        activityPropertySurveyStatusBinding.polygonArea.setText("Area:" +" "+ formatted + " sq yd²");
+                        activityPropertySurveyStatusBinding.polygonArea.setText("Area:" + " " + formatted + " sq yd²");
                     } else if (measurements.equalsIgnoreCase("Acres")) {
 
                         polygoni1 += Double.parseDouble(mpresenter.getPolygonAreainAcers(getPolygontLatlngList));
@@ -391,7 +422,7 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
                         String formatted = formatter.format(amount);
                         mpresenter.updateAreaByPropertyId(propertyId, formatted);
 
-                        activityPropertySurveyStatusBinding.polygonArea.setText("Area:" +" "+ formatted + " acers");
+                        activityPropertySurveyStatusBinding.polygonArea.setText("Area:" + " " + formatted + " acers");
                     }
                     PolygonOptions polygonOptions = null;
                     if (mapDataTable.getId() == 1) {

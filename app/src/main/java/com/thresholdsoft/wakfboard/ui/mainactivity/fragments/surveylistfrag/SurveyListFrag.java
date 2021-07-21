@@ -3,6 +3,7 @@ package com.thresholdsoft.wakfboard.ui.mainactivity.fragments.surveylistfrag;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,6 +21,10 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 import com.thresholdsoft.wakfboard.R;
 import com.thresholdsoft.wakfboard.databinding.ActivitySurveyListBinding;
 import com.thresholdsoft.wakfboard.ui.base.BaseFragment;

@@ -227,6 +227,27 @@ public class PropertyCreation extends BaseActivity implements PropertyMvpView {
                 && ActivityCompat.checkSelfPermission(
                 this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_PERMISSION_LOCATION);
+//            LocationRequest mLocationRequest = LocationRequest.create();
+//            mLocationRequest.setInterval(60000);
+//            mLocationRequest.setFastestInterval(5000);
+//            mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+//            LocationCallback mLocationCallback = new LocationCallback() {
+//                @Override
+//                public void onLocationResult(LocationResult locationResult) {
+//                    if (locationResult == null) {
+//                        return;
+//                    }
+//                    for (Location location : locationResult.getLocations()) {
+//                        if (location != null) {
+//                            //TODO: UI updates.
+//                        }
+//                    }
+//                }
+//            };
+//            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//                return;
+//            }
+//            LocationServices.getFusedLocationProviderClient(this).requestLocationUpdates(mLocationRequest, mLocationCallback, null);
         } else {
             decideNextScreen(propertyData1);
         }
@@ -464,7 +485,7 @@ public class PropertyCreation extends BaseActivity implements PropertyMvpView {
             propertyCreationBinding.fullView.setVisibility(View.GONE);
             propertyCreationBinding.deleteFullView.setVisibility(View.GONE);
             propertyCreationBinding.parent.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             finish();
         }
     }
