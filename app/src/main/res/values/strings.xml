@@ -69,7 +69,7 @@
     <string name="label_gallery">Gallery</string>
     <string name="label_no_items_found">No items found</string>
     <string name="label_property_value">Property Value*</string>
-    <string name="label_update">update</string>
+    <string name="label_update">Update</string>
     <string name="label_property_creation">Property Creation</string>
     <string name="lable_area">Area</string>
     <string name="label_survey_status">Survey Status</string>
@@ -87,5 +87,8 @@
     <string name="label_tittle">tittle</string>
     <string name="label_no_images_found">No images found</string>
     <string name="label_upload_photos">Upload Photos</string>
+    <string name="gps_network_not_enabled" >Gps network not enabled</string>
+    <string name="open_location_settings">Open location setting</string>
+    <string name="Cancel">cancel</string>
     <item type="id" name="polygon_marker_position" />
 </resources>

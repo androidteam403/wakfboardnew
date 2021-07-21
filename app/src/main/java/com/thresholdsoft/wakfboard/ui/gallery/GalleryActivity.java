@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
@@ -231,6 +232,7 @@ public class GalleryActivity extends BaseActivity implements GalleryMvpView {
             mapDataTableList.get(this.position).setPointPhotoData(imagePathList);
             mPresenter.updateMapDataList(mapDataTableList.get(this.position));
             cutomAlertBox.dismiss();
+            Toast.makeText(this, "Image removed successfully", Toast.LENGTH_SHORT).show();
         });
         cutomAlertBox.setNegativeListener(v -> cutomAlertBox.dismiss());
         cutomAlertBox.show();

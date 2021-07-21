@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -141,6 +142,8 @@ public class PropertyCreation extends BaseActivity implements PropertyMvpView {
                     }
                     mpresenter.insertPropertyData(propertyData1);
                     getLocationPermmision(propertyData1);
+
+
                 }
             }
         });
@@ -281,10 +284,13 @@ public class PropertyCreation extends BaseActivity implements PropertyMvpView {
             pd.setId(mpresenter.propertyID());
         }
         intent.putExtra(PROPERTY_DATA_KEY, pd);
-        if (isUpdateScreen)
+        if (isUpdateScreen) {
+            Toast.makeText(PropertyCreation.this, "Property details are updated", Toast.LENGTH_SHORT).show();
             setResult(RESULT_OK, intent);
-        else
+        } else {
+            Toast.makeText(PropertyCreation.this, "Property details are saved", Toast.LENGTH_SHORT).show();
             startActivity(intent);
+        }
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         finish();
     }
@@ -458,6 +464,7 @@ public class PropertyCreation extends BaseActivity implements PropertyMvpView {
             mPaths.remove(position);
             photosUploadAdapter.notifyDataSetChanged();
             cutomAlertBox.dismiss();
+            Toast.makeText(this, "Image removed successfully", Toast.LENGTH_SHORT).show();
         });
         cutomAlertBox.setNegativeListener(v -> cutomAlertBox.dismiss());
         cutomAlertBox.show();

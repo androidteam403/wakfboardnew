@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
@@ -103,6 +104,7 @@ public class PhotoUpload extends BaseActivity implements PhotoUploadMvpView {
                 activityPhotoUploadBinding.noDataFound.setVisibility(View.VISIBLE);
             }
             cutomAlertBox.dismiss();
+            Toast.makeText(this, "Image removed successfully", Toast.LENGTH_SHORT).show();
         });
         cutomAlertBox.setNegativeListener(v -> cutomAlertBox.dismiss());
         cutomAlertBox.show();

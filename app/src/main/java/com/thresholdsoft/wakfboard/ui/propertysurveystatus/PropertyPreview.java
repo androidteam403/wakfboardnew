@@ -449,9 +449,10 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
             }
 
         } else {
+            BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.blue_dot);
             if (currentLocation != null) {
                 LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-                MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("I am here!");
+                MarkerOptions markerOptions = new MarkerOptions().position(latLng).icon(icon).title("I am here!");
                 googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
                 googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14));
                 googleMap.addMarker(markerOptions);

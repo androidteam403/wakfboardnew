@@ -419,13 +419,21 @@
             android:id="@+id/gallery_icon"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_below="@id/edit_icon"
             android:layout_marginStart="@dimen/twenty_dp"
-            android:layout_marginTop="@dimen/fifteen_dp"
+            android:layout_marginTop="190dp"
             android:contentDescription="@string/app_name"
             android:src="@drawable/ic_gallery" />
 
-
+        <ImageView
+            android:id="@+id/current_location_icon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="@dimen/thirty_dp"
+            android:layout_marginBottom="@dimen/thirty_dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/current_location_icon" />
     </RelativeLayout>
 
 </layout>
