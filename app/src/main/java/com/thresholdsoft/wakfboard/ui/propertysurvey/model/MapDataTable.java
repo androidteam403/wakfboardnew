@@ -55,6 +55,9 @@ public class MapDataTable implements Serializable {
     @ColumnInfo(name = "measurementsType")
     private String measurementsType;
 
+    @ColumnInfo(name = "lastUpdatedDate")
+    private String lastUpdatedDate;
+
     @Ignore
     private boolean isChecked = true;
 
@@ -77,7 +80,7 @@ public class MapDataTable implements Serializable {
         isChecked = checked;
     }
 
-    public MapDataTable(int propertyID, int mapType, List<LatLng> latLngList, String name, String description, List<String> pointPhotoData, String mapDate, String areaDistance, String measurementsType) {
+    public MapDataTable(int propertyID, int mapType, List<LatLng> latLngList, String name, String description, List<String> pointPhotoData, String mapDate, String areaDistance, String measurementsType, String lastUpdatedDate) {
         this.propertyID = propertyID;
         this.mapType = mapType;
         this.latLngList = latLngList;
@@ -87,6 +90,7 @@ public class MapDataTable implements Serializable {
         this.mapDate = mapDate;
         this.areaDistance = areaDistance;
         this.measurementsType = measurementsType;
+        this.lastUpdatedDate = lastUpdatedDate;
     }
 
     public String getAreaDistance() {
@@ -135,6 +139,14 @@ public class MapDataTable implements Serializable {
 
     public void setMeasurementsType(String measurementsType) {
         this.measurementsType = measurementsType;
+    }
+
+    public String getLastUpdatedDate() {
+        return lastUpdatedDate;
+    }
+
+    public void setLastUpdatedDate(String lastUpdatedDate) {
+        this.lastUpdatedDate = lastUpdatedDate;
     }
 
     public List<LatLng> getLatLngList() {

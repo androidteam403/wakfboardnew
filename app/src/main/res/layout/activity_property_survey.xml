@@ -146,7 +146,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_regular"
-                        android:text="Area : 0.0m²"
+                        android:text="Area: 0.0 m²"
                         android:textColor="@color/black" />
 
                     <TextView
@@ -157,7 +157,7 @@
                         android:background="@null"
                         android:fontFamily="@font/roboto_regular"
                         android:gravity="center"
-                        android:text="Distance : 0.0m"
+                        android:text="Distance: 0.0 m"
                         android:textColor="@color/black" />
 
                     <TextView
@@ -204,33 +204,34 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="@dimen/one_hundred_twenty_dp"
+            android:layout_marginEnd="@dimen/ten_dp"
+            android:layout_marginTop="@dimen/one_hundred_forty_dp"
             android:clickable="true"
             android:orientation="vertical"
             android:visibility="gone">
 
             <ImageView
                 android:id="@+id/polyline_save"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:contentDescription="@string/app_name"
                 android:onClick="@{()->callbacks.polylineSaveClick()}"
                 android:src="@drawable/ic_save" />
 
             <ImageView
                 android:id="@+id/polyline_undo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/five_dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="@dimen/ten_dp"
                 android:contentDescription="@string/app_name"
                 android:onClick="@{()->callbacks.polylineUndoClick()}"
                 android:src="@drawable/ic_undo" />
 
             <ImageView
                 android:id="@+id/polyline_clear"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/five_dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="@dimen/ten_dp"
                 android:contentDescription="@string/app_name"
                 android:onClick="@{()->callbacks.polylineClearClick()}"
                 android:src="@drawable/ic_clear" />
@@ -238,49 +239,100 @@
         </LinearLayout>
 
         <LinearLayout
+            android:layout_marginEnd="@dimen/ten_dp"
             android:id="@+id/polygon_manual_lay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="@dimen/one_hundred_twenty_dp"
+            android:layout_marginTop="@dimen/one_hundred_forty_dp"
             android:clickable="true"
             android:orientation="vertical"
             android:visibility="gone">
 
             <ImageView
                 android:id="@+id/polygon_maual_save"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:contentDescription="@string/app_name"
                 android:onClick="@{()->callbacks.polygonManualSave()}"
                 android:src="@drawable/ic_save" />
 
             <ImageView
                 android:id="@+id/polygon_maual_undo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/five_dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="@dimen/ten_dp"
                 android:contentDescription="@string/app_name"
                 android:onClick="@{()->callbacks.polygonManualUndo()}"
                 android:src="@drawable/ic_undo" />
 
             <ImageView
                 android:id="@+id/polygone_manual_clear"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/five_dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="@dimen/ten_dp"
                 android:contentDescription="@string/app_name"
                 android:onClick="@{()->callbacks.polygonManualClear()}"
                 android:src="@drawable/ic_clear" />
 
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/point_save"
+        <LinearLayout
+            android:layout_marginEnd="@dimen/ten_dp"
+            android:id="@+id/polygon_walk_lay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="@dimen/one_hundred_twenty_dp"
+            android:layout_marginTop="@dimen/one_hundred_forty_dp"
+            android:clickable="true"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/polygon_walk_start"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:contentDescription="@string/app_name"
+                android:onClick="@{()->callbacks.polygonWalkStart()}"
+                android:src="@drawable/ic_save" />
+
+            <ImageView
+                android:id="@+id/polygon_walk_stop"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:contentDescription="@string/app_name"
+                android:onClick="@{()->callbacks.polygonWalkStop()}"
+                android:src="@drawable/ic_undo" />
+
+            <ImageView
+                android:id="@+id/polygon_walk_save"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:contentDescription="@string/app_name"
+                android:onClick="@{()->callbacks.polygonManualSave()}"
+                android:src="@drawable/ic_save" />
+
+
+            <ImageView
+                android:id="@+id/polygone_walk_clear"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:contentDescription="@string/app_name"
+                android:onClick="@{()->callbacks.polygonWalkClear()}"
+                android:src="@drawable/ic_clear" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_marginEnd="@dimen/ten_dp"
+            android:id="@+id/point_save"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/one_hundred_forty_dp"
             android:contentDescription="@string/app_name"
             android:onClick="@{()->callbacks.pointSaveClick()}"
             android:src="@drawable/ic_save" />
@@ -408,8 +460,8 @@
 
         <ImageView
             android:id="@+id/edit_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_marginStart="@dimen/twenty_seven_dp"
             android:layout_marginTop="@dimen/one_hundred_forty_dp"
             android:contentDescription="@string/app_name"
@@ -417,17 +469,17 @@
 
         <ImageView
             android:id="@+id/gallery_icon"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="@dimen/twenty_dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="@dimen/twenty_seven_dp"
             android:layout_marginTop="190dp"
             android:contentDescription="@string/app_name"
             android:src="@drawable/ic_gallery" />
 
         <ImageView
             android:id="@+id/current_location_icon"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="@dimen/thirty_dp"

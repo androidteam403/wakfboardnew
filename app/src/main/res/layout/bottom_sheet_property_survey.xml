@@ -90,8 +90,8 @@
                     android:layout_width="@dimen/zero_dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:onClick="@{()-> clicklisteners.onPolylineRadioClick()}"
                     android:gravity="center"
+                    android:onClick="@{()-> clicklisteners.onPolylineRadioClick()}"
                     android:orientation="vertical">
 
                     <ImageView
@@ -142,6 +142,40 @@
                         android:fontFamily="@font/roboto_regular"
                         android:onClick="@{()-> clicklisteners.onPolygonRadioClick()}"
                         android:text="@string/label_polygons"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+
+                <View
+                    android:visibility="gone"
+                    android:layout_width="@dimen/one_dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/grey" />
+
+                <LinearLayout
+                    android:visibility="gone"
+                    android:layout_width="@dimen/zero_dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:onClick="@{()-> clicklisteners.onPolygonWalkRadioClick()}"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="@dimen/seventy_five_dp"
+                        android:layout_height="@dimen/thirty_dp"
+                        android:layout_gravity="center_horizontal"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/new_polygon" />
+
+                    <RadioButton
+                        android:id="@+id/polygonWalkRadio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="21dp"
+                        android:layout_marginTop="@dimen/five_dp"
+                        android:checked="true"
+                        android:fontFamily="@font/roboto_regular"
+                        android:onClick="@{()-> clicklisteners.onPolygonWalkRadioClick()}"
+                        android:text="Walk"
                         android:textColor="@color/black" />
                 </LinearLayout>
             </LinearLayout>

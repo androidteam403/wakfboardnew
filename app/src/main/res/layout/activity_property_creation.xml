@@ -370,8 +370,8 @@
 
                             <ImageView
                                 android:id="@+id/upload"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="35dp"
+                                android:layout_height="35dp"
                                 android:layout_marginStart="@dimen/five_dp"
                                 android:contentDescription="@string/app_name"
                                 android:src="@drawable/image_upload_icon"

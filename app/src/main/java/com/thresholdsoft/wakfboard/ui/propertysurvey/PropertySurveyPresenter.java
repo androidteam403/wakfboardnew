@@ -83,6 +83,26 @@ public class PropertySurveyPresenter<V extends PropertySurveyMvpView> extends Ba
         getMvpView().polygonManualSave();
     }
 
+    @Override
+    public void polygonWalkClear() {
+        getMvpView().polygonWalkClear();
+    }
+
+    @Override
+    public void polygonWalkStart() {
+        getMvpView().polygonWalkStart();
+    }
+
+    @Override
+    public void polygonWalkStop() {
+        getMvpView().polygonWalkStop();
+    }
+
+    @Override
+    public void polygonWalkSave() {
+        getMvpView().polygonWalkSave();
+    }
+
     @SuppressLint("DefaultLocale")
     @Override
     public String getPolygonAreainMeters(List<LatLng> polygonPoints) {
