@@ -93,6 +93,7 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
     private int id;
     private ArrayList<MapTypeModel> mapTypeModelArrayList;
     private MaptypeListAdapter maptypeListAdapter;
+    private int colorId=1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -534,7 +535,7 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
                     }
                     polygon = mMap.addPolygon(polygonOptions);
                     googleMap.animateCamera(CameraUpdateFactory.newLatLng(getPolygontLatlngList.get(0)));
-                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(getPolygontLatlngList.get(0), 18));
+                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(getPolygontLatlngList.get(0), 14));
                 }
             }
 //             LatLngBounds AUSTRALIA = new LatLngBounds();
