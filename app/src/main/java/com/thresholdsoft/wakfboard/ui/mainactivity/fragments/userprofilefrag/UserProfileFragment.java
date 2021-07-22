@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -42,6 +43,8 @@ public class UserProfileFragment extends BaseFragment implements UserProfileMvpV
 
     @Override
     protected void setUp(View view) {
+        TextView tittle = getActivity().findViewById(R.id.tittle);
+        tittle.setText(R.string.label_profile);
         fragmentDashboardBinding.setPresenter(mpresenter);
         fragmentDashboardBinding.firstName.setText(mpresenter.getUserName());
         fragmentDashboardBinding.email.setText(mpresenter.getUserEmail());

@@ -38,6 +38,7 @@ public class PropertySurveyBottomSheet extends BottomSheetDialogFragment impleme
             mapTypeData = 1;
             bottomSheetPropertySurveyBinding.linesRadio.setChecked(false);
             bottomSheetPropertySurveyBinding.polygonRadio.setChecked(false);
+            bottomSheetPropertySurveyBinding.polygonWalkRadio.setChecked(false);
         }
 
         bottomSheetPropertySurveyBinding.close.setOnClickListener(new View.OnClickListener() {
@@ -54,6 +55,7 @@ public class PropertySurveyBottomSheet extends BottomSheetDialogFragment impleme
         bottomSheetPropertySurveyBinding.pointsRadio.setChecked(true);
         bottomSheetPropertySurveyBinding.linesRadio.setChecked(false);
         bottomSheetPropertySurveyBinding.polygonRadio.setChecked(false);
+        bottomSheetPropertySurveyBinding.polygonWalkRadio.setChecked(false);
     }
 
     @Override
@@ -62,12 +64,23 @@ public class PropertySurveyBottomSheet extends BottomSheetDialogFragment impleme
         bottomSheetPropertySurveyBinding.linesRadio.setChecked(true);
         bottomSheetPropertySurveyBinding.polygonRadio.setChecked(false);
         bottomSheetPropertySurveyBinding.pointsRadio.setChecked(false);
+        bottomSheetPropertySurveyBinding.polygonWalkRadio.setChecked(false);
     }
 
     @Override
     public void onPolygonRadioClick() {
         mapTypeData = 3;
         bottomSheetPropertySurveyBinding.polygonRadio.setChecked(true);
+        bottomSheetPropertySurveyBinding.linesRadio.setChecked(false);
+        bottomSheetPropertySurveyBinding.pointsRadio.setChecked(false);
+        bottomSheetPropertySurveyBinding.polygonWalkRadio.setChecked(false);
+    }
+
+    @Override
+    public void onPolygonWalkRadioClick() {
+        mapTypeData=4;
+        bottomSheetPropertySurveyBinding.polygonWalkRadio.setChecked(true);
+        bottomSheetPropertySurveyBinding.polygonRadio.setChecked(false);
         bottomSheetPropertySurveyBinding.linesRadio.setChecked(false);
         bottomSheetPropertySurveyBinding.pointsRadio.setChecked(false);
     }

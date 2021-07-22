@@ -9,4 +9,9 @@ public interface MapDataListActivityMvpView extends MvpView {
 
     void uncheckableData(int pos, List<MapDataTable> mapDataTable);
 
+    void onClickSubmit();
+
+    void onClickEditMapView(int position, List<MapDataTable> mapDataTable);
+
+    void onClickImageShow(int pos, List<MapDataTable> mapDataTables);
 }
