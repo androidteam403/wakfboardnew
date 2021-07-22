@@ -399,7 +399,7 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
                         MarkerOptions markerOptions = new MarkerOptions().position(latLngLine).title(name);
                         polyLineMarker = mMap.addMarker(markerOptions);
                         googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLngLine));
-                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLngLine, 15));
+                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLngLine, 18));
                     }
                 } else if (mapDataTable.getMapType() == 2 && mapDataTable.isChecked()) {
                     BitmapDescriptor icon2 = BitmapDescriptorFactory.fromResource(R.drawable.marker_yellow_icon);
@@ -438,7 +438,7 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
                     PolylineOptions polylineOptions = new PolylineOptions().addAll(getPolylineLatlngList).color(getResources().getColor(R.color.colorPrimaryDark)).width(5).clickable(true);
                     polyline = mMap.addPolyline(polylineOptions);
                     googleMap.animateCamera(CameraUpdateFactory.newLatLng(getPolylineLatlngList.get(0)));
-                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(getPolylineLatlngList.get(0), 15));
+                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(getPolylineLatlngList.get(0), 18));
 
                 } else if (mapDataTable.getMapType() == 3 && mapDataTable.isChecked()) {
                     BitmapDescriptor icon1 = BitmapDescriptorFactory.fromResource(R.drawable.marker_yellow_icon);
@@ -533,7 +533,7 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
                     }
                     polygon = mMap.addPolygon(polygonOptions);
                     googleMap.animateCamera(CameraUpdateFactory.newLatLng(getPolygontLatlngList.get(0)));
-                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(getPolygontLatlngList.get(0), 15));
+                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(getPolygontLatlngList.get(0), 18));
                 }
             }
 

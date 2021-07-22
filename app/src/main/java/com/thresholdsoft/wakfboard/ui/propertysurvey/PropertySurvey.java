@@ -91,7 +91,6 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
     private GoogleMap mMap;
     private static final int PHOTO_UPLOAD = 141;
 
-
     Polyline polyline = null;
     List<Polyline> polylineList = new ArrayList<>();
     List<Polygon> polygonList = new ArrayList<>();
@@ -373,7 +372,7 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
                         LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
                         MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("I am here!").icon(icon2);
                         mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
                         mMap.addMarker(markerOptions);
                     }
                 }
@@ -511,6 +510,10 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
                         }
                     } else if (mapTypeData == 2) {
                         latLngList.add(latLng);
+
+                        if (historyBool) {
+                            latLngsdummyhistory.add(latLng);
+                        }
                         for (LatLng latLng1 : latLngList) {
                             MarkerOptions markerOptions = new MarkerOptions().position(latLng1).zIndex(latLngList.indexOf(latLng1)).icon(icon2).draggable(true);
                             marker = mMap.addMarker(markerOptions);
@@ -588,6 +591,9 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
 //                    markerList.add(marker);
 
                         latLngList.add(latLng);
+                        if (historyBool) {
+                            latLngsdummyhistory.add(latLng);
+                        }
                         for (LatLng latLngs : latLngList) {
                             MarkerOptions markerOptions = new MarkerOptions().position(latLngs).zIndex(-2).snippet(latLngList.indexOf(latLngs) + "").draggable(true);
                             marker = mMap.addMarker(markerOptions);
@@ -721,12 +727,13 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
                         MarkerOptions markerOptions = new MarkerOptions().position(latLngLine);
                         marker = mMap.addMarker(markerOptions);
                         googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLngLine));
-                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLngLine, 15));
+                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLngLine, 18));
                     }
                 } else if (mapDataTable.getMapType() == 2 && mapDataTable.isEditable()) {
                     BitmapDescriptor icon2 = BitmapDescriptorFactory.fromResource(R.drawable.marker_yellow_icon);
                     latLngList.clear();
                     latLngList.addAll(mapDataTable.getLatLngList());
+
                     for (int i = 0; i < latLngList.size(); i++) {
                         latLngLine = new LatLng(latLngList.get(i).latitude, latLngList.get(i).longitude);
 
@@ -763,7 +770,7 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
                     PolylineOptions polylineOptions = new PolylineOptions().addAll(latLngList).color(getResources().getColor(R.color.colorPrimaryDark)).width(5).clickable(true);
                     polyline = mMap.addPolyline(polylineOptions);
                     googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLngList.get(0)));
-                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLngList.get(0), 15));
+                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLngList.get(0), 18));
                     polylineList.add(polyline);
 
                     for (LatLng latLngPol : latLngList) {
@@ -884,7 +891,7 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
                     PolygonOptions polygonOptions = new PolygonOptions().addAll(latLngList).strokeWidth(5).strokeColor(getResources().getColor(R.color.colorPrimaryDark)).fillColor(getResources().getColor(R.color.yellow_transparent)).clickable(true);
                     polygon = mMap.addPolygon(polygonOptions);
                     googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLngList.get(0)));
-                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLngList.get(0), 15));
+                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLngList.get(0), 18));
                     polygonList.add(polygon);
 
                     for (LatLng latLngPol : latLngList) {
@@ -999,6 +1006,9 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
                 latLngList.set(position, marker.getPosition());
                 MarkerTag markerTag = new MarkerTag();
                 markerTag.setPosition(position);
+                latLngsdummyhistory.add(latLngList.get(position));
+                historyBool = true;
+                historyPos = position;
                 markerTag.setLatLng(marker.getPosition());
                 marker.setTag(markerTag);
             } else {
@@ -1011,10 +1021,15 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
                 latLngList.add(Integer.parseInt(pos), marker.getPosition());
                 MarkerTag markerTag = new MarkerTag();
                 markerTag.setPosition(Integer.parseInt(pos));
+                latLngsdummyhistory.add(latLngList.get(Integer.parseInt(pos)));
+                historyBool = true;
+                historyPos = Integer.parseInt(pos);
                 markerTag.setLatLng(marker.getPosition());
                 marker.setTag(markerTag);
             } else {
                 latLngList.add(marker.getPosition());
+                latLngsdummyhistory.add(marker.getPosition());
+                historyBool = true;
             }
         }
         if (mMap != null) {
@@ -1045,6 +1060,9 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
         polygonList.add(polygon);
     }
 
+    private List<LatLng> latLngsdummyhistory = new ArrayList<>();
+    private boolean historyBool;
+    int historyPos;
 
     private void updateMarkerLocation(Marker marker) {
 //        MarkerTag tag = (MarkerTag) marker.getTag();
@@ -1053,6 +1071,9 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
 //        int position = latLngList.indexOf(tag.getLatLng());
         if (position != -1) {
             latLngList.set(position, marker.getPosition());
+            latLngsdummyhistory.add(latLngList.get(position));
+            historyBool = true;
+            historyPos = position;
             MarkerTag markerTag = new MarkerTag();
             markerTag.setPosition(position);
             markerTag.setLatLng(marker.getPosition());
@@ -1177,7 +1198,7 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
         //move map camera
         if (mapDataTableList == null || mapDataTableList.size() < 1) {
             mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(18));
         }
 
         //stop location updates
@@ -1333,7 +1354,12 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
             mMap.clear();
         }
         if (latLngList != null && latLngList.size() > 0) {
-            latLngList.remove(latLngList.size() - 1);
+            if (latLngsdummyhistory != null && latLngsdummyhistory.size() > 0) {
+                latLngList.remove(latLngsdummyhistory.get(latLngsdummyhistory.size() - 1));
+                latLngsdummyhistory.remove(latLngsdummyhistory.size() - 1);
+            } else {
+                latLngList.remove(latLngList.size() - 1);
+            }
             if (latLngList != null && latLngList.size() > 0) {
                 setPolylineView();
             }
@@ -1485,7 +1511,12 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
     public void polygonManualUndo() {
         double polygoni1 = 0.0;
         if (latLngList != null && latLngList.size() > 0) {
-            latLngList.remove(latLngList.size() - 1);
+            if (latLngsdummyhistory != null && latLngsdummyhistory.size() > 0) {
+                latLngList.remove(latLngsdummyhistory.get(latLngsdummyhistory.size() - 1));
+                latLngsdummyhistory.remove(latLngsdummyhistory.size() - 1);
+            } else {
+                latLngList.remove(latLngList.size() - 1);
+            }
         } else {
             if (mMap != null)
                 mMap.clear();
