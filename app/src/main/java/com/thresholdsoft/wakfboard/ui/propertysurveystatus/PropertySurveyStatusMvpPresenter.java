@@ -26,4 +26,10 @@ public interface PropertySurveyStatusMvpPresenter<V extends PropertySurveyStatus
     void onClickPropertyEdit();
 
     void updateAreaByPropertyId(int id, String area);
+
+    void onClickMapIcon();
+
+    void saveMapViewType(String mapViewType);
+
+    String getMapViewType();
 }

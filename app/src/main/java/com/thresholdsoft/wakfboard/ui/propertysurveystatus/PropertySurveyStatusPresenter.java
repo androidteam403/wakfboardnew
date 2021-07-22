@@ -97,4 +97,19 @@ public class PropertySurveyStatusPresenter<V extends PropertySurveyStatusMvpView
     public void updateAreaByPropertyId(int id, String area) {
         getDataManager().updateAreaByPropertyId(id, area);
     }
+
+    @Override
+    public void onClickMapIcon() {
+        getMvpView().onClickMapIcon();
+    }
+
+    @Override
+    public void saveMapViewType(String mapViewType) {
+        getDataManager().setMapViewType(mapViewType);
+    }
+
+    @Override
+    public String getMapViewType() {
+        return getDataManager().getMapViewType();
+    }
 }

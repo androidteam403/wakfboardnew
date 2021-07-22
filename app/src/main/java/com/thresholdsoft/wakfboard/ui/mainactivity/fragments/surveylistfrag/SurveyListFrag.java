@@ -1,10 +1,15 @@
 package com.thresholdsoft.wakfboard.ui.mainactivity.fragments.surveylistfrag;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -27,6 +33,7 @@ import com.thresholdsoft.wakfboard.ui.mainactivity.fragments.surveylistfrag.adap
 import com.thresholdsoft.wakfboard.ui.propertycreation.PropertyCreation;
 import com.thresholdsoft.wakfboard.ui.propertycreation.model.PropertyData;
 import com.thresholdsoft.wakfboard.ui.propertysurveystatus.PropertyPreview;
+import com.thresholdsoft.wakfboard.utils.CommonUtils;
 
 import java.util.List;
 
@@ -151,12 +158,14 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView {
             requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_PERMISSION_LOCATION);
             this.itemPosition = position;
         } else {
+            this.itemPosition = position;
+//            gpsAccess();
             Intent intent = new Intent(getContext(), PropertyPreview.class);
-            intent.putExtra(PropertyCreation.PROPERTY_DATA_KEY, propertyDataList.get(position));
-            intent.putExtra("propertyId", propertyDataList.get(position).getId());
-            intent.putExtra("propertyName", propertyDataList.get(position).getPropertyName());
-            intent.putExtra("measurements", propertyDataList.get(position).getMeasuredunit());
-            intent.putExtra("id", propertyDataList.get(position).getId());
+            intent.putExtra("PROPERTY_DATA_KEY", propertyDataList.get(itemPosition));
+            intent.putExtra("propertyId", propertyDataList.get(itemPosition).getId());
+            intent.putExtra("propertyName", propertyDataList.get(itemPosition).getPropertyName());
+            intent.putExtra("measurements", propertyDataList.get(itemPosition).getMeasuredunit());
+            intent.putExtra("id", propertyDataList.get(itemPosition).getId());
             startActivity(intent);
             getActivity().overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         }
@@ -174,6 +183,7 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView {
         if (requestCode == REQUEST_PERMISSION_LOCATION) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // We now have permission to use the location
+//                gpsAccess();
                 Intent intent = new Intent(getContext(), PropertyPreview.class);
                 intent.putExtra("propertyId", propertyDataList.get(itemPosition).getId());
                 startActivity(intent);
@@ -181,4 +191,63 @@ public class SurveyListFrag extends BaseFragment implements SurveyListMvpView {
             }
         }
     }
+
+    private void gpsAccess() {
+        LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        boolean gps_enabled = false;
+        boolean network_enabled = false;
+
+        try {
+            gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        } catch (Exception ex) {
+        }
+
+        try {
+            network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        } catch (Exception ex) {
+        }
+
+        if (!gps_enabled) {
+            // notify user
+            new AlertDialog.Builder(getActivity())
+                    .setMessage(R.string.gps_network_not_enabled)
+                    .setPositiveButton(R.string.open_location_settings, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                            startActivityForResult(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS), CommonUtils.LOACTION_REQUEST_CODE);
+                        }
+                    })
+                    .show();
+        } else {
+            Intent intent = new Intent(getContext(), PropertyPreview.class);
+            intent.putExtra("PROPERTY_DATA_KEY", propertyDataList.get(itemPosition));
+            intent.putExtra("propertyId", propertyDataList.get(itemPosition).getId());
+            intent.putExtra("propertyName", propertyDataList.get(itemPosition).getPropertyName());
+            intent.putExtra("measurements", propertyDataList.get(itemPosition).getMeasuredunit());
+            intent.putExtra("id", propertyDataList.get(itemPosition).getId());
+            startActivity(intent);
+            getActivity().overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+        }
+
+
+        if (ContextCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+                ActivityCompat.requestPermissions(getActivity(),
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            } else {
+                ActivityCompat.requestPermissions(getActivity(),
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            }
+        }
+    }
+
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode == CommonUtils.LOACTION_REQUEST_CODE) {
+//            gpsAccess();
+//        }
+//    }
 }

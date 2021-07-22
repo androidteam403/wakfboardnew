@@ -263,6 +263,19 @@
                                 android:textSize="@dimen/text_dimen_12"
                                 android:visibility="gone" />
 
+                            <ImageView
+                                android:id="@+id/maptype_icon"
+                                android:layout_width="44dp"
+                                android:layout_height="33dp"
+                                android:layout_below="@id/area_cal_lay"
+                                android:layout_alignParentEnd="true"
+                                android:layout_marginStart="@dimen/twenty_dp"
+                                android:layout_marginTop="38dp"
+                                android:layout_marginEnd="26dp"
+                                android:layout_marginBottom="@dimen/twenty_dp"
+                                android:contentDescription="@string/app_name"
+                                android:onClick="@{()-> callback.onClickMapIcon()}"
+                                android:src="@drawable/ic_map_type" />
                         </RelativeLayout>
 
                     </LinearLayout>
@@ -273,6 +286,23 @@
             </androidx.cardview.widget.CardView>
 
         </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/maptype_list_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="@dimen/five_dp"
+            android:layout_marginEnd="@dimen/five_dp"
+            android:background="@drawable/grey_stroke"
+            android:visibility="invisible">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/maptype_list_recy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/five_dp"/>
+        </RelativeLayout>
     </RelativeLayout>
 
 </layout>

@@ -2,12 +2,16 @@ package com.thresholdsoft.wakfboard.ui.propertycreation;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -20,6 +24,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -33,6 +38,7 @@ import com.thresholdsoft.wakfboard.ui.base.BaseActivity;
 import com.thresholdsoft.wakfboard.ui.propertycreation.adapter.PhotosUploadAdapter;
 import com.thresholdsoft.wakfboard.ui.propertycreation.model.PropertyData;
 import com.thresholdsoft.wakfboard.ui.propertysurveystatus.PropertyPreview;
+import com.thresholdsoft.wakfboard.utils.CommonUtils;
 
 import net.alhazmy13.mediapicker.Image.ImagePicker;
 
@@ -224,6 +230,7 @@ public class PropertyCreation extends BaseActivity implements PropertyMvpView {
     }
 
     private static final int REQUEST_PERMISSION_LOCATION = 255; // int should be between 0 and 255
+    private PropertyData decideNextScreenPropertyData;
 
     private void getLocationPermmision(PropertyData propertyData1) {
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -231,6 +238,8 @@ public class PropertyCreation extends BaseActivity implements PropertyMvpView {
                 this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_PERMISSION_LOCATION);
         } else {
+//            this.decideNextScreenPropertyData = propertyData1;
+//            gpsAccess();
             decideNextScreen(propertyData1);
         }
     }
@@ -241,9 +250,56 @@ public class PropertyCreation extends BaseActivity implements PropertyMvpView {
         if (requestCode == REQUEST_PERMISSION_LOCATION) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // We now have permission to use the location
+//                this.decideNextScreenPropertyData = propertyData;
+//                gpsAccess();
                 decideNextScreen(propertyData);
             } else {
                 finish();
+            }
+        }
+    }
+
+    private void gpsAccess() {
+        LocationManager lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        boolean gps_enabled = false;
+        boolean network_enabled = false;
+
+        try {
+            gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        } catch (Exception ex) {
+        }
+
+        try {
+            network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        } catch (Exception ex) {
+        }
+
+        if (!gps_enabled) {
+            // notify user
+            new AlertDialog.Builder(this)
+                    .setMessage(R.string.gps_network_not_enabled)
+                    .setCancelable(false)
+                    .setPositiveButton(R.string.open_location_settings, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                            startActivityForResult(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS), CommonUtils.LOACTION_REQUEST_CODE);
+                        }
+                    })
+                    .show();
+        } else {
+            decideNextScreen(decideNextScreenPropertyData);
+        }
+
+
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            } else {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             }
         }
     }
@@ -279,7 +335,9 @@ public class PropertyCreation extends BaseActivity implements PropertyMvpView {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        if (requestCode == CommonUtils.LOACTION_REQUEST_CODE) {
+            gpsAccess();
+        }
         if (requestCode == ImagePicker.IMAGE_PICKER_REQUEST_CODE && resultCode == RESULT_OK) {
             List<String> mPathsDummy = data.getStringArrayListExtra(ImagePicker.EXTRA_IMAGE_PATH);
             if (mPaths != null) {

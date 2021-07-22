@@ -15,4 +15,8 @@ public interface PropertySurveyStatusMvpView extends MvpView {
     void onClickGallery();
 
     void onClickPropertyEdit();
+
+    void onClickMapIcon();
+
+    void onItemClick(int pos);
 }

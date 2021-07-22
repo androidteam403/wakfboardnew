@@ -145,6 +145,11 @@ public class PropertySurveyPresenter<V extends PropertySurveyMvpView> extends Ba
     }
 
     @Override
+    public String getMapViewType() {
+        return getDataManager().getMapViewType();
+    }
+
+    @Override
     public void insertMapTypeDataTable(MapDataTable mapDataTable) {
         getDataManager().insertMapData(mapDataTable);
     }

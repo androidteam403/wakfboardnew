@@ -55,4 +55,6 @@ public interface PropertySurveyMvpPresenter<V extends PropertySurveyMvpView> ext
     String getPolygonAreainSquareYards(List<LatLng> polygonPoints);
 
     String getPolygonAreainAcers(List<LatLng> polygonPoints);
+
+    String getMapViewType();
 }

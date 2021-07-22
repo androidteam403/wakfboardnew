@@ -21,6 +21,8 @@ import java.util.Locale;
  * Author     : JAGADEESH
  */
 public class CommonUtils {
+    public final static int LOACTION_REQUEST_CODE = 101;
+
     private CommonUtils() {
         // This utility class is not publicly instantiable
     }
@@ -38,8 +40,8 @@ public class CommonUtils {
         return progressDialog;
     }
 
-    public static String dateConversion(String date){
-        if(!TextUtils.isEmpty(date)) {
+    public static String dateConversion(String date) {
+        if (!TextUtils.isEmpty(date)) {
             SimpleDateFormat spf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
             Date newDate = null;
             try {
@@ -54,6 +56,7 @@ public class CommonUtils {
         }
         return "";
     }
+
     public static List<Integer> getColorList() {
         List<Integer> colorList = new ArrayList<>();
         colorList.add(R.color.yellow_transparent);

@@ -96,7 +96,10 @@
             android:visibility="gone"
             android:layout_alignParentEnd="true"
             android:layout_height="30dp"
-            android:src="@drawable/cross_black"
+            android:background="@drawable/rounded_cornerers_background"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:padding="@dimen/three_dp"
+            android:src="@drawable/ic_cross_white"
             android:contentDescription="@string/app_name" />
 
     </RelativeLayout>
