@@ -93,6 +93,7 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
     private int id;
     private ArrayList<MapTypeModel> mapTypeModelArrayList;
     private MaptypeListAdapter maptypeListAdapter;
+    private int colorId = 1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
