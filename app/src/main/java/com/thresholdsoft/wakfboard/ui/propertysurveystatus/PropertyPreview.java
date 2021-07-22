@@ -40,6 +40,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
@@ -536,6 +537,18 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
                     googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(getPolygontLatlngList.get(0), 18));
                 }
             }
+//             LatLngBounds AUSTRALIA = new LatLngBounds();
+//
+//// Set the camera to the greatest possible zoom level that includes the
+//// bounds
+//            mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(AUSTRALIA, 0));
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+            for (MapDataTable mapDataTable : mapDataTableList)
+                for (LatLng latLng : mapDataTable.getLatLngList())
+                    builder.include(new LatLng(latLng.latitude, latLng.longitude));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 14));
+            mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 14));
+
 
         } else {
             BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.blue_dot);

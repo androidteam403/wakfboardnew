@@ -48,6 +48,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
@@ -733,7 +734,6 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
                     BitmapDescriptor icon2 = BitmapDescriptorFactory.fromResource(R.drawable.marker_yellow_icon);
                     latLngList.clear();
                     latLngList.addAll(mapDataTable.getLatLngList());
-
                     for (int i = 0; i < latLngList.size(); i++) {
                         latLngLine = new LatLng(latLngList.get(i).latitude, latLngList.get(i).longitude);
 
@@ -769,8 +769,13 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
                     if (polyline != null) polyline.remove();
                     PolylineOptions polylineOptions = new PolylineOptions().addAll(latLngList).color(getResources().getColor(R.color.colorPrimaryDark)).width(5).clickable(true);
                     polyline = mMap.addPolyline(polylineOptions);
-                    googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLngList.get(0)));
-                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLngList.get(0), 18));
+                    LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                    for (LatLng latLng : latLngList)
+                        builder.include(new LatLng(latLng.latitude, latLng.longitude));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 14));
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 14));
+//                    googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLngList.get(0)));
+//                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLngList.get(0), 18));
                     polylineList.add(polyline);
 
                     for (LatLng latLngPol : latLngList) {
@@ -890,8 +895,13 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
                     if (polygon != null) polygon.remove();
                     PolygonOptions polygonOptions = new PolygonOptions().addAll(latLngList).strokeWidth(5).strokeColor(getResources().getColor(R.color.colorPrimaryDark)).fillColor(getResources().getColor(R.color.yellow_transparent)).clickable(true);
                     polygon = mMap.addPolygon(polygonOptions);
-                    googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLngList.get(0)));
-                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLngList.get(0), 18));
+                    LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                    for (LatLng latLng : latLngList)
+                        builder.include(new LatLng(latLng.latitude, latLng.longitude));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 14));
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 14));
+//                    googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLngList.get(0)));
+//                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLngList.get(0), 18));
                     polygonList.add(polygon);
 
                     for (LatLng latLngPol : latLngList) {
@@ -1747,7 +1757,7 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
                             mapDataTableList.get(pos).setPointPhotoData(imagesUploadedList);
                             mapDataTableList.get(pos).setAreaDistance(propertySurveyBinding.polygonArea.getText().toString());
                             mpresenter.updateMapDataList(mapDataTableList.get(pos));
-                            Toast.makeText(PropertySurvey.this, "Polygon Details are updated successfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(PropertySurvey.this, "Survey Details are updated successfully", Toast.LENGTH_SHORT).show();
                         } else {
                             updatedvalue = false;
                             SimpleDateFormat currentDate = new SimpleDateFormat("dd/MM/yyyy");
@@ -1756,7 +1766,7 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
 
                             MapDataTable mapDataTable = new MapDataTable(propertyId, mapTypeData, latLngList, dialogView.getPointName(), dialogView.getPointDescription(), imagesUploadedList, thisDate, propertySurveyBinding.polygonArea.getText().toString(), measurements, thisDate);
                             mpresenter.insertMapTypeDataTable(mapDataTable);
-                            Toast.makeText(PropertySurvey.this, "Polygon Details are saved successfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(PropertySurvey.this, "Survey Details are saved successfully", Toast.LENGTH_SHORT).show();
                         }
 //                        }
 //                    }
@@ -1840,7 +1850,7 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
                             mapDataTableList.get(pos).setPointPhotoData(imagesUploadedList);
                             mapDataTableList.get(pos).setAreaDistance(propertySurveyBinding.distanceTextView.getText().toString());
                             mpresenter.updateMapDataList(mapDataTableList.get(pos));
-                            Toast.makeText(PropertySurvey.this, "Polyline Details are updated successfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(PropertySurvey.this, "Survey Details are updated successfully", Toast.LENGTH_SHORT).show();
                         } else {
                             updatedvalue = false;
                             SimpleDateFormat currentDate = new SimpleDateFormat("dd/MM/yyyy");
@@ -1848,7 +1858,7 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
                             String thisDate = currentDate.format(todayDate);
                             MapDataTable polylineDataTable = new MapDataTable(propertyId, mapTypeData, latLngList, dialogView.getPointName(), dialogView.getPointDescription(), imagesUploadedList, thisDate, propertySurveyBinding.distanceTextView.getText().toString(), "m", thisDate);
                             mpresenter.insertMapTypeDataTable(polylineDataTable);
-                            Toast.makeText(PropertySurvey.this, "Polyline Details are saved successfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(PropertySurvey.this, "Survey Details are saved successfully", Toast.LENGTH_SHORT).show();
                         }
                     }
                     Intent intent = new Intent();
@@ -1901,7 +1911,7 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
                         mapDataTableList.get(pos).setPointPhotoData(imagesUploadedList);
                         mapDataTableList.get(pos).setAreaDistance(propertySurveyBinding.distanceTextView.getText().toString());
                         mpresenter.updateMapDataList(mapDataTableList.get(pos));
-                        Toast.makeText(PropertySurvey.this, "Point Details are updated successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PropertySurvey.this, "Survey Details are updated successfully", Toast.LENGTH_SHORT).show();
                     } else {
                         updatedvalue = false;
                         SimpleDateFormat currentDate = new SimpleDateFormat("dd/MM/yyyy");
@@ -1909,7 +1919,7 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
                         String thisDate = currentDate.format(todayDate);
                         MapDataTable pointDataTable = new MapDataTable(propertyId, mapTypeData, latLngList, dialogView.getPointName(), dialogView.getPointDescription(), imagesUploadedList, thisDate, "", "", thisDate);
                         mpresenter.insertMapTypeDataTable(pointDataTable);
-                        Toast.makeText(PropertySurvey.this, "Point Details are saved successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PropertySurvey.this, "Survey Details are saved successfully", Toast.LENGTH_SHORT).show();
                     }
                 }
 
