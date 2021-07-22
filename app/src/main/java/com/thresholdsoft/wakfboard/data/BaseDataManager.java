@@ -201,7 +201,15 @@ public class BaseDataManager implements DataManager {
 
     @Override
     public void insertPropertyData(PropertyData propertyData) {
-        mDatabase.userDao().insertPropertyData(propertyData);
+        if (propertyData.getId() == 0)
+            mDatabase.userDao().insertPropertyData(propertyData);
+        else
+            mDatabase.userDao().updatePropertyData(propertyData);
+    }
+
+    @Override
+    public void updatePropertyData(PropertyData propertyData) {
+
     }
 
     @Override
@@ -242,6 +250,31 @@ public class BaseDataManager implements DataManager {
     @Override
     public List<MapDataTable> getAllMapDtaListByPropertyId(int propertyId) {
         return mDatabase.userDao().getAllMapDtaListByPropertyId(propertyId);
+    }
+
+    @Override
+    public List<PropertyData> getAllPropertyListByPropertyId(int id) {
+        return mDatabase.userDao().getAllPropertyListByPropertyId(id);
+    }
+
+    @Override
+    public void deleteMapDataTable() {
+        mDatabase.userDao().deleteMapDataTable();
+    }
+
+    @Override
+    public void deletePropertyDataTable() {
+        mDatabase.userDao().deletePropertyDataTable();
+    }
+
+    @Override
+    public void updateAreaByPropertyId(int id, String area) {
+        mDatabase.userDao().updateAreaByPropertyId(id, area);
+    }
+
+    @Override
+    public void updateMapEditData(MapDataTable mapDataTable) {
+        mDatabase.userDao().updateMapEditData(mapDataTable);
     }
 
 //    @Override
@@ -438,5 +471,15 @@ public class BaseDataManager implements DataManager {
     @Override
     public void logoutUser() {
         mPreferencesHelper.logoutUser();
+    }
+
+    @Override
+    public void setMapViewType(String mapViewType) {
+        mPreferencesHelper.setMapViewType(mapViewType);
+    }
+
+    @Override
+    public String getMapViewType() {
+        return mPreferencesHelper.getMapViewType();
     }
 }

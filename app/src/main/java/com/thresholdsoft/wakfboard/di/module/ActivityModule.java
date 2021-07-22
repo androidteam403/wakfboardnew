@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.thresholdsoft.wakfboard.di.ActivityContext;
 import com.thresholdsoft.wakfboard.di.PerActivity;
+import com.thresholdsoft.wakfboard.ui.gallery.GalleryMvpPresenter;
+import com.thresholdsoft.wakfboard.ui.gallery.GalleryMvpView;
+import com.thresholdsoft.wakfboard.ui.gallery.GalleryPresenter;
 import com.thresholdsoft.wakfboard.ui.mainactivity.MainActivityMvpPresenter;
 import com.thresholdsoft.wakfboard.ui.mainactivity.MainActivityMvpView;
 import com.thresholdsoft.wakfboard.ui.mainactivity.MainActivityPresenter;
@@ -201,4 +204,9 @@ public class ActivityModule {
         return presenter;
     }
 
+    @Provides
+    @PerActivity
+    GalleryMvpPresenter<GalleryMvpView> galleryMvpPresenter(GalleryPresenter<GalleryMvpView> presenter) {
+        return presenter;
+    }
 }

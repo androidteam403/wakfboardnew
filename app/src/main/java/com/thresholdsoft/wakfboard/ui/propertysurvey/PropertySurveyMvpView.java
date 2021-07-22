@@ -29,4 +29,13 @@ public interface PropertySurveyMvpView extends MvpView {
     void polygonManualUndo();
 
     void polygonManualSave();
+
+
+    void polygonWalkClear();
+
+    void polygonWalkStart();
+
+    void polygonWalkStop();
+
+    void polygonWalkSave();
 }
