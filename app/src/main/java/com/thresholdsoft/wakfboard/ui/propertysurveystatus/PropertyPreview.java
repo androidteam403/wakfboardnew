@@ -93,7 +93,7 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
     private int id;
     private ArrayList<MapTypeModel> mapTypeModelArrayList;
     private MaptypeListAdapter maptypeListAdapter;
-    private int colorId = 1;
+    private int colorId=1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -401,7 +401,7 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
                         MarkerOptions markerOptions = new MarkerOptions().position(latLngLine).title(name);
                         polyLineMarker = mMap.addMarker(markerOptions);
                         googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLngLine));
-                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLngLine, 14));
+                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLngLine, 18));
                     }
                 } else if (mapDataTable.getMapType() == 2 && mapDataTable.isChecked()) {
                     BitmapDescriptor icon2 = BitmapDescriptorFactory.fromResource(R.drawable.marker_yellow_icon);
@@ -440,7 +440,7 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
                     PolylineOptions polylineOptions = new PolylineOptions().addAll(getPolylineLatlngList).color(getResources().getColor(R.color.colorPrimaryDark)).width(5).clickable(true);
                     polyline = mMap.addPolyline(polylineOptions);
                     googleMap.animateCamera(CameraUpdateFactory.newLatLng(getPolylineLatlngList.get(0)));
-                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(getPolylineLatlngList.get(0), 14));
+                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(getPolylineLatlngList.get(0), 18));
 
                 } else if (mapDataTable.getMapType() == 3 && mapDataTable.isChecked()) {
                     BitmapDescriptor icon1 = BitmapDescriptorFactory.fromResource(R.drawable.marker_yellow_icon);
@@ -557,7 +557,7 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
                 LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
                 MarkerOptions markerOptions = new MarkerOptions().position(latLng).icon(icon).title("I am here!");
                 googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 14));
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
                 googleMap.addMarker(markerOptions);
             }
         }
