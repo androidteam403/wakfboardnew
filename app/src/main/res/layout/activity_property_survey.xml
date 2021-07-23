@@ -294,7 +294,7 @@
                 android:layout_height="35dp"
                 android:contentDescription="@string/app_name"
                 android:onClick="@{()->callbacks.polygonWalkStart()}"
-                android:src="@drawable/ic_save" />
+                android:src="@drawable/walk_start" />
 
             <ImageView
                 android:id="@+id/polygon_walk_stop"
@@ -303,7 +303,7 @@
                 android:layout_marginTop="@dimen/ten_dp"
                 android:contentDescription="@string/app_name"
                 android:onClick="@{()->callbacks.polygonWalkStop()}"
-                android:src="@drawable/ic_undo" />
+                android:src="@drawable/walk_stop" />
 
             <ImageView
                 android:id="@+id/polygon_walk_save"

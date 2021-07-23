@@ -83,7 +83,7 @@ import javax.inject.Inject;
 
 public class PropertySurvey extends BaseActivity implements PropertySurveyMvpView,
         OnMapReadyCallback, GoogleMap.OnMarkerClickListener, LocationListener, GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener {
+        GoogleApiClient.OnConnectionFailedListener, android.location.LocationListener {
     @Inject
     PropertySurveyMvpPresenter<PropertySurveyMvpView> mpresenter;
     ActivityPropertySurveyBinding propertySurveyBinding;
@@ -202,6 +202,21 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
             LocationManager lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
             boolean gps_enabled = false;
             boolean network_enabled = false;
+
+            if (mapTypeData == 4) {
+                mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+                }
+                lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 5, this);
+            }
 
             try {
                 gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
@@ -1205,39 +1220,52 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
 
     @Override
     public void onLocationChanged(Location location) {
-//        this.currentLocation = location;
-//        if (mMap != null) {
-//            BitmapDescriptor icon2 = BitmapDescriptorFactory.fromResource(R.drawable.blue_dot);
-//            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-//            MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("I am here!").icon(icon2);
-//            mMap.addMarker(markerOptions);
-////        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-////        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 21));
-//        }
-//        hideLoading();
-        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.blue_dot);
-        currentLocation = location;
-        if (marker1 != null) {
-            marker1.remove();
-        }
-        //Place current location marker
-        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(latLng);
-        markerOptions.title("Current Position");
-        markerOptions.icon(icon);
-        marker1 = mMap.addMarker(markerOptions);
 
-        //move map camera
-        if (mapDataTableList == null || mapDataTableList.size() < 1) {
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(18));
+        if (onWalkStart) {
+            this.currentLocation = location;
+            if (!walkStop) {
+                polygonPolyline();
+            }
+        } else {
+            BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.blue_dot);
+            currentLocation = location;
+            if (marker1 != null) {
+                marker1.remove();
+            }
+            //Place current location marker
+            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.position(latLng);
+            markerOptions.title("Current Position");
+            markerOptions.icon(icon);
+            marker1 = mMap.addMarker(markerOptions);
+
+            //move map camera
+            if (mapDataTableList == null || mapDataTableList.size() < 1) {
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                mMap.animateCamera(CameraUpdateFactory.zoomTo(18));
+            }
         }
 
         //stop location updates
-        if (mGoogleApiClient != null) {
-            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
-        }
+//        if (mGoogleApiClient != null) {
+//            LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+//        }
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
 
     }
 
@@ -1685,13 +1713,53 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
 
     }
 
+    private boolean onWalkStart;
+
+
     @Override
     public void polygonWalkStart() {
 
+        onWalkStart = true;
+        walkStop = false;
+
+//        polygonPolyline();
     }
+//    LatLng from = new LatLng(((latLngList.get(i).latitude)), ((latLngList.get(i).longitude)));
+//    LatLng to = new LatLng(((latLngList.get(i + 1).latitude)), ((latLngList.get(i + 1).longitude)));
 
     private void polygonPolyline() {
-        if (latLngList.size() > 1) {
+        if (mMap!=null){
+            mMap.clear();
+        }
+
+        LatLng latLng1 = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+
+        if (latLngList != null && latLngList.size() > 0) {
+            LatLng from = new LatLng(((latLngList.get(latLngList.size() - 1).latitude)), ((latLngList.get(latLngList.size() - 1).longitude)));
+            LatLng to = new LatLng(latLng1.latitude, latLng1.longitude);
+
+            Location startPoint = new Location("locationA");
+            startPoint.setLatitude(from.latitude);
+            startPoint.setLongitude(from.longitude);
+
+            Location endPoint = new Location("locationA");
+            endPoint.setLatitude(to.latitude);
+            endPoint.setLongitude(to.longitude);
+
+            double distance = startPoint.distanceTo(endPoint);
+
+//            mpresenter.getLineLength(from, to);
+            if (distance >= 5) {
+                latLngList.add(latLng1);
+            }
+        }
+
+        if (latLngList.size() == 0) {
+            latLngList.add(latLng1);
+        }
+
+        if (latLngList.size() >= 1) {
+
             PolygonOptions options = new PolygonOptions();//.strokePattern(pattern)
             if (runningPathPolygon != null) {
                 runningPathPolygon.remove();
@@ -1703,10 +1771,16 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
             runningPathPolygon.setFillColor(Color.argb(20, 0, 255, 0));
             for (LatLng latLng : latLngList) {
                 BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.mipmap.blue_circle);
-                Marker marker = mMap.addMarker(new MarkerOptions()
-                        .position(latLng)
-                        .flat(true).icon(icon)
-                        .anchor(0.5f, 0.5f).draggable(true));
+//                Marker marker = mMap.addMarker(new MarkerOptions()
+//                        .position(latLng)
+//                        .flat(true).icon(icon)
+//                        .anchor(0.5f, 0.5f).draggable(true));
+
+                for (LatLng latLngs : latLngList) {
+                    MarkerOptions markerOptions = new MarkerOptions().position(latLngs).zIndex(-2).snippet(latLngList.indexOf(latLngs) + "").draggable(true);
+                    marker = mMap.addMarker(markerOptions);
+                    markerList.add(marker);
+                }
 
                 int position = latLngList.indexOf(latLng);
                 MarkerTag yourMarkerTag = new MarkerTag();
@@ -1728,16 +1802,18 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
 
                     @Override
                     public void onMarkerDragEnd(Marker marker) {
-                        updateMarkerLocation(marker);
+                        updatePolygonMarkerLocation(marker);
                     }
                 });
             }
         }
     }
 
+    private boolean walkStop;
+
     @Override
     public void polygonWalkStop() {
-
+        walkStop = true;
     }
 
     @Override
@@ -2012,7 +2088,7 @@ public class PropertySurvey extends BaseActivity implements PropertySurveyMvpVie
                     }
                 });
                 cutomAlertBox.show();
-            }else {
+            } else {
                 finish();
             }
         } else {
