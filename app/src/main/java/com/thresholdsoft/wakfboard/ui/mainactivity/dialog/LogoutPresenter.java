@@ -30,4 +30,10 @@ public class LogoutPresenter<V extends LogoutMvpView> extends BasePresenter<V>
     public void clearSharedPreference() {
         getDataManager().storeUserLogin(false);
     }
+
+    @Override
+    public void clearLocalDb() {
+        getDataManager().deleteMapDataTable();
+        getDataManager().deletePropertyDataTable();
+    }
 }

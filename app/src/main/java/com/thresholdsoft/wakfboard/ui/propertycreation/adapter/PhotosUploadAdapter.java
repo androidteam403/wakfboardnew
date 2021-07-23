@@ -43,12 +43,27 @@ public class PhotosUploadAdapter extends RecyclerView.Adapter<PhotosUploadAdapte
 
         Glide.with(context).load(Uri.fromFile(new File(imagePath))).error(R.drawable.agri_logo).into(holder.adapterPhotoUploadBinding.imageView);
 
-        holder.adapterPhotoUploadBinding.delete.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(View v) {
+            public boolean onLongClick(View v) {
                 propertyMvpView.onRemovePhoto(position);
+                return false;
             }
         });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (propertyMvpView!=null){
+                    propertyMvpView.imageFullView(position,imagePath);
+                }
+            }
+        });
+//        holder.adapterPhotoUploadBinding.delete.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                propertyMvpView.onRemovePhoto(position);
+//            }
+//        });
     }
 
     @Override

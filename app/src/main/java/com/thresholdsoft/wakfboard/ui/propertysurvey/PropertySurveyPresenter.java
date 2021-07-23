@@ -83,19 +83,95 @@ public class PropertySurveyPresenter<V extends PropertySurveyMvpView> extends Ba
         getMvpView().polygonManualSave();
     }
 
+    @Override
+    public void polygonWalkClear() {
+        getMvpView().polygonWalkClear();
+    }
+
+    @Override
+    public void polygonWalkStart() {
+        getMvpView().polygonWalkStart();
+    }
+
+    @Override
+    public void polygonWalkStop() {
+        getMvpView().polygonWalkStop();
+    }
+
+    @Override
+    public void polygonWalkSave() {
+        getMvpView().polygonWalkSave();
+    }
+
     @SuppressLint("DefaultLocale")
     @Override
-    public String getPolygonArea(List<LatLng> polygonPoints) {
+    public String getPolygonAreainMeters(List<LatLng> polygonPoints) {
         double area = 0;
         if (polygonPoints.size() > 0) {
             area = SphericalUtil.computeArea(polygonPoints);
             area = area * 0.3048 * 0.3048;
         }
-        return String.format("%.2f", area) + "m²";
+        return String.format("%.2f", area);
+    }
+
+    @Override
+    public String getPolygonAreainSquareFeet(List<LatLng> polygonPoints) {
+        double area = 0;
+        if (polygonPoints.size() > 0) {
+            area = SphericalUtil.computeArea(polygonPoints);
+            area = area * 1;
+        }
+        return String.format("%.2f", area);
+    }
+
+    @Override
+    public String getPolygonAreainSquareYards(List<LatLng> polygonPoints) {
+        double area = 0;
+        if (polygonPoints.size() > 0) {
+            area = SphericalUtil.computeArea(polygonPoints);
+            area = area * 0.111111 * 0.111111;
+        }
+        return String.format("%.2f", area);
+    }
+
+    @Override
+    public String getPolygonAreainAcers(List<LatLng> polygonPoints) {
+        double area = 0;
+        if (polygonPoints.size() > 0) {
+            area = SphericalUtil.computeArea(polygonPoints);
+            area = area * 0.0000229568;
+        }
+        return String.format("%.2f", area);
+    }
+
+    @Override
+    public String getMapViewType() {
+        return getDataManager().getMapViewType();
     }
 
     @Override
     public void insertMapTypeDataTable(MapDataTable mapDataTable) {
         getDataManager().insertMapData(mapDataTable);
     }
+
+    @Override
+    public void updateMapDataList(MapDataTable mapDataTable) {
+        getDataManager().updateMapEditData(mapDataTable);
+    }
+
+    @SuppressLint("DefaultLocale")
+    @Override
+    public String getLineLength(LatLng fromPolyLineLatLng, LatLng toPolyLineLatLng) {
+        LatLng from = new LatLng(((fromPolyLineLatLng.latitude)), ((fromPolyLineLatLng.longitude)));
+        LatLng to = new LatLng(((toPolyLineLatLng.latitude)), ((toPolyLineLatLng.longitude)));
+        double length = SphericalUtil.computeDistanceBetween(from, to);
+        return String.format("%.2f", length);
+    }
+
+    @Override
+    public List<MapDataTable> getMapTypelist(int propertyId) {
+        return getDataManager().getAllMapDtaListByPropertyId(propertyId);
+    }
+
+
 }

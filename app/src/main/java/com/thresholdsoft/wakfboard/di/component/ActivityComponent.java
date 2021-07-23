@@ -3,6 +3,7 @@ package com.thresholdsoft.wakfboard.di.component;
 
 import com.thresholdsoft.wakfboard.di.PerActivity;
 import com.thresholdsoft.wakfboard.di.module.ActivityModule;
+import com.thresholdsoft.wakfboard.ui.gallery.GalleryActivity;
 import com.thresholdsoft.wakfboard.ui.mainactivity.MainActiivty;
 import com.thresholdsoft.wakfboard.ui.mainactivity.dialog.LogoutDialog;
 import com.thresholdsoft.wakfboard.ui.mainactivity.fragments.newenrollmentfrag.NewEnrollmentFrag;
@@ -64,6 +65,8 @@ public interface ActivityComponent {
     void inject(PropertyPreview propertyPreview);
 
     void inject(MapDataListActivity mapDataListActivity);
+
+    void inject(GalleryActivity galleryActivity);
 
 
 }

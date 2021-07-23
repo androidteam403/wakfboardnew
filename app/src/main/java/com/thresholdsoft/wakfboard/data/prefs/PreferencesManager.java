@@ -30,8 +30,8 @@ public class PreferencesManager implements PreferencesHelper {
     private static final String PREF_KEY_USER_KEY = "PREF_KEY_USER_KEY";
     private static final String PREF_KEY_SURVEY_CLICK = "PREF_KEY_SURVEY_CLICK";
     private static final String PREF_KEY_USER_VERIFICATION = "PREF_KEY_USER_VERIFICATION";
-    private static  final String PREF_KEY_PIC_ENTITY="PREF_KEY_PIC_ENTITY";
-
+    private static final String PREF_KEY_PIC_ENTITY = "PREF_KEY_PIC_ENTITY";
+    private static final String PREF_KEY_MAPVIEW_TYPE = "PREF_KEY_MAPVIEW_TYPE";
 
     private final SharedPreferences mPrefs;
     private Context mAppContext;
@@ -209,5 +209,15 @@ public class PreferencesManager implements PreferencesHelper {
     @Override
     public void logoutUser() {
         mPrefs.edit().clear().apply();
+    }
+
+    @Override
+    public void setMapViewType(String mapViewType) {
+        mPrefs.edit().putString(PREF_KEY_MAPVIEW_TYPE, mapViewType).apply();
+    }
+
+    @Override
+    public String getMapViewType() {
+        return mPrefs.getString(PREF_KEY_MAPVIEW_TYPE, "");
     }
 }

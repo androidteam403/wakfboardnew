@@ -34,4 +34,9 @@ public class PropertyPresenter<V extends PropertyMvpView> extends BasePresenter<
         List<PropertyData> propertyDataList = getDataManager().getAllPropertyCreationDataList();
         return propertyDataList.get(propertyDataList.size()-1).getId();
     }
+
+    @Override
+    public void onClickBack() {
+        getMvpView().onClickBack();
+    }
 }

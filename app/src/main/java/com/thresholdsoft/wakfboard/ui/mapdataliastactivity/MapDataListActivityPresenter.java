@@ -23,4 +23,9 @@ public class MapDataListActivityPresenter<V extends MapDataListActivityMvpView> 
     public List<MapDataTable> getMapTypelist(int propertyId) {
         return getDataManager().getAllMapDtaListByPropertyId(propertyId);
     }
+
+    @Override
+    public void onClickSubmit() {
+        getMvpView().onClickSubmit();
+    }
 }
