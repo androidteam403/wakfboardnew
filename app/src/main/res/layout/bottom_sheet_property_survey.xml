@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/fifteen_dp"
                 android:orientation="horizontal"
-                android:weightSum="3">
+                android:weightSum="4">
 
                 <LinearLayout
                     android:layout_width="@dimen/zero_dp"
@@ -146,13 +146,11 @@
                 </LinearLayout>
 
                 <View
-                    android:visibility="gone"
                     android:layout_width="@dimen/one_dp"
                     android:layout_height="match_parent"
                     android:background="@color/grey" />
 
                 <LinearLayout
-                    android:visibility="gone"
                     android:layout_width="@dimen/zero_dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
