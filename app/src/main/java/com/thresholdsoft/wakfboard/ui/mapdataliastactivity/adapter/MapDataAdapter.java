@@ -41,19 +41,39 @@ public class MapDataAdapter extends RecyclerView.Adapter<MapDataAdapter.ViewHold
     public void onBindViewHolder(@NonNull MapDataAdapter.ViewHolder holder, int position) {
         MapDataTable mapDataTable = mapDataTableList.get(position);
         holder.adapterMapDataListBinding.setMapData(mapDataTable);
+        if (mapDataTable.getMapType() == 1) {
+            holder.adapterMapDataListBinding.image.setImageResource(R.drawable.new_point);
+        } else if (mapDataTable.getMapType() == 2) {
+            holder.adapterMapDataListBinding.image.setImageResource(R.drawable.new_line);
+        } else if (mapDataTable.getMapType() == 3) {
+            holder.adapterMapDataListBinding.image.setImageResource(R.drawable.new_polygon);
+        } else if (mapDataTable.getMapType() == 4) {
+            holder.adapterMapDataListBinding.image.setImageResource(R.drawable.new_line);
+        }
 
         holder.adapterMapDataListBinding.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if (mapDataTable.isChecked()) {
-//                    mapDataTable.setChecked(false);
-//                } else {
-//                    mapDataTable.setChecked(true);
-//
-//                }
-//                notifyItemChanged(position);
                 if (mapDataListActivityMvpView != null) {
                     mapDataListActivityMvpView.uncheckableData(position, mapDataTableList);
+                }
+            }
+        });
+
+        holder.adapterMapDataListBinding.itemViewClick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mapDataListActivityMvpView != null) {
+                    mapDataListActivityMvpView.onClickEditMapView(position, mapDataTableList);
+                }
+            }
+        });
+
+        holder.adapterMapDataListBinding.imagesIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mapDataListActivityMvpView != null) {
+                    mapDataListActivityMvpView.onClickImageShow(position, mapDataTableList);
                 }
             }
         });

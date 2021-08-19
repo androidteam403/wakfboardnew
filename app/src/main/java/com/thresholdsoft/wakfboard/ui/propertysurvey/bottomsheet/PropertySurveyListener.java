@@ -8,5 +8,7 @@ public interface PropertySurveyListener {
 
     void onPolygonRadioClick();
 
+    void onPolygonWalkRadioClick();
+
     void onTakeSurveyClick();
 }

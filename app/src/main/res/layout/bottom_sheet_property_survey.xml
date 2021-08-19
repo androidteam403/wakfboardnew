@@ -33,7 +33,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="@dimen/seven_dp"
                     android:fontFamily="@font/roboto_bold"
-                    android:text="Start Survey Type"
+                    android:text="Choose Survey Type"
                     android:textColor="@color/black" />
 
                 <ImageView
@@ -51,13 +51,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/fifteen_dp"
                 android:orientation="horizontal"
-                android:weightSum="3">
+                android:weightSum="4">
 
                 <LinearLayout
                     android:layout_width="@dimen/zero_dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:onClick="@{()-> clicklisteners.onPointRadioClick()}"
                     android:orientation="vertical">
 
                     <ImageView
@@ -90,6 +91,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:onClick="@{()-> clicklisteners.onPolylineRadioClick()}"
                     android:orientation="vertical">
 
                     <ImageView
@@ -121,6 +123,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:onClick="@{()-> clicklisteners.onPolygonRadioClick()}"
                     android:orientation="vertical">
 
                     <ImageView
@@ -141,6 +144,38 @@
                         android:text="@string/label_polygons"
                         android:textColor="@color/black" />
                 </LinearLayout>
+
+                <View
+                    android:layout_width="@dimen/one_dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/grey" />
+
+                <LinearLayout
+                    android:layout_width="@dimen/zero_dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:onClick="@{()-> clicklisteners.onPolygonWalkRadioClick()}"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="@dimen/seventy_five_dp"
+                        android:layout_height="@dimen/thirty_dp"
+                        android:layout_gravity="center_horizontal"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/new_line" />
+
+                    <RadioButton
+                        android:id="@+id/polygonWalkRadio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="21dp"
+                        android:layout_marginTop="@dimen/five_dp"
+                        android:checked="true"
+                        android:fontFamily="@font/roboto_regular"
+                        android:onClick="@{()-> clicklisteners.onPolygonWalkRadioClick()}"
+                        android:text="Walk"
+                        android:textColor="@color/black" />
+                </LinearLayout>
             </LinearLayout>
 
             <TextView
@@ -153,7 +188,7 @@
                 android:fontFamily="@font/roboto_bold"
                 android:gravity="center"
                 android:onClick="@{()-> clicklisteners.onTakeSurveyClick()}"
-                android:text="@string/label_start_survey"
+                android:text="Start"
                 android:textColor="@color/white" />
 
         </LinearLayout>
