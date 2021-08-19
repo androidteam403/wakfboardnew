@@ -163,7 +163,7 @@
                         android:layout_height="@dimen/thirty_dp"
                         android:layout_gravity="center_horizontal"
                         android:contentDescription="@string/app_name"
-                        android:src="@drawable/new_polygon" />
+                        android:src="@drawable/new_line" />
 
                     <RadioButton
                         android:id="@+id/polygonWalkRadio"

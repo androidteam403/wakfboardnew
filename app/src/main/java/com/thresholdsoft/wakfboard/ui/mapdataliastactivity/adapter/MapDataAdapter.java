@@ -47,6 +47,8 @@ public class MapDataAdapter extends RecyclerView.Adapter<MapDataAdapter.ViewHold
             holder.adapterMapDataListBinding.image.setImageResource(R.drawable.new_line);
         } else if (mapDataTable.getMapType() == 3) {
             holder.adapterMapDataListBinding.image.setImageResource(R.drawable.new_polygon);
+        } else if (mapDataTable.getMapType() == 4) {
+            holder.adapterMapDataListBinding.image.setImageResource(R.drawable.new_line);
         }
 
         holder.adapterMapDataListBinding.checkBox.setOnClickListener(new View.OnClickListener() {

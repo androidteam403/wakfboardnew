@@ -12,6 +12,13 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.content.ContextCompat;
+
+import com.google.android.material.snackbar.Snackbar;
 import com.thresholdsoft.wakfboard.R;
 import com.thresholdsoft.wakfboard.di.component.ActivityComponent;
 import com.thresholdsoft.wakfboard.di.component.DaggerActivityComponent;
@@ -19,13 +26,6 @@ import com.thresholdsoft.wakfboard.di.module.ActivityModule;
 import com.thresholdsoft.wakfboard.root.WaveApp;
 import com.thresholdsoft.wakfboard.utils.CommonUtils;
 import com.thresholdsoft.wakfboard.utils.NetworkUtils;
-import com.google.android.material.snackbar.Snackbar;
-
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
-import androidx.core.content.ContextCompat;
 
 import static android.content.pm.PackageManager.GET_META_DATA;
 

@@ -150,6 +150,11 @@ public class PropertySurveyPresenter<V extends PropertySurveyMvpView> extends Ba
     }
 
     @Override
+    public void onClickWalkUndo() {
+        getMvpView().onClickWalkUndo();
+    }
+
+    @Override
     public void insertMapTypeDataTable(MapDataTable mapDataTable) {
         getDataManager().insertMapData(mapDataTable);
     }

@@ -10,7 +10,13 @@
             name="callbacks"
             type="com.thresholdsoft.wakfboard.ui.propertysurvey.PropertySurveyMvpPresenter" />
 
+        <variable
+            name="isMoveStop"
+            type="Boolean" />
 
+        <variable
+            name="view"
+            type="android.view.View" />
     </data>
 
     <RelativeLayout
@@ -175,8 +181,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginStart="@dimen/twenty_dp"
-                    android:layout_marginEnd="@dimen/twenty_dp"
                     android:background="@null"
                     android:contentDescription="@string/app_name"
                     android:fontFamily="@font/roboto_regular"
@@ -204,8 +208,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="@dimen/ten_dp"
             android:layout_marginTop="@dimen/one_hundred_forty_dp"
+            android:layout_marginEnd="@dimen/ten_dp"
             android:clickable="true"
             android:orientation="vertical"
             android:visibility="gone">
@@ -239,12 +243,12 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginEnd="@dimen/ten_dp"
             android:id="@+id/polygon_manual_lay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="@dimen/one_hundred_forty_dp"
+            android:layout_marginEnd="@dimen/ten_dp"
             android:clickable="true"
             android:orientation="vertical"
             android:visibility="gone">
@@ -278,32 +282,40 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginEnd="@dimen/ten_dp"
             android:id="@+id/polygon_walk_lay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="@dimen/one_hundred_forty_dp"
+            android:layout_marginEnd="@dimen/ten_dp"
             android:clickable="true"
             android:orientation="vertical"
             android:visibility="gone">
 
-            <ImageView
-                android:id="@+id/polygon_walk_start"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:contentDescription="@string/app_name"
-                android:onClick="@{()->callbacks.polygonWalkStart()}"
-                android:src="@drawable/walk_start" />
+            <RelativeLayout
+                android:id="@+id/polyline_walk_start_stop_lay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/polygon_walk_stop"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_marginTop="@dimen/ten_dp"
-                android:contentDescription="@string/app_name"
-                android:onClick="@{()->callbacks.polygonWalkStop()}"
-                android:src="@drawable/walk_stop" />
+                <ImageView
+                    android:id="@+id/polygon_walk_start"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:contentDescription="@string/app_name"
+                    android:onClick="@{()->callbacks.polygonWalkStart()}"
+                    android:src="@drawable/walk_start"
+                    android:visibility="@{isMoveStop ? view.GONE : view.VISIBLE}" />
+
+                <ImageView
+                    android:id="@+id/polygon_walk_stop"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="@dimen/ten_dp"
+                    android:contentDescription="@string/app_name"
+                    android:onClick="@{()->callbacks.polygonWalkStop()}"
+                    android:src="@drawable/walk_stop"
+                    android:visibility="@{isMoveStop ? view.VISIBLE : view.GONE}" />
+            </RelativeLayout>
 
             <ImageView
                 android:id="@+id/polygon_walk_save"
@@ -311,9 +323,17 @@
                 android:layout_height="35dp"
                 android:layout_marginTop="@dimen/ten_dp"
                 android:contentDescription="@string/app_name"
-                android:onClick="@{()->callbacks.polygonManualSave()}"
+                android:onClick="@{()->callbacks.polygonWalkSave()}"
                 android:src="@drawable/ic_save" />
 
+            <ImageView
+                android:id="@+id/walk_undo"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="@dimen/ten_dp"
+                android:contentDescription="@string/app_name"
+                android:onClick="@{()->callbacks.onClickWalkUndo()}"
+                android:src="@drawable/ic_undo" />
 
             <ImageView
                 android:id="@+id/polygone_walk_clear"
@@ -327,12 +347,12 @@
         </LinearLayout>
 
         <ImageView
-            android:layout_marginEnd="@dimen/ten_dp"
             android:id="@+id/point_save"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="@dimen/one_hundred_forty_dp"
+            android:layout_marginEnd="@dimen/ten_dp"
             android:contentDescription="@string/app_name"
             android:onClick="@{()->callbacks.pointSaveClick()}"
             android:src="@drawable/ic_save" />

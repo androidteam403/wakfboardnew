@@ -57,4 +57,7 @@ public interface PropertySurveyMvpPresenter<V extends PropertySurveyMvpView> ext
     String getPolygonAreainAcers(List<LatLng> polygonPoints);
 
     String getMapViewType();
+
+    void onClickWalkUndo();
+
 }

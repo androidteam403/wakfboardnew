@@ -22,16 +22,22 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -73,7 +79,8 @@ import java.util.Random;
 import javax.inject.Inject;
 
 @RequiresApi(api = Build.VERSION_CODES.M)
-public class PropertyPreview extends BaseActivity implements PropertySurveyStatusMvpView, OnMapReadyCallback, GoogleMap.OnMapClickListener {
+public class PropertyPreview extends BaseActivity implements PropertySurveyStatusMvpView,
+        OnMapReadyCallback, GoogleMap.OnMapClickListener {
     @Inject
     PropertySurveyStatusMvpPresenter<PropertySurveyStatusMvpView> mpresenter;
     ActivityPropertySurveyStatusBinding activityPropertySurveyStatusBinding;
@@ -93,7 +100,10 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
     private int id;
     private ArrayList<MapTypeModel> mapTypeModelArrayList;
     private MaptypeListAdapter maptypeListAdapter;
-    private int colorId=1;
+    private int colorId = 1;
+    GoogleApiClient mGoogleApiClient;
+    LocationRequest mLocationRequest;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -246,7 +256,7 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
     @Override
     public void mapTypeData(int mapData) {
         mapTypeData = mapData;
-        startActivityForResult(PropertySurvey.getStartIntent(PropertyPreview.this, mapData, propertyId, true, measurements), PROPERTY_SURVEY);
+        startActivityForResult(PropertySurvey.getStartIntent(PropertyPreview.this, mapData, propertyId, true, measurements, true), PROPERTY_SURVEY);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
@@ -380,10 +390,27 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
     Marker polyLineMarker;
 
     private void getPolyLineList(GoogleMap googleMap) {
+        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.new_point);
         double i1 = 0.0;
         double polygoni1 = 0.0;
         mMap = googleMap;
 //        mMap.setOnMapClickListener(this);
+
+//        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            if (ContextCompat.checkSelfPermission(this,
+//                    Manifest.permission.ACCESS_FINE_LOCATION)
+//                    == PackageManager.PERMISSION_GRANTED) {
+//                buildGoogleApiClient();
+//                mMap.setMyLocationEnabled(true);
+//            } else {
+//                buildGoogleApiClient();
+//                mMap.setMyLocationEnabled(true);
+//            }
+//        } else {
+//            buildGoogleApiClient();
+//            mMap.setMyLocationEnabled(true);
+//        }
+
         onMapClick();
         if (mpresenter.getMapViewType() != null && !mpresenter.getMapViewType().isEmpty()) {
             setMapType(mpresenter.getMapViewType());
@@ -398,7 +425,7 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
                     getPointLatlngList.addAll(mapDataTable.getLatLngList());
                     for (int i = 0; i < getPointLatlngList.size(); i++) {
                         latLngLine = new LatLng(getPointLatlngList.get(i).latitude, getPointLatlngList.get(i).longitude);
-                        MarkerOptions markerOptions = new MarkerOptions().position(latLngLine).title(name);
+                        MarkerOptions markerOptions = new MarkerOptions().position(latLngLine).icon(icon).title(name);
                         polyLineMarker = mMap.addMarker(markerOptions);
                         googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLngLine));
                         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLngLine, 18));
@@ -536,6 +563,44 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
                     polygon = mMap.addPolygon(polygonOptions);
                     googleMap.animateCamera(CameraUpdateFactory.newLatLng(getPolygontLatlngList.get(0)));
                     googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(getPolygontLatlngList.get(0), 14));
+                } else if (mapDataTable.getMapType() == 4 && mapDataTable.isChecked()) {
+                    BitmapDescriptor icon2 = BitmapDescriptorFactory.fromResource(R.drawable.marker_yellow_icon);
+                    getPolylineLatlngList.clear();
+                    getPolylineLatlngList.addAll(mapDataTable.getLatLngList());
+                    for (int i = 0; i < getPolylineLatlngList.size(); i++) {
+                        if (i == getPolylineLatlngList.size() - 1) {
+                            LatLng latLng1 = new LatLng((getPolylineLatlngList.get(i).latitude + getPolylineLatlngList.get(0).latitude) / 2, (getPolylineLatlngList.get(i).longitude + getPolylineLatlngList.get(0).longitude) / 2);
+
+                        } else {
+                            LatLng latLng1 = new LatLng((getPolylineLatlngList.get(i).latitude + getPolylineLatlngList.get(i + 1).latitude) / 2, (getPolylineLatlngList.get(i).longitude + getPolylineLatlngList.get(i + 1).longitude) / 2);
+
+                            LatLng from = new LatLng(((getPolylineLatlngList.get(i).latitude)), ((getPolylineLatlngList.get(i).longitude)));
+                            LatLng to = new LatLng(((getPolylineLatlngList.get(i + 1).latitude)), ((getPolylineLatlngList.get(i + 1).longitude)));
+
+                            double amount = Double.parseDouble(mpresenter.getLineLength(from, to));
+                            DecimalFormat formatter = new DecimalFormat("#,###");
+                            String formatted = formatter.format(amount);
+
+//                            addText(getApplicationContext(), mMap, latLng1, formatted, 3, 16, Color.RED);
+
+                            i1 += Double.parseDouble(mpresenter.getLineLength(from, to));
+
+                            double amount1 = (i1);
+                            DecimalFormat formatter1 = new DecimalFormat("#,###.00");
+                            String formatted1 = formatter1.format(amount1);
+
+                            activityPropertySurveyStatusBinding.distanceTextView.setText("Length:" + " " + formatted1 + " m");
+
+                        }
+//                        latLngLine = new LatLng(getPolylineLatlngList.get(i).latitude, getPolylineLatlngList.get(i).longitude);
+//                        MarkerOptions markerOptions = new MarkerOptions().position(latLngLine).icon(icon2);
+//                        polyLineMarker = mMap.addMarker(markerOptions);
+                    }
+
+                    PolylineOptions polylineOptions = new PolylineOptions().addAll(getPolylineLatlngList).color(getResources().getColor(R.color.colorPrimaryDark)).width(5).clickable(true);
+                    polyline = mMap.addPolyline(polylineOptions);
+                    googleMap.animateCamera(CameraUpdateFactory.newLatLng(getPolylineLatlngList.get(0)));
+                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(getPolylineLatlngList.get(0), 18));
                 }
             }
 //             LatLngBounds AUSTRALIA = new LatLngBounds();
@@ -552,13 +617,13 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
 
 
         } else {
-            BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.blue_dot);
             if (currentLocation != null) {
                 LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-                MarkerOptions markerOptions = new MarkerOptions().position(latLng).icon(icon).title("I am here!");
-                googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
-                googleMap.addMarker(markerOptions);
+//                mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+//                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                mMap.animateCamera(CameraUpdateFactory.zoomTo(18));
             }
         }
     }
@@ -776,6 +841,34 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
 //        }
     }
 
+//    @Override
+//    public void onConnected(@Nullable Bundle bundle) {
+//        mLocationRequest = new LocationRequest();
+//        mLocationRequest.setInterval(1000);
+//        mLocationRequest.setFastestInterval(1000);
+//        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+//        if (ContextCompat.checkSelfPermission(this,
+//                Manifest.permission.ACCESS_FINE_LOCATION)
+//                == PackageManager.PERMISSION_GRANTED) {
+//            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, PropertyPreview.this);
+//        }
+//    }
+//
+//    @Override
+//    public void onConnectionSuspended(int i) {
+//
+//    }
+//
+//    @Override
+//    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+//
+//    }
+//
+//    @Override
+//    public void onLocationChanged(Location location) {
+//
+//    }
+
     public class MapTypeModel {
         public String mapType;
         private boolean isSelected;
@@ -796,4 +889,12 @@ public class PropertyPreview extends BaseActivity implements PropertySurveyStatu
             isSelected = selected;
         }
     }
+
+//    protected synchronized void buildGoogleApiClient() {
+//        mGoogleApiClient = new GoogleApiClient.Builder(this)
+//                .addConnectionCallbacks(this)
+//                .addOnConnectionFailedListener(this)
+//                .addApi(LocationServices.API).build();
+//        mGoogleApiClient.connect();
+//    }
 }
